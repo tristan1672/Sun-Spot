@@ -1,2 +1,2 @@
-# -Team-Name-
+# -Sun-Spot-
 GAM 150
