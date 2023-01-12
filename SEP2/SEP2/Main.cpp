@@ -2,12 +2,19 @@
 // includes
 
 #include "AEEngine.h"
+#include <iostream>
 
 
 
 // ---------------------------------------------------------------------------
 // main
-
+struct vector { 
+	s32 X{0};
+	s32 Y{0};
+};
+vector normalDirection(s32 ClickX, s32 ClickY, s32 ReleaseX, s32 ReleaseY) {
+	return { (ReleaseX - ClickX),(ReleaseY - ClickY) };
+}
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
 	_In_ LPWSTR    lpCmdLine,
@@ -15,25 +22,33 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 {
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
+	struct frogPos
+	{
+		float X{0};
+		float Y{0};
+		float velX{0};
+		float velY{0};
+		bool onFloor{true};
+	};
+	struct mousePos {
+		s32 ClickX{ 0 };
+		s32 ClickY{ 0 };
+		s32 ReleaseX{ 0 };
+		s32 ReleaseY{ 0 };
+	};
 
-	///////////////////////
-	// Variable declaration
+	frogPos frog;
+	mousePos mouse;
+	vector Direction;
 
+	float gravity{ -50 };
+	float jumpForce{ 50 };
 	int gGameRunning = 1;
 
-	//AEGfxVertexList * pMesh1 = 0;
-	AEGfxVertexList * pMesh2 = 0;
-
-	// Variable declaration end
-	///////////////////////////
-
-
-	/////////////////
-	// Initialization
+	// Initialization of your own variables go here
 
 	// Using custom window procedure
-	AESysInit(hInstance, nCmdShow, 800, 600, 1, 60, true, NULL);
-
+	AESysInit(hInstance, nCmdShow, 1270, 720, 1, 60, true, NULL);
 
 	// Changing the window title
 	AESysSetWindowTitle("My New Demo!");
@@ -41,67 +56,30 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// reset the system modules
 	AESysReset();
 
-	//set background color
-	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
-
-	// Initialization end
-	/////////////////////
-
-
-
-	////////////////////////////////
-	// Creating the objects (Shapes)
-
-	// Informing the library that we're about to start adding triangles
-	//AEGfxMeshStart();
-
-	//// 1 triangle at a time
-	//// X, Y, Color, texU, texV
-	//AEGfxTriAdd(
-	//	-25.5f, -25.5f, 0xFFFF0000, 0.0f, 0.0f,
-	//	25.5f, 0.0f, 0xFFFF0000, 0.0f, 0.0f,
-	//	-25.5f, 25.5f, 0xFFFF0000, 0.0f, 0.0f);
-
-	//// Saving the mesh (list of triangles) in pMesh1
-
-	//pMesh1 = AEGfxMeshEnd();
-	//AE_ASSERT_MESG(pMesh1, "Failed to create mesh 1!!");
-
+	// === ADDED CODE ===
+	// Pointer to Mesh
+	AEGfxVertexList* pMesh = 0;
 	// Informing the library that we're about to start adding triangles
 	AEGfxMeshStart();
-
-	// This shape has 2 triangles
+	// This shape has 2 triangles that makes up a square
+	// Color parameters represent colours as ARGB
+	// UV coordinates to read from loaded textures
 	AEGfxTriAdd(
-		-0.5f, -0.5f, 0x00FF00FF, 0.0f, 0.0f, // When you have a differnt color at each point of the triangle 
-		0.5f, -0.5f, 0x00FFFF00, 0.0f, 0.0f,  // The program will auto mix it, and it will show up as a gradient with each pixle
-		-0.5f, 0.5f, 0x0000FFFF, 0.0f, 0.0f);
-
+		-0.5f, -0.5f, 0xFFFFFFFF, 0.0f, 1.0f,
+		0.5f, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
+		-0.5f, 0.5f, 0xFFFFFFFF, 0.0f, 0.0f);
 	AEGfxTriAdd(
-		0.5f, -0.5f, 0x00FFFFFF, 0.0f, 0.0f,
-		0.5f, 0.5f, 0x00FFFFFF, 0.0f, 0.0f,
-		-0.5f, 0.5f, 0x00FFFFFF, 0.0f, 0.0f);
+		0.5f, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
+		0.5f, 0.5f, 0xFFFFFFFF, 1.0f, 0.0f,
+		-0.5f, 0.5f, 0xFFFFFFFF, 0.0f, 0.0f);
+	// Saving the mesh (list of triangles) in pMesh
+	pMesh = AEGfxMeshEnd();
 
-	// Saving the mesh (list of triangles) in pMesh2
+	AEGfxTexture* pTex = AEGfxTextureLoad("Assets/PlanetTexture.png");
 
-	pMesh2 = AEGfxMeshEnd();
-	AE_ASSERT_MESG(pMesh2, "Failed to create mesh 2!!");
-
-	// Creating the objects (Shapes) end
-	////////////////////////////////////
+	// ===
 
 
-
-	////////////////////////////
-	// Loading textures (images)
-
-	// Loading textures (images) end
-	//////////////////////////////////
-
-	//////////////////////////////////
-	// Creating Fonts	
-
-	// Creating Fonts end
-	//////////////////////////////////
 
 
 	// Game Loop
@@ -113,73 +91,70 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		// Handling Input
 		AEInputUpdate();
 
-		///////////////////
-		// Game loop update
+		// Your own update logic goes here
+		if (frog.Y > 0) {
+			frog.velY += gravity * AEFrameRateControllerGetFrameTime();
+			frog.Y += frog.velY * AEFrameRateControllerGetFrameTime();
+			frog.X += frog.velX * AEFrameRateControllerGetFrameTime();
+		}
+		if (frog.Y <= 0 &&!frog.onFloor) {
+			frog.velY = 0;
+			frog.velX = 0;
+			frog.Y = 0;
+			frog.onFloor = true;
+		}
+		if (AEInputCheckTriggered(AEVK_SPACE) && frog.onFloor) {
+			frog.velY = jumpForce ;
+			frog.velX = jumpForce ;
+			frog.Y += frog.velY * AEFrameRateControllerGetFrameTime();
+			frog.X += frog.velX * AEFrameRateControllerGetFrameTime();
+			frog.onFloor = false;
+		}
+		
+		if (AEInputCheckTriggered(AEVK_LBUTTON) && frog.onFloor) {
+			AEInputGetCursorPosition(&mouse.ClickX,&mouse.ClickY);
+		}
+		if (AEInputCheckReleased(AEVK_LBUTTON) && frog.onFloor) {
+			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
+		}
 
-		// Game loop update end
-		///////////////////////
-
-
-		//////////////////
-		// Game loop draw
-
-		//// Drawing object 1
-		//AEGfxSetRenderMode(AE_GFX_RM_COLOR);
-		//// Set position for object 1
-		//AEGfxSetPosition(0.0f, 0.0f);
-		//// No texture for object 1
-		//AEGfxTextureSet(NULL, 0, 0);
-		//// Drawing the mesh (list of triangles)
-		//AEGfxMeshDraw(pMesh1, AE_GFX_MDM_TRIANGLES);
-
-		//// Drawing object 2 - (first)
+		// Your own rendering logic goes here
+		
+		// === ADDED CODE ===
+		// Set the background to black.
+		AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+		// Tell the engine to get ready to draw something with texture.
 		AEGfxSetRenderMode(AE_GFX_RM_COLOR);
-		// Set position for object 2
-		AEGfxSetPosition(100.0f, -60.0f);
-		// No texture for object 2
-		AEGfxTextureSet(NULL, 0, 0);
-
-		// Drawing object 3 - (Second)
-		AEGfxSetRenderMode(AE_GFX_RM_COLOR);
-		// Set position for object 3
-		AEGfxSetPosition(100.0f, 60.0f);
-		// No texture for object 3
-		AEGfxTextureSet(NULL, 0, 0);
-
+		// Set the tint to white, so that the sprite can 
+		// display the full range of colors (default is black).
+		AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
+		// Set blend mode to AE_GFX_BM_BLEND
+		// This will allow transparency.
+		AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+		AEGfxSetTransparency(1.0f);
+		// Set the texture to pTex
+		//AEGfxTextureSet(pTex, 0, 0);
 		// Create a scale matrix that scales by 100 x and y
 		AEMtx33 scale = { 0 };
-		AEMtx33Scale(&scale, 100.f, 100.f);
+		AEMtx33Scale(&scale, 10.f, 10.f);
 		// Create a rotation matrix that rotates by 45 degrees
 		AEMtx33 rotate = { 0 };
-		AEMtx33Rot(&rotate, 0.0f);
+		AEMtx33Rot(&rotate, 0);
 		// Create a translation matrix that translates by
 		// 100 in the x-axis and 100 in the y-axis
 		AEMtx33 translate = { 0 };
-		AEMtx33Trans(&translate, 100.f, 100.f);
+		AEMtx33Trans(&translate,frog.X , frog.Y);
 		// Concat the matrices (TRS)
 		AEMtx33 transform = { 0 };
-		AEMtx33Concat(&transform, &rotate, &scale); // It starts from the back. Scaling the mesh, rotating it, then moving it
+		AEMtx33Concat(&transform, &rotate, &scale);
 		AEMtx33Concat(&transform, &translate, &transform);
 		// Choose the transform to use
 		AEGfxSetTransform(transform.m);
+		// Actually drawing the mesh 
+		AEGfxMeshDraw(pMesh, AE_GFX_MDM_TRIANGLES);
+		// ===
 
 
-		// Drawing the mesh (list of triangles)
-		AEGfxMeshDraw(pMesh2, AE_GFX_MDM_TRIANGLES);
-		// No tint
-		//AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f); // Removes color
-		// Drawing the mesh (list of triangles)
-		AEGfxMeshDraw(pMesh2, AE_GFX_MDM_TRIANGLES);
-		// Add Blue tint
-		//AEGfxSetTintColor(0.0f, 0.0f, 1.0f, 1.0f);
-
-
-
-
-		// Game loop draw end
-		/////////////////////
-
-		
 		// Informing the system about the loop's end
 		AESysFrameEnd();
 
@@ -188,9 +163,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 			gGameRunning = 0;
 	}
 
-	//AEGfxMeshFree(pMesh1);
-	AEGfxMeshFree(pMesh2);
 
 	// free the system
 	AESysExit();
+	AEGfxMeshFree(pMesh);
+	AEGfxTextureUnload(pTex);
+
 }
