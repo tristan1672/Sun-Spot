@@ -3,17 +3,27 @@
 
 #include "AEEngine.h"
 #include <iostream>
+#include <cmath>
 
 
 
 // ---------------------------------------------------------------------------
 // main
 struct vector { 
-	s32 X{0};
-	s32 Y{0};
+	double X{0};
+	double Y{0};
 };
-vector normalDirection(s32 ClickX, s32 ClickY, s32 ReleaseX, s32 ReleaseY) {
-	return { (ReleaseX - ClickX),(ReleaseY - ClickY) };
+vector normalDirection(s32 X1, s32 Y1, s32 X2, s32 Y2) {
+	s32 X = X2 - X1;
+	s32 Y = Y1 - Y2;
+	double normal = sqrt(X * X + Y * Y);
+	if (normal) {
+		return { X/normal,Y/normal };
+	}
+	else
+	{
+		return { 0,0 };
+	}
 }
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -41,9 +51,10 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	mousePos mouse;
 	vector Direction;
 
-	float gravity{ -50 };
-	float jumpForce{ 50 };
+	float gravity{ -150 };
+	float jumpForce{ 200 };
 	int gGameRunning = 1;
+	bool flick = false;
 
 	// Initialization of your own variables go here
 
@@ -114,9 +125,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		if (AEInputCheckTriggered(AEVK_LBUTTON) && frog.onFloor) {
 			AEInputGetCursorPosition(&mouse.ClickX,&mouse.ClickY);
 		}
+		if (AEInputCheckCurr(AEVK_LBUTTON) && frog.onFloor) {
+			if (jumpForce > 100) {
+				std::cout << jumpForce<<"\n";
+				jumpForce -= 200* AEFrameRateControllerGetFrameTime();
+			}
+		}
 		if (AEInputCheckReleased(AEVK_LBUTTON) && frog.onFloor) {
 			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
+			vector nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
+			frog.velY = jumpForce * nDirection.Y;
+			frog.velX = jumpForce * nDirection.X;
+			frog.Y += frog.velY * AEFrameRateControllerGetFrameTime();
+			frog.X += frog.velX * AEFrameRateControllerGetFrameTime();
+			frog.onFloor = false;
+			jumpForce = 200;
 		}
+
 
 		// Your own rendering logic goes here
 		
