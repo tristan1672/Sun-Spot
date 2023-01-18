@@ -7,15 +7,16 @@
 
 // ---------------------------------------------------------------------------
 // External Variables
-extern float e_gravity{ 150.0f }, e_jumpForce(200.0f);
+extern float e_gravity , e_jumpForce;
 // --------------------------------------------------------------------------- // End of external variables
 
 // ---------------------------------------------------------------------------
 // Structs
 struct vector {
-	double X{ 0 };
-	double Y{ 0 };
+	double X;
+	double Y;
 };
+
 vector normalDirection(s32 X1, s32 Y1, s32 X2, s32 Y2) {
 	s32 X = X2 - X1;
 	s32 Y = Y1 - Y2;
@@ -31,17 +32,17 @@ vector normalDirection(s32 X1, s32 Y1, s32 X2, s32 Y2) {
 
 struct frogPos
 {
-	float X{ 0 };
-	float Y{ 0 };
-	float velX{ 0 };
-	float velY{ 0 };
-	bool onFloor{ true };
+	float X;
+	float Y;
+	float velX;
+	float velY;
+	bool onFloor;
 };
 
 struct mousePos {
-	s32 ClickX{ 0 };
-	s32 ClickY{ 0 };
-	s32 ReleaseX{ 0 };
-	s32 ReleaseY{ 0 };
+	s32 ClickX;
+	s32 ClickY;
+	s32 ReleaseX;
+	s32 ReleaseY;
 };
 // --------------------------------------------------------------------------- // End of structs

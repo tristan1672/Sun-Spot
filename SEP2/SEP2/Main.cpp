@@ -63,20 +63,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
                 Input_Handle_Jump();
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             e_fpUpdate(); // Update current gamestate
             e_fpDraw(); // Render current gamestate
         }

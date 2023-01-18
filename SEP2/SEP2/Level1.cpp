@@ -8,9 +8,9 @@
 #include "Level1.h"
 // ---------------------------------------------------------------------------
 
-frogPos frog;
-mousePos mouse;
-vector Direction;
+extern frogPos frog;
+extern mousePos mouse;
+extern vector Direction;
 
 int gGameRunning = 1;
 bool flick = false;

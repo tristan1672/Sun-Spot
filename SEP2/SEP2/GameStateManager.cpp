@@ -5,6 +5,7 @@
 #include "AEEngine.h"
 #include "PreCompiledHeader.h"
 #include "GameStateManager.h"
+#include "Ultilities.h"
 #include "Level1.h"
 // ---------------------------------------------------------------------------
 
@@ -12,6 +13,15 @@
 int current = 0, previous = 0, next = 0;
 
 FP e_fpLoad = nullptr, e_fpInitialize = nullptr, e_fpUpdate = nullptr, e_fpDraw = nullptr, e_fpFree = nullptr, e_fpUnload = nullptr;
+
+
+//
+float e_gravity{ 150.0f }, e_jumpForce(200.0f);
+
+extern frogPos frog;
+extern mousePos mouse;
+extern vector Direction;
+
 
 // ----------------------------------------------------------------------------
 // This function initialize the gamestate manager
@@ -22,6 +32,22 @@ void GSM_Initialize(int startingState)
 	current = previous = next = startingState;
 
 	std::cout << "GSM:Initialize\n";
+
+	Direction.X = 0;
+	Direction.Y = 0;
+
+	frog.X = 0;
+	frog.Y = 0;
+	frog.velX = 0;
+	frog.velY = 0;
+	frog.onFloor = true;
+
+	mouse.ClickX = 0;
+	mouse.ClickY = 0;
+	mouse.ReleaseX = 0;
+	mouse.ReleaseY = 0;
+
+
 }
 
 // ----------------------------------------------------------------------------
