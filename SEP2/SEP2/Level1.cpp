@@ -6,11 +6,12 @@
 #include "PreCompiledHeader.h"
 #include "Ultilities.h"
 #include "Level1.h"
+#include "Input.h"
 // ---------------------------------------------------------------------------
 
-extern frogPos frog;
-extern mousePos mouse;
-extern vector Direction;
+ frogPos frog;
+ mousePos mouse;
+ vector Direction;
 
 int gGameRunning = 1;
 bool flick = false;
@@ -36,7 +37,19 @@ void Level1_Initialize()
 {
 	std::cout << "Level 1:Initialize\n";
 
+	Direction.X = 0.0f;
+	Direction.Y = 0.0f;
 
+	frog.X = 0.0f;
+	frog.Y = 0.0f;
+	frog.velX = 0.0f;
+	frog.velY = 0.0f;
+	frog.onFloor = true;
+
+	mouse.ClickX = 0;
+	mouse.ClickY = 0;
+	mouse.ReleaseX = 0;
+	mouse.ReleaseY = 0;
 	// Informing the library that we're about to start adding triangles
 	AEGfxMeshStart();
 	// This shape has 2 triangles that makes up a square
@@ -73,6 +86,22 @@ void Level1_Update()
 		frog.Y = 0.0f;
 		frog.onFloor = true;
 	}
+
+	if (AEInputCheckTriggered(AEVK_SPACE) && frog.onFloor) {
+		Input_Handle_Space(); // Takes in a input
+	}
+	// Mouse
+	if (AEInputCheckTriggered(AEVK_LBUTTON) && frog.onFloor) {
+		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
+	}
+	if (AEInputCheckCurr(AEVK_LBUTTON) && frog.onFloor) {
+		Input_Handle_HoldCheck();
+	}
+	if (AEInputCheckReleased(AEVK_LBUTTON) && frog.onFloor) {
+		AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
+		Input_Handle_Jump();
+	}
+
 
 }
 

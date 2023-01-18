@@ -32,22 +32,6 @@ void GSM_Initialize(int startingState)
 	current = previous = next = startingState;
 
 	std::cout << "GSM:Initialize\n";
-
-	Direction.X = 0.0f;
-	Direction.Y = 0.0f;
-
-	frog.X = 0.0f;
-	frog.Y = 0.0f;
-	frog.velX = 0.0f;
-	frog.velY = 0.0f;
-	frog.onFloor = true;
-
-	mouse.ClickX = 0;
-	mouse.ClickY = 0;
-	mouse.ReleaseX = 0;
-	mouse.ReleaseY = 0;
-
-
 }
 
 // ----------------------------------------------------------------------------

@@ -10,10 +10,6 @@
 #include "Input.h"
 // ---------------------------------------------------------------------------
 
-frogPos frog;
-mousePos mouse;
-vector Direction;
-
 // ----------------------------------------------------------------------------
 // This function is the main function that runs the program
 // It is called once at the start of the program
@@ -48,21 +44,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
         {   
             // If on floor, movement allowed
             // Spacebar
-            if (AEInputCheckTriggered(AEVK_SPACE) && frog.onFloor) {
-                Input_Handle_Space(); // Takes in a input
-            }
-            // Mouse
-            if (AEInputCheckTriggered(AEVK_LBUTTON) && frog.onFloor) {
-                AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
-            }
-            if (AEInputCheckCurr(AEVK_LBUTTON) && frog.onFloor) {
-                Input_Handle_HoldCheck();
-            }
-            if (AEInputCheckReleased(AEVK_LBUTTON) && frog.onFloor) {
-                AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
-                Input_Handle_Jump();
-            }
-
             e_fpUpdate(); // Update current gamestate
             e_fpDraw(); // Render current gamestate
         }
