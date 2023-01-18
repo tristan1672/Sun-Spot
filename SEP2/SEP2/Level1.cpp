@@ -16,7 +16,7 @@ int gGameRunning = 1;
 bool flick = false;
 
 // Pointer to Mesh
-AEGfxVertexList* pMesh = 0;
+AEGfxVertexList* pMesh = nullptr;
 
 // ----------------------------------------------------------------------------
 // This function loads necessary data(resource and asset) and initialize it
@@ -62,15 +62,15 @@ void Level1_Update()
 {
 	std::cout << "Level 1:Update\n";
 
-	if (frog.Y > 0) {
-		frog.velY += e_gravity * AEFrameRateControllerGetFrameTime();
-		frog.Y += frog.velY * AEFrameRateControllerGetFrameTime();
-		frog.X += frog.velX * AEFrameRateControllerGetFrameTime();
+	if (frog.Y > 0.0f) {
+		frog.velY += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
+		frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
+		frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
 	}
-	if (frog.Y <= 0 && !frog.onFloor) {
-		frog.velY = 0;
-		frog.velX = 0;
-		frog.Y = 0;
+	if (frog.Y <= 0.0f && !frog.onFloor) {
+		frog.velY = 0.0f;
+		frog.velX = 0.0f;
+		frog.Y = 0.0f;
 		frog.onFloor = true;
 	}
 

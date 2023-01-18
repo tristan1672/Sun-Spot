@@ -12,6 +12,11 @@ extern frogPos frog;
 extern mousePos mouse;
 
 
+
+extern float e_jumpForce;
+
+
+
 // ----------------------------------------------------------------------------
 // This function makes the player jump on spacebar press
 // It is called whenever spacebar is being triggered
@@ -22,8 +27,8 @@ void Input_Handle_Space()
 
 	frog.velY = e_jumpForce;
 	frog.velX = e_jumpForce;
-	frog.Y += frog.velY * AEFrameRateControllerGetFrameTime();
-	frog.X += frog.velX * AEFrameRateControllerGetFrameTime();
+	frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
+	frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
 	frog.onFloor = false;
 	
 }
@@ -39,7 +44,7 @@ void Input_Handle_HoldCheck()
 	// Holding too long will make it jump shorter (Aiming)
 	if (e_jumpForce > 100) {
 		std::cout << e_jumpForce << "\n";
-		e_jumpForce -= 200 * AEFrameRateControllerGetFrameTime();
+		e_jumpForce -= static_cast<float>(200 * AEFrameRateControllerGetFrameTime());
 	}
 }
 
@@ -52,10 +57,10 @@ void Input_Handle_Jump() {
 	std::cout << "Input:Mouse Click Released\n";
 
 	vector nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
-	frog.velY = e_jumpForce * nDirection.Y;
-	frog.velX = e_jumpForce * nDirection.X;
-	frog.Y += frog.velY * AEFrameRateControllerGetFrameTime();
-	frog.X += frog.velX * AEFrameRateControllerGetFrameTime();
+	frog.velY = static_cast<float>(e_jumpForce * nDirection.Y);
+	frog.velX = static_cast<float>(e_jumpForce * nDirection.X);
+	frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
+	frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
 	frog.onFloor = false;
 	e_jumpForce = 200;
 

@@ -16,7 +16,7 @@ FP e_fpLoad = nullptr, e_fpInitialize = nullptr, e_fpUpdate = nullptr, e_fpDraw 
 
 
 //
-float e_gravity{ 150.0f }, e_jumpForce(200.0f);
+extern float e_gravity{ 150.0f }, e_jumpForce(200.0f);
 
 extern frogPos frog;
 extern mousePos mouse;
@@ -33,13 +33,13 @@ void GSM_Initialize(int startingState)
 
 	std::cout << "GSM:Initialize\n";
 
-	Direction.X = 0;
-	Direction.Y = 0;
+	Direction.X = 0.0f;
+	Direction.Y = 0.0f;
 
-	frog.X = 0;
-	frog.Y = 0;
-	frog.velX = 0;
-	frog.velY = 0;
+	frog.X = 0.0f;
+	frog.Y = 0.0f;
+	frog.velX = 0.0f;
+	frog.velY = 0.0f;
 	frog.onFloor = true;
 
 	mouse.ClickX = 0;
