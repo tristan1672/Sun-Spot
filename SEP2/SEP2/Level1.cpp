@@ -186,13 +186,16 @@ void Level1_Draw()
 	for (int i = 0; i < GRID_SIZE; i++) {
 		for (int j = 0; j < GRID_SIZE; j++) {
 			if (s_levelGrid[i][j] == '1') {
-				AEMtx33Trans(&translate, -(1270.0f / 2.0f) + j * (1270.0f / GRID_SIZE), (720.0f / 2.0f) - i * (720.0f / GRID_SIZE));
+
+				float gridWidth = WINDOW_WIDTH / GRID_SIZE;
+				float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
+
+				AEMtx33Scale(&scale, gridWidth, gridHeight);
+				AEMtx33Trans(&translate, gridWidth/2.0f -(WINDOW_WIDTH / 2.0f) + j * (WINDOW_WIDTH / GRID_SIZE),- gridHeight/2.0f + (WINDOW_HEIGHT / 2.0f) - i * (WINDOW_HEIGHT / GRID_SIZE));
 				AEMtx33Concat(&transform, &rotate, &scale);
 				AEMtx33Concat(&transform, &translate, &transform);
 				AEGfxSetTransform(transform.m);
 				AEGfxMeshDraw(pMesh, AE_GFX_MDM_TRIANGLES);
-
-				std::cout << "Draw grid\n";
 			}
 		}
 	}
