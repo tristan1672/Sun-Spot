@@ -1,6 +1,8 @@
 // ---------------------------------------------------------------------------
 // includes
 #include <iostream>
+#include <fstream>
+#include <string>
 
 #include "AEEngine.h"
 #include "PreCompiledHeader.h"
@@ -19,6 +21,8 @@ bool flick = false;
 // Pointer to Mesh
 AEGfxVertexList* pMesh = nullptr;
 
+static int s_levelGrid[GRID_SIZE][GRID_SIZE];
+
 // ----------------------------------------------------------------------------
 // This function loads necessary data(resource and asset) and initialize it
 // It is called once at the start of the state 
@@ -26,6 +30,38 @@ AEGfxVertexList* pMesh = nullptr;
 void Level1_Load()
 {
 	std::cout << "Level 1:Load\n";
+
+	std::fstream level1Map("Assets/Script/Level1.txt", std::ios_base::in);
+
+	if (level1Map.is_open()) {
+		std::cout << "Level 1 File opened\n";
+	}
+	else {
+		std::cout << "Level 1 File Cannot be opened\n";
+		exit(0);
+	}
+
+	char character = 0;
+	int i = 0, j = 0;
+	while (level1Map.get(character)) {
+
+		if (j == GRID_SIZE) {
+			j = 0;
+			i++;
+
+			if (i == GRID_SIZE) {
+				break;
+			}
+		}
+
+		if (character == '0' || character == '1') {
+			s_levelGrid[i][j] = character;
+			j++;
+		}
+		
+		//std::cout << character;
+		
+	}
 
 }
 
@@ -65,6 +101,7 @@ void Level1_Initialize()
 		-0.5f, 0.5f, 0xFFFFFFFF, 0.0f, 0.0f);
 	// Saving the mesh (list of triangles) in pMesh
 	pMesh = AEGfxMeshEnd();
+
 }
 
 // ----------------------------------------------------------------------------
@@ -73,7 +110,7 @@ void Level1_Initialize()
 // ----------------------------------------------------------------------------
 void Level1_Update()
 {
-	std::cout << "Level 1:Update\n";
+	//std::cout << "Level 1:Update\n";
 
 	if (frog.Y > 0.0f) {
 		frog.velY += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
@@ -111,7 +148,7 @@ void Level1_Update()
 // ----------------------------------------------------------------------------
 void Level1_Draw()
 {
-	std::cout << "Level 1:Draw\n";
+	//std::cout << "Level 1:Draw\n";
 
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
@@ -144,6 +181,21 @@ void Level1_Draw()
 	AEGfxSetTransform(transform.m);
 	// Actually drawing the mesh 
 	AEGfxMeshDraw(pMesh, AE_GFX_MDM_TRIANGLES);
+
+
+	for (int i = 0; i < GRID_SIZE; i++) {
+		for (int j = 0; j < GRID_SIZE; j++) {
+			if (s_levelGrid[i][j] == '1') {
+				AEMtx33Trans(&translate, -(1270.0f / 2.0f) + j * (1270.0f / GRID_SIZE), (720.0f / 2.0f) - i * (720.0f / GRID_SIZE));
+				AEMtx33Concat(&transform, &rotate, &scale);
+				AEMtx33Concat(&transform, &translate, &transform);
+				AEGfxSetTransform(transform.m);
+				AEGfxMeshDraw(pMesh, AE_GFX_MDM_TRIANGLES);
+
+				std::cout << "Draw grid\n";
+			}
+		}
+	}
 }
 
 // ----------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 #include "Ultilities.h"
+
 vector normalDirection(s32 X1, s32 Y1, s32 X2, s32 Y2) {
 	s32 X = X2 - X1;
 	s32 Y = Y1 - Y2;
