@@ -42,12 +42,6 @@ void GSM_Update()
 {
 	std::cout << "GSM:Update\n";
 
-	// Informing the system about the loop's start
-	AESysFrameStart();
-
-	// Handling Input
-	AEInputUpdate();
-
 	switch (next)
 	{
 	case GS_LEVEL1:

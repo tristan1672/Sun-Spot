@@ -42,10 +42,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
         //The game loop
         while (next == current)
         {   
-            // If on floor, movement allowed
-            // Spacebar
+            AESysFrameStart();
+            AEInputUpdate();
             e_fpUpdate(); // Update current gamestate
             e_fpDraw(); // Render current gamestate
+
+            AESysFrameEnd();
         }
 
         e_fpFree(); // Free current gamestate
