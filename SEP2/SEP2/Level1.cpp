@@ -23,6 +23,8 @@ AEGfxVertexList* pMesh = nullptr;
 
 static int s_levelGrid[GRID_SIZE][GRID_SIZE];
 
+std::fstream level1Map("Assets/Script/Level1.txt", std::ios_base::in);
+
 // ----------------------------------------------------------------------------
 // This function loads necessary data(resource and asset) and initialize it
 // It is called once at the start of the state 
@@ -30,8 +32,6 @@ static int s_levelGrid[GRID_SIZE][GRID_SIZE];
 void Level1_Load()
 {
 	std::cout << "Level 1:Load\n";
-
-	std::fstream level1Map("Assets/Script/Level1.txt", std::ios_base::in);
 
 	if (level1Map.is_open()) {
 		std::cout << "Level 1 File opened\n";
@@ -208,6 +208,8 @@ void Level1_Draw()
 void Level1_Free()
 {
 	std::cout << "Level 1:Free\n";
+
+	level1Map.close();
 }
 
 // ----------------------------------------------------------------------------
