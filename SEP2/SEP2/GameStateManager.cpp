@@ -16,7 +16,7 @@ FP e_fpLoad = nullptr, e_fpInitialize = nullptr, e_fpUpdate = nullptr, e_fpDraw 
 
 
 //
-extern float e_gravity{ 150.0f }, e_jumpForce(200.0f);
+extern float e_gravity{ -150.0f }, e_jumpForce(200.0f);
 
 extern frogPos frog;
 extern mousePos mouse;
