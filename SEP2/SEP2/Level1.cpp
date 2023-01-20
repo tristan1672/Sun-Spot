@@ -19,6 +19,10 @@
 
 int gGameRunning = 1;
 bool flick = false;
+
+// Pointer to Mesh
+AEGfxVertexList* groundMesh = nullptr;
+
 static int s_levelGrid[GRID_SIZE][GRID_SIZE];
 
 
@@ -87,6 +91,22 @@ void Level1_Initialize()
 	mouse.ReleaseX = 0;
 	mouse.ReleaseY = 0;
 
+	// Informing the library that we're about to start adding triangles
+	AEGfxMeshStart();
+	// This shape has 2 triangles that makes up a square
+	// Color parameters represent colours as ARGB
+	// UV coordinates to read from loaded textures
+	AEGfxTriAdd(
+		-0.5f, -0.5f, 0xFFFFFFFF, 0.0f, 1.0f,
+		0.5f, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
+		-0.5f, 0.5f, 0xFFFFFFFF, 0.0f, 0.0f);
+	AEGfxTriAdd(
+		0.5f, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
+		0.5f, 0.5f, 0xFFFFFFFF, 1.0f, 0.0f,
+		-0.5f, 0.5f, 0xFFFFFFFF, 0.0f, 0.0f);
+	// Saving the mesh (list of triangles) in pMesh
+	groundMesh = AEGfxMeshEnd();
+
 	MakeMesh();
 }
 
@@ -136,6 +156,41 @@ void Level1_Draw()
 
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+	// Tell the engine to get ready to draw something with texture.
+	AEGfxSetRenderMode(AE_GFX_RM_COLOR);
+	// Set the tint to white, so that the sprite can 
+	// display the full range of colors (default is black).
+	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
+	// Set blend mode to AE_GFX_BM_BLEND
+	// This will allow transparency.
+	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+	AEGfxSetTransparency(1.0f);
+	// Set the texture to pTex
+	//AEGfxTextureSet(pTex, 0, 0);
+	// Create a scale matrix that scales by 100 x and y
+	AEMtx33 scale = { 0 };
+	AEMtx33 rotate = { 0 };
+	AEMtx33 translate = { 0 };
+	AEMtx33 transform = { 0 };
+
+	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
+	float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
+
+	for (int i = 0; i < GRID_SIZE; i++) {
+		for (int j = 0; j < GRID_SIZE; j++) {
+			if (s_levelGrid[i][j] == '1') {
+
+				AEMtx33Scale(&scale, gridWidth, gridHeight);
+				AEMtx33Rot(&rotate, 0);
+				AEMtx33Trans(&translate, gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * (WINDOW_WIDTH / GRID_SIZE), -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * (WINDOW_HEIGHT / GRID_SIZE));
+				AEMtx33Concat(&transform, &rotate, &scale);
+				AEMtx33Concat(&transform, &translate, &transform);
+				AEGfxSetTransform(transform.m);
+				AEGfxMeshDraw(groundMesh, AE_GFX_MDM_TRIANGLES);
+			}
+		}
+	}
+
 	DrawRect({ frog.X,frog.Y });
 }
 
