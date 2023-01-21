@@ -13,6 +13,8 @@
 #include "Input.h"
 // ---------------------------------------------------------------------------
 
+#define GROUND_LEVEL 20
+
  frogPos frog;
  mousePos mouse;
  vector Direction;
@@ -81,7 +83,7 @@ void Level1_Initialize()
 	Direction.Y = 0.0f;
 
 	frog.X = 0.0f;
-	frog.Y = 0.0f;
+	frog.Y = 30.0f;
 	frog.velX = 0.0f;
 	frog.velY = 0.0f;
 	frog.onFloor = true;
@@ -116,18 +118,24 @@ void Level1_Initialize()
 // ----------------------------------------------------------------------------
 void Level1_Update()
 {
-
-	if (frog.Y > 0.0f) {
+	if (!frog.onFloor) {
 		frog.velY += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
 		frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
 		frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
 	}
-	if (frog.Y <= 0.0f && !frog.onFloor) {
-		frog.velY = 0.0f;
-		frog.velX = 0.0f;
-		frog.Y = 0.0f;
-		frog.onFloor = true;
-	}
+
+
+	//if (frog.Y > GROUND_LEVEL) {
+	//	frog.velY += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
+	//	frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
+	//	frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
+	//}
+	//if (frog.Y <= GROUND_LEVEL && !frog.onFloor) {
+	//	frog.velY = 0.0f;
+	//	frog.velX = 0.0f;
+	//	frog.Y = GROUND_LEVEL;
+	//	frog.onFloor = true;
+	//}
 
 	if (AEInputCheckTriggered(AEVK_SPACE) && frog.onFloor) {
 		Input_Handle_Space(); // Takes in a input
@@ -144,6 +152,7 @@ void Level1_Update()
 		Input_Handle_Jump();
 	}
 
+	collisionCheck(frog.X, frog.Y);
 
 }
 
@@ -210,4 +219,128 @@ void Level1_Free()
 void Level1_Unload()
 {
 	std::cout << "Level 1:Unload\n";
+}
+
+void collisionCheck(float frogX, float frogY) {
+
+	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
+	float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
+
+	// Need find current location in grid 1st
+	// Then check the surrounding for collision
+
+	// Checking current location
+	double width = -(WINDOW_WIDTH / 2.0f);
+	double height = WINDOW_HEIGHT / 2.0f;
+	int xCoord = 0, yCoord = 0;
+
+	// Getting X coord in grid
+	while (1) {
+		if (frogX > width) {
+			width += gridWidth;
+			xCoord++;
+		}
+		else {
+			xCoord -= 1;
+			break;
+		}
+	}
+
+	// Getting Y coord in grid
+	while (1) {
+		if (frogY < height) {
+			height -= gridHeight;
+			yCoord++;
+		}
+		else {
+			yCoord -= 1;
+			break;
+		}
+	}
+
+	//std::cout << "Width Grid: " << xCoord + 1 << "\n";
+	//std::cout << "Height Grid: " << yCoord + 1 << "\n";
+
+	// Working seperately, not together
+	bool leftHit = false, rightHit = false, topHit = false, btmHit = false;
+
+	// Left & Right Collision Detecttion
+	if (frogX > (xCoord*gridWidth - WINDOW_WIDTH/2.0f) && s_levelGrid[yCoord][xCoord] == '1') {
+		// If on the left halve of a block
+		if (frogX < (xCoord*gridWidth - WINDOW_WIDTH/2.0f + gridWidth/2.0f) ) {
+			//frog.X -= 5;
+			//frog.X = xCoord * gridWidth - WINDOW_WIDTH/2.0f;
+			leftHit = true;
+
+		}
+		// If on the right halve of a block
+		else if (frogX > (xCoord * gridWidth - WINDOW_WIDTH/2.0f + gridWidth/2.0f) ) {
+			//frog.X += 5;
+			//frog.X = (xCoord+1) * gridWidth - WINDOW_WIDTH/2.0f;
+			rightHit = true;
+		}
+	}
+	
+	/*
+	// Up & Down Collision Detecttion
+	if (frogY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == '1') {
+		// If on the top of the block (Platform below you)
+		if (frog.Y > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+			frog.onFloor = true;
+			//frog.Y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight;
+			//frog.Y += 5;
+			topHit = true;
+		}
+		// If on the btm of the block (Platform above you)
+		else if (frog.Y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+			//frog.Y = WINDOW_HEIGHT / 2.0f - (yCoord+1) * gridHeight;
+			//frog.Y -= 5;
+			btmHit = true;
+		}
+	}
+	*/
+
+	if (frogY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == '1') {
+		// If on the top of the block (Platform below you)
+		if (frog.Y > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+			frog.onFloor = true;
+			//frog.Y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight;
+			//frog.Y += 5;
+			topHit = true;
+		}
+		// If on the btm of the block (Platform above you)
+		else if (frog.Y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+			//frog.Y = WINDOW_HEIGHT / 2.0f - (yCoord+1) * gridHeight;
+			//frog.Y -= 5;
+			btmHit = true;
+		}
+	}
+	
+
+	if (rightHit == true) {
+		frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
+		frog.velX = 0;
+		std::cout << "Hit Right 50% of block\n";
+	}
+	if (leftHit == true) {
+		frog.X -= static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
+		frog.velX = 0;
+		std::cout << "Hit Left 50% of block \n";
+	}
+
+	if (topHit == true) {
+		frog.Y -= static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
+		std::cout << "Hit Top of block\n";
+		//frog.velY = 0;
+	}
+
+	if (btmHit == true) {
+		frog.Y -= static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
+		std::cout << "Hit Btm of block\n";
+		//frog.velY = 0;
+	}
+
+
+
+
 }
