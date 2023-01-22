@@ -24,8 +24,7 @@ struct vector {
 
 vector normalDirection(s32 X1, s32 Y1, s32 X2, s32 Y2);
 
-struct frogPos
-{
+struct frogPos {
 	float X;
 	float Y;
 	float velX;
@@ -38,5 +37,10 @@ struct mousePos {
 	s32 ClickY;
 	s32 ReleaseX;
 	s32 ReleaseY;
+};
+
+struct CameraPos {
+	f32 X;
+	f32 Y;
 };
 // --------------------------------------------------------------------------- // End of structs

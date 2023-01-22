@@ -13,18 +13,22 @@
 #include "Input.h"
 // ---------------------------------------------------------------------------
 
- frogPos frog;
- mousePos mouse;
- vector Direction;
-
+frogPos frog;
+mousePos mouse;
+CameraPos cam;
+vector Direction;
 int gGameRunning = 1;
 bool flick = false;
+
+bool shake;
+float shakespeed;
+float shakedistance = 0.5f;
+f64 shaketime;
 
 // Pointer to Mesh
 AEGfxVertexList* groundMesh = nullptr;
 
 static int s_levelGrid[GRID_SIZE][GRID_SIZE];
-
 
 
 // ----------------------------------------------------------------------------
@@ -76,7 +80,7 @@ void Level1_Load()
 void Level1_Initialize()
 {
 	std::cout << "Level 1:Initialize\n";
-
+	
 	Direction.X = 0.0f;
 	Direction.Y = 0.0f;
 
@@ -90,6 +94,10 @@ void Level1_Initialize()
 	mouse.ClickY = 0;
 	mouse.ReleaseX = 0;
 	mouse.ReleaseY = 0;
+
+	shake = false;
+	shakespeed = 100.0f; //initialize shaking speed
+	shakedistance = 0.5f; //initialize shaking distance
 
 	// Informing the library that we're about to start adding triangles
 	AEGfxMeshStart();
@@ -116,7 +124,7 @@ void Level1_Initialize()
 // ----------------------------------------------------------------------------
 void Level1_Update()
 {
-
+	
 	if (frog.Y > 0.0f) {
 		frog.velY += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
 		frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
@@ -144,7 +152,35 @@ void Level1_Update()
 		Input_Handle_Jump();
 	}
 
+	//cam shake
+	if (!frog.onFloor) //set shake and shaketime
+	{
+		shake = 1;
+		shaketime = 0;
+	}
+	if ((shake == 1) && (frog.onFloor) && (shaketime < 0.2f)) //shake condition
+	{
+		shaketime += AEFrameRateControllerGetFrameTime();
+		float distance = cam.Y - frog.Y;
+		if (shakespeed >= 0)
+		{
+			if (distance > shakedistance)
+			{
+				shakespeed *= -1.0f;
+			}
+		}
+		else
+		{
+			if (distance < -shakedistance)
+			{
+				shakespeed *= -1.0f;
+			}
+		}
+		cam.Y = frog.Y + shakespeed * AEFrameRateControllerGetFrameTime();
+	}
 
+	AEGfxSetCamPosition(cam.X, cam.Y); //cam position
+	
 }
 
 // ----------------------------------------------------------------------------
