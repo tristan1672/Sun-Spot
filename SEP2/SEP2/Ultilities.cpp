@@ -1,11 +1,12 @@
-#include "Ultilities.h"
+#include "Ultilities.hpp"
+float e_gravity = -150, e_jumpForce = 200;
 
-vector normalDirection(s32 X1, s32 Y1, s32 X2, s32 Y2) {
-	s32 X = X2 - X1;
-	s32 Y = Y1 - Y2;
-	double normal = sqrt(static_cast<double>(X) * static_cast<double>(X) + static_cast<double>(Y) * static_cast<double>(Y));
+Vector2D normalDirection(f32 X1, f32 Y1, f32 X2, f32 Y2){
+	f32 X = X2 - X1;
+	f32 Y = Y1 - Y2;
+	float normal = sqrtf(static_cast<float>(X) * static_cast<float>(X) + static_cast<float>(Y) * static_cast<float>(Y));
 	if (normal) {
-		return { static_cast<double>(X) / normal, static_cast<double>(Y) / normal };
+		return { static_cast<float>(X) / normal, static_cast<float>(Y) / normal };
 	}
 	else
 	{

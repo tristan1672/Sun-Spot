@@ -3,35 +3,15 @@
 #include <iostream>
 
 #include "AEEngine.h"
-#include "PreCompiledHeader.h"
-#include "Ultilities.h"
-#include "Input.h"
+#include "PreCompiledHeader.hpp"
+#include "Ultilities.hpp"
+#include "Input.hpp"
+#include "GameObjClasses.hpp"
 // ---------------------------------------------------------------------------
 
-extern frogPos frog;
+
 extern mousePos mouse;
-
-
-
-extern float e_jumpForce;
-
-
-
-// ----------------------------------------------------------------------------
-// This function makes the player jump on spacebar press
-// It is called whenever spacebar is being triggered
-// ----------------------------------------------------------------------------
-void Input_Handle_Space() 
-{
-	std::cout << "Input:Handle Spacebar Triggered\n";
-
-	frog.velY = e_jumpForce;
-	frog.velX = e_jumpForce;
-	frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
-	frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
-	frog.onFloor = false;
-	
-}
+extern DynamicObj Player;
 
 // ----------------------------------------------------------------------------
 // This function decreases the jump velocity if mouse click is held 
@@ -39,12 +19,14 @@ void Input_Handle_Space()
 // ----------------------------------------------------------------------------
 void Input_Handle_HoldCheck()
 {	
-	std::cout << "Input:Mouse Click Held\n";
 
 	// Holding too long will make it jump shorter (Aiming)
 	if (e_jumpForce > 100) {
-		std::cout << e_jumpForce << "\n";
+		//std::cout << e_jumpForce << "\n";
 		e_jumpForce -= static_cast<float>(200 * AEFrameRateControllerGetFrameTime());
+	}
+	if (e_jumpForce <= 100) {
+		e_jumpForce = 100;
 	}
 }
 
@@ -54,14 +36,14 @@ void Input_Handle_HoldCheck()
 // ----------------------------------------------------------------------------
 void Input_Handle_Jump() {
 
-	std::cout << "Input:Mouse Click Released\n";
+	//std::cout << "Input:Mouse Click Released\n";
 
-	vector nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
-	frog.velY = static_cast<float>(e_jumpForce * nDirection.Y);
-	frog.velX = static_cast<float>(e_jumpForce * nDirection.X);
-	frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
-	frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
-	frog.onFloor = false;
+	Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
+	Player.velocity.y = static_cast<float>(e_jumpForce * nDirection.y);
+	Player.velocity.x = static_cast<float>(e_jumpForce * nDirection.x);
+	Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
+	Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
+	Player.collideBotton = false;
 	e_jumpForce = 200;
 
 }

@@ -1,31 +1,26 @@
 // ---------------------------------------------------------------------------
 // includes
 #pragma once
-#include <iostream>
-#include <fstream>
-#include <string>
 
-#include "AEEngine.h"
-#include "DrawShape.h"
-#include "PreCompiledHeader.h"
-#include "Ultilities.h"
-#include "Level1.h"
-#include "Input.h"
+#include "Level1.hpp"
+
 // ---------------------------------------------------------------------------
 
 #define GROUND_LEVEL 20
-
- frogPos frog;
+static int s_levelGrid[GRID_SIZE][GRID_SIZE];
+ //frogPos frog;
  mousePos mouse;
- vector Direction;
+ DynamicObj Player;
+ GameObject platform[GRID_SIZE][GRID_SIZE];
+ GameObject jumpArrow;
+
+
 
 int gGameRunning = 1;
 bool flick = false;
 
 // Pointer to Mesh
 AEGfxVertexList* groundMesh = nullptr;
-
-static int s_levelGrid[GRID_SIZE][GRID_SIZE];
 
 
 
@@ -61,7 +56,7 @@ void Level1_Load()
 		}
 
 		if (character == '0' || character == '1') {
-			s_levelGrid[i][j] = character;
+			s_levelGrid[i][j] = static_cast<int>(character) - 48;
 			j++;
 		}
 		
@@ -79,14 +74,30 @@ void Level1_Initialize()
 {
 	std::cout << "Level 1:Initialize\n";
 
-	Direction.X = 0.0f;
-	Direction.Y = 0.0f;
+	Player = DynamicObj();
+	Player.position = { 0,10 };
 
-	frog.X = 0.0f;
-	frog.Y = 30.0f;
-	frog.velX = 0.0f;
-	frog.velY = 0.0f;
-	frog.onFloor = true;
+#pragma region set platform objects
+
+	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
+	float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
+
+	for (int i = 0; i < GRID_SIZE; i++) {
+		for (int j = 0; j < GRID_SIZE; j++) {
+			if (s_levelGrid[i][j] == 1) {
+				platform[i][j] = GameObject(
+					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * (WINDOW_WIDTH / GRID_SIZE), -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * (WINDOW_HEIGHT / GRID_SIZE) },
+					{gridWidth, gridHeight});
+
+
+			}
+		}
+	}
+#pragma endregion
+
+	jumpArrow = GameObject();
+	jumpArrow.SetScale({ 10.f,100.f });
+	jumpArrow.SetColour({ 0.f,1.f,0.f,0.5f });
 
 	mouse.ClickX = 0;
 	mouse.ClickY = 0;
@@ -118,10 +129,10 @@ void Level1_Initialize()
 // ----------------------------------------------------------------------------
 void Level1_Update()
 {
-	if (!frog.onFloor) {
-		frog.velY += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
-		frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
-		frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
+	if (!Player.collideBotton) {
+		Player.velocity.y += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
+		Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
+		Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
 	}
 
 
@@ -137,22 +148,31 @@ void Level1_Update()
 	//	frog.onFloor = true;
 	//}
 
-	if (AEInputCheckTriggered(AEVK_SPACE) && frog.onFloor) {
-		Input_Handle_Space(); // Takes in a input
-	}
 	// Mouse
-	if (AEInputCheckTriggered(AEVK_LBUTTON) && frog.onFloor) {
+	if (AEInputCheckTriggered(AEVK_LBUTTON) && Player.collideBotton) {
 		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 	}
-	if (AEInputCheckCurr(AEVK_LBUTTON) && frog.onFloor) {
+	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.collideBotton) {
 		Input_Handle_HoldCheck();
+		if (e_jumpForce <= 100) {
+			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
+			Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ClickX) - WINDOW_WIDTH / 2.f, -(static_cast<float>(mouse.ClickY) - WINDOW_HEIGHT / 2.f) };
+			Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
+			float angle = atan2f(-nDirection.x,nDirection.y);
+			std::cout << angle;
+			jumpArrow.SetRotation(angle);
+			jumpArrow.position = {mouseClickQuadPos.x,mouseClickQuadPos.y};
+			std::cout << mouse.ReleaseY << "\n";
+		}
 	}
-	if (AEInputCheckReleased(AEVK_LBUTTON) && frog.onFloor) {
+	if (AEInputCheckReleased(AEVK_LBUTTON) && Player.collideBotton) {
 		AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
 		Input_Handle_Jump();
+		jumpArrow.SetRotation(0);
+		mouse.ReleaseX = 0; mouse.ReleaseY = 0;
 	}
 
-	collisionCheck(frog.X, frog.Y);
+	collisionCheck(Player.position.x, Player.position.y);
 
 }
 
@@ -165,18 +185,18 @@ void Level1_Draw()
 
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
-	// Tell the engine to get ready to draw something with texture.
-	AEGfxSetRenderMode(AE_GFX_RM_COLOR);
-	// Set the tint to white, so that the sprite can 
-	// display the full range of colors (default is black).
-	AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
-	// Set blend mode to AE_GFX_BM_BLEND
-	// This will allow transparency.
-	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
-	AEGfxSetTransparency(1.0f);
-	// Set the texture to pTex
-	//AEGfxTextureSet(pTex, 0, 0);
-	// Create a scale matrix that scales by 100 x and y
+	//// Tell the engine to get ready to draw something with texture.
+	//AEGfxSetRenderMode(AE_GFX_RM_COLOR);
+	//// Set the tint to white, so that the sprite can 
+	//// display the full range of colors (default is black).
+	//AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//// Set blend mode to AE_GFX_BM_BLEND
+	//// This will allow transparency.
+	//AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+	//AEGfxSetTransparency(1.0f);
+	//// Set the texture to pTex
+	////AEGfxTextureSet(pTex, 0, 0);
+	//// Create a scale matrix that scales by 100 x and y
 	AEMtx33 scale = { 0 };
 	AEMtx33 rotate = { 0 };
 	AEMtx33 translate = { 0 };
@@ -187,20 +207,23 @@ void Level1_Draw()
 
 	for (int i = 0; i < GRID_SIZE; i++) {
 		for (int j = 0; j < GRID_SIZE; j++) {
-			if (s_levelGrid[i][j] == '1') {
+			if (s_levelGrid[i][j] == 1) {
 
-				AEMtx33Scale(&scale, gridWidth, gridHeight);
-				AEMtx33Rot(&rotate, 0);
-				AEMtx33Trans(&translate, gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * (WINDOW_WIDTH / GRID_SIZE), -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * (WINDOW_HEIGHT / GRID_SIZE));
-				AEMtx33Concat(&transform, &rotate, &scale);
-				AEMtx33Concat(&transform, &translate, &transform);
-				AEGfxSetTransform(transform.m);
-				AEGfxMeshDraw(groundMesh, AE_GFX_MDM_TRIANGLES);
+				//AEMtx33Scale(&scale, gridWidth, gridHeight);
+				//AEMtx33Rot(&rotate, 0);
+				//AEMtx33Trans(&translate, gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * (WINDOW_WIDTH / GRID_SIZE), -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * (WINDOW_HEIGHT / GRID_SIZE));
+				//AEMtx33Concat(&transform, &rotate, &scale);
+				//AEMtx33Concat(&transform, &translate, &transform);
+				//AEGfxSetTransform(transform.m);
+				//AEGfxMeshDraw(groundMesh, AE_GFX_MDM_TRIANGLES);
+				platform[i][j].DrawObj();
 			}
 		}
 	}
-
-	DrawRect({ frog.X,frog.Y });
+	Player.DrawObj();
+	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.collideBotton && e_jumpForce <= 100) {
+		jumpArrow.DrawObj();
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -221,7 +244,7 @@ void Level1_Unload()
 	std::cout << "Level 1:Unload\n";
 }
 
-void collisionCheck(float frogX, float frogY) {
+void collisionCheck(float playerX, float playerY) {
 
 	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
 	float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
@@ -236,7 +259,7 @@ void collisionCheck(float frogX, float frogY) {
 
 	// Getting X coord in grid
 	while (1) {
-		if (frogX > width) {
+		if (playerX > width) {
 			width += gridWidth;
 			xCoord++;
 		}
@@ -248,7 +271,7 @@ void collisionCheck(float frogX, float frogY) {
 
 	// Getting Y coord in grid
 	while (1) {
-		if (frogY < height) {
+		if (playerY < height) {
 			height -= gridHeight;
 			yCoord++;
 		}
@@ -265,16 +288,16 @@ void collisionCheck(float frogX, float frogY) {
 	bool leftHit = false, rightHit = false, topHit = false, btmHit = false;
 
 	// Left & Right Collision Detecttion
-	if (frogX > (xCoord*gridWidth - WINDOW_WIDTH/2.0f) && s_levelGrid[yCoord][xCoord] == '1') {
+	if (playerX > (xCoord*gridWidth - WINDOW_WIDTH/2.0f) && s_levelGrid[yCoord][xCoord] == 1) {
 		// If on the left halve of a block
-		if (frogX < (xCoord*gridWidth - WINDOW_WIDTH/2.0f + gridWidth/2.0f) ) {
+		if (playerX < (xCoord*gridWidth - WINDOW_WIDTH/2.0f + gridWidth/2.0f) ) {
 			//frog.X -= 5;
 			//frog.X = xCoord * gridWidth - WINDOW_WIDTH/2.0f;
 			leftHit = true;
 
 		}
 		// If on the right halve of a block
-		else if (frogX > (xCoord * gridWidth - WINDOW_WIDTH/2.0f + gridWidth/2.0f) ) {
+		else if (playerX > (xCoord * gridWidth - WINDOW_WIDTH/2.0f + gridWidth/2.0f) ) {
 			//frog.X += 5;
 			//frog.X = (xCoord+1) * gridWidth - WINDOW_WIDTH/2.0f;
 			rightHit = true;
@@ -283,7 +306,7 @@ void collisionCheck(float frogX, float frogY) {
 	
 	/*
 	// Up & Down Collision Detecttion
-	if (frogY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == '1') {
+	if (frogY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == 1) {
 		// If on the top of the block (Platform below you)
 		if (frog.Y > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
 			frog.onFloor = true;
@@ -300,16 +323,16 @@ void collisionCheck(float frogX, float frogY) {
 	}
 	*/
 
-	if (frogY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == '1') {
+	if (playerY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == 1) {
 		// If on the top of the block (Platform below you)
-		if (frog.Y > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
-			frog.onFloor = true;
+		if (Player.position.y > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+			Player.collideBotton = true;
 			//frog.Y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight;
 			//frog.Y += 5;
 			topHit = true;
 		}
 		// If on the btm of the block (Platform above you)
-		else if (frog.Y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+		else if (Player.position.y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
 			//frog.Y = WINDOW_HEIGHT / 2.0f - (yCoord+1) * gridHeight;
 			//frog.Y -= 5;
 			btmHit = true;
@@ -318,24 +341,24 @@ void collisionCheck(float frogX, float frogY) {
 	
 
 	if (rightHit == true) {
-		frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
-		frog.velX = 0;
+		Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
+		Player.velocity.x = 0;
 		std::cout << "Hit Right 50% of block\n";
 	}
 	if (leftHit == true) {
-		frog.X -= static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
-		frog.velX = 0;
+		Player.position.x -= static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
+		Player.velocity.x = 0;
 		std::cout << "Hit Left 50% of block \n";
 	}
 
 	if (topHit == true) {
-		frog.Y -= static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
+		Player.position.y -= static_cast<float>(Player.velocity.y* AEFrameRateControllerGetFrameTime());
 		std::cout << "Hit Top of block\n";
 		//frog.velY = 0;
 	}
 
 	if (btmHit == true) {
-		frog.Y -= static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
+		Player.position.y -= static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
 		std::cout << "Hit Btm of block\n";
 		//frog.velY = 0;
 	}
