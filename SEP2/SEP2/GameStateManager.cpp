@@ -3,24 +3,16 @@
 #include <iostream>
 
 #include "AEEngine.h"
-#include "PreCompiledHeader.h"
-#include "GameStateManager.h"
-#include "Ultilities.h"
-#include "Level1.h"
+#include "PreCompiledHeader.hpp"
+#include "GameStateManager.hpp"
+#include "Ultilities.hpp"
+#include "Level1.hpp"
 // ---------------------------------------------------------------------------
 
 
 int current = 0, previous = 0, next = 0;
 
 FP e_fpLoad = nullptr, e_fpInitialize = nullptr, e_fpUpdate = nullptr, e_fpDraw = nullptr, e_fpFree = nullptr, e_fpUnload = nullptr;
-
-
-//
-extern float e_gravity{ -150.0f }, e_jumpForce(200.0f);
-
-extern frogPos frog;
-extern mousePos mouse;
-extern vector Direction;
 
 
 // ----------------------------------------------------------------------------

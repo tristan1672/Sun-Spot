@@ -3,8 +3,8 @@
 #include <iostream>
 
 #include "AEEngine.h"
-#include "PreCompiledHeader.h"
-#include "System.h"
+#include "PreCompiledHeader.hpp"
+#include "System.hpp"
 // ---------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------

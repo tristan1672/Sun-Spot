@@ -3,11 +3,10 @@
 #include <iostream>
 
 #include "AEEngine.h"
-#include "PreCompiledHeader.h"
-#include "Ultilities.h"
-#include "System.h"
-#include "GameStateManager.h"
-#include "Input.h"
+#include "PreCompiledHeader.hpp"
+#include "System.hpp"
+#include "GameStateManager.hpp"
+#include "Input.hpp"
 // ---------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------

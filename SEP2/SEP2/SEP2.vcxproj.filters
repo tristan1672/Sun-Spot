@@ -33,27 +33,33 @@
     <ClCompile Include="Ultilities.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjClasses.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameStateManager.h">
+    <ClInclude Include="GameStateManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
+    <ClInclude Include="Input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="System.h">
+    <ClInclude Include="System.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameStateList.h">
+    <ClInclude Include="GameStateList.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PreCompiledHeader.h">
+    <ClInclude Include="PreCompiledHeader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Level1.h">
+    <ClInclude Include="Level1.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Ultilities.h">
+    <ClInclude Include="Ultilities.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjClasses.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
