@@ -102,7 +102,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="DrawShape.cpp" />
+    <ClCompile Include="GameObjClasses.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Input.cpp" />
@@ -111,14 +111,14 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClCompile Include="Ultilities.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DrawShape.h" />
-    <ClInclude Include="GameStateManager.h" />
-    <ClInclude Include="GameStateList.h" />
-    <ClInclude Include="Ultilities.h" />
-    <ClInclude Include="Level1.h" />
-    <ClInclude Include="PreCompiledHeader.h" />
-    <ClInclude Include="System.h" />
-    <ClInclude Include="Input.h" />
+    <ClInclude Include="GameObjClasses.hpp" />
+    <ClInclude Include="GameStateManager.hpp" />
+    <ClInclude Include="GameStateList.hpp" />
+    <ClInclude Include="Ultilities.hpp" />
+    <ClInclude Include="Level1.hpp" />
+    <ClInclude Include="PreCompiledHeader.hpp" />
+    <ClInclude Include="System.hpp" />
+    <ClInclude Include="Input.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
