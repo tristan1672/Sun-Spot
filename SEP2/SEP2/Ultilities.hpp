@@ -21,18 +21,6 @@ struct Vector2D {
 	f32 x;
 	f32 y;
 };
-
-vector normalDirection(s32 X1, s32 Y1, s32 X2, s32 Y2);
-
-struct frogPos 
-{
-	float X;
-	float Y;
-	float velX;
-	float velY;
-	bool onFloor;
-}
-
 struct ColourValue
 {
 	float red, green, blue, alpha;
@@ -45,10 +33,5 @@ struct mousePos {
 	s32 ClickY;
 	s32 ReleaseX;
 	s32 ReleaseY;
-};
-
-struct CameraPos {
-	f32 X;
-	f32 Y;
 };
 // --------------------------------------------------------------------------- // End of structs
