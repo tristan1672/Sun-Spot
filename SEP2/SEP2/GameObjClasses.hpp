@@ -5,6 +5,8 @@
 this file contains gameobject class, a dynamic object class and function to make mesh on initialize all of wich are declearations;
 */
 
+#define PLAYER_SIZE 10.0f
+
 void MakeMesh()/*used to make default mesh*/;
 
 // normal game object class, conatins all transformation data for an game object and also a function that draws the gameobject along with its colour
@@ -39,7 +41,7 @@ class DynamicObj:public GameObject {
 public:
 	Vector2D velocity;
 	bool collideBotton = true, collideTop = false, collideRight = false, collideLeft = false;
-	DynamicObj(Vector2D Velocity = {0.f,0.f}, Vector2D Position = {0.f,0.f}, Vector2D Scale = {10.f,10.f}, ColourValue Colour = {1.f,1.f,1.f,1.f}, f32 Rotation = 0);
+	DynamicObj(Vector2D Velocity = {0.f,0.f}, Vector2D Position = {0.f,0.f}, Vector2D Scale = {PLAYER_SIZE, PLAYER_SIZE}, ColourValue Colour = {1.f,1.f,1.f,1.f}, f32 Rotation = 0);
 #pragma region Getter/Setter
 
 	Vector2D GetVelocity();

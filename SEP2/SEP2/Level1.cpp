@@ -6,6 +6,7 @@
 
 // ---------------------------------------------------------------------------
 
+
 #define GROUND_LEVEL 20
 static int s_levelGrid[GRID_SIZE][GRID_SIZE];
 //frogPos frog;
@@ -31,7 +32,6 @@ AEGfxVertexList* groundMesh = nullptr;
 void Level1_Load()
 {
 	std::cout << "Level 1:Load\n";
-
 	std::fstream level1Map("Assets/Script/Level1.txt", std::ios_base::in);
 
 	if (level1Map.is_open()) {
@@ -76,6 +76,8 @@ void Level1_Initialize()
 
 	Player = DynamicObj();
 	Player.position = { 0,10 };
+	Player.SetColour({ 0.f,1.f,1.f,1.f });
+	//Player.collideBotton = false;
 
 #pragma region set platform objects
 
@@ -285,85 +287,198 @@ void collisionCheck(float playerX, float playerY) {
 	//std::cout << "Height Grid: " << yCoord + 1 << "\n";
 
 	// Working seperately, not together
-	bool leftHit = false, rightHit = false, topHit = false, btmHit = false;
-
+	bool leftOfPlayerHit = false, rightOfPlayerHit = false, topOfPlayerHit = false, btmOfPlayerHit = false;
+	/*
 	// Left & Right Collision Detecttion
 	if (playerX > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f) && s_levelGrid[yCoord][xCoord] == 1) {
 		// If on the left halve of a block
-		if (playerX < (xCoord * gridWidth - WINDOW_WIDTH / 2.0f + gridWidth / 2.0f)) {
+		if (Player.position.x < (xCoord * gridWidth - WINDOW_WIDTH / 2.0f + gridWidth / 2.0f)) {
 			//frog.X -= 5;
 			//frog.X = xCoord * gridWidth - WINDOW_WIDTH/2.0f;
-			leftHit = true;
-
+			rightOfPlayerHit = true;
 		}
 		// If on the right halve of a block
-		else if (playerX > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f + gridWidth / 2.0f)) {
+		else if (Player.position.x > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f + gridWidth / 2.0f)) {
 			//frog.X += 5;
 			//frog.X = (xCoord+1) * gridWidth - WINDOW_WIDTH/2.0f;
-			rightHit = true;
+			leftOfPlayerHit = true;
 		}
 	}
 
-	/*
 	// Up & Down Collision Detecttion
-	if (frogY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == 1) {
-		// If on the top of the block (Platform below you)
-		if (frog.Y > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
-			frog.onFloor = true;
-			//frog.Y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight;
-			//frog.Y += 5;
-			topHit = true;
-		}
-		// If on the btm of the block (Platform above you)
-		else if (frog.Y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
-			//frog.Y = WINDOW_HEIGHT / 2.0f - (yCoord+1) * gridHeight;
-			//frog.Y -= 5;
-			btmHit = true;
-		}
-	}
-	*/
-
 	if (playerY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == 1) {
 		// If on the top of the block (Platform below you)
 		if (Player.position.y > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
 			Player.collideBotton = true;
 			//frog.Y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight;
 			//frog.Y += 5;
-			topHit = true;
+			btmOfPlayerHit = true;
 		}
 		// If on the btm of the block (Platform above you)
 		else if (Player.position.y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
 			//frog.Y = WINDOW_HEIGHT / 2.0f - (yCoord+1) * gridHeight;
 			//frog.Y -= 5;
-			btmHit = true;
+			topOfPlayerHit = true;
+		}
+	}
+	*/
+
+	// Left & Right Collision Detecttion
+	if (playerX > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f) && s_levelGrid[yCoord][xCoord] == 1) {
+		// If on the left halve of a block
+		if ((Player.position.x - PLAYER_SIZE / 2) < (xCoord * gridWidth - WINDOW_WIDTH / 2.0f)) {
+			//frog.X -= 5;
+			//frog.X = xCoord * gridWidth - WINDOW_WIDTH/2.0f;
+			//Player.position.x -= PLAYER_SIZE / 2.0f;
+			rightOfPlayerHit = true;
+		}
+		// If on the right halve of a block
+		else if ((Player.position.x + PLAYER_SIZE / 2 )> ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f)) {
+			//frog.X += 5;
+			//frog.X = (xCoord+1) * gridWidth - WINDOW_WIDTH/2.0f;
+			//Player.position.x += PLAYER_SIZE / 2.0f;
+			leftOfPlayerHit = true;
 		}
 	}
 
+	// Up & Down Collision Detecttion
+	if (playerY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == 1) {
+		// If on the top of the block (Platform below you)
+		if ((Player.position.y + PLAYER_SIZE/2) > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight)) {
+			//frog.Y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight;
+			//frog.Y += 5;
+			btmOfPlayerHit = true;
+		}
+		// If on the btm of the block (Platform above you)
+		else if ((Player.position.y - PLAYER_SIZE/2 )< (WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight )) {
+			//frog.Y = WINDOW_HEIGHT / 2.0f - (yCoord+1) * gridHeight;
+			//frog.Y -= 5;
+			topOfPlayerHit = true;
+		}
+	}
+	
 
-	if (rightHit == true) {
-		Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
+	/*
+	// If on the right halve of a block
+	if (s_levelGrid[yCoord][xCoord] == 1 && (playerX - 50) > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f + gridWidth / 2.0f)) {
+		rightOfPlayerHit = true;
+	}
+	// If on the left halve of a block
+	if (s_levelGrid[yCoord][xCoord] == 1 && (playerX + 50) < (xCoord * gridWidth - WINDOW_WIDTH / 2.0f + gridWidth / 2.0f)) {
+		leftOfPlayerHit = true;
+	}
+	// If on the btm halve of a block
+	if (s_levelGrid[yCoord][xCoord] == 1 && (playerY - PLAYER_SIZE / 2) < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+		btmOfPlayerHit = true;
+	}
+	// If on the top halve of a block
+	if (s_levelGrid[yCoord][xCoord] == 1 && (playerY + PLAYER_SIZE / 2) > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+		topOfPlayerHit = true;
+		Player.collideBotton = true;
+	}
+	*/
+	
+	/*
+	// Left & Right Collision Detecttion
+	if (playerX > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f) && s_levelGrid[yCoord][xCoord] == 1) {
+		// If on the left halve of a block
+		if ((Player.position.x + PLAYER_SIZE) < (xCoord * gridWidth - WINDOW_WIDTH / 2.0f + gridWidth / 2.0f)) {
+			//frog.X -= 5;
+			//frog.X = xCoord * gridWidth - WINDOW_WIDTH/2.0f;
+			leftOfPlayerHit = true;
+
+		}
+		// If on the right halve of a block
+		else if ((Player.position.x - PLAYER_SIZE) > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f + gridWidth / 2.0f)) {
+			//frog.X += 5;
+			//frog.X = (xCoord+1) * gridWidth - WINDOW_WIDTH/2.0f;
+			rightOfPlayerHit = true;
+		}
+	}
+
+	// Up & Down Collision Detecttion
+	if (playerY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == 1) {
+		// If on the top of the block (Platform below you)
+		if (Player.position.y > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+			Player.collideBotton = true;
+			//frog.Y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight;
+			//frog.Y += 5;
+			topOfPlayerHit = true;
+		}
+		// If on the btm of the block (Platform above you)
+		else if (Player.position.y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight - gridHeight / 2.0f)) {
+			//frog.Y = WINDOW_HEIGHT / 2.0f - (yCoord+1) * gridHeight;
+			//frog.Y -= 5;
+			btmOfPlayerHit = true;
+		}
+	}
+	*/
+
+
+	if (rightOfPlayerHit == true) { // Hit left of block
 		Player.velocity.x = 0;
-		std::cout << "Hit Right 50% of block\n";
+		Player.position.x = xCoord * gridWidth - WINDOW_WIDTH / 2.0f - (PLAYER_SIZE / 2.0f);
+		std::cout << "Player right bound hit left of block\n";
 	}
-	if (leftHit == true) {
-		Player.position.x -= static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
+	if (leftOfPlayerHit == true) { // Hit right of block
 		Player.velocity.x = 0;
-		std::cout << "Hit Left 50% of block \n";
+		Player.position.x = (xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f + (PLAYER_SIZE / 2.0f);
+		std::cout << "Player left bound hit right of block\n";
 	}
 
-	if (topHit == true) {
-		Player.position.y -= static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
-		std::cout << "Hit Top of block\n";
-		//frog.velY = 0;
+	if (topOfPlayerHit == true) { // Hit btm of block
+		Player.velocity.y = 0;
+		Player.position.y = WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight - (PLAYER_SIZE / 2.0f);
+		std::cout << "Player top bound hit btm of block\n";
 	}
 
-	if (btmHit == true) {
-		Player.position.y -= static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
-		std::cout << "Hit Btm of block\n";
-		//frog.velY = 0;
+	if (btmOfPlayerHit == true) { // Hit top of block
+		Player.position.y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight + (PLAYER_SIZE / 2.0f);
+		Player.collideBotton = true;
+		std::cout << "Player btm bound hit top of block\n";
 	}
 
 
+	/*
+	if (rightOfPlayerHit == true) { // Hit left of block
+		if (Player.position.y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && Player.position.y >(WINDOW_HEIGHT / 2.0f - (yCoord - 1) * gridHeight)) {
+			Player.position.x = (xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f;
+			std::cout << "Working: rightOfPlayerHit\n";
+		}
+		std::cout << "Not Working: rightOfPlayerHit\n";
+		Player.velocity.x = 0;
+		std::cout << "Player right bound hit left of block\n";
+	}
+	if (leftOfPlayerHit == true) { // Hit right of block
+		if (Player.position.y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && Player.position.y >(WINDOW_HEIGHT / 2.0f - (yCoord - 1) * gridHeight)) {
+			Player.position.x = xCoord * gridWidth - WINDOW_WIDTH / 2.0f - PLAYER_SIZE / 2.0f;
+			std::cout << "Working: leftOfPlayerHit\n";
+		}
+		std::cout << "Not Working: leftOfPlayerHit\n";
+		Player.velocity.x = 0;
+		std::cout << "Player left bound hit right of block\n";
+	}
+
+	if (topOfPlayerHit == true) { // Hit btm of block
+		if (Player.position.x > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f) && Player.position.x < ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f)) {
+			Player.position.y = WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight - (PLAYER_SIZE / 2.0f);
+			//Player.position.y -= PLAYER_SIZE / 2.0f;
+		}
+		std::cout << "Not Working: topOfPlayerHit\n";
+		Player.velocity.y = 0;
+		std::cout << "Player top bound hit btm of block\n";
+	}
+
+	if (btmOfPlayerHit == true) { // Hit top of block
+		if (Player.position.x > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f) && Player.position.x < ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f)) {
+			Player.position.y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight + (PLAYER_SIZE / 2.0f);
+			//Player.position.y += PLAYER_SIZE / 2.0f;
+		}
+		std::cout << "Not Working: btmOfPlayerHit\n";
+		Player.collideBotton = true;
+		std::cout << "Player btm bound hit top of block\n";
+	}
+	*/
 
 
 }
