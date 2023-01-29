@@ -9,7 +9,6 @@
 
 #define GROUND_LEVEL 20
 static int s_levelGrid[GRID_SIZE][GRID_SIZE];
-//frogPos frog;
 mousePos mouse;
 DynamicObj Player;
 GameObject platform[GRID_SIZE][GRID_SIZE];
@@ -137,21 +136,6 @@ void Level1_Update()
 		Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
 	}
 
-	
-
-
-	//if (frog.Y > GROUND_LEVEL) {
-	//	frog.velY += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
-	//	frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
-	//	frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
-	//}
-	//if (frog.Y <= GROUND_LEVEL && !frog.onFloor) {
-	//	frog.velY = 0.0f;
-	//	frog.velX = 0.0f;
-	//	frog.Y = GROUND_LEVEL;
-	//	frog.onFloor = true;
-	//}
-
 	// Mouse
 	if (AEInputCheckTriggered(AEVK_LBUTTON) && Player.collideBotton) {
 		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
@@ -189,18 +173,8 @@ void Level1_Draw()
 
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
-	//// Tell the engine to get ready to draw something with texture.
-	//AEGfxSetRenderMode(AE_GFX_RM_COLOR);
-	//// Set the tint to white, so that the sprite can 
-	//// display the full range of colors (default is black).
-	//AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
-	//// Set blend mode to AE_GFX_BM_BLEND
-	//// This will allow transparency.
-	//AEGfxSetBlendMode(AE_GFX_BM_BLEND);
-	//AEGfxSetTransparency(1.0f);
-	//// Set the texture to pTex
-	////AEGfxTextureSet(pTex, 0, 0);
-	//// Create a scale matrix that scales by 100 x and y
+
+	// Draws mesh following data in array
 	AEMtx33 scale = { 0 };
 	AEMtx33 rotate = { 0 };
 	AEMtx33 translate = { 0 };
@@ -213,13 +187,6 @@ void Level1_Draw()
 		for (int j = 0; j < GRID_SIZE; j++) {
 			if (s_levelGrid[i][j] == 1) {
 
-				//AEMtx33Scale(&scale, gridWidth, gridHeight);
-				//AEMtx33Rot(&rotate, 0);
-				//AEMtx33Trans(&translate, gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * (WINDOW_WIDTH / GRID_SIZE), -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * (WINDOW_HEIGHT / GRID_SIZE));
-				//AEMtx33Concat(&transform, &rotate, &scale);
-				//AEMtx33Concat(&transform, &translate, &transform);
-				//AEGfxSetTransform(transform.m);
-				//AEGfxMeshDraw(groundMesh, AE_GFX_MDM_TRIANGLES);
 				platform[i][j].DrawObj();
 			}
 		}
@@ -248,13 +215,13 @@ void Level1_Unload()
 	std::cout << "Level 1:Unload\n";
 }
 
+// ----------------------------------------------------------------------------
+// This function checks for player collsion 
+// ----------------------------------------------------------------------------
 void collisionCheck(float playerX, float playerY) {
 
 	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
 	float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
-
-	// Need find current location in grid 1st
-	// Then check the surrounding for collision
 
 	// Checking current location
 	double width = -(WINDOW_WIDTH / 2.0f);
@@ -289,53 +256,15 @@ void collisionCheck(float playerX, float playerY) {
 	//std::cout << "Height Grid: " << yCoord + 1 << "\n";
 
 	bool leftOfPlayerHit = false, rightOfPlayerHit = false, topOfPlayerHit = false, btmOfPlayerHit = false;
-	/*
-	// Left & Right Collision Detecttion
-	if (playerX > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f) && s_levelGrid[yCoord][xCoord] == 1) {
-		// If on the left halve of a block
-		if ((Player.position.x - PLAYER_SIZE / 2) < (xCoord * gridWidth - WINDOW_WIDTH / 2.0f)) {
-			//frog.X -= 5;
-			//frog.X = xCoord * gridWidth - WINDOW_WIDTH/2.0f;
-			//Player.position.x -= PLAYER_SIZE / 2.0f;
-			rightOfPlayerHit = true;
-		}
-		// If on the right halve of a block
-		else if ((Player.position.x + PLAYER_SIZE / 2 )> ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f)) {
-			//frog.X += 5;
-			//frog.X = (xCoord+1) * gridWidth - WINDOW_WIDTH/2.0f;
-			//Player.position.x += PLAYER_SIZE / 2.0f;
-			leftOfPlayerHit = true;
-		}
-	}
-
-	// Up & Down Collision Detecttion
-	if (playerY < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && s_levelGrid[yCoord][xCoord] == 1) {
-		// If on the top of the block (Platform below you)
-		if ((Player.position.y + PLAYER_SIZE/2) > (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight)) {
-			//frog.Y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight;
-			//frog.Y += 5;
-			btmOfPlayerHit = true;
-		}
-		// If on the btm of the block (Platform above you)
-		else if ((Player.position.y - PLAYER_SIZE/2 )< (WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight )) {
-			//frog.Y = WINDOW_HEIGHT / 2.0f - (yCoord+1) * gridHeight;
-			//frog.Y -= 5;
-			topOfPlayerHit = true;
-		}
-	}
-	*/
 	
 	// If on the left halve of a block
 	if ((Player.position.x + PLAYER_SIZE / 2) > ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f) && s_levelGrid[yCoord][xCoord+1] == 1) {
-		//Player.position.x -= PLAYER_SIZE / 2.0f;
 		rightOfPlayerHit = true;
 	}
 	// If on the right halve of a block
 	if ((Player.position.x - PLAYER_SIZE / 2) < ((xCoord) * gridWidth - WINDOW_WIDTH / 2.0f) && s_levelGrid[yCoord][xCoord-1] == 1) {
-		//Player.position.x += PLAYER_SIZE / 2.0f;
 		leftOfPlayerHit = true;
 	}
-	
 	// If on the top of the block (Platform below you)
 	if ((Player.position.y - PLAYER_SIZE / 2) < (WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight) && s_levelGrid[yCoord+1][xCoord] == 1) {
 		btmOfPlayerHit = true;
@@ -345,7 +274,7 @@ void collisionCheck(float playerX, float playerY) {
 		topOfPlayerHit = true;
 	}
 
-
+	// If collided, does smth (Switch case for diff surface)
 	if (rightOfPlayerHit == true) { // Hit leftside of block
 		Player.velocity.y = 0;
 		Player.velocity.x = 0;
@@ -370,50 +299,6 @@ void collisionCheck(float playerX, float playerY) {
 		Player.position.y = WINDOW_HEIGHT / 2.0f - (yCoord) * gridHeight - (PLAYER_SIZE / 2.0f);
 		std::cout << "Player top bound hit block above\n";
 	}
-
-	
-
-
-	/*
-	if (rightOfPlayerHit == true) { // Hit left of block
-		if (Player.position.y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && Player.position.y >(WINDOW_HEIGHT / 2.0f - (yCoord - 1) * gridHeight)) {
-			Player.position.x = (xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f;
-			std::cout << "Working: rightOfPlayerHit\n";
-		}
-		std::cout << "Not Working: rightOfPlayerHit\n";
-		Player.velocity.x = 0;
-		std::cout << "Player right bound hit left of block\n";
-	}
-	if (leftOfPlayerHit == true) { // Hit right of block
-		if (Player.position.y < (WINDOW_HEIGHT / 2.0f - yCoord * gridHeight) && Player.position.y >(WINDOW_HEIGHT / 2.0f - (yCoord - 1) * gridHeight)) {
-			Player.position.x = xCoord * gridWidth - WINDOW_WIDTH / 2.0f - PLAYER_SIZE / 2.0f;
-			std::cout << "Working: leftOfPlayerHit\n";
-		}
-		std::cout << "Not Working: leftOfPlayerHit\n";
-		Player.velocity.x = 0;
-		std::cout << "Player left bound hit right of block\n";
-	}
-
-	if (topOfPlayerHit == true) { // Hit btm of block
-		if (Player.position.x > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f) && Player.position.x < ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f)) {
-			Player.position.y = WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight - (PLAYER_SIZE / 2.0f);
-			//Player.position.y -= PLAYER_SIZE / 2.0f;
-		}
-		std::cout << "Not Working: topOfPlayerHit\n";
-		Player.velocity.y = 0;
-		std::cout << "Player top bound hit btm of block\n";
-	}
-
-	if (btmOfPlayerHit == true) { // Hit top of block
-		if (Player.position.x > (xCoord * gridWidth - WINDOW_WIDTH / 2.0f) && Player.position.x < ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f)) {
-			Player.position.y = WINDOW_HEIGHT / 2.0f - yCoord * gridHeight + (PLAYER_SIZE / 2.0f);
-			//Player.position.y += PLAYER_SIZE / 2.0f;
-		}
-		std::cout << "Not Working: btmOfPlayerHit\n";
-		Player.collideBotton = true;
-		std::cout << "Player btm bound hit top of block\n";
-	}
-	*/
 
 
 }

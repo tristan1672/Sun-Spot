@@ -6,7 +6,7 @@
 #include "AEEngine.h"
 // --------------------------------------------------------------------------- // End of includes
 
-#define GRID_SIZE 10
+#define GRID_SIZE 20
 
 enum { DEBUG = 1 };
 
