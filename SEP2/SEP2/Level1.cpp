@@ -31,7 +31,7 @@ int gGameRunning = 1;
 bool flick = false;
 
 CameraPos cam;
-bool heavyshake;
+bool heavyshake, mediumshake;
 bool shake;
 float shakespeed;
 float shakedistance;
@@ -121,6 +121,7 @@ void Level1_Initialize()
 
 	shake = false;
 	heavyshake = false;
+	mediumshake = false;
 	shakespeed = 0.0f;
 	shakedistance = 0.5f;
 	
@@ -173,7 +174,8 @@ void Level1_Update()
 	{
 		Player.position.x = 0.0f;
 		Player.position.y = 10.0f;
-		std::cout << Player.velocity.y << std::endl;
+		Player.velocity.y = 0.0f;
+		Player.velocity.x = 0.0f;
 	}
 
 	//cam shake
@@ -182,6 +184,7 @@ void Level1_Update()
 		shake = 1;
 		shaketime = 0;
 		heavyshake = false;
+		mediumshake = false;
 	}
 
 	if (shake == 1 && (Player.collideBotton) && (shaketime < 0.2f)) //shake conditions
@@ -195,9 +198,13 @@ void Level1_Update()
 			{
 				shakespeed = 500.0f;
 			}
+			else if (mediumshake == true)
+			{
+				shakespeed = 100.0f;
+			}
 			else
 			{
-				shakespeed = 75.0f;
+				shakespeed = 0.0f;
 			}
 
 			if (distance > shakedistance)
@@ -307,6 +314,11 @@ void collisionCheck(float playerX, float playerY) {
 	{
 		heavyshake = true;
 	}
+	else if (Player.velocity.y < -140.0f)
+	{
+		mediumshake = true;
+	}
+	
 
 	bool leftOfPlayerHit = false, rightOfPlayerHit = false, topOfPlayerHit = false, btmOfPlayerHit = false;
 	
