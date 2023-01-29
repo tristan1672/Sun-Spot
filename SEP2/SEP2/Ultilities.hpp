@@ -34,4 +34,10 @@ struct mousePos {
 	s32 ReleaseX;
 	s32 ReleaseY;
 };
+
+struct CameraPos
+{
+	f32 X;
+	f32 Y;
+};
 // --------------------------------------------------------------------------- // End of structs

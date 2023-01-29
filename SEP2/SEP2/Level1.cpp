@@ -30,6 +30,12 @@ GameObject jumpArrow;
 int gGameRunning = 1;
 bool flick = false;
 
+CameraPos cam;
+bool heavyshake;
+bool shake;
+float shakespeed;
+float shakedistance;
+f64 shaketime;
 
 
 
@@ -113,7 +119,11 @@ void Level1_Initialize()
 	mouse.ReleaseX = 0;
 	mouse.ReleaseY = 0;
 
-
+	shake = false;
+	heavyshake = false;
+	shakespeed = 0.0f;
+	shakedistance = 0.5f;
+	
 	MakeMesh();
 }
 
@@ -155,8 +165,56 @@ void Level1_Update()
 		mouse = { 0,0,0,0 };
 	}
 
-	collisionCheck(Player.position.x, Player.position.y);
+	AEGfxSetCamPosition(Player.position.x, cam.Y); //set camera to follow player
+	collisionCheck(Player.position.x, Player.position.y); //collision function
 
+
+	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
+	{
+		Player.position.x = 0.0f;
+		Player.position.y = 10.0f;
+		std::cout << Player.velocity.y << std::endl;
+	}
+
+	//cam shake
+	if (!Player.collideBotton) //set shake and shaketime
+	{
+		shake = 1;
+		shaketime = 0;
+		heavyshake = false;
+	}
+
+	if (shake == 1 && (Player.collideBotton) && (shaketime < 0.2f)) //shake conditions
+	{	
+		shakespeed = 1.0f;
+		shaketime += AEFrameRateControllerGetFrameTime();
+		float distance = cam.Y - Player.position.y;
+		if (shakespeed >= 0)
+		{
+			if (heavyshake == true)
+			{
+				shakespeed = 500.0f;
+			}
+			else
+			{
+				shakespeed = 75.0f;
+			}
+
+			if (distance > shakedistance)
+			{
+				shakespeed *= -1.0f;
+			}
+		}
+		else
+		{
+			if (distance < -shakedistance)
+			{
+				shakespeed *= -1.0f;
+			}
+		}
+	}
+	cam.Y = Player.position.y + shakespeed * AEFrameRateControllerGetFrameTime();
+	
 }
 
 // ----------------------------------------------------------------------------
@@ -245,6 +303,11 @@ void collisionCheck(float playerX, float playerY) {
 	//std::cout << "Width Grid: " << xCoord + 1 << "\n";
 	//std::cout << "Height Grid: " << yCoord + 1 << "\n";
 
+	if (Player.velocity.y < -240.0f)
+	{
+		heavyshake = true;
+	}
+
 	bool leftOfPlayerHit = false, rightOfPlayerHit = false, topOfPlayerHit = false, btmOfPlayerHit = false;
 	
 	// If on the left halve of a block
@@ -263,7 +326,7 @@ void collisionCheck(float playerX, float playerY) {
 	if ((Player.position.y + PLAYER_SIZE / 2) > (WINDOW_HEIGHT / 2.0f - (yCoord) * gridHeight) && s_levelGrid[yCoord-1][xCoord] == 1) {
 		topOfPlayerHit = true;
 	}
-
+	
 	// If collided, does smth (Switch case for diff surface)
 	if (rightOfPlayerHit == true) { // Hit leftside of block
 		Player.velocity.y = 0;
@@ -279,6 +342,7 @@ void collisionCheck(float playerX, float playerY) {
 	}
 
 	if (btmOfPlayerHit == true) { // Hit floor(top side of block)
+		Player.velocity.y = 0.0f;
 		Player.position.y = WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight + (PLAYER_SIZE / 2.0f);
 		Player.collideBotton = true;
 		std::cout << "Player btm bound hit floor\n";
