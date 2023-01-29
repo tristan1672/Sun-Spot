@@ -1,3 +1,14 @@
+/**
+  *  \file Level1.cpp (might need to change this file name later)
+  *  \author Xiao Jun Yu
+  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par Course: csd1451
+  *
+  *  \brief
+  *  the basic logics to our levels and the game states, loops for our game
+  *
+*/
+
 // ---------------------------------------------------------------------------
 // includes
 #pragma once
@@ -20,8 +31,6 @@ GameObject jumpArrow;
 int gGameRunning = 1;
 bool flick = false;
 
-// Pointer to Mesh
-AEGfxVertexList* groundMesh = nullptr;
 
 
 
@@ -77,8 +86,8 @@ void Level1_Initialize()
 	Player = DynamicObj();
 	Player.position = { 0,10 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
-	//Player.collideBotton = false;
 
+	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
 
 	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
@@ -96,31 +105,15 @@ void Level1_Initialize()
 		}
 	}
 #pragma endregion
-
+	//sets the ui indicator for where the character is about to jump
 	jumpArrow = GameObject();
 	jumpArrow.SetScale({ 10.f,100.f });
 	jumpArrow.SetColour({ 0.f,1.f,0.f,0.5f });
-
 	mouse.ClickX = 0;
 	mouse.ClickY = 0;
 	mouse.ReleaseX = 0;
 	mouse.ReleaseY = 0;
 
-	// Informing the library that we're about to start adding triangles
-	AEGfxMeshStart();
-	// This shape has 2 triangles that makes up a square
-	// Color parameters represent colours as ARGB
-	// UV coordinates to read from loaded textures
-	AEGfxTriAdd(
-		-0.5f, -0.5f, 0xFFFFFFFF, 0.0f, 1.0f,
-		0.5f, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
-		-0.5f, 0.5f, 0xFFFFFFFF, 0.0f, 0.0f);
-	AEGfxTriAdd(
-		0.5f, -0.5f, 0xFFFFFFFF, 1.0f, 1.0f,
-		0.5f, 0.5f, 0xFFFFFFFF, 1.0f, 0.0f,
-		-0.5f, 0.5f, 0xFFFFFFFF, 0.0f, 0.0f);
-	// Saving the mesh (list of triangles) in pMesh
-	groundMesh = AEGfxMeshEnd();
 
 	MakeMesh();
 }
@@ -131,31 +124,17 @@ void Level1_Initialize()
 // ----------------------------------------------------------------------------
 void Level1_Update()
 {
+	// code that allows the player to get affected by gravity (might need to look back at it to improve)
 	if (!Player.collideBotton) {
 		Player.velocity.y += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
 		Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
 		Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
 	}
-
-	
-
-
-	//if (frog.Y > GROUND_LEVEL) {
-	//	frog.velY += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
-	//	frog.Y += static_cast<float>(frog.velY * AEFrameRateControllerGetFrameTime());
-	//	frog.X += static_cast<float>(frog.velX * AEFrameRateControllerGetFrameTime());
-	//}
-	//if (frog.Y <= GROUND_LEVEL && !frog.onFloor) {
-	//	frog.velY = 0.0f;
-	//	frog.velX = 0.0f;
-	//	frog.Y = GROUND_LEVEL;
-	//	frog.onFloor = true;
-	//}
-
-	// Mouse
+	// Checks the current pos of the mouse when initially clicked
 	if (AEInputCheckTriggered(AEVK_LBUTTON) && Player.collideBotton) {
 		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 	}
+	//shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
 	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.collideBotton) {
 		Input_Handle_HoldCheck();
 		if (e_jumpForce <= 100) {
@@ -169,11 +148,12 @@ void Level1_Update()
 			std::cout << mouse.ReleaseY << "\n";
 		}
 	}
+	// the player jumps in according to the direction previously specified, then resets all the rotations and click pos to 0;
 	if (AEInputCheckReleased(AEVK_LBUTTON) && Player.collideBotton) {
 		AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
 		Input_Handle_Jump();
 		jumpArrow.SetRotation(0);
-		mouse.ReleaseX = 0; mouse.ReleaseY = 0;
+		mouse = { 0,0,0,0 };
 	}
 
 	collisionCheck(Player.position.x, Player.position.y);
@@ -189,42 +169,20 @@ void Level1_Draw()
 
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
-	//// Tell the engine to get ready to draw something with texture.
-	//AEGfxSetRenderMode(AE_GFX_RM_COLOR);
-	//// Set the tint to white, so that the sprite can 
-	//// display the full range of colors (default is black).
-	//AEGfxSetTintColor(1.0f, 1.0f, 1.0f, 1.0f);
-	//// Set blend mode to AE_GFX_BM_BLEND
-	//// This will allow transparency.
-	//AEGfxSetBlendMode(AE_GFX_BM_BLEND);
-	//AEGfxSetTransparency(1.0f);
-	//// Set the texture to pTex
-	////AEGfxTextureSet(pTex, 0, 0);
-	//// Create a scale matrix that scales by 100 x and y
-	AEMtx33 scale = { 0 };
-	AEMtx33 rotate = { 0 };
-	AEMtx33 translate = { 0 };
-	AEMtx33 transform = { 0 };
 
 	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
 	float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
-
+	//draws the platform
 	for (int i = 0; i < GRID_SIZE; i++) {
 		for (int j = 0; j < GRID_SIZE; j++) {
 			if (s_levelGrid[i][j] == 1) {
-
-				//AEMtx33Scale(&scale, gridWidth, gridHeight);
-				//AEMtx33Rot(&rotate, 0);
-				//AEMtx33Trans(&translate, gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * (WINDOW_WIDTH / GRID_SIZE), -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * (WINDOW_HEIGHT / GRID_SIZE));
-				//AEMtx33Concat(&transform, &rotate, &scale);
-				//AEMtx33Concat(&transform, &translate, &transform);
-				//AEGfxSetTransform(transform.m);
-				//AEGfxMeshDraw(groundMesh, AE_GFX_MDM_TRIANGLES);
 				platform[i][j].DrawObj();
 			}
 		}
 	}
+	//draws the player
 	Player.DrawObj();
+	//draws the arrow direction
 	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.collideBotton && e_jumpForce <= 100) {
 		jumpArrow.DrawObj();
 	}

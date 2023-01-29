@@ -1,4 +1,15 @@
 #include "GameObjClasses.hpp"
+/**
+  *  \file GameObjectClass.cpp
+  *  \author Xiao Jun Yu
+  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par Course: csd1451
+  *
+  *  \brief
+  *  This file contains gameobject classes that will be used for making the stage and also a child class that is used for making player character there is also a function used here
+  *		to create mesh
+  *
+*/
 // Pointer to Mesh
 AEGfxVertexList* pMesh = nullptr;
 //fucntion defination that used to make mesh
@@ -66,7 +77,7 @@ void GameObject::DrawObj() {
 	// Create a scale matrix that scales by 100 x and y
 	AEMtx33 Scale = { 0 };
 	AEMtx33Scale(&Scale, scale.x, scale.y);
-	// Create a rotation matrix that rotates by 45 degrees
+	// Create a rotation matrix that rotates by 0 degrees
 	AEMtx33 Rotate = { 0 };
 	AEMtx33Rot(&Rotate, rotation);
 	// Create a translation matrix that translates by
