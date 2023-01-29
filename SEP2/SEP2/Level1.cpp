@@ -149,7 +149,7 @@ void Level1_Update()
 		Input_Handle_HoldCheck();
 		if (e_jumpForce <= 100) {
 			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
-			Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ClickX) - WINDOW_WIDTH / 2.f, -(static_cast<float>(mouse.ClickY) - WINDOW_HEIGHT / 2.f) };
+			Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ClickX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ClickY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
 			Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
 			float angle = atan2f(-nDirection.x, nDirection.y);
 			std::cout << angle;
