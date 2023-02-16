@@ -72,6 +72,9 @@ void Level1_Load()
 		subStr = temp.substr(start, end - start);
 		BINARY_MAP_HEIGHT = std::stoi(subStr);
 
+		std::cout << "Width :" << BINARY_MAP_WIDTH << '\n';
+		std::cout << "Height :" << BINARY_MAP_HEIGHT << '\n';
+
 
 		//e_levelGrid = new int* [BINARY_MAP_HEIGHT];
 		//for (int i = 0; i < BINARY_MAP_HEIGHT; ++i) {
@@ -86,25 +89,28 @@ void Level1_Load()
 
 		char character = 0;
 		int i = 0, j = 0;
-			std::cout << BINARY_MAP_WIDTH<<'\n';
 		while (levelMap.get(character)) {
-			if (j == BINARY_MAP_WIDTH) {
-				std::cout << "\n";
-				j = 0;
-				i++;
 
-				if (i == BINARY_MAP_HEIGHT) {
-					break;
+			if (character >= 48 && character <= 57)
+			{
+				if (character == '0' || character == '1') {
+					platform[i][j].SetPlatformType(static_cast<int>(character) - 48);
+					std::cout << platform[i][j].GetPlatformType();
+					//e_levelGrid[i][j] = static_cast<int>(character) - 48;
+
+				}
+				j++;
+
+				if (j == BINARY_MAP_WIDTH) {
+					std::cout << "	Row " << i << "\n";
+					j = 0;
+					i++;
+
+					if (i == BINARY_MAP_HEIGHT) {
+						break;
+					}
 				}
 			}
-
-			if (character == '0' || character == '1') {
-				platform[i][j].SetPlatformType(static_cast<int>(character) - 48);
-				std::cout << platform[i][j].GetPlatformType();
-				//e_levelGrid[i][j] = static_cast<int>(character) - 48;
-				j++;
-			}
-
 			//std::cout << character;
 
 		}

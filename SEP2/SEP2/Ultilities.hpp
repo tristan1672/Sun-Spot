@@ -6,7 +6,7 @@
 #include "AEEngine.h"
 // --------------------------------------------------------------------------- // End of includes
 
-enum { DEBUG = 1 };
+enum { DEBUG = 0 };
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
 
 // ---------------------------------------------------------------------------
@@ -16,6 +16,8 @@ extern float e_gravity, e_jumpForce;
 extern int** e_levelGrid;
 extern int BINARY_MAP_WIDTH, BINARY_MAP_HEIGHT;
 
+//extern Platform** platform;
+extern int e_collisionFlag;
 extern short e_shakeStrength;
 // --------------------------------------------------------------------------- // End of external variables
 

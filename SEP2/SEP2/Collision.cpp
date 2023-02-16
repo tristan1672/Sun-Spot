@@ -4,13 +4,120 @@
 
 extern DynamicObj Player;
 extern Platform** platform;
+
+extern int e_collisionFlag;
+const int	COLLISION_LEFT = 0x00000001;	//0001
+const int	COLLISION_RIGHT = 0x00000002;	//0010
+const int	COLLISION_TOP = 0x00000004;		//0100
+const int	COLLISION_BOTTOM = 0x00000008;	//1000
+
 // ----------------------------------------------------------------------------
 // This function checks for player collsion 
 // ----------------------------------------------------------------------------
 void collisionCheck(float playerX, float playerY) {
-
+	
 	float gridWidth = WINDOW_WIDTH / BINARY_MAP_WIDTH;
 	float gridHeight = WINDOW_HEIGHT / BINARY_MAP_HEIGHT;
+
+	int e_collisionFlag = 0;
+
+	// "Normalizing"
+	int topY = (WINDOW_HEIGHT / 2 - playerY - PLAYER_SIZE_Y / 2) / gridHeight; // Top bound
+	int btmY = (WINDOW_HEIGHT / 2 - playerY + PLAYER_SIZE_Y / 2) / gridHeight; // Btm bound
+	int leftX = (WINDOW_WIDTH / 2 + playerX - PLAYER_SIZE_X / 2) / gridWidth; // Left bound
+	int rightX = (WINDOW_WIDTH / 2 + playerX + PLAYER_SIZE_X / 2) / gridWidth; // Right bound
+
+	int X1 = (WINDOW_WIDTH / 2 + playerX - PLAYER_SIZE_X / 4) / gridWidth; // 25% X
+	int X2 = (WINDOW_WIDTH / 2 + playerX + PLAYER_SIZE_X / 4) / gridWidth; // 75% X
+	int Y1 = (WINDOW_HEIGHT / 2 - playerY - PLAYER_SIZE_Y / 4) / gridHeight; // 25% Y
+	int Y2 = (WINDOW_HEIGHT / 2 - playerY + PLAYER_SIZE_Y / 4) / gridHeight; // 75% Y
+
+	if (DEBUG) {
+		std::cout << "Coordinates\n\n";
+		std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
+		std::cout << "[" << abs(leftX) << "," << abs(Y1) << "]     " << "[" << abs(rightX) << "," << abs(Y1) << "]\n";
+		std::cout << "        +\n";
+		std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
+		std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
+	}
+
+	if (leftX < 0 || rightX > BINARY_MAP_WIDTH-1 || topY < 0 || btmY > BINARY_MAP_HEIGHT-1) {
+		Player.velocity.x = 0;
+		Player.velocity.y = 0;
+		Player.collideBotton = true;
+		Player.position.x = 0;
+		Player.position.y = PLAYER_SIZE_Y / 2;
+	} 
+	// Top collided
+	else if (platform[abs(topY)][abs(X1)].GetPlatformType() == 1 || platform[abs(topY)][abs(X2)].GetPlatformType() == 1) {
+		e_collisionFlag += COLLISION_TOP;
+		Player.velocity.y = 0;
+		std::cout << "Top collided \n";
+	}
+	// Btm collided
+	else if (platform[abs(btmY)][abs(X1)].GetPlatformType() == 1 || platform[abs(btmY)][abs(X2)].GetPlatformType() == 1) {
+		e_collisionFlag += COLLISION_BOTTOM;
+		Player.velocity.y = 0;
+		Player.collideBotton = true;
+		std::cout << "Btm collided \n";
+	}
+	// Right collided
+	else if (platform[abs(Y1)][abs(rightX)].GetPlatformType() == 1 || platform[abs(Y2)][abs(rightX)].GetPlatformType() == 1) {
+		e_collisionFlag += COLLISION_RIGHT;
+		Player.velocity.x = 0;
+		Player.velocity.y = 0;
+		std::cout << "Right collided \n";
+	}
+	// Left collided
+	else if (platform[abs(Y1)][abs(leftX)].GetPlatformType() == 1 || platform[abs(Y2)][abs(leftX)].GetPlatformType() == 1) {
+		e_collisionFlag += COLLISION_LEFT;
+		Player.velocity.x = 0;
+		Player.velocity.y = 0;
+		std::cout << "Left collided \n";
+	}
+
+	// Cam shake effect
+	if (Player.velocity.y < -240.0f)
+	{
+		e_shakeStrength = HEAVY_SHAKE;
+	}
+	else if (Player.velocity.y < -140.0f)
+	{
+		e_shakeStrength = MEDIUM_SHAKE;
+	}
+
+	if (e_collisionFlag == COLLISION_TOP) {
+		Player.position.y -= PLAYER_SIZE_Y / 4;
+	}
+	else if (e_collisionFlag == COLLISION_TOP + COLLISION_LEFT) {
+		Player.position.y -= PLAYER_SIZE_Y / 4;
+		Player.position.x += PLAYER_SIZE_X / 4;
+	}
+	else if (e_collisionFlag == COLLISION_TOP + COLLISION_RIGHT) {
+		Player.position.y -= PLAYER_SIZE_Y / 4;
+		Player.position.x -= PLAYER_SIZE_X / 4;
+	}
+	else if (e_collisionFlag == COLLISION_BOTTOM) {
+		Player.position.y += PLAYER_SIZE_Y / 4;
+	}
+	else if (e_collisionFlag == COLLISION_BOTTOM + COLLISION_LEFT) {
+		Player.position.y += PLAYER_SIZE_Y / 4;
+		Player.position.x += PLAYER_SIZE_X / 4;
+	}
+	else if (e_collisionFlag == COLLISION_BOTTOM + COLLISION_RIGHT) {
+		Player.position.y += PLAYER_SIZE_Y / 4;
+		Player.position.x -= PLAYER_SIZE_X / 4;
+	}
+	else if (e_collisionFlag == COLLISION_LEFT) {
+		Player.position.x += PLAYER_SIZE_X / 4;
+	}
+	else if (e_collisionFlag == COLLISION_RIGHT) {
+		Player.position.x -= PLAYER_SIZE_X / 4;
+	}
+	
+
+
+	/*
 
 	// Checking current location
 	double width = -(WINDOW_WIDTH / 2.0f);
@@ -40,36 +147,28 @@ void collisionCheck(float playerX, float playerY) {
 			break;
 		}
 	}
+	*/
 
 	//std::cout << "Width Grid: " << xCoord + 1 << "\n";
 	//std::cout << "Height Grid: " << yCoord + 1 << "\n";
 
-	if (Player.velocity.y < -240.0f)
-	{
-		e_shakeStrength = HEAVY_SHAKE;
-	}
-	else if (Player.velocity.y < -140.0f)
-	{
-		e_shakeStrength = MEDIUM_SHAKE;
-	}
-
-
+	/*
 	bool leftOfPlayerHit = false, rightOfPlayerHit = false, topOfPlayerHit = false, btmOfPlayerHit = false;
 
 	// If on the left halve of a block
-	if ((Player.position.x + PLAYER_SIZE / 2) > ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f) && platform[yCoord][xCoord + 1].GetPlatformType() == 1) {
+	if ((Player.position.x + PLAYER_SIZE_X / 2) > ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f) && platform[yCoord][xCoord + 1].GetPlatformType() == 1) {
 		rightOfPlayerHit = true;
 	}
 	// If on the right halve of a block
-	if ((Player.position.x - PLAYER_SIZE / 2) < ((xCoord)*gridWidth - WINDOW_WIDTH / 2.0f) && platform[yCoord][xCoord - 1].GetPlatformType() == 1) {
+	if ((Player.position.x - PLAYER_SIZE_X / 2) < ((xCoord)*gridWidth - WINDOW_WIDTH / 2.0f) && platform[yCoord][xCoord - 1].GetPlatformType() == 1) {
 		leftOfPlayerHit = true;
 	}
 	// If on the top of the block (Platform below you)
-	if ((Player.position.y - PLAYER_SIZE / 2) < (WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight) && platform[yCoord + 1][xCoord].GetPlatformType() == 1) {
+	if ((Player.position.y - PLAYER_SIZE_Y / 2) < (WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight) && platform[yCoord + 1][xCoord].GetPlatformType() == 1) {
 		btmOfPlayerHit = true;
 	}
 	// If on the btm of the block (Platform above you)
-	if ((Player.position.y + PLAYER_SIZE / 2) > (WINDOW_HEIGHT / 2.0f - (yCoord)*gridHeight) && platform[yCoord - 1][xCoord].GetPlatformType() == 1) {
+	if ((Player.position.y + PLAYER_SIZE_Y / 2) > (WINDOW_HEIGHT / 2.0f - (yCoord)*gridHeight) && platform[yCoord - 1][xCoord].GetPlatformType() == 1) {
 		topOfPlayerHit = true;
 	}
 
@@ -98,7 +197,5 @@ void collisionCheck(float playerX, float playerY) {
 		Player.velocity.y = 0;
 		Player.position.y = WINDOW_HEIGHT / 2.0f - (yCoord)*gridHeight - (PLAYER_SIZE / 2.0f);
 		std::cout << "Player top bound hit block above\n";
-	}
-
-
+	}*/
 }
