@@ -2,8 +2,8 @@
 // includes
 #include "Collision.hpp"
 
-DynamicObj Player;
-Platform** platform;
+extern DynamicObj Player;
+extern Platform** platform;
 // ----------------------------------------------------------------------------
 // This function checks for player collsion 
 // ----------------------------------------------------------------------------

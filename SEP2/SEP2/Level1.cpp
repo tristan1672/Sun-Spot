@@ -23,8 +23,8 @@
 #define GROUND_LEVEL 20
 
 mousePos mouse;
-extern DynamicObj Player;
-extern Platform **platform;
+DynamicObj Player;
+Platform **platform;
 //GameObject platform[BINARY_MAP_HEIGHT][BINARY_MAP_WIDTH]{};
 GameObject jumpArrow;
 
@@ -71,16 +71,17 @@ void Level1_Load()
 		//}
 
 
-		platform = new Platform * [BINARY_MAP_HEIGHT];
-		for (int i = 0; i < BINARY_MAP_WIDTH; i++) {
-			platform[i] = new Platform[BINARY_MAP_WIDTH];
+		platform = new Platform * [BINARY_MAP_HEIGHT] {};
+		for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
+			platform[i] = new Platform[BINARY_MAP_WIDTH]{};
 		}
 
 		char character = 0;
 		int i = 0, j = 0;
+			std::cout << BINARY_MAP_WIDTH;
 		while (levelMap.get(character)) {
-
 			if (j == BINARY_MAP_WIDTH) {
+				std::cout << "\n";
 				j = 0;
 				i++;
 
@@ -91,6 +92,7 @@ void Level1_Load()
 
 			if (character == '0' || character == '1') {
 				platform[i][j].SetPlatformType(static_cast<int>(character) - 48);
+				std::cout << platform[i][j].GetPlatformType();
 				//e_levelGrid[i][j] = static_cast<int>(character) - 48;
 				j++;
 			}
@@ -125,7 +127,7 @@ void Level1_Initialize()
 
 	for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
 		for (int j = 0; j < BINARY_MAP_WIDTH; j++) {
-			if (e_levelGrid[i][j] == 1) {
+			if (platform[i][j].GetPlatformType() == 1) {
 				platform[i][j] = Platform(
 					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
 					{ gridWidth, gridHeight });
