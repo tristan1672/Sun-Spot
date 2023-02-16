@@ -36,8 +36,9 @@ int gGameRunning = 1;
 bool flick = false;
 
 CameraPos cam;
-bool heavyshake, mediumshake;
 bool shake;
+short e_shakeStrength;
+
 float shakespeed;
 float shakedistance;
 f64 shaketime;
@@ -89,6 +90,7 @@ void Level1_Load()
 
 		}
 
+		levelMap.close();
 	}
 	else {
 		std::cout << "Level File Cannot be opened\n";
@@ -136,8 +138,7 @@ void Level1_Initialize()
 	mouse.ReleaseY = 0;
 
 	shake = false;
-	heavyshake = false;
-	mediumshake = false;
+	e_shakeStrength = NO_SHAKE;
 	shakespeed = 0.0f;
 	shakedistance = 0.5f;
 	
@@ -199,8 +200,7 @@ void Level1_Update()
 	{
 		shake = 1;
 		shaketime = 0;
-		heavyshake = false;
-		mediumshake = false;
+		e_shakeStrength = NO_SHAKE;
 	}
 
 	if (shake == 1 && (Player.collideBotton) && (shaketime < 0.2f)) //shake conditions
@@ -210,11 +210,11 @@ void Level1_Update()
 		float distance = cam.Y - Player.position.y;
 		if (shakespeed >= 0)
 		{
-			if (heavyshake == true)
+			if (e_shakeStrength == HEAVY_SHAKE)
 			{
 				shakespeed = 500.0f;
 			}
-			else if (mediumshake == true)
+			else if (e_shakeStrength == MEDIUM_SHAKE)
 			{
 				shakespeed = 100.0f;
 			}

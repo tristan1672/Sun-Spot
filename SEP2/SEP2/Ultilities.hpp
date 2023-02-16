@@ -7,6 +7,7 @@
 // --------------------------------------------------------------------------- // End of includes
 
 enum { DEBUG = 1 };
+enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
 
 // ---------------------------------------------------------------------------
 // External Variables
@@ -14,6 +15,8 @@ extern float e_gravity, e_jumpForce;
 
 extern int** e_levelGrid;
 extern int BINARY_MAP_WIDTH{ 0 }, BINARY_MAP_HEIGHT{ 0 };
+
+extern short e_shakeStrength;
 // --------------------------------------------------------------------------- // End of external variables
 
 // ---------------------------------------------------------------------------

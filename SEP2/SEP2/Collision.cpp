@@ -45,11 +45,11 @@ void collisionCheck(float playerX, float playerY) {
 
 	if (Player.velocity.y < -240.0f)
 	{
-		heavyshake = true;
+		e_shakeStrength = HEAVY_SHAKE;
 	}
 	else if (Player.velocity.y < -140.0f)
 	{
-		mediumshake = true;
+		e_shakeStrength = MEDIUM_SHAKE;
 	}
 
 
