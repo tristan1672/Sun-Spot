@@ -15,7 +15,8 @@
 
 #include "Level1.hpp"
 #include "Collision.hpp"
-#include <vector>
+//#include <vector>
+#include<string>
 
 // ---------------------------------------------------------------------------
 
@@ -60,9 +61,16 @@ void Level1_Load()
 		std::cout << "Level File opened\n";
 		std::string temp;
 		std::getline(levelMap, temp);
-		BINARY_MAP_WIDTH = temp[temp.find_first_of("0123456789")] - 48;
+		std::string::size_type start = temp.find_first_of("0123456789");
+		std::string::size_type end = temp.find_first_of('\n');
+		std::string subStr = temp.substr(start,end-start);
+		BINARY_MAP_WIDTH = std::stoi(subStr);
+
 		std::getline(levelMap, temp);
-		BINARY_MAP_HEIGHT = temp[temp.find_first_of("0123456789")] - 48;
+		start = temp.find_first_of("0123456789");
+		end = temp.find_first_of('\n');
+		subStr = temp.substr(start, end - start);
+		BINARY_MAP_HEIGHT = std::stoi(subStr);
 
 
 		//e_levelGrid = new int* [BINARY_MAP_HEIGHT];
@@ -78,7 +86,7 @@ void Level1_Load()
 
 		char character = 0;
 		int i = 0, j = 0;
-			std::cout << BINARY_MAP_WIDTH;
+			std::cout << BINARY_MAP_WIDTH<<'\n';
 		while (levelMap.get(character)) {
 			if (j == BINARY_MAP_WIDTH) {
 				std::cout << "\n";
