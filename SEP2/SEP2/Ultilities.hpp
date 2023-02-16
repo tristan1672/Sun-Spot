@@ -6,13 +6,14 @@
 #include "AEEngine.h"
 // --------------------------------------------------------------------------- // End of includes
 
-#define GRID_SIZE 20
-
 enum { DEBUG = 1 };
 
 // ---------------------------------------------------------------------------
 // External Variables
 extern float e_gravity, e_jumpForce;
+
+extern int** e_levelGrid;
+extern int BINARY_MAP_WIDTH{ 0 }, BINARY_MAP_HEIGHT{ 0 };
 // --------------------------------------------------------------------------- // End of external variables
 
 // ---------------------------------------------------------------------------

@@ -14,16 +14,21 @@
 #pragma once
 
 #include "Level1.hpp"
+#include "Collision.hpp"
 
 // ---------------------------------------------------------------------------
 
 
 #define GROUND_LEVEL 20
-static int s_levelGrid[GRID_SIZE][GRID_SIZE];
+
 mousePos mouse;
 DynamicObj Player;
-GameObject platform[GRID_SIZE][GRID_SIZE];
+GameObject platform[BINARY_MAP_HEIGHT][BINARY_MAP_WIDTH];
 GameObject jumpArrow;
+
+int** e_levelGrid;
+int BINARY_MAP_WIDTH;
+int BINARY_MAP_HEIGHT;
 
 
 
@@ -46,38 +51,49 @@ f64 shaketime;
 void Level1_Load()
 {
 	std::cout << "Level 1:Load\n";
-	std::fstream level1Map("Assets/Script/Level1.txt", std::ios_base::in);
+	std::fstream levelMap("Assets/Script/Level1.txt", std::ios_base::in);
 
-	if (level1Map.is_open()) {
-		std::cout << "Level 1 File opened\n";
+	if (levelMap.is_open()) {
+		std::cout << "Level File opened\n";
+		std::string temp;
+		std::getline(levelMap, temp);
+		BINARY_MAP_WIDTH = temp[temp.find_first_of("0123456789")] - 48;
+		std::getline(levelMap, temp);
+		BINARY_MAP_HEIGHT = temp[temp.find_first_of("0123456789")] - 48;
+
+
+		e_levelGrid = new int* [BINARY_MAP_HEIGHT];
+		for (int i = 0; i < BINARY_MAP_HEIGHT; ++i) {
+			e_levelGrid[i] = new int[BINARY_MAP_WIDTH];
+		}
+
+		char character = 0;
+		int i = 0, j = 0;
+		while (levelMap.get(character)) {
+
+			if (j == BINARY_MAP_WIDTH) {
+				j = 0;
+				i++;
+
+				if (i == BINARY_MAP_HEIGHT) {
+					break;
+				}
+			}
+
+			if (character == '0' || character == '1') {
+				e_levelGrid[i][j] = static_cast<int>(character) - 48;
+				j++;
+			}
+
+			//std::cout << character;
+
+		}
+
 	}
 	else {
-		std::cout << "Level 1 File Cannot be opened\n";
+		std::cout << "Level File Cannot be opened\n";
 		exit(0);
 	}
-
-	char character = 0;
-	int i = 0, j = 0;
-	while (level1Map.get(character)) {
-
-		if (j == GRID_SIZE) {
-			j = 0;
-			i++;
-
-			if (i == GRID_SIZE) {
-				break;
-			}
-		}
-
-		if (character == '0' || character == '1') {
-			s_levelGrid[i][j] = static_cast<int>(character) - 48;
-			j++;
-		}
-
-		//std::cout << character;
-
-	}
-
 }
 
 // ----------------------------------------------------------------------------
@@ -95,14 +111,14 @@ void Level1_Initialize()
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
 
-	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
-	float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
+	float gridWidth = WINDOW_WIDTH / BINARY_MAP_WIDTH;
+	float gridHeight = WINDOW_HEIGHT / BINARY_MAP_HEIGHT;
 
-	for (int i = 0; i < GRID_SIZE; i++) {
-		for (int j = 0; j < GRID_SIZE; j++) {
-			if (s_levelGrid[i][j] == 1) {
+	for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
+		for (int j = 0; j < BINARY_MAP_WIDTH; j++) {
+			if (e_levelGrid[i][j] == 1) {
 				platform[i][j] = GameObject(
-					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * (WINDOW_WIDTH / GRID_SIZE), -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * (WINDOW_HEIGHT / GRID_SIZE) },
+					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
 					{ gridWidth, gridHeight });
 
 
@@ -234,12 +250,12 @@ void Level1_Draw()
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
-	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
-	float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
+	float gridWidth = WINDOW_WIDTH / BINARY_MAP_WIDTH;
+	float gridHeight = WINDOW_HEIGHT / BINARY_MAP_HEIGHT;
 	//draws the platform
-	for (int i = 0; i < GRID_SIZE; i++) {
-		for (int j = 0; j < GRID_SIZE; j++) {
-			if (s_levelGrid[i][j] == 1) {
+	for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
+		for (int j = 0; j < BINARY_MAP_WIDTH; j++) {
+			if (e_levelGrid[i][j] == 1) {
 				platform[i][j].DrawObj();
 			}
 		}
@@ -268,103 +284,4 @@ void Level1_Free()
 void Level1_Unload()
 {
 	std::cout << "Level 1:Unload\n";
-}
-
-// ----------------------------------------------------------------------------
-// This function checks for player collsion 
-// ----------------------------------------------------------------------------
-void collisionCheck(float playerX, float playerY) {
-
-	float gridWidth = WINDOW_WIDTH / GRID_SIZE;
-	float gridHeight = WINDOW_HEIGHT / GRID_SIZE;
-
-	// Checking current location
-	double width = -(WINDOW_WIDTH / 2.0f);
-	double height = WINDOW_HEIGHT / 2.0f;
-	int xCoord = 0, yCoord = 0;
-
-	// Getting X coord in grid
-	while (1) {
-		if (playerX > width) {
-			width += gridWidth;
-			xCoord++;
-		}
-		else {
-			xCoord -= 1;
-			break;
-		}
-	}
-
-	// Getting Y coord in grid
-	while (1) {
-		if (playerY < height) {
-			height -= gridHeight;
-			yCoord++;
-		}
-		else {
-			yCoord -= 1;
-			break;
-		}
-	}
-
-	//std::cout << "Width Grid: " << xCoord + 1 << "\n";
-	//std::cout << "Height Grid: " << yCoord + 1 << "\n";
-
-	if (Player.velocity.y < -240.0f)
-	{
-		heavyshake = true;
-	}
-	else if (Player.velocity.y < -140.0f)
-	{
-		mediumshake = true;
-	}
-	
-
-	bool leftOfPlayerHit = false, rightOfPlayerHit = false, topOfPlayerHit = false, btmOfPlayerHit = false;
-	
-	// If on the left halve of a block
-	if ((Player.position.x + PLAYER_SIZE / 2) > ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f) && s_levelGrid[yCoord][xCoord+1] == 1) {
-		rightOfPlayerHit = true;
-	}
-	// If on the right halve of a block
-	if ((Player.position.x - PLAYER_SIZE / 2) < ((xCoord) * gridWidth - WINDOW_WIDTH / 2.0f) && s_levelGrid[yCoord][xCoord-1] == 1) {
-		leftOfPlayerHit = true;
-	}
-	// If on the top of the block (Platform below you)
-	if ((Player.position.y - PLAYER_SIZE / 2) < (WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight) && s_levelGrid[yCoord+1][xCoord] == 1) {
-		btmOfPlayerHit = true;
-	}
-	// If on the btm of the block (Platform above you)
-	if ((Player.position.y + PLAYER_SIZE / 2) > (WINDOW_HEIGHT / 2.0f - (yCoord) * gridHeight) && s_levelGrid[yCoord-1][xCoord] == 1) {
-		topOfPlayerHit = true;
-	}
-	
-	// If collided, does smth (Switch case for diff surface)
-	if (rightOfPlayerHit == true) { // Hit leftside of block
-		Player.velocity.y = 0;
-		Player.velocity.x = 0;
-		Player.position.x = (xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f - (PLAYER_SIZE / 2.0f);
-		std::cout << "Player right bound hit block on the right\n";
-	}
-	if (leftOfPlayerHit == true) { // Hit rightside of block
-		Player.velocity.y = 0;
-		Player.velocity.x = 0;
-		Player.position.x = xCoord * gridWidth - WINDOW_WIDTH / 2.0f + (PLAYER_SIZE / 2.0f);
-		std::cout << "Player left bound hit block of the left\n";
-	}
-
-	if (btmOfPlayerHit == true) { // Hit floor(top side of block)
-		Player.velocity.y = 0.0f;
-		Player.position.y = WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight + (PLAYER_SIZE / 2.0f);
-		Player.collideBotton = true;
-		std::cout << "Player btm bound hit floor\n";
-	}
-
-	if (topOfPlayerHit == true) { // Hit btm of block
-		Player.velocity.y = 0;
-		Player.position.y = WINDOW_HEIGHT / 2.0f - (yCoord) * gridHeight - (PLAYER_SIZE / 2.0f);
-		std::cout << "Player top bound hit block above\n";
-	}
-
-
 }
