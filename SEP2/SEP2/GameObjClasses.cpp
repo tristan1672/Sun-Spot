@@ -111,3 +111,24 @@ void DynamicObj::SetVelocity(Vector2D Velocity) {//set object velocity
 #pragma endregion
 #pragma endregion
 
+#pragma region Platform Object Class
+Platform::Platform(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation) {
+	position = Position; scale = Scale; colour = Colour; rotation = Rotation;
+}
+
+int Platform::GetPlatformType() {
+	return platformType;
+}
+
+void Platform::SetPlatformType(int Type) {
+	platformType = Type;
+}
+Platform& Platform::operator=(const Platform& p) {
+	position = p.position; scale = p.scale; colour = p.colour; rotation = p.rotation;
+	return *this;
+
+}
+
+#pragma endregion
+
+

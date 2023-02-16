@@ -15,6 +15,7 @@
 
 #include "Level1.hpp"
 #include "Collision.hpp"
+#include <vector>
 
 // ---------------------------------------------------------------------------
 
@@ -22,8 +23,9 @@
 #define GROUND_LEVEL 20
 
 mousePos mouse;
-DynamicObj Player;
-GameObject platform[BINARY_MAP_HEIGHT][BINARY_MAP_WIDTH];
+extern DynamicObj Player;
+extern Platform **platform;
+//GameObject platform[BINARY_MAP_HEIGHT][BINARY_MAP_WIDTH]{};
 GameObject jumpArrow;
 
 int** e_levelGrid;
@@ -63,9 +65,15 @@ void Level1_Load()
 		BINARY_MAP_HEIGHT = temp[temp.find_first_of("0123456789")] - 48;
 
 
-		e_levelGrid = new int* [BINARY_MAP_HEIGHT];
-		for (int i = 0; i < BINARY_MAP_HEIGHT; ++i) {
-			e_levelGrid[i] = new int[BINARY_MAP_WIDTH];
+		//e_levelGrid = new int* [BINARY_MAP_HEIGHT];
+		//for (int i = 0; i < BINARY_MAP_HEIGHT; ++i) {
+		//	e_levelGrid[i] = new int[BINARY_MAP_WIDTH];
+		//}
+
+
+		platform = new Platform * [BINARY_MAP_HEIGHT];
+		for (int i = 0; i < BINARY_MAP_WIDTH; i++) {
+			platform[i] = new Platform[BINARY_MAP_WIDTH];
 		}
 
 		char character = 0;
@@ -82,7 +90,8 @@ void Level1_Load()
 			}
 
 			if (character == '0' || character == '1') {
-				e_levelGrid[i][j] = static_cast<int>(character) - 48;
+				platform[i][j].SetPlatformType(static_cast<int>(character) - 48);
+				//e_levelGrid[i][j] = static_cast<int>(character) - 48;
 				j++;
 			}
 
@@ -97,7 +106,6 @@ void Level1_Load()
 		exit(0);
 	}
 }
-
 // ----------------------------------------------------------------------------
 // This function initialize game object instances
 // It is called once at the start of the state
@@ -109,7 +117,6 @@ void Level1_Initialize()
 	Player = DynamicObj();
 	Player.position = { 0,10 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
-
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
 
@@ -119,7 +126,7 @@ void Level1_Initialize()
 	for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
 		for (int j = 0; j < BINARY_MAP_WIDTH; j++) {
 			if (e_levelGrid[i][j] == 1) {
-				platform[i][j] = GameObject(
+				platform[i][j] = Platform(
 					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
 					{ gridWidth, gridHeight });
 
@@ -255,7 +262,7 @@ void Level1_Draw()
 	//draws the platform
 	for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
 		for (int j = 0; j < BINARY_MAP_WIDTH; j++) {
-			if (e_levelGrid[i][j] == 1) {
+			if (platform[i][j].GetPlatformType()) {
 				platform[i][j].DrawObj();
 			}
 		}
@@ -275,6 +282,11 @@ void Level1_Draw()
 void Level1_Free()
 {
 	std::cout << "Level 1:Free\n";
+	for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
+		delete[] platform[i];
+	}
+	delete[] platform;
+
 }
 
 // ----------------------------------------------------------------------------

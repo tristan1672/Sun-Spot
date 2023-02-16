@@ -3,6 +3,7 @@
 #include "Collision.hpp"
 
 DynamicObj Player;
+Platform** platform;
 // ----------------------------------------------------------------------------
 // This function checks for player collsion 
 // ----------------------------------------------------------------------------
@@ -56,19 +57,19 @@ void collisionCheck(float playerX, float playerY) {
 	bool leftOfPlayerHit = false, rightOfPlayerHit = false, topOfPlayerHit = false, btmOfPlayerHit = false;
 
 	// If on the left halve of a block
-	if ((Player.position.x + PLAYER_SIZE / 2) > ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f) && e_levelGrid[yCoord][xCoord + 1] == 1) {
+	if ((Player.position.x + PLAYER_SIZE / 2) > ((xCoord + 1) * gridWidth - WINDOW_WIDTH / 2.0f) && platform[yCoord][xCoord + 1].GetPlatformType() == 1) {
 		rightOfPlayerHit = true;
 	}
 	// If on the right halve of a block
-	if ((Player.position.x - PLAYER_SIZE / 2) < ((xCoord)*gridWidth - WINDOW_WIDTH / 2.0f) && e_levelGrid[yCoord][xCoord - 1] == 1) {
+	if ((Player.position.x - PLAYER_SIZE / 2) < ((xCoord)*gridWidth - WINDOW_WIDTH / 2.0f) && platform[yCoord][xCoord - 1].GetPlatformType() == 1) {
 		leftOfPlayerHit = true;
 	}
 	// If on the top of the block (Platform below you)
-	if ((Player.position.y - PLAYER_SIZE / 2) < (WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight) && e_levelGrid[yCoord + 1][xCoord] == 1) {
+	if ((Player.position.y - PLAYER_SIZE / 2) < (WINDOW_HEIGHT / 2.0f - (yCoord + 1) * gridHeight) && platform[yCoord + 1][xCoord].GetPlatformType() == 1) {
 		btmOfPlayerHit = true;
 	}
 	// If on the btm of the block (Platform above you)
-	if ((Player.position.y + PLAYER_SIZE / 2) > (WINDOW_HEIGHT / 2.0f - (yCoord)*gridHeight) && e_levelGrid[yCoord - 1][xCoord] == 1) {
+	if ((Player.position.y + PLAYER_SIZE / 2) > (WINDOW_HEIGHT / 2.0f - (yCoord)*gridHeight) && platform[yCoord - 1][xCoord].GetPlatformType() == 1) {
 		topOfPlayerHit = true;
 	}
 

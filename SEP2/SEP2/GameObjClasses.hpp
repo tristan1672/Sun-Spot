@@ -48,3 +48,13 @@ public:
 	void SetVelocity(Vector2D Velocity);
 #pragma endregion
 };
+
+class Platform: public GameObject {
+	int platformType{};
+public:
+	Platform(Vector2D Position = { 0.f,0.f }, Vector2D Scale = { 10.f,10.f }, ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0);
+	Platform& operator=(const Platform& p);
+
+	int GetPlatformType();
+	void SetPlatformType(int Type);
+};
