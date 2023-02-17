@@ -32,12 +32,12 @@ void Input_Handle_HoldCheck()
 {	
 
 	// Holding too long will make it jump shorter (Aiming)
-	if (e_jumpForce > 100) {
+	if (e_jumpForce > min_jumpForce) {
 		//std::cout << e_jumpForce << "\n";
 		e_jumpForce -= static_cast<float>(200 * AEFrameRateControllerGetFrameTime());
 	}
-	if (e_jumpForce <= 100) {
-		e_jumpForce = 100;
+	if (e_jumpForce <= min_jumpForce) {
+		e_jumpForce = min_jumpForce;
 	}
 }
 

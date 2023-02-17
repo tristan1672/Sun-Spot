@@ -49,31 +49,84 @@ void collisionCheck(float playerX, float playerY) {
 		Player.collideBotton = true;
 		Player.position.x = 0.0f;
 		Player.position.y = PLAYER_SIZE_Y / 2.0f;
-	} 
-	// Top collided
-	if (platform[abs(topY)][abs(X1)].GetPlatformType() == 1 || platform[abs(topY)][abs(X2)].GetPlatformType() == 1) {
-		e_collisionFlag += COLLISION_TOP;
-		Player.velocity.y = 0.0f;
-		std::cout << "Top collided \n";
 	}
-	// Btm collided
-	if (platform[abs(btmY)][abs(X1)].GetPlatformType() == 1 || platform[abs(btmY)][abs(X2)].GetPlatformType() == 1) {
-		e_collisionFlag += COLLISION_BOTTOM;
-		Player.velocity.y = 0.0f;
-		Player.collideBotton = true;
-		std::cout << "Btm collided \n";
-	}
-	// Right collided
-	if (platform[abs(Y1)][abs(rightX)].GetPlatformType() == 1 || platform[abs(Y2)][abs(rightX)].GetPlatformType() == 1) {
-		e_collisionFlag += COLLISION_RIGHT;
-		Player.velocity.x = 0.0f;
-		std::cout << "Right collided \n";
-	}
-	// Left collided
-	if (platform[abs(Y1)][abs(leftX)].GetPlatformType() == 1 || platform[abs(Y2)][abs(leftX)].GetPlatformType() == 1) {
-		e_collisionFlag += COLLISION_LEFT;
-		Player.velocity.x = 0.0f;
-		std::cout << "Left collided \n";
+	else {
+		// Top collided
+		if (platform[abs(topY)][abs(X1)].GetPlatformType()|| platform[abs(topY)][abs(X2)].GetPlatformType()) {
+			e_collisionFlag += COLLISION_TOP;
+			Player.velocity.y = 0.0f;
+			std::cout << "Top collided \n";
+		}
+		// Btm collided
+		if (platform[abs(btmY)][abs(X1)].GetPlatformType()|| platform[abs(btmY)][abs(X2)].GetPlatformType()) {
+			e_collisionFlag += COLLISION_BOTTOM;
+			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f)) || // checks which side of the grid the player is cooupying more
+				Player.position.x >(platform[abs(btmY)][abs(X1)].position.x - (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) {
+				switch (platform[abs(btmY)][abs(X1)].GetPlatformType())
+				{
+				case 1:
+					Player.velocity.y -= Player.velocity.y;
+					Player.velocity.x -= static_cast<float>(10*Player.velocity.x * AEFrameRateControllerGetFrameTime());
+					if (abs(Player.velocity.x) < 2.f) {
+						Player.velocity.x = 0;
+					}
+					break;
+				case 2: // ice physics
+					Player.velocity.y -= Player.velocity.y;
+					if (Player.velocity.x) {
+						Player.velocity.x -= static_cast<float>(1.5f*Player.velocity.x * AEFrameRateControllerGetFrameTime());
+						std::cout << "Player.velocity.x"<< Player.velocity.x<<'\n';
+					}
+					if (abs(Player.velocity.x) < 2.f) {
+						Player.velocity.x = 0;
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			else {
+				switch (platform[abs(btmY)][abs(X2)].GetPlatformType())
+				{
+				case 1:
+					Player.velocity.y -= Player.velocity.y;
+					Player.velocity.x -= static_cast<float>(10 * Player.velocity.x * AEFrameRateControllerGetFrameTime());
+					if (abs(Player.velocity.x) < 2.f) {
+						Player.velocity.x = 0;
+					}
+					break;
+				case 2:
+					Player.velocity.y -= Player.velocity.y;
+					if (Player.velocity.x) {
+						Player.velocity.x -= static_cast<float>(1.5f * Player.velocity.x * AEFrameRateControllerGetFrameTime());
+						std::cout << "Player.velocity.x" << Player.velocity.x << '\n';
+					}
+					if (abs(Player.velocity.x) < 2.f) {
+						Player.velocity.x = 0;
+					}
+					break;
+				default:
+					break;
+				}
+			}
+			if (!Player.velocity.x) {
+				Player.collideBotton = true;
+			}
+			//std::cout << "Btm collided \n";
+		}
+		// Right collided
+		if (platform[abs(Y1)][abs(rightX)].GetPlatformType()|| platform[abs(Y2)][abs(rightX)].GetPlatformType()) {
+			e_collisionFlag += COLLISION_RIGHT;
+			Player.velocity.x = 0.0f;
+			std::cout << "Right collided \n";
+		}
+		// Left collided
+		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() || platform[abs(Y2)][abs(leftX)].GetPlatformType()) {
+			e_collisionFlag += COLLISION_LEFT;
+			Player.velocity.x = 0.0f;
+			std::cout << "Left collided \n";
+		}
+
 	}
 
 	// Cam shake effect

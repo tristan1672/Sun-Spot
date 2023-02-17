@@ -11,7 +11,7 @@ enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
 
 // ---------------------------------------------------------------------------
 // External Variables
-extern float e_gravity, e_jumpForce;
+extern float e_gravity, e_jumpForce, min_jumpForce, original_jumpForce;
 
 extern int** e_levelGrid;
 extern int BINARY_MAP_WIDTH, BINARY_MAP_HEIGHT;
