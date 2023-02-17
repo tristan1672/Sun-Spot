@@ -34,6 +34,7 @@ void collisionCheck(float playerX, float playerY) {
 	int Y1 = (heightOffset - playerY - PLAYER_SIZE_Y / 4.0f) / gridHeight; // 25% Y
 	int Y2 = (heightOffset - playerY + PLAYER_SIZE_Y / 4.0f) / gridHeight; // 75% Y
 
+	/*
 	if (DEBUG) {
 		std::cout << "Coordinates\n\n";
 		std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
@@ -42,7 +43,9 @@ void collisionCheck(float playerX, float playerY) {
 		std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
 		std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
 	}
+	*/
 
+	// If out of play area
 	if (leftX < 0 || rightX > BINARY_MAP_WIDTH-1 || topY < 0 || btmY > BINARY_MAP_HEIGHT-1) {
 		Player.velocity.x = 0.0f;
 		Player.velocity.y = 0.0f;
@@ -168,7 +171,7 @@ void collisionCheck(float playerX, float playerY) {
 		Player.position.x -= PLAYER_SIZE_X / 4;
 	}*/
 
-
+	
 	if (e_collisionFlag == COLLISION_TOP) {
 		Player.position.y = heightOffset - (topY+1) * gridHeight - (PLAYER_SIZE_Y / 2.0f);
 	}
@@ -197,6 +200,58 @@ void collisionCheck(float playerX, float playerY) {
 	if (e_collisionFlag == COLLISION_RIGHT) {
 		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
 	}
+	
+
+
+
+
+	/*
+	if (e_collisionFlag == COLLISION_TOP) {
+		Player.position.y -= (PLAYER_SIZE_Y / 4.0f);
+		if (DEBUG) {
+			std::cout << "Coordinates\n\n";
+			std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
+			std::cout << "[" << abs(leftX) << "," << abs(Y1) << "]     " << "[" << abs(rightX) << "," << abs(Y1) << "]\n";
+			std::cout << "        +\n";
+			std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
+			std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
+		}
+	}
+	if (e_collisionFlag == COLLISION_TOP + COLLISION_LEFT) {
+		Player.position.y = heightOffset - (topY + 1) * gridHeight - (PLAYER_SIZE_Y / 2.0f);
+		Player.position.x = -widthOffset + (leftX + 1) * gridWidth + PLAYER_SIZE_X / 2.0f;
+	}
+	if (e_collisionFlag == COLLISION_TOP + COLLISION_RIGHT) {
+		Player.position.y = heightOffset - (topY + 1) * gridHeight - (PLAYER_SIZE_Y / 2.0f);
+		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
+	}
+	if (e_collisionFlag == COLLISION_BOTTOM) {
+		Player.position.y += (PLAYER_SIZE_Y / 4.0f);
+		if (DEBUG) {
+			std::cout << "Coordinates\n\n";
+			std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
+			std::cout << "[" << abs(leftX) << "," << abs(Y1) << "]     " << "[" << abs(rightX) << "," << abs(Y1) << "]\n";
+			std::cout << "        +\n";
+			std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
+			std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
+		}
+	}
+	if (e_collisionFlag == COLLISION_BOTTOM + COLLISION_LEFT) {
+		Player.position.y = heightOffset - btmY * gridHeight + (PLAYER_SIZE_Y / 2.0f);
+		Player.position.x = -widthOffset + (leftX + 1) * gridWidth + PLAYER_SIZE_X / 2.0f;
+	}
+	if (e_collisionFlag == COLLISION_BOTTOM + COLLISION_RIGHT) {
+		Player.position.y = heightOffset - btmY * gridHeight + (PLAYER_SIZE_Y / 2.0f);
+		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
+	}
+	if (e_collisionFlag == COLLISION_LEFT) {
+		Player.position.x = -widthOffset + (leftX + 1) * gridWidth + PLAYER_SIZE_X / 2.0f;
+	}
+	if (e_collisionFlag == COLLISION_RIGHT) {
+		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
+	}
+	*/
+
 	
 
 
