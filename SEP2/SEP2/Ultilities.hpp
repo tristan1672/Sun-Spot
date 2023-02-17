@@ -8,6 +8,7 @@
 
 enum { DEBUG = 1 };
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
+enum { EMPTY = 0, NORMAL_BLOCK, ICE_BLOCK };
 
 // ---------------------------------------------------------------------------
 // External Variables
