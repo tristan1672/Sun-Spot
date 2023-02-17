@@ -12,7 +12,8 @@ enum { EMPTY = 0, NORMAL_BLOCK, ICE_BLOCK };
 
 // ---------------------------------------------------------------------------
 // External Variables
-extern float e_gravity, e_jumpForce, min_jumpForce, original_jumpForce;
+extern float e_gravity, e_jumpForce, min_jumpForce , vertMod;
+extern const float original_jumpForce, originalMin_jumpForce, originalVertMod;
 
 extern int** e_levelGrid;
 extern int BINARY_MAP_WIDTH, BINARY_MAP_HEIGHT;

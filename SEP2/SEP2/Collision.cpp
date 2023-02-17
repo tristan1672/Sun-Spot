@@ -67,7 +67,7 @@ void collisionCheck(float playerX, float playerY) {
 				Player.position.x >(platform[abs(btmY)][abs(X1)].position.x - (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) {
 				switch (platform[abs(btmY)][abs(X1)].GetPlatformType())
 				{
-				case 1:
+				case 1:// normal surface
 					Player.velocity.y -= Player.velocity.y;
 					Player.velocity.x -= static_cast<float>(10*Player.velocity.x * AEFrameRateControllerGetFrameTime());
 					if (abs(Player.velocity.x) < 2.f) {
@@ -78,10 +78,18 @@ void collisionCheck(float playerX, float playerY) {
 					Player.velocity.y -= Player.velocity.y;
 					if (Player.velocity.x) {
 						Player.velocity.x -= static_cast<float>(1.5f*Player.velocity.x * AEFrameRateControllerGetFrameTime());
-						std::cout << "Player.velocity.x"<< Player.velocity.x<<'\n';
 					}
 					if (abs(Player.velocity.x) < 2.f) {
 						Player.velocity.x = 0;
+					}
+					break;
+				case 3:// sticky physics
+					Player.velocity.y -= Player.velocity.y;
+					Player.velocity.x -= Player.velocity.x;
+					std::cout << e_jumpForce << '\n';
+					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
+						e_jumpForce -= 50.f;
+						min_jumpForce -= 50.f;
 					}
 					break;
 				default:
@@ -91,21 +99,28 @@ void collisionCheck(float playerX, float playerY) {
 			else {
 				switch (platform[abs(btmY)][abs(X2)].GetPlatformType())
 				{
-				case 1:
+				case 1:// normal surface
 					Player.velocity.y -= Player.velocity.y;
 					Player.velocity.x -= static_cast<float>(10 * Player.velocity.x * AEFrameRateControllerGetFrameTime());
 					if (abs(Player.velocity.x) < 2.f) {
 						Player.velocity.x = 0;
 					}
 					break;
-				case 2:
+				case 2:// ice physics
 					Player.velocity.y -= Player.velocity.y;
 					if (Player.velocity.x) {
 						Player.velocity.x -= static_cast<float>(1.5f * Player.velocity.x * AEFrameRateControllerGetFrameTime());
-						std::cout << "Player.velocity.x" << Player.velocity.x << '\n';
 					}
 					if (abs(Player.velocity.x) < 2.f) {
 						Player.velocity.x = 0;
+					}
+					break;
+				case 3:// sticky physics
+					Player.velocity.y -= Player.velocity.y;
+					Player.velocity.x -= Player.velocity.x;
+					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
+						e_jumpForce -= 50.f;
+						min_jumpForce -= 50.f;
 					}
 					break;
 				default:
@@ -120,13 +135,93 @@ void collisionCheck(float playerX, float playerY) {
 		// Right collided
 		if (platform[abs(Y1)][abs(rightX)].GetPlatformType()|| platform[abs(Y2)][abs(rightX)].GetPlatformType()) {
 			e_collisionFlag += COLLISION_RIGHT;
-			Player.velocity.x = 0.0f;
+			if (Player.position.y < (platform[abs(Y1)][abs(rightX)].position.y + (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
+				Player.position.y >(platform[abs(Y1)][abs(rightX)].position.y - (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f))) {
+				switch (platform[abs(Y1)][abs(rightX)].GetPlatformType())
+				{
+				case 3:// sticky physics
+					if (vertMod == originalVertMod) {
+						vertMod /= 2.f;
+					}
+					std::cout << "vertMod" << vertMod << '\n';
+					Player.velocity.x -= Player.velocity.x;
+					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
+						e_jumpForce -= 50.f;
+						min_jumpForce -= 50.f;
+					}
+					Player.collideBotton = true;
+					break;
+				default:
+					Player.velocity.x -= Player.velocity.x;
+					break;
+				}
+			}
+			else {
+				switch (platform[abs(Y2)][abs(rightX)].GetPlatformType())
+				{
+				case 3:// sticky physics
+					if (vertMod == originalVertMod) {
+						vertMod /= 2.f;
+					}
+					std::cout << "vertMod" << vertMod << '\n';
+					Player.velocity.x -= Player.velocity.x;
+					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
+						e_jumpForce -= 50.f;
+						min_jumpForce -= 50.f;
+					}
+					Player.collideBotton = true;
+					break;
+				default:
+					Player.velocity.x -= Player.velocity.x;
+					break;
+				}
+			}
 			std::cout << "Right collided \n";
 		}
 		// Left collided
 		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() || platform[abs(Y2)][abs(leftX)].GetPlatformType()) {
 			e_collisionFlag += COLLISION_LEFT;
-			Player.velocity.x = 0.0f;
+			if (Player.position.y < (platform[abs(Y1)][abs(leftX)].position.y + (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
+				Player.position.y >(platform[abs(Y1)][abs(leftX)].position.y - (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f))) {
+				switch (platform[abs(Y1)][abs(leftX)].GetPlatformType())
+				{
+				case 3:// sticky physics
+					if (vertMod == originalVertMod) {
+						vertMod /= 2.f;
+					}
+					std::cout << "vertMod" << vertMod << '\n';
+					Player.velocity.x -= Player.velocity.x;
+					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
+						e_jumpForce -= 50.f;
+						min_jumpForce -= 50.f;
+					}
+					Player.collideBotton = true;
+					break;
+				default:
+					Player.velocity.x -= Player.velocity.x;
+					break;
+				}
+			}
+			else {
+				switch (platform[abs(Y2)][abs(leftX)].GetPlatformType())
+				{
+				case 3:// sticky physics
+					if (vertMod == originalVertMod) {
+						vertMod /= 2.f;
+					}
+					std::cout << "vertMod" << vertMod << '\n';
+					Player.velocity.x -= Player.velocity.x;
+					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
+						e_jumpForce -= 50.f;
+						min_jumpForce -= 50.f;
+					}
+					Player.collideBotton = true;
+					break;
+				default:
+					Player.velocity.x -= Player.velocity.x;
+					break;
+				}
+			}
 			std::cout << "Left collided \n";
 		}
 

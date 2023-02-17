@@ -93,12 +93,9 @@ void Level1_Load()
 
 			if (character >= '0' && character <= '9')
 			{
-				//if (character == '0' || character == '1') {
 				platform[i][j].SetPlatformType(static_cast<int>(character) - '0');
 					std::cout << platform[i][j].GetPlatformType();
-					//e_levelGrid[i][j] = static_cast<int>(character) - 48;
 
-				//}
 				j++;
 
 				if (j == BINARY_MAP_WIDTH) {
@@ -153,6 +150,11 @@ void Level1_Initialize()
 					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
 					{ gridWidth, gridHeight }, {0.47f,0.76f,0.93f,1.f});
 				break;
+			case 3:
+				platform[i][j] = Platform(
+					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
+					{ gridWidth, gridHeight }, { 1.f,0.98f,0.63f,1.f });
+				break;
 			default:
 				break;
 			}
@@ -184,12 +186,12 @@ void Level1_Update()
 {
 	// code that allows the player to get affected by gravity (might need to look back at it to improve)
 
-		Player.velocity.y += static_cast<float>(e_gravity * AEFrameRateControllerGetFrameTime());
-		Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
-		Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
+	Player.velocity.y += static_cast<float>(vertMod * e_gravity * AEFrameRateControllerGetFrameTime());
+	Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
+	Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
 
 	// Checks the current pos of the mouse when initially clicked
-	if (AEInputCheckTriggered(AEVK_LBUTTON) && Player.collideBotton) {
+	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 	}
 	//shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
