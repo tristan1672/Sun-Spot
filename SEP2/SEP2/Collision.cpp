@@ -54,20 +54,20 @@ void collisionCheck(float playerX, float playerY) {
 		Player.position.y = PLAYER_SIZE_Y / 2.0f;
 	} 
 	// Top collided
-	if (platform[abs(topY)][abs(X1)].GetPlatformType() == 1 || platform[abs(topY)][abs(X2)].GetPlatformType() == 1) {
+	if (platform[abs(topY)][abs(X1)].GetPlatformType() >= 1 || platform[abs(topY)][abs(X2)].GetPlatformType() >= 1) {
 		e_collisionFlag += COLLISION_TOP;
 		Player.velocity.y = 0.0f;
 		std::cout << "Top collided \n";
 	}
 	// Btm collided
-	if (platform[abs(btmY)][abs(X1)].GetPlatformType() == 1 || platform[abs(btmY)][abs(X2)].GetPlatformType() == 1) {
+	if (platform[abs(btmY)][abs(X1)].GetPlatformType() >= 1 || platform[abs(btmY)][abs(X2)].GetPlatformType() >= 1) {
 		e_collisionFlag += COLLISION_BOTTOM;
 		Player.velocity.y = 0.0f;
 		Player.collideBotton = true;
 		std::cout << "Btm collided \n";
 	}
 	// Right collided
-	if (platform[abs(Y1)][abs(rightX)].GetPlatformType() == 1 || platform[abs(Y2)][abs(rightX)].GetPlatformType() == 1) {
+	if (platform[abs(Y1)][abs(rightX)].GetPlatformType() >= 1 || platform[abs(Y2)][abs(rightX)].GetPlatformType() >= 1) {
 		e_collisionFlag += COLLISION_RIGHT;
 		Player.velocity.x = 0.0f;
 		if (Player.velocity.y > 0) {
@@ -76,7 +76,7 @@ void collisionCheck(float playerX, float playerY) {
 		std::cout << "Right collided \n";
 	}
 	// Left collided
-	if (platform[abs(Y1)][abs(leftX)].GetPlatformType() == 1 || platform[abs(Y2)][abs(leftX)].GetPlatformType() == 1) {
+	if (platform[abs(Y1)][abs(leftX)].GetPlatformType() >= 1 || platform[abs(Y2)][abs(leftX)].GetPlatformType() >= 1) {
 		e_collisionFlag += COLLISION_LEFT;
 		Player.velocity.x = 0.0f;
 		if (Player.velocity.y > 0) {

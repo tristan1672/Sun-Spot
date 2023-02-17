@@ -93,7 +93,7 @@ void Level1_Load()
 
 			if (character >= 48 && character <= 57)
 			{
-				if (character == '0' || character == '1') {
+				if (character == '0' || character == '1' || character == '2') {
 					platform[i][j].SetPlatformType(static_cast<int>(character) - 48);
 					std::cout << platform[i][j].GetPlatformType();
 					//e_levelGrid[i][j] = static_cast<int>(character) - 48;
