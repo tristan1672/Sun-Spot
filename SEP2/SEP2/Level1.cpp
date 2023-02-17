@@ -131,7 +131,7 @@ void Level1_Initialize()
 	std::cout << "Level 1:Initialize\n";
 
 	Player = DynamicObj();
-	Player.position = { 0,10 };
+	Player.position = { 0,PLAYER_SIZE_Y/2 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
