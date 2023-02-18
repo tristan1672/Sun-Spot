@@ -6,9 +6,9 @@ extern DynamicObj Player;
 extern Platform** platform;
 
 extern int e_collisionFlag;
-const int	COLLISION_LEFT = 0x00000001;	//0001
-const int	COLLISION_RIGHT = 0x00000002;	//0010
-const int	COLLISION_TOP = 0x00000004;		//0100
+const int	COLLISION_LEFT   = 0x00000001;	//0001
+const int	COLLISION_RIGHT  = 0x00000002;	//0010
+const int	COLLISION_TOP    = 0x00000004;	//0100
 const int	COLLISION_BOTTOM = 0x00000008;	//1000
 
 // ----------------------------------------------------------------------------
@@ -59,6 +59,13 @@ void collisionCheck(float playerX, float playerY) {
 			e_collisionFlag += COLLISION_TOP;
 			Player.velocity.y = 0.0f;
 			std::cout << "Top collided \n";
+
+			// Collectabiles detection
+			if (platform[abs(topY)][abs(X1)].GetPlatformType() == COLLECTABLES || platform[abs(topY)][abs(X2)].GetPlatformType() == COLLECTABLES) {
+				e_collisionFlag = 0;
+				platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
+			}
+
 		}
 		// Btm collided
 		if (platform[abs(btmY)][abs(X1)].GetPlatformType()|| platform[abs(btmY)][abs(X2)].GetPlatformType()) {
@@ -67,14 +74,14 @@ void collisionCheck(float playerX, float playerY) {
 				Player.position.x >(platform[abs(btmY)][abs(X1)].position.x - (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) {
 				switch (platform[abs(btmY)][abs(X1)].GetPlatformType())
 				{
-				case 1:// normal surface
+				case NORMAL_BLOCK:// normal surface
 					Player.velocity.y -= Player.velocity.y;
 					Player.velocity.x -= static_cast<float>(10*Player.velocity.x * AEFrameRateControllerGetFrameTime());
 					if (abs(Player.velocity.x) < 2.f) {
 						Player.velocity.x = 0;
 					}
 					break;
-				case 2: // ice physics
+				case ICE_BLOCK: // ice physics
 					Player.velocity.y -= Player.velocity.y;
 					if (Player.velocity.x) {
 						Player.velocity.x -= static_cast<float>(1.5f*Player.velocity.x * AEFrameRateControllerGetFrameTime());
@@ -83,7 +90,7 @@ void collisionCheck(float playerX, float playerY) {
 						Player.velocity.x = 0;
 					}
 					break;
-				case 3:// sticky physics
+				case STICKY_BLOCK:// sticky physics
 					Player.velocity.y -= Player.velocity.y;
 					Player.velocity.x -= Player.velocity.x;
 					std::cout << e_jumpForce << '\n';
@@ -92,6 +99,10 @@ void collisionCheck(float playerX, float playerY) {
 						min_jumpForce -= 50.f;
 					}
 					break;
+				case COLLECTABLES:
+					e_collisionFlag = 0;
+					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
+					break;
 				default:
 					break;
 				}
@@ -99,14 +110,14 @@ void collisionCheck(float playerX, float playerY) {
 			else {
 				switch (platform[abs(btmY)][abs(X2)].GetPlatformType())
 				{
-				case 1:// normal surface
+				case NORMAL_BLOCK:// normal surface
 					Player.velocity.y -= Player.velocity.y;
 					Player.velocity.x -= static_cast<float>(10 * Player.velocity.x * AEFrameRateControllerGetFrameTime());
 					if (abs(Player.velocity.x) < 2.f) {
 						Player.velocity.x = 0;
 					}
 					break;
-				case 2:// ice physics
+				case ICE_BLOCK:// ice physics
 					Player.velocity.y -= Player.velocity.y;
 					if (Player.velocity.x) {
 						Player.velocity.x -= static_cast<float>(1.5f * Player.velocity.x * AEFrameRateControllerGetFrameTime());
@@ -122,6 +133,10 @@ void collisionCheck(float playerX, float playerY) {
 						e_jumpForce -= 50.f;
 						min_jumpForce -= 50.f;
 					}
+					break;
+				case COLLECTABLES:
+					e_collisionFlag = 0;
+					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					break;
@@ -139,7 +154,7 @@ void collisionCheck(float playerX, float playerY) {
 				Player.position.y >(platform[abs(Y1)][abs(rightX)].position.y - (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f))) {
 				switch (platform[abs(Y1)][abs(rightX)].GetPlatformType())
 				{
-				case 3:// sticky physics
+				case STICKY_BLOCK:// sticky physics
 					if (vertMod == originalVertMod) {
 						vertMod /= 2.f;
 					}
@@ -150,6 +165,10 @@ void collisionCheck(float playerX, float playerY) {
 						min_jumpForce -= 50.f;
 					}
 					Player.collideBotton = true;
+					break;
+				case COLLECTABLES:
+					e_collisionFlag = 0;
+					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					Player.velocity.x -= Player.velocity.x;
@@ -159,7 +178,7 @@ void collisionCheck(float playerX, float playerY) {
 			else {
 				switch (platform[abs(Y2)][abs(rightX)].GetPlatformType())
 				{
-				case 3:// sticky physics
+				case STICKY_BLOCK:// sticky physics
 					if (vertMod == originalVertMod) {
 						vertMod /= 2.f;
 					}
@@ -170,6 +189,10 @@ void collisionCheck(float playerX, float playerY) {
 						min_jumpForce -= 50.f;
 					}
 					Player.collideBotton = true;
+					break;
+				case COLLECTABLES:
+					e_collisionFlag = 0;
+					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					Player.velocity.x -= Player.velocity.x;
@@ -185,7 +208,7 @@ void collisionCheck(float playerX, float playerY) {
 				Player.position.y >(platform[abs(Y1)][abs(leftX)].position.y - (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f))) {
 				switch (platform[abs(Y1)][abs(leftX)].GetPlatformType())
 				{
-				case 3:// sticky physics
+				case STICKY_BLOCK:// sticky physics
 					if (vertMod == originalVertMod) {
 						vertMod /= 2.f;
 					}
@@ -196,6 +219,10 @@ void collisionCheck(float playerX, float playerY) {
 						min_jumpForce -= 50.f;
 					}
 					Player.collideBotton = true;
+					break;
+				case COLLECTABLES:
+					e_collisionFlag = 0;
+					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					Player.velocity.x -= Player.velocity.x;
@@ -205,7 +232,7 @@ void collisionCheck(float playerX, float playerY) {
 			else {
 				switch (platform[abs(Y2)][abs(leftX)].GetPlatformType())
 				{
-				case 3:// sticky physics
+				case STICKY_BLOCK:// sticky physics
 					if (vertMod == originalVertMod) {
 						vertMod /= 2.f;
 					}
@@ -216,6 +243,10 @@ void collisionCheck(float playerX, float playerY) {
 						min_jumpForce -= 50.f;
 					}
 					Player.collideBotton = true;
+					break;
+				case COLLECTABLES:
+					e_collisionFlag = 0;
+					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					Player.velocity.x -= Player.velocity.x;

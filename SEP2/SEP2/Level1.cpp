@@ -140,20 +140,25 @@ void Level1_Initialize()
 		for (int j = 0; j < BINARY_MAP_WIDTH; j++) {
 			switch (platform[i][j].GetPlatformType())
 			{
-			case 1:
+			case NORMAL_BLOCK:
 				platform[i][j] = Platform(
 					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
 					{ gridWidth, gridHeight });
 				break;
-			case 2:
+			case ICE_BLOCK:
 				platform[i][j] = Platform(
 					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
 					{ gridWidth, gridHeight }, {0.47f,0.76f,0.93f,1.f});
 				break;
-			case 3:
+			case STICKY_BLOCK:
 				platform[i][j] = Platform(
 					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
 					{ gridWidth, gridHeight }, { 1.f,0.98f,0.63f,1.f });
+				break;
+			case COLLECTABLES:
+				platform[i][j] = Platform(
+					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
+					{ PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f });
 				break;
 			default:
 				break;
