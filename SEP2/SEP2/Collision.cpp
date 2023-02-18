@@ -48,6 +48,7 @@ void collisionCheck(float playerX, float playerY) {
 
 	// If out of play area
 	if (leftX < 0 || rightX > BINARY_MAP_WIDTH-1 || topY < 0 || btmY > BINARY_MAP_HEIGHT-1) {
+		//std::cout << Player.velocity.x << '\n';
 		Player.velocity.x = 0.0f;
 		Player.velocity.y = 0.0f;
 		Player.collideBotton = true;
@@ -63,10 +64,11 @@ void collisionCheck(float playerX, float playerY) {
 			// Collectabiles detection
 			if (platform[abs(topY)][abs(X1)].GetPlatformType() == COLLECTABLES || platform[abs(topY)][abs(X2)].GetPlatformType() == COLLECTABLES) {
 				e_collisionFlag = 0;
+				colliding = false;
 				platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 			}else{
 				e_collisionFlag += COLLISION_TOP;
-				Player.velocity.y = 0.0f;
+				Player.velocity.y -= Player.velocity.y;
 			}
 
 		}
@@ -80,23 +82,15 @@ void collisionCheck(float playerX, float playerY) {
 				{
 				case NORMAL_BLOCK:// normal surface
 					Player.velocity.y -= Player.velocity.y;
-					Player.velocity.x -= static_cast<float>(10*Player.velocity.x * AEFrameRateControllerGetFrameTime());
-					if (abs(Player.velocity.x) < 2.f) {
-						Player.velocity.x = 0;
-					}
+					friction = normalFriction;
 					break;
 				case ICE_BLOCK: // ice physics
 					Player.velocity.y -= Player.velocity.y;
-					if (Player.velocity.x) {
-						Player.velocity.x -= static_cast<float>(1.5f*Player.velocity.x * AEFrameRateControllerGetFrameTime());
-					}
-					if (abs(Player.velocity.x) < 2.f) {
-						Player.velocity.x = 0;
-					}
+					friction = iceFriction;
 					break;
 				case STICKY_BLOCK:// sticky physics
 					Player.velocity.y -= Player.velocity.y;
-					Player.velocity.x -= Player.velocity.x;
+					friction = fullStopFriction;
 					std::cout << e_jumpForce << '\n';
 					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
 						e_jumpForce -= 50.f;
@@ -105,6 +99,7 @@ void collisionCheck(float playerX, float playerY) {
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
+					colliding = false;
 					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
@@ -116,23 +111,18 @@ void collisionCheck(float playerX, float playerY) {
 				{
 				case NORMAL_BLOCK:// normal surface
 					Player.velocity.y -= Player.velocity.y;
-					Player.velocity.x -= static_cast<float>(10 * Player.velocity.x * AEFrameRateControllerGetFrameTime());
+					friction = normalFriction;
 					if (abs(Player.velocity.x) < 2.f) {
 						Player.velocity.x = 0;
 					}
 					break;
 				case ICE_BLOCK:// ice physics
 					Player.velocity.y -= Player.velocity.y;
-					if (Player.velocity.x) {
-						Player.velocity.x -= static_cast<float>(1.5f * Player.velocity.x * AEFrameRateControllerGetFrameTime());
-					}
-					if (abs(Player.velocity.x) < 2.f) {
-						Player.velocity.x = 0;
-					}
+					friction = iceFriction;
 					break;
 				case 3:// sticky physics
 					Player.velocity.y -= Player.velocity.y;
-					Player.velocity.x -= Player.velocity.x;
+					friction = fullStopFriction;
 					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
 						e_jumpForce -= 50.f;
 						min_jumpForce -= 50.f;
@@ -140,6 +130,7 @@ void collisionCheck(float playerX, float playerY) {
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
+					colliding = false;
 					platform[abs(btmY)][abs(X2)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
@@ -161,16 +152,20 @@ void collisionCheck(float playerX, float playerY) {
 				{
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
-					Player.velocity.x -= Player.velocity.x;
+					friction = fullStopFriction;
 					Player.collideBotton = true;
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
+					colliding = false;
 					platform[abs(Y1)][abs(rightX)].SetPlatformType(EMPTY_SPACE);
+					break;
+				case EMPTY_SPACE:
+					colliding = false;
 					break;
 				default:
 					dragCoeff = normalDrag;
-					Player.velocity.x -= Player.velocity.x;
+					friction = fullStopFriction;
 					break;
 				}
 			}
@@ -179,16 +174,20 @@ void collisionCheck(float playerX, float playerY) {
 				{
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
-					Player.velocity.x -= Player.velocity.x;
+					friction = fullStopFriction;
 					Player.collideBotton = true;
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
+					colliding = false;
 					platform[abs(Y2)][abs(rightX)].SetPlatformType(EMPTY_SPACE);
+					break;
+				case EMPTY_SPACE:
+					colliding = false;
 					break;
 				default:
 					dragCoeff = normalDrag;
-					Player.velocity.x -= Player.velocity.x;
+					friction = fullStopFriction;
 					break;
 				}
 			}
@@ -202,43 +201,59 @@ void collisionCheck(float playerX, float playerY) {
 				Player.position.y >(platform[abs(Y1)][abs(leftX)].position.y - (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f))) {
 				switch (platform[abs(Y1)][abs(leftX)].GetPlatformType())
 				{
+				default:
+					dragCoeff = normalDrag;
+					friction = fullStopFriction;
+					std::cout << "2 \n";
+					break;
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
-					Player.velocity.x -= Player.velocity.x;
+					friction = fullStopFriction;
 					Player.collideBotton = true;
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
 					platform[abs(Y1)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
+					colliding = false;
+					std::cout << "1 \n" << colliding;
 					break;
-				default:
-					dragCoeff = normalDrag;
-					Player.velocity.x -= Player.velocity.x;
+				case EMPTY_SPACE:
+					colliding = false;
 					break;
 				}
 			}
 			else {
 				switch (platform[abs(Y2)][abs(leftX)].GetPlatformType())
 				{
+				default:
+					dragCoeff = normalDrag;
+					friction = fullStopFriction;
+					std::cout << "4 \n";
+					break;
 				case STICKY_BLOCK:// sticky physics
-					Player.velocity.x -= Player.velocity.x;
+					friction = fullStopFriction;
 					dragCoeff = stickDrag;
 					Player.collideBotton = true;
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
 					platform[abs(Y2)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
+					colliding = false;
+					std::cout << "3 \n";
 					break;
-				default:
-					dragCoeff = normalDrag;
-					Player.velocity.x -= Player.velocity.x;
+				case EMPTY_SPACE:
+					colliding = false;
 					break;
 				}
 			}
 			std::cout << "Left collided \n";
 		}
 		if (!colliding) {
+			//std::cout << " test 1 \n" << colliding;
 			dragCoeff = airDrag;
+			friction = 0.f;
+			Player.collideBotton = false;
+
 		}
 
 	}

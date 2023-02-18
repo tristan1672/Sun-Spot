@@ -12,8 +12,8 @@ enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK , STICKY_BLOCK , COLLECTABLES = 
 
 // ---------------------------------------------------------------------------
 // External Variables
-extern float e_gravity, e_jumpForce, min_jumpForce , vertMod,dragCoeff;
-extern const float original_jumpForce, originalMin_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag;;
+extern float e_gravity, e_jumpForce, min_jumpForce , vertMod,dragCoeff, friction;
+extern const float original_jumpForce, originalMin_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag, normalFriction, iceFriction, fullStopFriction;
 
 extern int** e_levelGrid;
 extern int BINARY_MAP_WIDTH, BINARY_MAP_HEIGHT;
