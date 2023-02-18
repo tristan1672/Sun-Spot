@@ -22,17 +22,18 @@ void collisionCheck(float playerX, float playerY) {
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
 
 	int e_collisionFlag = 0;
+	bool colliding{};
 
 	// "Normalizing"
-	int topY = (heightOffset - playerY - PLAYER_SIZE_Y / 2.0f) / gridHeight; // Top bound
-	int btmY = (heightOffset - playerY + PLAYER_SIZE_Y / 2.0f) / gridHeight; // Btm bound
-	int leftX = (widthOffset + playerX - PLAYER_SIZE_X / 2.0f) / gridWidth; // Left bound
-	int rightX = (widthOffset + playerX + PLAYER_SIZE_X / 2.0f) / gridWidth; // Right bound
+	int topY = (heightOffset - playerY - Player.GetScale().y / 2.0f) / gridHeight; // Top bound
+	int btmY = (heightOffset - playerY + Player.GetScale().y / 2.0f) / gridHeight; // Btm bound
+	int leftX = (widthOffset + playerX - Player.GetScale().x / 2.0f) / gridWidth; // Left bound
+	int rightX = (widthOffset + playerX + Player.GetScale().x / 2.0f) / gridWidth; // Right bound
 
-	int X1 = (widthOffset + playerX - PLAYER_SIZE_X / 4.0f) / gridWidth; // 25% X
-	int X2 = (widthOffset + playerX + PLAYER_SIZE_X / 4.0f) / gridWidth; // 75% X
-	int Y1 = (heightOffset - playerY - PLAYER_SIZE_Y / 4.0f) / gridHeight; // 25% Y
-	int Y2 = (heightOffset - playerY + PLAYER_SIZE_Y / 4.0f) / gridHeight; // 75% Y
+	int X1 = (widthOffset + playerX - Player.GetScale().x / 4.0f) / gridWidth; // 25% X
+	int X2 = (widthOffset + playerX + Player.GetScale().x / 4.0f) / gridWidth; // 75% X
+	int Y1 = (heightOffset - playerY - Player.GetScale().y / 4.0f) / gridHeight; // 25% Y
+	int Y2 = (heightOffset - playerY + Player.GetScale().y / 4.0f) / gridHeight; // 75% Y
 
 	/*
 	if (DEBUG) {
@@ -56,19 +57,22 @@ void collisionCheck(float playerX, float playerY) {
 	else {
 		// Top collided
 		if (platform[abs(topY)][abs(X1)].GetPlatformType()|| platform[abs(topY)][abs(X2)].GetPlatformType()) {
-			e_collisionFlag += COLLISION_TOP;
-			Player.velocity.y = 0.0f;
+			colliding = true;
 			std::cout << "Top collided \n";
 
 			// Collectabiles detection
 			if (platform[abs(topY)][abs(X1)].GetPlatformType() == COLLECTABLES || platform[abs(topY)][abs(X2)].GetPlatformType() == COLLECTABLES) {
 				e_collisionFlag = 0;
 				platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
+			}else{
+				e_collisionFlag += COLLISION_TOP;
+				Player.velocity.y = 0.0f;
 			}
 
 		}
 		// Btm collided
 		if (platform[abs(btmY)][abs(X1)].GetPlatformType()|| platform[abs(btmY)][abs(X2)].GetPlatformType()) {
+			colliding = true;
 			e_collisionFlag += COLLISION_BOTTOM;
 			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f)) || // checks which side of the grid the player is cooupying more
 				Player.position.x >(platform[abs(btmY)][abs(X1)].position.x - (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) {
@@ -149,21 +153,15 @@ void collisionCheck(float playerX, float playerY) {
 		}
 		// Right collided
 		if (platform[abs(Y1)][abs(rightX)].GetPlatformType()|| platform[abs(Y2)][abs(rightX)].GetPlatformType()) {
+			colliding = true;
 			e_collisionFlag += COLLISION_RIGHT;
 			if (Player.position.y < (platform[abs(Y1)][abs(rightX)].position.y + (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
 				Player.position.y >(platform[abs(Y1)][abs(rightX)].position.y - (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f))) {
 				switch (platform[abs(Y1)][abs(rightX)].GetPlatformType())
 				{
 				case STICKY_BLOCK:// sticky physics
-					if (vertMod == originalVertMod) {
-						vertMod /= 2.f;
-					}
-					std::cout << "vertMod" << vertMod << '\n';
+					dragCoeff = stickDrag;
 					Player.velocity.x -= Player.velocity.x;
-					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
-						e_jumpForce -= 50.f;
-						min_jumpForce -= 50.f;
-					}
 					Player.collideBotton = true;
 					break;
 				case COLLECTABLES:
@@ -171,6 +169,7 @@ void collisionCheck(float playerX, float playerY) {
 					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
+					dragCoeff = normalDrag;
 					Player.velocity.x -= Player.velocity.x;
 					break;
 				}
@@ -179,15 +178,8 @@ void collisionCheck(float playerX, float playerY) {
 				switch (platform[abs(Y2)][abs(rightX)].GetPlatformType())
 				{
 				case STICKY_BLOCK:// sticky physics
-					if (vertMod == originalVertMod) {
-						vertMod /= 2.f;
-					}
-					std::cout << "vertMod" << vertMod << '\n';
+					dragCoeff = stickDrag;
 					Player.velocity.x -= Player.velocity.x;
-					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
-						e_jumpForce -= 50.f;
-						min_jumpForce -= 50.f;
-					}
 					Player.collideBotton = true;
 					break;
 				case COLLECTABLES:
@@ -195,6 +187,7 @@ void collisionCheck(float playerX, float playerY) {
 					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
+					dragCoeff = normalDrag;
 					Player.velocity.x -= Player.velocity.x;
 					break;
 				}
@@ -203,21 +196,15 @@ void collisionCheck(float playerX, float playerY) {
 		}
 		// Left collided
 		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() || platform[abs(Y2)][abs(leftX)].GetPlatformType()) {
+			colliding = true;
 			e_collisionFlag += COLLISION_LEFT;
 			if (Player.position.y < (platform[abs(Y1)][abs(leftX)].position.y + (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
 				Player.position.y >(platform[abs(Y1)][abs(leftX)].position.y - (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f))) {
 				switch (platform[abs(Y1)][abs(leftX)].GetPlatformType())
 				{
 				case STICKY_BLOCK:// sticky physics
-					if (vertMod == originalVertMod) {
-						vertMod /= 2.f;
-					}
-					std::cout << "vertMod" << vertMod << '\n';
+					dragCoeff = stickDrag;
 					Player.velocity.x -= Player.velocity.x;
-					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
-						e_jumpForce -= 50.f;
-						min_jumpForce -= 50.f;
-					}
 					Player.collideBotton = true;
 					break;
 				case COLLECTABLES:
@@ -225,6 +212,7 @@ void collisionCheck(float playerX, float playerY) {
 					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
+					dragCoeff = normalDrag;
 					Player.velocity.x -= Player.velocity.x;
 					break;
 				}
@@ -233,15 +221,8 @@ void collisionCheck(float playerX, float playerY) {
 				switch (platform[abs(Y2)][abs(leftX)].GetPlatformType())
 				{
 				case STICKY_BLOCK:// sticky physics
-					if (vertMod == originalVertMod) {
-						vertMod /= 2.f;
-					}
-					std::cout << "vertMod" << vertMod << '\n';
 					Player.velocity.x -= Player.velocity.x;
-					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
-						e_jumpForce -= 50.f;
-						min_jumpForce -= 50.f;
-					}
+					dragCoeff = stickDrag;
 					Player.collideBotton = true;
 					break;
 				case COLLECTABLES:
@@ -249,11 +230,15 @@ void collisionCheck(float playerX, float playerY) {
 					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
+					dragCoeff = normalDrag;
 					Player.velocity.x -= Player.velocity.x;
 					break;
 				}
 			}
 			std::cout << "Left collided \n";
+		}
+		if (!colliding) {
+			dragCoeff = airDrag;
 		}
 
 	}

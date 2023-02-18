@@ -130,6 +130,7 @@ void Level1_Initialize()
 	Player = DynamicObj();
 	Player.position = { 0,PLAYER_SIZE_Y/2 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
+	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
 
@@ -190,8 +191,12 @@ void Level1_Initialize()
 void Level1_Update()
 {
 	// code that allows the player to get affected by gravity (might need to look back at it to improve)
+	float terminalVelocity{ 2.f * e_gravity / dragCoeff };
+	if (terminalVelocity < Player.velocity.y) {
+		Player.velocity.y += static_cast<float>(vertMod * e_gravity * AEFrameRateControllerGetFrameTime());
+	}
+	Player.velocity.y -= static_cast<float>(dragCoeff * Player.velocity.y * AEFrameRateControllerGetFrameTime());
 
-	Player.velocity.y += static_cast<float>(vertMod * e_gravity * AEFrameRateControllerGetFrameTime());
 	Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
 	Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
 
@@ -223,7 +228,7 @@ void Level1_Update()
 
 	AEGfxSetCamPosition(Player.position.x, cam.Y); //set camera to follow player
 	collisionCheck(Player.position.x, Player.position.y); //collision function
-
+	//std::cout << Player.position.y <<'\n';
 
 	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
 	{

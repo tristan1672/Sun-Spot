@@ -5,8 +5,8 @@
 this file contains gameobject class, a dynamic object class and function to make mesh on initialize all of wich are declearations;
 */
 
-#define PLAYER_SIZE_X 10.0f
-#define PLAYER_SIZE_Y 10.0f
+#define PLAYER_SIZE_X 30.0f
+#define PLAYER_SIZE_Y 30.0f
 
 void MakeMesh()/*used to make default mesh*/;
 
