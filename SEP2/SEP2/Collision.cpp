@@ -140,7 +140,7 @@ void collisionCheck(float playerX, float playerY) {
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
-					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
+					platform[abs(btmY)][abs(X2)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					break;
@@ -166,7 +166,7 @@ void collisionCheck(float playerX, float playerY) {
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
-					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
+					platform[abs(Y1)][abs(rightX)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					dragCoeff = normalDrag;
@@ -184,7 +184,7 @@ void collisionCheck(float playerX, float playerY) {
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
-					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
+					platform[abs(Y2)][abs(rightX)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					dragCoeff = normalDrag;
@@ -209,7 +209,7 @@ void collisionCheck(float playerX, float playerY) {
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
-					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
+					platform[abs(Y1)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					dragCoeff = normalDrag;
@@ -227,7 +227,7 @@ void collisionCheck(float playerX, float playerY) {
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
-					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
+					platform[abs(Y2)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
 					break;
 				default:
 					dragCoeff = normalDrag;
