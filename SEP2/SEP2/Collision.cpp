@@ -215,8 +215,6 @@ void collisionCheck() {
 					e_collisionFlag = 0;
 					platform[abs(Y1)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
 					colliding = false;
-					dragCoeff = airDrag;
-					friction = 0.f;
 					std::cout << "1 \n";
 					break;
 				case EMPTY_SPACE:
@@ -241,8 +239,6 @@ void collisionCheck() {
 					e_collisionFlag = 0;
 					platform[abs(Y2)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
 					colliding = false;
-					dragCoeff = airDrag;
-					friction = 0.f;
 					std::cout << "3 \n";
 					break;
 				case EMPTY_SPACE:

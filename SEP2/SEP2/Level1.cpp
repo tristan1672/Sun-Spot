@@ -217,7 +217,7 @@ void Level1_Update()
 		mouse = { 0,0,0,0 };
 	}
 
-	collisionCheck(Player.position.x, Player.position.y); //collision function
+	collisionCheck(); //collision function
 	//std::cout << Player.position.y <<'\n';
 	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
 	{
