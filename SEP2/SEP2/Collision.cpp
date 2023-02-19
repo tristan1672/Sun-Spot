@@ -14,7 +14,7 @@ const int	COLLISION_BOTTOM = 0x00000008;	//1000
 // ----------------------------------------------------------------------------
 // This function checks for player collsion 
 // ----------------------------------------------------------------------------
-void collisionCheck(float playerX, float playerY) {
+void collisionCheck() {
 	
 	float gridWidth = WINDOW_WIDTH / BINARY_MAP_WIDTH;
 	float gridHeight = WINDOW_HEIGHT / BINARY_MAP_HEIGHT;
@@ -25,15 +25,15 @@ void collisionCheck(float playerX, float playerY) {
 	bool colliding{};
 
 	// "Normalizing"
-	int topY = (heightOffset - playerY - Player.GetScale().y / 2.0f) / gridHeight; // Top bound
-	int btmY = (heightOffset - playerY + Player.GetScale().y / 2.0f) / gridHeight; // Btm bound
-	int leftX = (widthOffset + playerX - Player.GetScale().x / 2.0f) / gridWidth; // Left bound
-	int rightX = (widthOffset + playerX + Player.GetScale().x / 2.0f) / gridWidth; // Right bound
+	int topY = (heightOffset - Player.position.y - Player.GetScale().y / 2.0f) / gridHeight; // Top bound
+	int btmY = (heightOffset - Player.position.y + Player.GetScale().y / 2.0f) / gridHeight; // Btm bound
+	int leftX = (widthOffset + Player.position.x - Player.GetScale().x / 2.0f) / gridWidth; // Left bound
+	int rightX = (widthOffset + Player.position.x + Player.GetScale().x / 2.0f) / gridWidth; // Right bound
 
-	int X1 = (widthOffset + playerX - Player.GetScale().x / 4.0f) / gridWidth; // 25% X
-	int X2 = (widthOffset + playerX + Player.GetScale().x / 4.0f) / gridWidth; // 75% X
-	int Y1 = (heightOffset - playerY - Player.GetScale().y / 4.0f) / gridHeight; // 25% Y
-	int Y2 = (heightOffset - playerY + Player.GetScale().y / 4.0f) / gridHeight; // 75% Y
+	int X1 = (widthOffset + Player.position.x - Player.GetScale().x / 4.0f) / gridWidth; // 25% X
+	int X2 = (widthOffset + Player.position.x + Player.GetScale().x / 4.0f) / gridWidth; // 75% X
+	int Y1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / gridHeight; // 25% Y
+	int Y2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / gridHeight; // 75% Y
 
 	/*
 	if (DEBUG) {
