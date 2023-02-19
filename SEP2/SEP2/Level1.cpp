@@ -190,26 +190,6 @@ void Level1_Initialize()
 // ----------------------------------------------------------------------------
 void Level1_Update()
 {
-	// code that allows the player to get affected by gravity (might need to look back at it to improve)
-	float terminalVelocity{ 2.f * e_gravity / dragCoeff };
-	if (terminalVelocity < Player.velocity.y) {
-		Player.velocity.y += static_cast<float>(vertMod * e_gravity * AEFrameRateControllerGetFrameTime());
-	}
-	if (Player.velocity.y) {
-		Player.velocity.y -= static_cast<float>(dragCoeff * Player.velocity.y * AEFrameRateControllerGetFrameTime());
-	}
-	if (abs(Player.velocity.x) < 2.f) {
-		Player.velocity.x = 0;
-	}
-	if (Player.velocity.x && friction != fullStopFriction) {
-		Player.velocity.x -= static_cast<float>(friction * Player.velocity.x * AEFrameRateControllerGetFrameTime());
-	}
-	else if (Player.velocity.x && friction == fullStopFriction) {
-		Player.velocity.x -= static_cast<float>(Player.velocity.x );
-	}
-
-	Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
-	Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
 
 	// Checks the current pos of the mouse when initially clicked
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
@@ -237,7 +217,6 @@ void Level1_Update()
 		mouse = { 0,0,0,0 };
 	}
 
-	AEGfxSetCamPosition(Player.position.x, cam.Y); //set camera to follow player
 	collisionCheck(Player.position.x, Player.position.y); //collision function
 	//std::cout << Player.position.y <<'\n';
 	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
@@ -248,6 +227,28 @@ void Level1_Update()
 		Player.velocity.x = 0.0f;
 	}
 
+	// code that allows the player to get affected by gravity (might need to look back at it to improve)
+	float terminalVelocity{ 2.f * e_gravity / dragCoeff };
+	if (terminalVelocity < Player.velocity.y) {
+		Player.velocity.y += static_cast<float>(vertMod * e_gravity * AEFrameRateControllerGetFrameTime());
+	}
+	if (Player.velocity.y) {
+		Player.velocity.y -= static_cast<float>(dragCoeff * Player.velocity.y * AEFrameRateControllerGetFrameTime());
+	}
+	if (abs(Player.velocity.x) < 2.f) {
+		Player.velocity.x = 0;
+	}
+	if (Player.velocity.x && friction != fullStopFriction) {
+		Player.velocity.x -= static_cast<float>(friction * Player.velocity.x * AEFrameRateControllerGetFrameTime());
+	}
+	else if (Player.velocity.x && friction == fullStopFriction) {
+		Player.velocity.x -= static_cast<float>(Player.velocity.x);
+	}
+
+	Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
+	Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
+
+	AEGfxSetCamPosition(Player.position.x, cam.Y); //set camera to follow player
 	//cam shake
 	if (!Player.collideBotton) //set shake and shaketime
 	{

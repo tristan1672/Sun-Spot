@@ -120,7 +120,7 @@ void collisionCheck(float playerX, float playerY) {
 					Player.velocity.y -= Player.velocity.y;
 					friction = iceFriction;
 					break;
-				case 3:// sticky physics
+				case STICKY_BLOCK:// sticky physics
 					Player.velocity.y -= Player.velocity.y;
 					friction = fullStopFriction;
 					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
@@ -215,7 +215,9 @@ void collisionCheck(float playerX, float playerY) {
 					e_collisionFlag = 0;
 					platform[abs(Y1)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
 					colliding = false;
-					std::cout << "1 \n" << colliding;
+					dragCoeff = airDrag;
+					friction = 0.f;
+					std::cout << "1 \n";
 					break;
 				case EMPTY_SPACE:
 					colliding = false;
@@ -239,6 +241,8 @@ void collisionCheck(float playerX, float playerY) {
 					e_collisionFlag = 0;
 					platform[abs(Y2)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
 					colliding = false;
+					dragCoeff = airDrag;
+					friction = 0.f;
 					std::cout << "3 \n";
 					break;
 				case EMPTY_SPACE:
@@ -252,7 +256,7 @@ void collisionCheck(float playerX, float playerY) {
 			//std::cout << " test 1 \n" << colliding;
 			dragCoeff = airDrag;
 			friction = 0.f;
-			Player.collideBotton = false;
+
 
 		}
 
