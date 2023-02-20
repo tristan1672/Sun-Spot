@@ -28,12 +28,13 @@ DynamicObj Player;
 Platform **platform;
 //GameObject platform[BINARY_MAP_HEIGHT][BINARY_MAP_WIDTH]{};
 GameObject jumpArrow;
+GameObject WinScreen;
 
 int** e_levelGrid;
 int BINARY_MAP_WIDTH;
 int BINARY_MAP_HEIGHT;
 
-
+int level1_state;
 
 int gGameRunning = 1;
 bool flick = false;
@@ -45,8 +46,7 @@ short e_shakeStrength;
 float shakespeed;
 float shakedistance;
 f64 shaketime;
-
-
+AEGfxTexture* ptex = nullptr;
 
 // ----------------------------------------------------------------------------
 // This function loads necessary data(resource and asset) and initialize it
@@ -54,6 +54,7 @@ f64 shaketime;
 // ----------------------------------------------------------------------------
 void Level1_Load()
 {
+	ptex = AEGfxTextureLoad("Assets/Cleared.png");
 	std::cout << "Level 1:Load\n";
 	std::fstream levelMap("Assets/Script/Level1.txt", std::ios_base::in);
 
@@ -126,7 +127,7 @@ void Level1_Load()
 void Level1_Initialize()
 {
 	std::cout << "Level 1:Initialize\n";
-
+	level1_state = PLAYING;
 	Player = DynamicObj();
 	Player.position = { 0,PLAYER_SIZE_Y/2 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
@@ -161,6 +162,11 @@ void Level1_Initialize()
 					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
 					{ PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f });
 				break;
+			case GOAL:
+				platform[i][j] = Platform(
+					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
+					{ PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
+				break;
 			default:
 				break;
 			}
@@ -182,6 +188,7 @@ void Level1_Initialize()
 	shakedistance = 0.5f;
 	
 	MakeMesh();
+	UIMesh();
 }
 
 // ----------------------------------------------------------------------------
@@ -190,31 +197,33 @@ void Level1_Initialize()
 // ----------------------------------------------------------------------------
 void Level1_Update()
 {
-
-	// Checks the current pos of the mouse when initially clicked
-	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
-		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
-	}
-	//shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
-	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.collideBotton) {
-		Input_Handle_HoldCheck();
-		if (e_jumpForce <= min_jumpForce) {
-			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
-			Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ClickX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ClickY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
-			Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
-			float angle = atan2f(-nDirection.x, nDirection.y);
-			std::cout << angle;
-			jumpArrow.SetRotation(angle);
-			jumpArrow.position = { mouseClickQuadPos.x,mouseClickQuadPos.y };
-			std::cout << mouse.ReleaseY << "\n";
+	if(level1_state == PLAYING)
+	{
+		// Checks the current pos of the mouse when initially clicked
+		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
+			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 		}
-	}
-	// the player jumps in according to the direction previously specified, then resets all the rotations and click pos to 0;
-	if (AEInputCheckReleased(AEVK_LBUTTON) && Player.collideBotton) {
-		AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
-		Input_Handle_Jump();
-		jumpArrow.SetRotation(0);
-		mouse = { 0,0,0,0 };
+		//shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
+		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.collideBotton) {
+			Input_Handle_HoldCheck();
+			if (e_jumpForce <= min_jumpForce) {
+				AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
+				Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ClickX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ClickY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
+				Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
+				float angle = atan2f(-nDirection.x, nDirection.y);
+				std::cout << angle;
+				jumpArrow.SetRotation(angle);
+				jumpArrow.position = { mouseClickQuadPos.x,mouseClickQuadPos.y };
+				std::cout << mouse.ReleaseY << "\n";
+			}
+		}
+		// the player jumps in according to the direction previously specified, then resets all the rotations and click pos to 0;
+		if (AEInputCheckReleased(AEVK_LBUTTON) && Player.collideBotton) {
+			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
+			Input_Handle_Jump();
+			jumpArrow.SetRotation(0);
+			mouse = { 0,0,0,0 };
+		}
 	}
 
 	collisionCheck(Player.position.x, Player.position.y); //collision function
@@ -258,7 +267,7 @@ void Level1_Update()
 	}
 
 	if (shake == 1 && (Player.collideBotton) && (shaketime < 0.2f)) //shake conditions
-	{	
+	{
 		shakespeed = 1.0f;
 		shaketime += AEFrameRateControllerGetFrameTime();
 		float distance = cam.Y - Player.position.y;
@@ -289,7 +298,9 @@ void Level1_Update()
 				shakespeed *= -1.0f;
 			}
 		}
+		
 	}
+
 	cam.Y = Player.position.y + shakespeed * AEFrameRateControllerGetFrameTime();
 	
 }
@@ -300,7 +311,7 @@ void Level1_Update()
 // ----------------------------------------------------------------------------
 void Level1_Draw()
 {
-
+	
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
@@ -318,7 +329,18 @@ void Level1_Draw()
 	Player.DrawObj();
 	//draws the arrow direction
 	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.collideBotton && e_jumpForce <= min_jumpForce) {
-		jumpArrow.DrawObj();
+			jumpArrow.DrawObj();
+	}
+	
+	if (level1_state == WIN) //draw win screen
+	{
+		WinScreen = GameObject();
+		WinScreen.position = { 0.0f, 0.0f };
+		WinScreen.SetScale({ 1270.f, 720.f });
+		WinScreen.SetColour({ 0.f,0.0f,0.f,0.7f });
+		WinScreen.DrawObj();
+	
+		DrawTexture(ptex, 0.0f, 100.0f, 1.0f, 1.0f); //Function to draw texture
 	}
 }
 
@@ -333,7 +355,7 @@ void Level1_Free()
 		delete[] platform[i];
 	}
 	delete[] platform;
-
+	
 }
 
 // ----------------------------------------------------------------------------
@@ -343,4 +365,5 @@ void Level1_Free()
 void Level1_Unload()
 {
 	std::cout << "Level 1:Unload\n";
+	AEGfxTextureUnload(ptex);
 }

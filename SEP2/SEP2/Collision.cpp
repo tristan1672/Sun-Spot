@@ -102,6 +102,8 @@ void collisionCheck(float playerX, float playerY) {
 					colliding = false;
 					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 					break;
+				case GOAL:
+					level1_state = WIN;
 				default:
 					break;
 				}
@@ -133,6 +135,8 @@ void collisionCheck(float playerX, float playerY) {
 					colliding = false;
 					platform[abs(btmY)][abs(X2)].SetPlatformType(EMPTY_SPACE);
 					break;
+				case GOAL:
+					level1_state = WIN;
 				default:
 					break;
 				}
@@ -162,6 +166,9 @@ void collisionCheck(float playerX, float playerY) {
 					break;
 				case EMPTY_SPACE:
 					colliding = false;
+					break;
+				case GOAL:
+					level1_state = WIN;
 					break;
 				default:
 					dragCoeff = normalDrag;
@@ -222,6 +229,8 @@ void collisionCheck(float playerX, float playerY) {
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
+				case GOAL:
+					level1_state = WIN;
 				}
 			}
 			else {
@@ -248,6 +257,8 @@ void collisionCheck(float playerX, float playerY) {
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
+				case GOAL:
+					level1_state = WIN;
 				}
 			}
 			std::cout << "Left collided \n";
@@ -267,7 +278,7 @@ void collisionCheck(float playerX, float playerY) {
 	{
 		e_shakeStrength = HEAVY_SHAKE;
 	}
-	else if (Player.velocity.y < -140.0f)
+	else if (Player.velocity.y < -90.0f)
 	{
 		e_shakeStrength = MEDIUM_SHAKE;
 	}

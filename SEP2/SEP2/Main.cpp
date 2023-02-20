@@ -20,7 +20,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     //Initialize the system
     AESysInit(hInstance, nCmdShow, WINDOW_WIDTH, WINDOW_HEIGHT, 1, 60, true, NULL); // trynna shift into System_Initialize()
     System_Initialize(); 
-
+    
 
     //Initialize the gamestate manager
     GSM_Initialize(GS_LEVEL1);

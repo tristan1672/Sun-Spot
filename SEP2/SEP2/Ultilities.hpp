@@ -8,7 +8,8 @@
 
 enum { DEBUG = 1 };
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
-enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK , STICKY_BLOCK , COLLECTABLES = 9};
+enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, GOAL, COLLECTABLES = 9};
+enum { PLAYING = 0, WIN = 1, LOSE = 2};
 
 // ---------------------------------------------------------------------------
 // External Variables
@@ -17,6 +18,9 @@ extern const float original_jumpForce, originalMin_jumpForce, originalVertMod, a
 
 extern int** e_levelGrid;
 extern int BINARY_MAP_WIDTH, BINARY_MAP_HEIGHT;
+
+//Level States
+extern int level1_state;
 
 //extern Platform** platform;
 extern int e_collisionFlag;

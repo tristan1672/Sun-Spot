@@ -9,6 +9,7 @@
 #include "GameObjClasses.hpp"
 #include "PreCompiledHeader.hpp"
 #include "Ultilities.hpp"
+#include "UI.hpp"
 
 void Level1_Load();
 
