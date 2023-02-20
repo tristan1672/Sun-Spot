@@ -314,7 +314,7 @@ void collisionCheck() {
 	}
 	if (e_collisionFlag == COLLISION_TOP + COLLISION_LEFT) {
 		Player.position.y = heightOffset - (topY + 1) * gridHeight - (PLAYER_SIZE_Y / 2.0f);
-		Player.position.x = -widthOffset + (leftX + 1) * gridWidth + PLAYER_SIZE_X / 2.0f;
+		Player.position.x = -widthOffset + (leftX + 0.9999) * gridWidth + PLAYER_SIZE_X / 2.0f;
 	}
 	if (e_collisionFlag == COLLISION_TOP + COLLISION_RIGHT) {
 		Player.position.y = heightOffset - (topY + 1) * gridHeight - (PLAYER_SIZE_Y / 2.0f);
@@ -325,14 +325,14 @@ void collisionCheck() {
 	}
 	if (e_collisionFlag == COLLISION_BOTTOM + COLLISION_LEFT) {
 		Player.position.y = heightOffset - btmY * gridHeight + (PLAYER_SIZE_Y / 2.0f);
-		Player.position.x = -widthOffset + (leftX + 1) * gridWidth + PLAYER_SIZE_X / 2.0f;
+		Player.position.x = -widthOffset + (leftX + 0.9999) * gridWidth + PLAYER_SIZE_X / 2.0f;
 	}
 	if (e_collisionFlag == COLLISION_BOTTOM + COLLISION_RIGHT) {
 		Player.position.y = heightOffset - btmY * gridHeight + (PLAYER_SIZE_Y / 2.0f);
 		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
 	}
 	if (e_collisionFlag == COLLISION_LEFT) {
-		Player.position.x = -widthOffset + (leftX+1) * gridWidth + PLAYER_SIZE_X / 2.0f;
+		Player.position.x = -widthOffset + (leftX+0.9999) * gridWidth + PLAYER_SIZE_X / 2.0f;
 	}
 	if (e_collisionFlag == COLLISION_RIGHT) {
 		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
