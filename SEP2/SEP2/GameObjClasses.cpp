@@ -63,6 +63,9 @@ f32 GameObject::GetRotation() {// Getter for rotation
 void GameObject::SetRotation(f32 Rotation) {// Setter for rotation
 	rotation = Rotation;
 }
+void GameObject::SetTexture(AEGfxTexture* texturePointer) {
+	ptex = texturePointer;
+}
 #pragma endregion
 //the draw function for created object, can be changed when inherited
 void GameObject::DrawObj() {
@@ -91,6 +94,7 @@ void GameObject::DrawObj() {
 	// Choose the transform to use
 	AEGfxSetTransform(Transform.m);
 	// Actually drawing the mesh 
+	AEGfxTextureSet(ptex, 0, 0);
 	AEGfxMeshDraw(pMesh, AE_GFX_MDM_TRIANGLES);
 }
 #pragma endregion

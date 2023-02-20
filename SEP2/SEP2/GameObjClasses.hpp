@@ -18,6 +18,7 @@ protected:
 	ColourValue colour;
 	f32 rotation;
 	AEGfxRenderMode renderMode;
+	AEGfxTexture* ptex{nullptr};
 public:
 	Vector2D position;
 	//the draw function for created object, can be changed when inherited
@@ -36,6 +37,7 @@ public:
 	void SetColour(ColourValue Colour);
 	f32 GetRotation();
 	void SetRotation(f32 Rotation);
+	void SetTexture(AEGfxTexture* texturePointer);
 #pragma endregion
 
 };
