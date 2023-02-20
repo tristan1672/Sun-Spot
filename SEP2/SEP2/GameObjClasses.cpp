@@ -33,8 +33,8 @@ void MakeMesh() {
 // all defination that the Class Gameoobject will use most if not all variables comes with default value to prevent reading werid values
 #pragma region Gameobject Class Defination
 //constructor for GameObject
-GameObject::GameObject(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation){
-	position = Position; scale = Scale; colour = Colour; rotation = Rotation;
+GameObject::GameObject(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode){
+	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode;
 
 }
 #pragma region GameObject::Getter/Setter
@@ -66,7 +66,7 @@ void GameObject::SetRotation(f32 Rotation) {// Setter for rotation
 #pragma endregion
 //the draw function for created object, can be changed when inherited
 void GameObject::DrawObj() {
-	AEGfxSetRenderMode(AE_GFX_RM_COLOR);
+	AEGfxSetRenderMode(renderMode);
 	AEGfxSetTintColor(colour.red, colour.green, colour.blue, colour.alpha);
 	// Set blend mode to AE_GFX_BM_BLEND
 	// This will allow transparency.
@@ -97,8 +97,8 @@ void GameObject::DrawObj() {
 
 #pragma region Defination for DynamicObjClass
 //constructor for any dynamic obj
-DynamicObj::DynamicObj(Vector2D Velocity, Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation) {
-	velocity = Velocity,position = Position; scale = Scale; colour = Colour; rotation = Rotation;
+DynamicObj::DynamicObj(Vector2D Velocity, Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode) {
+	velocity = Velocity,position = Position; scale = Scale; colour = Colour; rotation = Rotation, renderMode = RenderMode;
 }
 #pragma region Getter/Setter For DynamicObj
 
@@ -112,8 +112,8 @@ void DynamicObj::SetVelocity(Vector2D Velocity) {//set object velocity
 #pragma endregion
 
 #pragma region Platform Object Class
-Platform::Platform(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation) {
-	position = Position; scale = Scale; colour = Colour; rotation = Rotation;
+Platform::Platform(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode ) {
+	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode;
 }
 
 int Platform::GetPlatformType() {

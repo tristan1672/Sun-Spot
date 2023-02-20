@@ -17,13 +17,15 @@ protected:
 	Vector2D scale;
 	ColourValue colour;
 	f32 rotation;
+	AEGfxRenderMode renderMode;
 public:
 	Vector2D position;
 	//the draw function for created object, can be changed when inherited
 	virtual void DrawObj();
 
 	//constructor
-	GameObject(Vector2D Position = { 0.f,0.f }, Vector2D Scale = { 10.f,10.f }, ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0);
+	GameObject(Vector2D Position = { 0.f,0.f }, Vector2D Scale = { 10.f,10.f }, 
+		ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0 , AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR);
 #pragma region Getter/Setter
 
 	Vector2D GetPosition();
@@ -42,7 +44,8 @@ class DynamicObj:public GameObject {
 public:
 	Vector2D velocity;
 	bool collideBotton = true, collideTop = false, collideRight = false, collideLeft = false;
-	DynamicObj(Vector2D Velocity = {0.f,0.f}, Vector2D Position = {0.f,0.f}, Vector2D Scale = { PLAYER_SIZE_X, PLAYER_SIZE_Y }, ColourValue Colour = {1.f,1.f,1.f,1.f}, f32 Rotation = 0);
+	DynamicObj(Vector2D Velocity = {0.f,0.f}, Vector2D Position = {0.f,0.f}, Vector2D Scale = { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 
+		ColourValue Colour = {1.f,1.f,1.f,1.f}, f32 Rotation = 0, AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR);
 #pragma region Getter/Setter
 
 	Vector2D GetVelocity();
@@ -53,7 +56,8 @@ public:
 class Platform: public GameObject {
 	int platformType{};
 public:
-	Platform(Vector2D Position = { 0.f,0.f }, Vector2D Scale = { 10.f,10.f }, ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0);
+	Platform(Vector2D Position = { 0.f,0.f }, Vector2D Scale = { 10.f,10.f },
+		ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0, AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR);
 	Platform& operator=(const Platform& p);
 
 	int GetPlatformType();
