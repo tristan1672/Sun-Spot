@@ -309,11 +309,12 @@ void Level1_Update()
 		}
 		
 	}
-	std::cout << e_shakeStrength << "\n";
+	
 	cam.Y = Player.position.y + shakespeed * e_deltaTime;
 
 	
 	if (DEBUG) {
+		std::cout << "Shake Strength: " << e_shakeStrength << "\n";
 		std::cout << "Delta Time: " << e_deltaTime << "\n";
 		std::cout << "Level Time: " << e_levelTime << "\n";
 	}

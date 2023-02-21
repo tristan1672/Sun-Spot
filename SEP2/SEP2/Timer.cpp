@@ -10,5 +10,5 @@ float LevelTime() {
 }
 
 void DisplayTime() {
-	
+	// AEGfxCreateFont();
 }
