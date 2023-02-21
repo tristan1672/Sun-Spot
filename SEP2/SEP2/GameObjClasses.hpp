@@ -45,7 +45,7 @@ public:
 class DynamicObj:public GameObject {
 public:
 	Vector2D velocity;
-	bool collideBotton = true, collideTop = false, collideRight = false, collideLeft = false;
+	bool jumpReady = true, collideTop = false, collideRight = false, collideLeft = false;
 	DynamicObj(Vector2D Velocity = {0.f,0.f}, Vector2D Position = {0.f,0.f}, Vector2D Scale = { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 
 		ColourValue Colour = {1.f,1.f,1.f,1.f}, f32 Rotation = 0, AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR);
 #pragma region Getter/Setter

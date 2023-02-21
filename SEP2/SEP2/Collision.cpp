@@ -51,7 +51,7 @@ void collisionCheck() {
 		//std::cout << Player.velocity.x << '\n';
 		Player.velocity.x = 0.0f;
 		Player.velocity.y = 0.0f;
-		Player.collideBotton = true;
+		Player.jumpReady = true;
 		Player.position.x = 0.0f;
 		Player.position.y = PLAYER_SIZE_Y / 2.0f;
 	}
@@ -142,7 +142,7 @@ void collisionCheck() {
 				}
 			}
 			if (!Player.velocity.x) {
-				Player.collideBotton = true;
+				Player.jumpReady = true;
 			}
 			//std::cout << "Btm collided \n";
 		}
@@ -157,7 +157,7 @@ void collisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
 					friction = fullStopFriction;
-					Player.collideBotton = true;
+					Player.jumpReady = true;
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
@@ -182,7 +182,7 @@ void collisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
 					friction = fullStopFriction;
-					Player.collideBotton = true;
+					Player.jumpReady = true;
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
@@ -216,7 +216,7 @@ void collisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
 					friction = fullStopFriction;
-					Player.collideBotton = true;
+					Player.jumpReady = true;
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;
@@ -242,7 +242,7 @@ void collisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					friction = fullStopFriction;
 					dragCoeff = stickDrag;
-					Player.collideBotton = true;
+					Player.jumpReady = true;
 					break;
 				case COLLECTABLES:
 					e_collisionFlag = 0;

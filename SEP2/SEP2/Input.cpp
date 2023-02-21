@@ -54,7 +54,7 @@ void Input_Handle_Jump() {
 	Player.velocity.x = static_cast<float>(e_jumpForce * nDirection.x);
 	Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
 	Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
-	Player.collideBotton = false;
+	Player.jumpReady = false;
 	e_jumpForce = original_jumpForce;
 	min_jumpForce = originalMin_jumpForce;
 	vertMod = originalVertMod;

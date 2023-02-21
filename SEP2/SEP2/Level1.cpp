@@ -208,7 +208,7 @@ void Level1_Update()
 			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 		}
 		//shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
-		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.collideBotton) {
+		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady) {
 			Input_Handle_HoldCheck();
 			if (e_jumpForce <= min_jumpForce) {
 				AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
@@ -222,7 +222,7 @@ void Level1_Update()
 			}
 		}
 		// the player jumps in according to the direction previously specified, then resets all the rotations and click pos to 0;
-		if (AEInputCheckReleased(AEVK_LBUTTON) && Player.collideBotton) {
+		if (AEInputCheckReleased(AEVK_LBUTTON) && Player.jumpReady) {
 			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
 			Input_Handle_Jump();
 			jumpArrow.SetRotation(0);
@@ -263,14 +263,14 @@ void Level1_Update()
 
 	AEGfxSetCamPosition(Player.position.x, cam.Y); //set camera to follow player
 	//cam shake
-	if (!Player.collideBotton) //set shake and shaketime
+	if (!Player.jumpReady) //set shake and shaketime
 	{
 		shake = 1;
 		shaketime = 0;
 		e_shakeStrength = NO_SHAKE;
 	}
 
-	if (shake == 1 && (Player.collideBotton) && (shaketime < 0.2f)) //shake conditions
+	if (shake == 1 && (Player.jumpReady) && (shaketime < 0.2f)) //shake conditions
 	{
 		shakespeed = 1.0f;
 		shaketime += AEFrameRateControllerGetFrameTime();
@@ -332,7 +332,7 @@ void Level1_Draw()
 	//draws the player
 	Player.DrawObj();
 	//draws the arrow direction
-	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.collideBotton && e_jumpForce <= min_jumpForce) {
+	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && e_jumpForce <= min_jumpForce) {
 			jumpArrow.DrawObj();
 	}
 	
