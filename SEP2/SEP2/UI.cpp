@@ -56,5 +56,5 @@ void DrawTexture(AEGfxTexture* ptex, f32 pos_x, f32 pos_y, f32 scale_x, f32 scal
 	AEGfxSetTransform(Transform.m);
 	// Actually drawing the mesh 
 	AEGfxMeshDraw(UImesh, AE_GFX_MDM_TRIANGLES);
-
+	
 }
