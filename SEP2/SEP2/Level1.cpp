@@ -29,6 +29,7 @@ Platform **platform;
 //GameObject platform[BINARY_MAP_HEIGHT][BINARY_MAP_WIDTH]{};
 GameObject jumpArrow;
 GameObject WinScreen;
+GameObject Cleared;
 
 int** e_levelGrid;
 int BINARY_MAP_WIDTH;
@@ -55,6 +56,9 @@ AEGfxTexture* ptex = nullptr;
 void Level1_Load()
 {
 	ptex = AEGfxTextureLoad("Assets/Cleared.png");
+	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
+	Cleared.SetTexture(ptex);
+
 	std::cout << "Level 1:Load\n";
 	std::fstream levelMap("Assets/Script/Level1.txt", std::ios_base::in);
 
@@ -300,9 +304,9 @@ void Level1_Update()
 		}
 		
 	}
-
+	std::cout << e_shakeStrength << "\n";
 	cam.Y = Player.position.y + shakespeed * AEFrameRateControllerGetFrameTime();
-	
+
 }
 
 // ----------------------------------------------------------------------------
@@ -340,7 +344,9 @@ void Level1_Draw()
 		WinScreen.SetColour({ 0.f,0.0f,0.f,0.7f });
 		WinScreen.DrawObj();
 	
-		DrawTexture(ptex, 0.0f, 100.0f, 1.0f, 1.0f); //Function to draw texture
+		Cleared.SetPosition({ Player.position.x, Player.position.y });
+		Cleared.DrawObj();
+		
 	}
 }
 
