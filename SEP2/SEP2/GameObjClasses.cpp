@@ -113,6 +113,9 @@ void GameObject::DrawObj() {
 	AEGfxSetTransform(Transform.m);
 	// Actually drawing the mesh 
 	AEGfxTextureSet(ptex, 0, 0);
+	if (objMesh == nullptr) {
+		printf("error\n");
+	}
 	AEGfxMeshDraw(objMesh, AE_GFX_MDM_TRIANGLES);
 }
 #pragma endregion

@@ -59,14 +59,15 @@ AEGfxTexture* ptex = nullptr;
 // ----------------------------------------------------------------------------
 void Level1_Load()
 {
+	MakeMesh();
+	MakeArrowMesh();
+
 	ptex = AEGfxTextureLoad("Assets/Cleared.png");
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
 
 	std::cout << "Level 1:Load\n";
 	std::fstream levelMap("Assets/Script/Level1.txt", std::ios_base::in);
-	MakeMesh();
-	MakeArrowMesh();
 	if (levelMap.is_open()) {
 		std::cout << "Level File opened\n";
 		std::string temp;
@@ -197,8 +198,6 @@ void Level1_Initialize()
 	e_shakeStrength = NO_SHAKE;
 	shakespeed = 0.0f;
 	shakedistance = 0.5f;
-	
-	MakeMesh();
 }
 
 // ----------------------------------------------------------------------------
