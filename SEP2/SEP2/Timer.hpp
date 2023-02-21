@@ -5,3 +5,5 @@
 float GetTime();
 
 float LevelTime();
+
+void DisplayTime();

@@ -9,3 +9,6 @@ float LevelTime() {
 	return e_levelTime;
 }
 
+void DisplayTime() {
+	
+}
