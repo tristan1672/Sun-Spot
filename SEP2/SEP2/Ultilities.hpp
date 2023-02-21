@@ -16,6 +16,7 @@ enum { PLAYING = 0, WIN = 1, LOSE = 2};
 extern float e_gravity, e_jumpForce, min_jumpForce , vertMod,dragCoeff, friction;
 extern const float original_jumpForce, originalMin_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag, normalFriction, iceFriction, fullStopFriction;
 
+extern float e_deltaTime, e_levelTime;
 extern int** e_levelGrid;
 extern int BINARY_MAP_WIDTH, BINARY_MAP_HEIGHT;
 

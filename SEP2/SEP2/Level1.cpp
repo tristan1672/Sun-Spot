@@ -15,6 +15,7 @@
 
 #include "Level1.hpp"
 #include "Collision.hpp"
+#include "Timer.hpp"
 //#include <vector>
 #include<string>
 
@@ -29,6 +30,9 @@ Platform **platform;
 //GameObject platform[BINARY_MAP_HEIGHT][BINARY_MAP_WIDTH]{};
 GameObject jumpArrow;
 GameObject WinScreen;
+
+float e_deltaTime;
+float e_levelTime;
 
 int** e_levelGrid;
 int BINARY_MAP_WIDTH;
@@ -128,6 +132,7 @@ void Level1_Initialize()
 {
 	std::cout << "Level 1:Initialize\n";
 	level1_state = PLAYING;
+	e_levelTime = 0.0f;
 	Player = DynamicObj();
 	Player.position = { 0,PLAYER_SIZE_Y/2 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
@@ -303,6 +308,10 @@ void Level1_Update()
 
 	cam.Y = Player.position.y + shakespeed * AEFrameRateControllerGetFrameTime();
 	
+	if (DEBUG) {
+		std::cout << "Delta Time: " << e_deltaTime << "\n";
+		std::cout << "Level Time: " << e_levelTime << "\n";
+	}
 }
 
 // ----------------------------------------------------------------------------

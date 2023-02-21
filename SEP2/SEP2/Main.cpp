@@ -7,6 +7,7 @@
 #include "System.hpp"
 #include "GameStateManager.hpp"
 #include "Input.hpp"
+#include "Timer.hpp"
 // ---------------------------------------------------------------------------
 
 // ----------------------------------------------------------------------------
@@ -43,8 +44,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
         {   
             AESysFrameStart();
             AEInputUpdate();
+
+            GetTime(); // Gets delta time
             e_fpUpdate(); // Update current gamestate
             e_fpDraw(); // Render current gamestate
+            LevelTime(); // Gets total time elapsed for the level
 
             AESysFrameEnd();
         }

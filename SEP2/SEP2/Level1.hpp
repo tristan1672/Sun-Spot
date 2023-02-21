@@ -22,5 +22,3 @@ void Level1_Draw();
 void Level1_Free();
 
 void Level1_Unload();
-
-void collisionCheck(float x, float y);
