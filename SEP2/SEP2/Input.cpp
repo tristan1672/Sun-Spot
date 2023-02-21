@@ -34,7 +34,7 @@ void Input_Handle_HoldCheck()
 	// Holding too long will make it jump shorter (Aiming)
 	if (e_jumpForce > min_jumpForce) {
 		//std::cout << e_jumpForce << "\n";
-		e_jumpForce -= static_cast<float>(200 * AEFrameRateControllerGetFrameTime());
+		e_jumpForce -= static_cast<float>(200 * e_deltaTime);
 	}
 	if (e_jumpForce <= min_jumpForce) {
 		e_jumpForce = min_jumpForce;
@@ -52,8 +52,8 @@ void Input_Handle_Jump() {
 	Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
 	Player.velocity.y = static_cast<float>(e_jumpForce * nDirection.y);
 	Player.velocity.x = static_cast<float>(e_jumpForce * nDirection.x);
-	Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
-	Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
+	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
+	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 	Player.jumpReady = false;
 	e_jumpForce = original_jumpForce;
 	min_jumpForce = originalMin_jumpForce;

@@ -249,23 +249,23 @@ void Level1_Update()
 	// code that allows the player to get affected by gravity (might need to look back at it to improve)
 	float terminalVelocity{ 2.f * e_gravity / dragCoeff };
 	if (terminalVelocity < Player.velocity.y) {
-		Player.velocity.y += static_cast<float>(vertMod * e_gravity * AEFrameRateControllerGetFrameTime());
+		Player.velocity.y += static_cast<float>(vertMod * e_gravity * e_deltaTime);
 	}
 	if (Player.velocity.y) {
-		Player.velocity.y -= static_cast<float>(dragCoeff * Player.velocity.y * AEFrameRateControllerGetFrameTime());
+		Player.velocity.y -= static_cast<float>(dragCoeff * Player.velocity.y * e_deltaTime);
 	}
 	if (abs(Player.velocity.x) < 2.f) {
 		Player.velocity.x = 0;
 	}
 	if (Player.velocity.x && friction != fullStopFriction) {
-		Player.velocity.x -= static_cast<float>(friction * Player.velocity.x * AEFrameRateControllerGetFrameTime());
+		Player.velocity.x -= static_cast<float>(friction * Player.velocity.x * e_deltaTime);
 	}
 	else if (Player.velocity.x && friction == fullStopFriction) {
 		Player.velocity.x -= static_cast<float>(Player.velocity.x);
 	}
 
-	Player.position.y += static_cast<float>(Player.velocity.y * AEFrameRateControllerGetFrameTime());
-	Player.position.x += static_cast<float>(Player.velocity.x * AEFrameRateControllerGetFrameTime());
+	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
+	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 
 	AEGfxSetCamPosition(Player.position.x, cam.Y); //set camera to follow player
 	//cam shake
@@ -279,7 +279,7 @@ void Level1_Update()
 	if (shake == 1 && (Player.jumpReady) && (shaketime < 0.2f)) //shake conditions
 	{
 		shakespeed = 1.0f;
-		shaketime += AEFrameRateControllerGetFrameTime();
+		shaketime += e_deltaTime;
 		float distance = cam.Y - Player.position.y;
 		if (shakespeed >= 0)
 		{
@@ -311,7 +311,7 @@ void Level1_Update()
 		
 	}
 	std::cout << e_shakeStrength << "\n";
-	cam.Y = Player.position.y + shakespeed * AEFrameRateControllerGetFrameTime();
+	cam.Y = Player.position.y + shakespeed * e_deltaTime;
 
 	
 	if (DEBUG) {
