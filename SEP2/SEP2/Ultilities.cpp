@@ -1,7 +1,7 @@
 #include "Ultilities.hpp"
-float e_gravity = -150, e_jumpForce = 200, min_jumpForce = 150, vertMod = 1.0f, 
+float e_gravity = -400.f, e_jumpForce = 300.f, min_jumpForce = 300.f, vertMod = 1.0f,
 dragCoeff = 1.f, friction = 1.f;
-const float original_jumpForce = 200.f, originalMin_jumpForce = 150.f, originalVertMod = 1.0f,
+const float original_jumpForce = 300.f, originalMin_jumpForce = 300.f, originalVertMod = 1.0f,
 airDrag = 0.f, stickDrag = 4.f, normalDrag = 2.f,
 normalFriction = 10.f, iceFriction = 1.5f, fullStopFriction = 1 / AEFrameRateControllerGetFrameTime();
 

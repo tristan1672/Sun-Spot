@@ -65,7 +65,8 @@ void Level1_Load()
 
 	std::cout << "Level 1:Load\n";
 	std::fstream levelMap("Assets/Script/Level1.txt", std::ios_base::in);
-
+	MakeMesh();
+	MakeArrowMesh();
 	if (levelMap.is_open()) {
 		std::cout << "Level File opened\n";
 		std::string temp;
@@ -183,7 +184,8 @@ void Level1_Initialize()
 	}
 #pragma endregion
 	//sets the ui indicator for where the character is about to jump
-	jumpArrow = GameObject();
+	jumpArrow = GameObject({ 0.f,0.f }, { 10.f,100.f }, 
+		{ 0.f,1.f,0.f,0.5f },0.f, AE_GFX_RM_COLOR,arrMesh);
 	jumpArrow.SetScale({ 10.f,100.f });
 	jumpArrow.SetColour({ 0.f,1.f,0.f,0.5f });
 	mouse.ClickX = 0;
@@ -221,7 +223,7 @@ void Level1_Update()
 				float angle = atan2f(-nDirection.x, nDirection.y);
 				std::cout << angle;
 				jumpArrow.SetRotation(angle);
-				jumpArrow.position = { mouseClickQuadPos.x,mouseClickQuadPos.y };
+				jumpArrow.position = { Player.position.x,Player.position.y };
 				std::cout << mouse.ReleaseY << "\n";
 			}
 		}
@@ -381,4 +383,6 @@ void Level1_Unload()
 {
 	std::cout << "Level 1:Unload\n";
 	AEGfxTextureUnload(ptex);
+	AEGfxMeshFree(pMesh);
+	AEGfxMeshFree(arrMesh);
 }

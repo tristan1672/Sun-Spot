@@ -7,8 +7,10 @@ this file contains gameobject class, a dynamic object class and function to make
 
 #define PLAYER_SIZE_X 30.0f
 #define PLAYER_SIZE_Y 30.0f
-
+extern AEGfxVertexList* pMesh;
+extern AEGfxVertexList* arrMesh;
 void MakeMesh()/*used to make default mesh*/;
+void MakeArrowMesh();// use for arrow mesh
 
 // normal game object class, conatins all transformation data for an game object and also a function that draws the gameobject along with its colour
 class GameObject {
@@ -19,6 +21,7 @@ protected:
 	f32 rotation;
 	AEGfxRenderMode renderMode;
 	AEGfxTexture* ptex{nullptr};
+	AEGfxVertexList* objMesh{ nullptr };
 public:
 	Vector2D position;
 	//the draw function for created object, can be changed when inherited
@@ -26,7 +29,7 @@ public:
 
 	//constructor
 	GameObject(Vector2D Position = { 0.f,0.f }, Vector2D Scale = { 10.f,10.f }, 
-		ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0 , AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR);
+		ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0.f , AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR, AEGfxVertexList* ObjectMesh = pMesh);
 #pragma region Getter/Setter
 
 	Vector2D GetPosition();
@@ -47,7 +50,7 @@ public:
 	Vector2D velocity;
 	bool jumpReady = true, collideTop = false, collideRight = false, collideLeft = false;
 	DynamicObj(Vector2D Velocity = {0.f,0.f}, Vector2D Position = {0.f,0.f}, Vector2D Scale = { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 
-		ColourValue Colour = {1.f,1.f,1.f,1.f}, f32 Rotation = 0, AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR);
+		ColourValue Colour = {1.f,1.f,1.f,1.f}, f32 Rotation = 0, AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR, AEGfxVertexList* ObjectMesh = pMesh);
 #pragma region Getter/Setter
 
 	Vector2D GetVelocity();
@@ -59,7 +62,7 @@ class Platform: public GameObject {
 	int platformType{};
 public:
 	Platform(Vector2D Position = { 0.f,0.f }, Vector2D Scale = { 10.f,10.f },
-		ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0, AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR);
+		ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0, AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR, AEGfxVertexList* ObjectMesh = pMesh);
 	Platform& operator=(const Platform& p);
 
 	int GetPlatformType();

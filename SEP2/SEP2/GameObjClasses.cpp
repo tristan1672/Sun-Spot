@@ -12,6 +12,7 @@
 */
 // Pointer to Mesh
 AEGfxVertexList* pMesh = nullptr;
+AEGfxVertexList* arrMesh = nullptr;
 //fucntion defination that used to make mesh
 void MakeMesh() {
 	// Informing the library that we're about to start adding triangles
@@ -30,11 +31,28 @@ void MakeMesh() {
 	// Saving the mesh (list of triangles) in pMesh
 	pMesh = AEGfxMeshEnd();
 }
+void MakeArrowMesh() {
+	// Informing the library that we're about to start adding triangles
+	AEGfxMeshStart();
+	// This shape has 2 triangles that makes up a square
+	// Color parameters represent colours as ARGB
+	// UV coordinates to read from loaded textures
+	AEGfxTriAdd(
+		0.f, 0.f, 0xFFFFFFFF, 0.0f, 1.0f,
+		1.f, 0.f, 0xFFFFFFFF, 1.0f, 1.0f,
+		0.f, 1.f, 0xFFFFFFFF, 0.0f, 0.0f);
+	AEGfxTriAdd(
+		1.f, 0.f, 0xFFFFFFFF, 1.0f, 1.0f,
+		1.f, 1.f, 0xFFFFFFFF, 1.0f, 0.0f,
+		0.f, 1.f, 0xFFFFFFFF, 0.0f, 0.0f);
+	// Saving the mesh (list of triangles) in pMesh
+	arrMesh = AEGfxMeshEnd();
+}
 // all defination that the Class Gameoobject will use most if not all variables comes with default value to prevent reading werid values
 #pragma region Gameobject Class Defination
 //constructor for GameObject
-GameObject::GameObject(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode){
-	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode;
+GameObject::GameObject(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh){
+	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode,objMesh = ObjectMesh;
 
 }
 #pragma region GameObject::Getter/Setter
@@ -95,14 +113,14 @@ void GameObject::DrawObj() {
 	AEGfxSetTransform(Transform.m);
 	// Actually drawing the mesh 
 	AEGfxTextureSet(ptex, 0, 0);
-	AEGfxMeshDraw(pMesh, AE_GFX_MDM_TRIANGLES);
+	AEGfxMeshDraw(objMesh, AE_GFX_MDM_TRIANGLES);
 }
 #pragma endregion
 
 #pragma region Defination for DynamicObjClass
 //constructor for any dynamic obj
-DynamicObj::DynamicObj(Vector2D Velocity, Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode) {
-	velocity = Velocity,position = Position; scale = Scale; colour = Colour; rotation = Rotation, renderMode = RenderMode;
+DynamicObj::DynamicObj(Vector2D Velocity, Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh) {
+	velocity = Velocity,position = Position; scale = Scale; colour = Colour; rotation = Rotation, renderMode = RenderMode, objMesh = ObjectMesh;
 }
 #pragma region Getter/Setter For DynamicObj
 
@@ -116,8 +134,8 @@ void DynamicObj::SetVelocity(Vector2D Velocity) {//set object velocity
 #pragma endregion
 
 #pragma region Platform Object Class
-Platform::Platform(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode ) {
-	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode;
+Platform::Platform(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh) {
+	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode, objMesh = ObjectMesh;
 }
 
 int Platform::GetPlatformType() {
