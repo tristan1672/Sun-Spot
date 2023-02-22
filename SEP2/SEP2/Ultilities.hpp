@@ -2,17 +2,21 @@
 // Includes
 #pragma once
 #include <cmath>
-
 #include "AEEngine.h"
 // --------------------------------------------------------------------------- // End of includes
+
 // ---------------------------------------------------------------------------
-// enumerations
-enum { DEBUG = 1 };
+// Defines
+#define DEBUG true
+// --------------------------------------------------------------------------- // End of defines
+
+// ---------------------------------------------------------------------------
+// Enumerations
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
 enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, GOAL, COLLECTABLES = 9};
 enum { PLAYING = 0, WIN = 1,};
-
 // --------------------------------------------------------------------------- // End of enumerations
+
 // ---------------------------------------------------------------------------
 // External Variables
 // Font

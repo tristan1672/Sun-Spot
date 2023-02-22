@@ -1,10 +1,9 @@
 #pragma once
-#include <iostream>
-#include <fstream>
 
 #include "PreCompiledHeader.hpp"
-#include "Ultilities.hpp"
 #include "GameObjClasses.hpp"
+#include "Ultilities.hpp"
 #include "Level1.hpp"
 
+// Checks collision and snap player into position if required
 void collisionCheck();

@@ -1,4 +1,4 @@
-/**
+/*
   *  \file Level1.cpp (might need to change this file name later)
   *  \author Xiao Jun Yu
   *  \par DP Email: junyu.xiao\@digipen.edu
@@ -82,8 +82,10 @@ void Level1_Load()
 		subStr = temp.substr(start, end - start);
 		e_binaryMapHeight = std::stoi(subStr);
 
+#if DEBUG
 		std::cout << "Width :" << e_binaryMapWidth << '\n';
 		std::cout << "Height :" << e_binaryMapHeight << '\n';
+#endif
 
 		platform = new Platform * [e_binaryMapHeight] {};
 		for (int i = 0; i < e_binaryMapHeight; i++) {
@@ -97,12 +99,16 @@ void Level1_Load()
 			if (character >= '0' && character <= '9')
 			{
 				platform[i][j].SetPlatformType(static_cast<int>(character) - '0');
-					std::cout << platform[i][j].GetPlatformType();
+#if DEBUG
+				std::cout << platform[i][j].GetPlatformType();
+#endif
 
 				j++;
 
 				if (j == e_binaryMapWidth) {
+#if DEBUG
 					std::cout << "	Row " << i << "\n";
+#endif
 					j = 0;
 					i++;
 
@@ -111,8 +117,6 @@ void Level1_Load()
 					}
 				}
 			}
-			//std::cout << character;
-
 		}
 
 		levelMap.close();
@@ -317,11 +321,11 @@ void Level1_Update()
 		LevelTime();
 	}
 
-	if (DEBUG) {
+#if DEBUG
 		std::cout << "Shake Strength: " << e_shakeStrength << "\n";
 		std::cout << "Delta Time: " << e_deltaTime << "\n";
 		std::cout << "Level Time: " << e_levelTime << "\n";
-	}
+#endif
 }
 
 // ----------------------------------------------------------------------------
@@ -334,7 +338,7 @@ void Level1_Draw()
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
-	//draws the platform
+	// Draws the platform
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 			if (platform[i][j].GetPlatformType()) {
@@ -342,9 +346,9 @@ void Level1_Draw()
 			}
 		}
 	}
-	//draws the player
+	// Draws the player
 	Player.DrawObj();
-	//draws the arrow direction
+	// Draws the arrow direction
 	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && e_jumpForce <= min_jumpForce) {
 			jumpArrow.DrawObj();
 	}
@@ -362,6 +366,7 @@ void Level1_Draw()
 		
 	}
 
+	// Draws total time in current level
 	DisplayTime();
 }
 
