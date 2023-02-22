@@ -2,10 +2,10 @@
 // includes
 #include "Collision.hpp"
 
-extern DynamicObj Player;
-extern Platform** platform;
+DynamicObj Player;
+Platform** platform;
 
-extern int e_collisionFlag;
+int e_collisionFlag;
 const int	COLLISION_LEFT   = 0x00000001;	//0001
 const int	COLLISION_RIGHT  = 0x00000002;	//0010
 const int	COLLISION_TOP    = 0x00000004;	//0100
@@ -16,8 +16,8 @@ const int	COLLISION_BOTTOM = 0x00000008;	//1000
 // ----------------------------------------------------------------------------
 void collisionCheck() {
 	
-	float gridWidth = WINDOW_WIDTH / BINARY_MAP_WIDTH;
-	float gridHeight = WINDOW_HEIGHT / BINARY_MAP_HEIGHT;
+	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
+	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
 
@@ -47,7 +47,7 @@ void collisionCheck() {
 	*/
 
 	// If out of play area
-	if (leftX < 0 || rightX > BINARY_MAP_WIDTH-1 || topY < 0 || btmY > BINARY_MAP_HEIGHT-1) {
+	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
 		//std::cout << Player.velocity.x << '\n';
 		Player.velocity.x = 0.0f;
 		Player.velocity.y = 0.0f;

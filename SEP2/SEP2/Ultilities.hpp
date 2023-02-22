@@ -1,30 +1,40 @@
 // ---------------------------------------------------------------------------
-// includes
+// Includes
 #pragma once
 #include <cmath>
 
 #include "AEEngine.h"
 // --------------------------------------------------------------------------- // End of includes
-
+// ---------------------------------------------------------------------------
+// enumerations
 enum { DEBUG = 1 };
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
 enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, GOAL, COLLECTABLES = 9};
 enum { PLAYING = 0, WIN = 1,};
 
+// --------------------------------------------------------------------------- // End of enumerations
 // ---------------------------------------------------------------------------
 // External Variables
+// Font
+extern s8 e_fontID;
+
+// Physics
 extern float e_gravity, e_jumpForce, min_jumpForce , vertMod,dragCoeff, friction;
 extern const float original_jumpForce, originalMin_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag, normalFriction, iceFriction, fullStopFriction;
 
+// Time
 extern float e_deltaTime, e_levelTime;
 extern int** e_levelGrid;
-extern int BINARY_MAP_WIDTH, BINARY_MAP_HEIGHT;
 
-//Level States
+// Level
 extern int level1_state;
+extern int e_binaryMapWidth, e_binaryMapHeight;
 
+// Collision
 //extern Platform** platform;
 extern int e_collisionFlag;
+
+// Camera
 extern short e_shakeStrength;
 // --------------------------------------------------------------------------- // End of external variables
 

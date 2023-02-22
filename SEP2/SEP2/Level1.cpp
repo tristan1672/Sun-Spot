@@ -25,9 +25,8 @@
 #define GROUND_LEVEL 20
 
 mousePos mouse;
-DynamicObj Player;
-Platform **platform;
-//GameObject platform[BINARY_MAP_HEIGHT][BINARY_MAP_WIDTH]{};
+extern DynamicObj Player;
+extern Platform **platform;
 GameObject jumpArrow;
 GameObject WinScreen;
 GameObject Cleared;
@@ -36,8 +35,8 @@ float e_deltaTime;
 float e_levelTime;
 
 int** e_levelGrid;
-int BINARY_MAP_WIDTH;
-int BINARY_MAP_HEIGHT;
+int e_binaryMapWidth;
+int e_binaryMapHeight;
 
 int level1_state;
 
@@ -75,27 +74,20 @@ void Level1_Load()
 		std::string::size_type start = temp.find_first_of("0123456789");
 		std::string::size_type end = temp.find_first_of('\n');
 		std::string subStr = temp.substr(start,end-start);
-		BINARY_MAP_WIDTH = std::stoi(subStr);
+		e_binaryMapWidth = std::stoi(subStr);
 
 		std::getline(levelMap, temp);
 		start = temp.find_first_of("0123456789");
 		end = temp.find_first_of('\n');
 		subStr = temp.substr(start, end - start);
-		BINARY_MAP_HEIGHT = std::stoi(subStr);
+		e_binaryMapHeight = std::stoi(subStr);
 
-		std::cout << "Width :" << BINARY_MAP_WIDTH << '\n';
-		std::cout << "Height :" << BINARY_MAP_HEIGHT << '\n';
+		std::cout << "Width :" << e_binaryMapWidth << '\n';
+		std::cout << "Height :" << e_binaryMapHeight << '\n';
 
-
-		//e_levelGrid = new int* [BINARY_MAP_HEIGHT];
-		//for (int i = 0; i < BINARY_MAP_HEIGHT; ++i) {
-		//	e_levelGrid[i] = new int[BINARY_MAP_WIDTH];
-		//}
-
-
-		platform = new Platform * [BINARY_MAP_HEIGHT] {};
-		for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
-			platform[i] = new Platform[BINARY_MAP_WIDTH]{};
+		platform = new Platform * [e_binaryMapHeight] {};
+		for (int i = 0; i < e_binaryMapHeight; i++) {
+			platform[i] = new Platform[e_binaryMapWidth]{};
 		}
 
 		char character = 0;
@@ -109,12 +101,12 @@ void Level1_Load()
 
 				j++;
 
-				if (j == BINARY_MAP_WIDTH) {
+				if (j == e_binaryMapWidth) {
 					std::cout << "	Row " << i << "\n";
 					j = 0;
 					i++;
 
-					if (i == BINARY_MAP_HEIGHT) {
+					if (i == e_binaryMapHeight) {
 						break;
 					}
 				}
@@ -137,45 +129,48 @@ void Level1_Load()
 void Level1_Initialize()
 {
 	std::cout << "Level 1:Initialize\n";
+
 	level1_state = PLAYING;
 	e_levelTime = 0.0f;
+
 	Player = DynamicObj();
 	Player.position = { 0,PLAYER_SIZE_Y/2 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
+
+	float s_gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
+	float s_gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
+
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
 
-	float gridWidth = WINDOW_WIDTH / BINARY_MAP_WIDTH;
-	float gridHeight = WINDOW_HEIGHT / BINARY_MAP_HEIGHT;
-
-	for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
-		for (int j = 0; j < BINARY_MAP_WIDTH; j++) {
+	for (int i = 0; i < e_binaryMapHeight; i++) {
+		for (int j = 0; j < e_binaryMapWidth; j++) {
 			switch (platform[i][j].GetPlatformType())
 			{
 			case NORMAL_BLOCK:
 				platform[i][j] = Platform(
-					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
-					{ gridWidth, gridHeight });
+					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
+					{ s_gridWidth, s_gridHeight });
 				break;
 			case ICE_BLOCK:
 				platform[i][j] = Platform(
-					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
-					{ gridWidth, gridHeight }, {0.47f,0.76f,0.93f,1.f});
+					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
+					{ s_gridWidth, s_gridHeight }, {0.47f,0.76f,0.93f,1.f});
 				break;
 			case STICKY_BLOCK:
 				platform[i][j] = Platform(
-					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
-					{ gridWidth, gridHeight }, { 1.f,0.98f,0.63f,1.f });
+					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
+					{ s_gridWidth, s_gridHeight }, { 1.f,0.98f,0.63f,1.f });
 				break;
 			case COLLECTABLES:
 				platform[i][j] = Platform(
-					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
+					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
 					{ PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f });
 				break;
 			case GOAL:
 				platform[i][j] = Platform(
-					{ gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * gridWidth, -gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * gridHeight },
+					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
 					{ PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
 				break;
 			default:
@@ -212,7 +207,7 @@ void Level1_Update()
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 		}
-		//shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
+		// Shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
 		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady) {
 			Input_Handle_HoldCheck();
 			if (e_jumpForce <= min_jumpForce) {
@@ -226,7 +221,7 @@ void Level1_Update()
 				std::cout << mouse.ReleaseY << "\n";
 			}
 		}
-		// the player jumps in according to the direction previously specified, then resets all the rotations and click pos to 0;
+		// The player jumps in according to the direction previously specified, then resets all the rotations and click pos to 0;
 		if (AEInputCheckReleased(AEVK_LBUTTON) && Player.jumpReady) {
 			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
 			Input_Handle_Jump();
@@ -235,7 +230,9 @@ void Level1_Update()
 		}
 	}
 
-	collisionCheck(); //collision function
+	// Collision function
+	collisionCheck();
+
 	//std::cout << Player.position.y <<'\n';
 	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
 	{
@@ -266,16 +263,19 @@ void Level1_Update()
 	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
 	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 
-	AEGfxSetCamPosition(Player.position.x, cam.Y); //set camera to follow player
-	//cam shake
-	if (!Player.jumpReady) //set shake and shaketime
+	// Set camera to follow player
+	AEGfxSetCamPosition(Player.position.x, cam.Y);
+
+	// Cam shake
+	if (!Player.jumpReady) // set shake and shaketime
 	{
 		shake = 1;
 		shaketime = 0;
 		e_shakeStrength = NO_SHAKE;
 	}
 
-	if (shake == 1 && (Player.jumpReady) && (shaketime < 0.2f)) //shake conditions
+	// shake conditions
+	if (shake == 1 && (Player.jumpReady) && (shaketime < 0.2f)) 
 	{
 		shakespeed = 1.0f;
 		shaketime += e_deltaTime;
@@ -312,7 +312,11 @@ void Level1_Update()
 	
 	cam.Y = Player.position.y + shakespeed * e_deltaTime;
 
-	
+	// Update total time taken for level
+	if (level1_state == PLAYING) {
+		LevelTime();
+	}
+
 	if (DEBUG) {
 		std::cout << "Shake Strength: " << e_shakeStrength << "\n";
 		std::cout << "Delta Time: " << e_deltaTime << "\n";
@@ -330,11 +334,9 @@ void Level1_Draw()
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
-	float gridWidth = WINDOW_WIDTH / BINARY_MAP_WIDTH;
-	float gridHeight = WINDOW_HEIGHT / BINARY_MAP_HEIGHT;
 	//draws the platform
-	for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
-		for (int j = 0; j < BINARY_MAP_WIDTH; j++) {
+	for (int i = 0; i < e_binaryMapHeight; i++) {
+		for (int j = 0; j < e_binaryMapWidth; j++) {
 			if (platform[i][j].GetPlatformType()) {
 				platform[i][j].DrawObj();
 			}
@@ -359,6 +361,8 @@ void Level1_Draw()
 		Cleared.DrawObj();
 		
 	}
+
+	DisplayTime();
 }
 
 // ----------------------------------------------------------------------------
@@ -368,7 +372,7 @@ void Level1_Draw()
 void Level1_Free()
 {
 	std::cout << "Level 1:Free\n";
-	for (int i = 0; i < BINARY_MAP_HEIGHT; i++) {
+	for (int i = 0; i < e_binaryMapHeight; i++) {
 		delete[] platform[i];
 	}
 	delete[] platform;

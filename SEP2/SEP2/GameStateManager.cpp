@@ -14,6 +14,7 @@ int current = 0, previous = 0, next = 0;
 
 FP e_fpLoad = nullptr, e_fpInitialize = nullptr, e_fpUpdate = nullptr, e_fpDraw = nullptr, e_fpFree = nullptr, e_fpUnload = nullptr;
 
+s8 e_fontID;
 
 // ----------------------------------------------------------------------------
 // This function initialize the gamestate manager
@@ -22,7 +23,7 @@ FP e_fpLoad = nullptr, e_fpInitialize = nullptr, e_fpUpdate = nullptr, e_fpDraw 
 void GSM_Initialize(int startingState)
 {
 	current = previous = next = startingState;
-
+	e_fontID = AEGfxCreateFont("Assets/Font/kongtext.ttf", 30);
 	std::cout << "GSM:Initialize\n";
 }
 
@@ -49,6 +50,8 @@ void GSM_Update()
 		break;
 
 	case GS_QUIT:
+		// Frees font before closing executable
+		AEGfxDestroyFont(e_fontID);
 		break;
 
 	default:
