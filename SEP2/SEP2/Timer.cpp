@@ -41,13 +41,17 @@ void DisplayTime() {
 	while (second > 60.0f) {
 		second -= 60.0f;
 	}
-		snprintf(tempStr, sizeof tempStr, "%2d:%05.2f", minute, second);
-		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.86f, 1.0f, 1.0f, 1.0f, 1.0f);
-	//
-		snprintf(tempStr, sizeof tempStr, "   %05.2f", e_levelTime);
-		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.76f, 1.0f, 1.0f, 1.0f, 1.0f);
 
-		snprintf(tempStr, sizeof tempStr, ".%2.0f", miliseconds);
-		AEGfxPrint(e_fontID, tempStr, 0.83f, 0.66f, 0.7f, 1.0f, 1.0f, 1.0f);
-	//}
+	if (minute > 0) { // Print minute and seconds
+		snprintf(tempStr, sizeof tempStr, "%2d:%02d", minute, static_cast<int>(second));
+		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.86f, 1.0f, 1.0f, 1.0f, 1.0f);
+	} 
+	else { // Print seconds
+		snprintf(tempStr, sizeof tempStr, "   %02d", static_cast<int>(second));
+		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.86f, 1.0f, 1.0f, 1.0f, 1.0f);
+	}
+
+	// Prints miliseconds in a smaller font size
+	snprintf(tempStr, sizeof tempStr, ".%02.0f", miliseconds);
+	AEGfxPrint(e_fontID, tempStr, 0.82f, 0.86f, 0.7f, 1.0f, 1.0f, 1.0f);
 }
