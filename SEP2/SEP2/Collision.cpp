@@ -22,17 +22,17 @@ const int	COLLISION_BOTTOM = 0x00000008;	//1000
 // --------------------------------------------------------------------------- // End of external variables
 
 // Checks for player collsion and snap if required
-void collisionCheck() {
+void CollisionCheck() {
 	
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
 
-	int e_collisionFlag = 0;
+	e_collisionFlag = 0;
 	bool colliding{};
 
-	// "Normalizing"
+	// "Normalizing" hotspots
 	int topY = (heightOffset - Player.position.y - Player.GetScale().y / 2.0f) / gridHeight; // Top bound
 	int btmY = (heightOffset - Player.position.y + Player.GetScale().y / 2.0f) / gridHeight; // Btm bound
 	int leftX = (widthOffset + Player.position.x - Player.GetScale().x / 2.0f) / gridWidth; // Left bound
@@ -337,5 +337,51 @@ void collisionCheck() {
 	if (e_collisionFlag == COLLISION_RIGHT) {
 		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
 	}
-	
+}
+
+void CollectibleCheck() {
+	// Thinking of making this into a static, when there will be grids outside of the exe window
+	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
+	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
+
+	// Offset used for grid position calculation, making calculation start from top left instead of center of window
+	float widthOffset = WINDOW_WIDTH / 2.0f;
+	float heightOffset = WINDOW_HEIGHT / 2.0f;
+
+	// "Normalizing" player hotspots
+	int playerTopY = (heightOffset - Player.position.y - Player.GetScale().y / 2.0f) / gridHeight; // Top bound
+	int playerBtmY = (heightOffset - Player.position.y + Player.GetScale().y / 2.0f) / gridHeight; // Btm bound
+	int playerLeftX = (widthOffset + Player.position.x - Player.GetScale().x / 2.0f) / gridWidth; // Left bound
+	int playerRightX = (widthOffset + Player.position.x + Player.GetScale().x / 2.0f) / gridWidth; // Right bound
+
+	int playerHsX1 = (widthOffset + Player.position.x - Player.GetScale().x / 4.0f) / gridWidth; // 25% X
+	int playerHsX2 = (widthOffset + Player.position.x + Player.GetScale().x / 4.0f) / gridWidth; // 75% X
+	int playerHsY1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / gridHeight; // 25% Y
+	int playerHsY2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / gridHeight; // 75% Y
+
+	// Variables used for debugging
+#ifdef DEBUG
+	int collectibleCounter = 0;
+#endif
+
+	for (int i = 0; i < e_binaryMapHeight; i++) {
+		for (int j = 0; j < e_binaryMapWidth; j++) {
+			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
+				float collectableTopY = heightOffset - i * gridHeight - (gridHeight - COLLECTABLE_SIZE_Y) / 2;
+				float collectableBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - COLLECTABLE_SIZE_Y) / 2;
+				float collectableLeftX = -widthOffset + j * gridWidth + (gridWidth - COLLECTABLE_SIZE_X) / 2;
+				float collectableRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - COLLECTABLE_SIZE_X) / 2;
+
+#ifdef DEBUG
+				collectibleCounter++;
+#endif
+				
+			}
+		}
+	}
+
+#ifdef DEBUG
+	std::cout << "Collectable Left: " << collectibleCounter << "\n";
+#endif
+
 }

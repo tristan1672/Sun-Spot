@@ -170,7 +170,7 @@ void Level1_Initialize()
 			case COLLECTABLES:
 				platform[i][j] = Platform(
 					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
-					{ PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f });
+					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f });
 				break;
 			case GOAL:
 				platform[i][j] = Platform(
@@ -235,7 +235,8 @@ void Level1_Update()
 	}
 
 	// Collision function
-	collisionCheck();
+	CollisionCheck();
+	CollectibleCheck();
 
 	//std::cout << Player.position.y <<'\n';
 	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
@@ -322,9 +323,9 @@ void Level1_Update()
 	}
 
 #if DEBUG
-		std::cout << "Shake Strength: " << e_shakeStrength << "\n";
+		std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
 		std::cout << "Delta Time: " << e_deltaTime << "\n";
-		std::cout << "Level Time: " << e_levelTime << "\n";
+		std::cout << "Level Time: " << e_levelTime << "\n\n";
 #endif
 }
 
