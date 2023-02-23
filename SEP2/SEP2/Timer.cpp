@@ -32,15 +32,22 @@ void DisplayTime() {
 
 	char tempStr[30];
 	int minute = static_cast<int>(e_levelTime / 60.0f);
-	float second = e_levelTime;
+	float second = e_levelTime, miliseconds = e_levelTime * 100;
 
-	if (second > 60.0f) {
+	while (miliseconds > 100.0f) {
+		miliseconds -= 100;
+	}
+
+	while (second > 60.0f) {
 		second -= 60.0f;
 	}
-		snprintf(tempStr, sizeof tempStr, "%2d.%05.2f", minute, second);
+		snprintf(tempStr, sizeof tempStr, "%2d:%05.2f", minute, second);
 		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.86f, 1.0f, 1.0f, 1.0f, 1.0f);
 	//
 		snprintf(tempStr, sizeof tempStr, "   %05.2f", e_levelTime);
 		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.76f, 1.0f, 1.0f, 1.0f, 1.0f);
+
+		snprintf(tempStr, sizeof tempStr, ".%2.0f", miliseconds);
+		AEGfxPrint(e_fontID, tempStr, 0.83f, 0.66f, 0.7f, 1.0f, 1.0f, 1.0f);
 	//}
 }

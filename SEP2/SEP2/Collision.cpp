@@ -382,11 +382,12 @@ void CollectableCheck() {
 				float collectableRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - COLLECTABLE_SIZE_X) / 2.0f;
 
 				// If player x position is within the collectable // GOT EXCESS CODE
-				if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 > collectableLeftX && playerRightX < collectableRightX
-					|| playerHsX1 < collectableRightX && playerRightX > collectableLeftX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {
+				/*if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 > collectableLeftX && playerRightX < collectableRightX
+					|| playerHsX1 < collectableRightX && playerRightX > collectableLeftX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {*/
+				if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {
 					// If player y position is within the collectable // Think this is wrong, now need both X hotspot and Y hotspot to work
 					if (playerHsY1 > collectableBtmY && playerTopY < collectableTopY || playerHsY2 > collectableBtmY && playerBtmY < collectableTopY) {
-						//platform[i][j].SetPlatformType(EMPTY_SPACE);
+						platform[i][j].SetPlatformType(EMPTY_SPACE);
 
 						std::cout << "Collision with a collectible \n";
 #ifdef DEBUG
