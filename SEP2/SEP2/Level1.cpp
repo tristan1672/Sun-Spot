@@ -138,7 +138,7 @@ void Level1_Initialize()
 	e_levelTime = 0.0f;
 
 	Player = DynamicObj();
-	Player.position = { 0,PLAYER_SIZE_Y/2 };
+	Player.position = { 0,PLAYER_SIZE_Y/1.99 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 

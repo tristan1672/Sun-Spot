@@ -29,7 +29,18 @@ float LevelTime() {
 // Display time on screen
 void DisplayTime() {
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+
 	char tempStr[30];
-	snprintf(tempStr, sizeof tempStr, "%10.2f", e_levelTime);
-	AEGfxPrint(e_fontID, tempStr, 0.5f, 0.86f ,1.0f, 1.0f, 1.0f, 1.0f);
+	int minute = static_cast<int>(e_levelTime / 60.0f);
+	float second = e_levelTime;
+
+	if (second > 60.0f) {
+		second -= 60.0f;
+	}
+		snprintf(tempStr, sizeof tempStr, "%2d.%05.2f", minute, second);
+		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.86f, 1.0f, 1.0f, 1.0f, 1.0f);
+	//
+		snprintf(tempStr, sizeof tempStr, "   %05.2f", e_levelTime);
+		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.76f, 1.0f, 1.0f, 1.0f, 1.0f);
+	//}
 }
