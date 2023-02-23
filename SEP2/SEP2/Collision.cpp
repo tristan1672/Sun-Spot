@@ -60,9 +60,9 @@ void CollisionCheck() {
 
 			// Collectabiles detection
 			if (platform[abs(topY)][abs(X1)].GetPlatformType() == COLLECTABLES || platform[abs(topY)][abs(X2)].GetPlatformType() == COLLECTABLES) {
-				e_collisionFlag = 0;
-				colliding = false;
-				platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
+				//e_collisionFlag = 0;
+				//colliding = false;
+				//platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
 			}else{
 				e_collisionFlag += COLLISION_TOP;
 				Player.velocity.y -= Player.velocity.y;
@@ -79,7 +79,9 @@ void CollisionCheck() {
 
 		}
 		// Btm collided
-		if (platform[abs(btmY)][abs(X1)].GetPlatformType()|| platform[abs(btmY)][abs(X2)].GetPlatformType()) {
+		//if (platform[abs(btmY)][abs(X1)].GetPlatformType()|| platform[abs(btmY)][abs(X2)].GetPlatformType()) {
+		if (platform[abs(btmY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X1)].GetPlatformType() < COLLECTABLES
+			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < COLLECTABLES) {
 			colliding = true;
 			e_collisionFlag += COLLISION_BOTTOM;
 			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f)) || // checks which side of the grid the player is cooupying more
@@ -103,11 +105,11 @@ void CollisionCheck() {
 						min_jumpForce -= 50.f;
 					}
 					break;
-				case COLLECTABLES:
+				/*case COLLECTABLES:
 					e_collisionFlag = 0;
 					colliding = false;
 					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
-					break;
+					break;*/
 				case GOAL:
 					level1_state = WIN;
 				default:
@@ -136,11 +138,11 @@ void CollisionCheck() {
 						min_jumpForce -= 50.f;
 					}
 					break;
-				case COLLECTABLES:
+				/*case COLLECTABLES:
 					e_collisionFlag = 0;
 					colliding = false;
 					platform[abs(btmY)][abs(X2)].SetPlatformType(EMPTY_SPACE);
-					break;
+					break;*/
 				case GOAL:
 					level1_state = WIN;
 				default:
@@ -163,7 +165,9 @@ void CollisionCheck() {
 			*/
 		}
 		// Right collided
-		if (platform[abs(Y1)][abs(rightX)].GetPlatformType()|| platform[abs(Y2)][abs(rightX)].GetPlatformType()) {
+		//if (platform[abs(Y1)][abs(rightX)].GetPlatformType()|| platform[abs(Y2)][abs(rightX)].GetPlatformType()) {
+		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < COLLECTABLES
+			|| platform[abs(Y2)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(rightX)].GetPlatformType() < COLLECTABLES) {
 			colliding = true;
 			e_collisionFlag += COLLISION_RIGHT;
 			if (Player.position.y < (platform[abs(Y1)][abs(rightX)].position.y + (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
@@ -175,11 +179,11 @@ void CollisionCheck() {
 					friction = fullStopFriction;
 					Player.jumpReady = true;
 					break;
-				case COLLECTABLES:
+				/*case COLLECTABLES:
 					e_collisionFlag = 0;
 					colliding = false;
 					platform[abs(Y1)][abs(rightX)].SetPlatformType(EMPTY_SPACE);
-					break;
+					break;*/
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
@@ -200,11 +204,11 @@ void CollisionCheck() {
 					friction = fullStopFriction;
 					Player.jumpReady = true;
 					break;
-				case COLLECTABLES:
+				/*case COLLECTABLES:
 					e_collisionFlag = 0;
 					colliding = false;
 					platform[abs(Y2)][abs(rightX)].SetPlatformType(EMPTY_SPACE);
-					break;
+					break;*/
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
@@ -225,7 +229,9 @@ void CollisionCheck() {
 #endif
 		}
 		// Left collided
-		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() || platform[abs(Y2)][abs(leftX)].GetPlatformType()) {
+		//if (platform[abs(Y1)][abs(leftX)].GetPlatformType() || platform[abs(Y2)][abs(leftX)].GetPlatformType()) {
+		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < COLLECTABLES
+			|| platform[abs(Y2)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(leftX)].GetPlatformType() < COLLECTABLES) {
 			colliding = true;
 			e_collisionFlag += COLLISION_LEFT;
 			if (Player.position.y < (platform[abs(Y1)][abs(leftX)].position.y + (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
@@ -242,12 +248,12 @@ void CollisionCheck() {
 					friction = fullStopFriction;
 					Player.jumpReady = true;
 					break;
-				case COLLECTABLES:
+				/*case COLLECTABLES:
 					e_collisionFlag = 0;
 					platform[abs(Y1)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
 					colliding = false;
 					std::cout << "1 \n";
-					break;
+					break;*/
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
@@ -268,12 +274,12 @@ void CollisionCheck() {
 					dragCoeff = stickDrag;
 					Player.jumpReady = true;
 					break;
-				case COLLECTABLES:
+				/*case COLLECTABLES:
 					e_collisionFlag = 0;
 					platform[abs(Y2)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
 					colliding = false;
 					std::cout << "3 \n";
-					break;
+					break;*/
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
@@ -339,7 +345,7 @@ void CollisionCheck() {
 	}
 }
 
-void CollectibleCheck() {
+void CollectableCheck() {
 	// Thinking of making this into a static, when there will be grids outside of the exe window
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
@@ -348,16 +354,16 @@ void CollectibleCheck() {
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
 
-	// "Normalizing" player hotspots
-	int playerTopY = (heightOffset - Player.position.y - Player.GetScale().y / 2.0f) / gridHeight; // Top bound
-	int playerBtmY = (heightOffset - Player.position.y + Player.GetScale().y / 2.0f) / gridHeight; // Btm bound
-	int playerLeftX = (widthOffset + Player.position.x - Player.GetScale().x / 2.0f) / gridWidth; // Left bound
-	int playerRightX = (widthOffset + Player.position.x + Player.GetScale().x / 2.0f) / gridWidth; // Right bound
+	// Player hotspots
+	int playerTopY = Player.position.y - Player.GetScale().y / 2.0f; // Top bound
+	int playerBtmY = Player.position.y + Player.GetScale().y / 2.0f; // Btm bound
+	int playerLeftX = Player.position.x - Player.GetScale().x / 2.0f; // Left bound
+	int playerRightX = Player.position.x + Player.GetScale().x / 2.0f; // Right bound
 
-	int playerHsX1 = (widthOffset + Player.position.x - Player.GetScale().x / 4.0f) / gridWidth; // 25% X
-	int playerHsX2 = (widthOffset + Player.position.x + Player.GetScale().x / 4.0f) / gridWidth; // 75% X
-	int playerHsY1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / gridHeight; // 25% Y
-	int playerHsY2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / gridHeight; // 75% Y
+	int playerHsX1 = Player.position.x - Player.GetScale().x / 4.0f; // 25% X
+	int playerHsX2 = Player.position.x + Player.GetScale().x / 4.0f; // 75% X
+	int playerHsY1 = Player.position.y - Player.GetScale().y / 4.0f; // 25% Y
+	int playerHsY2 = Player.position.y + Player.GetScale().y / 4.0f; // 75% Y
 
 	// Variables used for debugging
 #ifdef DEBUG
@@ -367,15 +373,27 @@ void CollectibleCheck() {
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
-				float collectableTopY = heightOffset - i * gridHeight - (gridHeight - COLLECTABLE_SIZE_Y) / 2;
-				float collectableBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - COLLECTABLE_SIZE_Y) / 2;
-				float collectableLeftX = -widthOffset + j * gridWidth + (gridWidth - COLLECTABLE_SIZE_X) / 2;
-				float collectableRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - COLLECTABLE_SIZE_X) / 2;
-
 #ifdef DEBUG
 				collectibleCounter++;
 #endif
-				
+				float collectableTopY = heightOffset - i * gridHeight - (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
+				float collectableBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
+				float collectableLeftX = -widthOffset + j * gridWidth + (gridWidth - COLLECTABLE_SIZE_X) / 2;
+				float collectableRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - COLLECTABLE_SIZE_X) / 2.0f;
+
+				// If player x position is within the collectable // GOT EXCESS CODE
+				if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 > collectableLeftX && playerRightX < collectableRightX
+					|| playerHsX1 < collectableRightX && playerRightX > collectableLeftX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {
+					// If player y position is within the collectable // Think this is wrong, now need both X hotspot and Y hotspot to work
+					if (playerHsY1 > collectableBtmY && playerTopY < collectableTopY || playerHsY2 > collectableBtmY && playerBtmY < collectableTopY) {
+						//platform[i][j].SetPlatformType(EMPTY_SPACE);
+
+						std::cout << "Collision with a collectible \n";
+#ifdef DEBUG
+						collectibleCounter--;
+#endif
+					}
+				}
 			}
 		}
 	}

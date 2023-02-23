@@ -236,7 +236,7 @@ void Level1_Update()
 
 	// Collision function
 	CollisionCheck();
-	CollectibleCheck();
+	CollectableCheck();
 
 	//std::cout << Player.position.y <<'\n';
 	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position

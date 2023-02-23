@@ -9,4 +9,4 @@
 void CollisionCheck();
 
 // Checks collision against collectible
-void CollectibleCheck();
+void CollectableCheck();
