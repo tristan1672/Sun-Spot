@@ -7,7 +7,7 @@
 
 // ---------------------------------------------------------------------------
 // Defines
-#define DEBUG true
+#define DEBUG false
 // --------------------------------------------------------------------------- // End of defines
 
 // ---------------------------------------------------------------------------
@@ -23,8 +23,8 @@ enum { PLAYING = 0, WIN = 1,};
 extern s8 e_fontID;
 
 // Physics
-extern float e_gravity, e_jumpForce, min_jumpForce , vertMod,dragCoeff, friction;
-extern const float original_jumpForce, originalMin_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag, normalFriction, iceFriction, fullStopFriction;
+extern float e_gravity, e_jumpForce, min_jumpForce , vertMod,dragCoeff, friction, currHoldTime;
+extern const float original_jumpForce, originalMin_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag, normalFriction, iceFriction, fullStopFriction, maxHoldTime;
 
 // Time
 extern float e_deltaTime, e_levelTime;

@@ -400,7 +400,7 @@ void CollectableCheck() {
 	}
 
 #ifdef DEBUG
-	std::cout << "Collectable Left: " << collectibleCounter << "\n";
+	//std::cout << "Collectable Left: " << collectibleCounter << "\n";
 #endif
 
 }

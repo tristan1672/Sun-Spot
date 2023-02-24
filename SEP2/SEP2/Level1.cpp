@@ -214,16 +214,18 @@ void Level1_Update()
 		// Shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
 		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady) {
 			Input_Handle_HoldCheck();
-			if (e_jumpForce <= min_jumpForce) {
 				AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
-				Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ClickX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ClickY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
+				Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
 				Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
 				float angle = atan2f(-nDirection.x, nDirection.y);
-				std::cout << angle;
-				jumpArrow.SetRotation(angle);
-				jumpArrow.position = { Player.position.x,Player.position.y };
-				std::cout << mouse.ReleaseY << "\n";
-			}
+				if (currHoldTime >= maxHoldTime) {
+					jumpArrow.position = { Player.position.x,Player.position.y };
+					nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+					angle = atan2f(-nDirection.x, -nDirection.y);
+					std::cout << Player.position.x << " player \n";
+					std::cout << mouse.ClickX << " angle \n";
+					jumpArrow.SetRotation(angle);
+				}
 		}
 		// The player jumps in according to the direction previously specified, then resets all the rotations and click pos to 0;
 		if (AEInputCheckReleased(AEVK_LBUTTON) && Player.jumpReady) {
@@ -350,7 +352,7 @@ void Level1_Draw()
 	// Draws the player
 	Player.DrawObj();
 	// Draws the arrow direction
-	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && e_jumpForce <= min_jumpForce) {
+	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && currHoldTime >= maxHoldTime) {
 			jumpArrow.DrawObj();
 	}
 	

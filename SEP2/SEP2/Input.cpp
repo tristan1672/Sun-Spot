@@ -32,12 +32,8 @@ void Input_Handle_HoldCheck()
 {	
 
 	// Holding too long will make it jump shorter (Aiming)
-	if (e_jumpForce > min_jumpForce) {
-		//std::cout << e_jumpForce << "\n";
-		e_jumpForce -= static_cast<float>(200 * e_deltaTime);
-	}
-	if (e_jumpForce <= min_jumpForce) {
-		e_jumpForce = min_jumpForce;
+	if (currHoldTime < maxHoldTime) {
+		currHoldTime += e_deltaTime;
 	}
 }
 
@@ -48,15 +44,22 @@ void Input_Handle_HoldCheck()
 void Input_Handle_Jump() {
 
 	//std::cout << "Input:Mouse Click Released\n";
-
-	Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
+	Vector2D nDirection{ normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY) };
+	Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
 	Player.velocity.y = static_cast<float>(e_jumpForce * nDirection.y);
 	Player.velocity.x = static_cast<float>(e_jumpForce * nDirection.x);
+	
+	if (currHoldTime >= maxHoldTime) {
+		nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+		Player.velocity.y = static_cast<float>(e_jumpForce * -nDirection.y);
+		Player.velocity.x = static_cast<float>(e_jumpForce * nDirection.x);
+	}
+
 	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
 	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 	Player.jumpReady = false;
 	e_jumpForce = original_jumpForce;
 	min_jumpForce = originalMin_jumpForce;
-	vertMod = originalVertMod;
+	currHoldTime = 0.f;
 
 }
