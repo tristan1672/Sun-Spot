@@ -20,6 +20,8 @@ const int	COLLISION_RIGHT  = 0x00000002;	//0010
 const int	COLLISION_TOP    = 0x00000004;	//0100
 const int	COLLISION_BOTTOM = 0x00000008;	//1000
 // --------------------------------------------------------------------------- // End of external variables
+bool prevFrameStickyCollision{};
+bool currFrameStickyCollision{};
 
 // Checks for player collsion and snap if required
 void CollisionCheck() {
@@ -29,7 +31,8 @@ void CollisionCheck() {
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
 
-	e_collisionFlag = 0;
+	e_collisionFlag = false;
+	currFrameStickyCollision = false;
 	bool colliding{};
 
 	// "Normalizing" hotspots
@@ -105,11 +108,6 @@ void CollisionCheck() {
 						min_jumpForce -= 50.f;
 					}
 					break;
-				/*case COLLECTABLES:
-					e_collisionFlag = 0;
-					colliding = false;
-					platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
-					break;*/
 				case GOAL:
 					level1_state = WIN;
 				default:
@@ -138,11 +136,6 @@ void CollisionCheck() {
 						min_jumpForce -= 50.f;
 					}
 					break;
-				/*case COLLECTABLES:
-					e_collisionFlag = 0;
-					colliding = false;
-					platform[abs(btmY)][abs(X2)].SetPlatformType(EMPTY_SPACE);
-					break;*/
 				case GOAL:
 					level1_state = WIN;
 				default:
@@ -177,13 +170,9 @@ void CollisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
 					friction = fullStopFriction;
-					Player.jumpReady = true;
+					currFrameStickyCollision = true;
+					if(!prevFrameStickyCollision)Player.jumpReady = true;
 					break;
-				/*case COLLECTABLES:
-					e_collisionFlag = 0;
-					colliding = false;
-					platform[abs(Y1)][abs(rightX)].SetPlatformType(EMPTY_SPACE);
-					break;*/
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
@@ -202,13 +191,9 @@ void CollisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
 					friction = fullStopFriction;
-					Player.jumpReady = true;
+					currFrameStickyCollision = true;
+					if (!prevFrameStickyCollision)Player.jumpReady = true;
 					break;
-				/*case COLLECTABLES:
-					e_collisionFlag = 0;
-					colliding = false;
-					platform[abs(Y2)][abs(rightX)].SetPlatformType(EMPTY_SPACE);
-					break;*/
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
@@ -246,7 +231,8 @@ void CollisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
 					friction = fullStopFriction;
-					Player.jumpReady = true;
+					currFrameStickyCollision = true;
+					if (!prevFrameStickyCollision)Player.jumpReady = true;
 					break;
 				/*case COLLECTABLES:
 					e_collisionFlag = 0;
@@ -272,7 +258,8 @@ void CollisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					friction = fullStopFriction;
 					dragCoeff = stickDrag;
-					Player.jumpReady = true;
+					currFrameStickyCollision = true;
+					if (!prevFrameStickyCollision)Player.jumpReady = true;
 					break;
 				/*case COLLECTABLES:
 					e_collisionFlag = 0;
@@ -343,6 +330,7 @@ void CollisionCheck() {
 	if (e_collisionFlag == COLLISION_RIGHT) {
 		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
 	}
+	prevFrameStickyCollision = currFrameStickyCollision;
 }
 
 void CollectableCheck() {
