@@ -16,6 +16,7 @@
 #include "Level1.hpp"
 #include "Collision.hpp"
 #include "Timer.hpp"
+#include "UIUtilities.hpp"
 //#include <vector>
 #include<string>
 
@@ -39,9 +40,11 @@ int e_binaryMapWidth;
 int e_binaryMapHeight;
 
 int level1_state;
+int level1_difficulty;
 
 int gGameRunning = 1;
 bool flick = false;
+int jump_counter;
 
 CameraPos cam;
 bool shake;
@@ -135,12 +138,14 @@ void Level1_Initialize()
 	std::cout << "Level 1:Initialize\n";
 
 	level1_state = PLAYING;
+	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
 
 	Player = DynamicObj();
 	Player.position = { 0,PLAYER_SIZE_Y/1.99 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
+	jump_counter = 0;
 
 	float s_gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float s_gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
@@ -210,6 +215,7 @@ void Level1_Update()
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
+			jump_counter++;
 		}
 		// Shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
 		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady) {
@@ -358,14 +364,16 @@ void Level1_Draw()
 	
 	if (level1_state == WIN) //draw win screen
 	{
+
 		WinScreen = GameObject();
 		WinScreen.position = { 0.0f, 0.0f };
 		WinScreen.SetScale({ 1270.f, 720.f });
 		WinScreen.SetColour({ 0.f,0.0f,0.f,0.7f });
 		WinScreen.DrawObj();
 	
-		Cleared.SetPosition({ Player.position.x, Player.position.y });
+		Cleared.SetPosition({ Player.position.x , Player.position.y });
 		Cleared.DrawObj();
+		PrintScore(0.0f, jump_counter, level1_difficulty);
 		
 	}
 
