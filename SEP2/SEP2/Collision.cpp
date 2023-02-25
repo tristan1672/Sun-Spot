@@ -11,6 +11,7 @@
 DynamicObj Player;
 Platform** platform;
 int e_collisionFlag;
+int e_collectableNum;
 // --------------------------------------------------------------------------- // End of external variables
 
 // ---------------------------------------------------------------------------
@@ -353,16 +354,15 @@ void CollectableCheck() {
 	int playerHsY1 = Player.position.y - Player.GetScale().y / 4.0f; // 25% Y
 	int playerHsY2 = Player.position.y + Player.GetScale().y / 4.0f; // 75% Y
 
-	// Variables used for debugging
 #ifdef DEBUG
-	int collectibleCounter = 0;
+	e_collectableNum = 0;
 #endif
 
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
 #ifdef DEBUG
-				collectibleCounter++;
+				e_collectableNum++;
 #endif
 				float collectableTopY = heightOffset - i * gridHeight - (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
 				float collectableBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
@@ -377,9 +377,9 @@ void CollectableCheck() {
 					if (playerHsY1 > collectableBtmY && playerTopY < collectableTopY || playerHsY2 > collectableBtmY && playerBtmY < collectableTopY) {
 						platform[i][j].SetPlatformType(EMPTY_SPACE);
 
-						std::cout << "Collision with a collectible \n";
 #ifdef DEBUG
-						collectibleCounter--;
+						std::cout << "Collision with a collectible \n";
+						e_collectableNum--;
 #endif
 					}
 				}
