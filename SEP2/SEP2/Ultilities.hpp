@@ -28,11 +28,13 @@ extern const float original_jumpForce, originalMin_jumpForce, originalVertMod, a
 
 // Time
 extern float e_deltaTime, e_levelTime;
-extern int** e_levelGrid;
+
 
 // Level
 extern int level1_state;
+extern int** e_levelGrid;
 extern int e_binaryMapWidth, e_binaryMapHeight;
+extern int e_collectableNum;
 
 // Collision
 //extern Platform** platform;
