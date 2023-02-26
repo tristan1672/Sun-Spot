@@ -42,24 +42,41 @@ void Input_Handle_HoldCheck()
 // It is called whenever mouse click released and player is on the ground
 // ----------------------------------------------------------------------------
 void Input_Handle_Jump() {
-
-	//std::cout << "Input:Mouse Click Released\n";
-	Vector2D nDirection{ normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY) };
-	Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
-	Player.velocity.y = static_cast<float>(e_jumpForce * nDirection.y);
-	Player.velocity.x = static_cast<float>(e_jumpForce * nDirection.x);
 	
 	if (currHoldTime >= maxHoldTime) {
-		nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
-		Player.velocity.y = static_cast<float>(e_jumpForce * -nDirection.y);
-		Player.velocity.x = static_cast<float>(e_jumpForce * nDirection.x);
+		Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
+		Player.direction = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+		e_jumpForce = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y) * 2;
+		if (e_jumpForce > max_jumpForce) {
+			e_jumpForce = max_jumpForce;
+		}
+		if (e_jumpForce < min_jumpForce) {
+			e_jumpForce = min_jumpForce;
+		}
+		e_jumpForce *= e_jumpForceMod;
+		Player.velocity.y = static_cast<float>(e_jumpForce * -Player.direction.y);
+		Player.velocity.x = static_cast<float>(e_jumpForce * Player.direction.x);
+	}
+	else
+	{
+		Player.direction = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
+		e_jumpForce = Distance(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY) * 1.5;
+		if (e_jumpForce > max_jumpForce) {
+			e_jumpForce = max_jumpForce;
+		}
+		if (e_jumpForce < min_jumpForce) {
+			e_jumpForce = min_jumpForce;
+		}
+		e_jumpForce *= e_jumpForceMod;
+		Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
+		Player.velocity.x = static_cast<float>(e_jumpForce * Player.direction.x);
 	}
 
 	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
 	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 	Player.jumpReady = false;
-	e_jumpForce = original_jumpForce;
-	min_jumpForce = originalMin_jumpForce;
 	currHoldTime = 0.f;
+	e_jumpForceMod = originalJumpForceMod;
+	std::cout << e_jumpForce << "\n";
 
 }

@@ -88,8 +88,8 @@ void CollisionCheck() {
 			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < COLLECTABLES) {
 			colliding = true;
 			e_collisionFlag += COLLISION_BOTTOM;
-			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f)) || // checks which side of the grid the player is cooupying more
-				Player.position.x >(platform[abs(btmY)][abs(X1)].position.x - (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) {
+			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))){ // checks which side of the grid the player is cooupying more
+				
 				switch (platform[abs(btmY)][abs(X1)].GetPlatformType())
 				{
 				case NORMAL_BLOCK:// normal surface
@@ -103,11 +103,12 @@ void CollisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					Player.velocity.y -= Player.velocity.y;
 					friction = fullStopFriction;
-					std::cout << e_jumpForce << '\n';
-					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
-						e_jumpForce -= 50.f;
-						min_jumpForce -= 50.f;
-					}
+					e_jumpForceMod = 0.7f;
+					break;
+				case SLIME_BLOCK:
+					if (abs(Player.velocity.y) <= 2) Player.velocity.y = 0;
+					Player.velocity.y = -(Player.velocity.y* 0.5f);
+					friction = slimeFriction;
 					break;
 				case GOAL:
 					level1_state = WIN;
@@ -115,7 +116,7 @@ void CollisionCheck() {
 					break;
 				}
 			}
-			else {
+			else if (Player.position.x > (platform[abs(btmY)][abs(X1)].position.x - (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) {
 				switch (platform[abs(btmY)][abs(X2)].GetPlatformType())
 				{
 				case NORMAL_BLOCK:// normal surface
@@ -132,10 +133,12 @@ void CollisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					Player.velocity.y -= Player.velocity.y;
 					friction = fullStopFriction;
-					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
-						e_jumpForce -= 50.f;
-						min_jumpForce -= 50.f;
-					}
+					e_jumpForceMod = 0.7f;
+					break;
+				case SLIME_BLOCK:
+					if (abs(Player.velocity.y) <= 2) Player.velocity.y = 0;
+					Player.velocity.y = -(Player.velocity.y * 0.7f);
+					friction = slimeFriction;
 					break;
 				case GOAL:
 					level1_state = WIN;
@@ -160,8 +163,7 @@ void CollisionCheck() {
 		}
 		// Right collided
 		//if (platform[abs(Y1)][abs(rightX)].GetPlatformType()|| platform[abs(Y2)][abs(rightX)].GetPlatformType()) {
-		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < COLLECTABLES
-			|| platform[abs(Y2)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(rightX)].GetPlatformType() < COLLECTABLES) {
+		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < COLLECTABLES) {
 			colliding = true;
 			e_collisionFlag += COLLISION_RIGHT;
 			if (Player.position.y < (platform[abs(Y1)][abs(rightX)].position.y + (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
@@ -180,13 +182,19 @@ void CollisionCheck() {
 				case GOAL:
 					level1_state = WIN;
 					break;
+				case SLIME_BLOCK:
+					if (Player.velocity.x) {
+						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
+						Player.velocity.x = -Player.velocity.x;
+					}
+					break;
 				default:
 					dragCoeff = normalDrag;
 					friction = fullStopFriction;
 					break;
 				}
 			}
-			else {
+			else if(platform[abs(Y2)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(rightX)].GetPlatformType() < COLLECTABLES) {
 				switch (platform[abs(Y2)][abs(rightX)].GetPlatformType())
 				{
 				case STICKY_BLOCK:// sticky physics
@@ -197,6 +205,12 @@ void CollisionCheck() {
 					break;
 				case EMPTY_SPACE:
 					colliding = false;
+					break;
+				case SLIME_BLOCK:
+					if (Player.velocity.x) {
+						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y); 
+						Player.velocity.x = -Player.velocity.x;
+					}
 					break;
 				default:
 					dragCoeff = normalDrag;
@@ -216,8 +230,7 @@ void CollisionCheck() {
 		}
 		// Left collided
 		//if (platform[abs(Y1)][abs(leftX)].GetPlatformType() || platform[abs(Y2)][abs(leftX)].GetPlatformType()) {
-		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < COLLECTABLES
-			|| platform[abs(Y2)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(leftX)].GetPlatformType() < COLLECTABLES) {
+		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < COLLECTABLES) {
 			colliding = true;
 			e_collisionFlag += COLLISION_LEFT;
 			if (Player.position.y < (platform[abs(Y1)][abs(leftX)].position.y + (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
@@ -235,20 +248,17 @@ void CollisionCheck() {
 					currFrameStickyCollision = true;
 					if (!prevFrameStickyCollision)Player.jumpReady = true;
 					break;
-				/*case COLLECTABLES:
-					e_collisionFlag = 0;
-					platform[abs(Y1)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
-					colliding = false;
-					std::cout << "1 \n";
-					break;*/
-				case EMPTY_SPACE:
-					colliding = false;
+				case SLIME_BLOCK:
+					if (Player.velocity.x) {
+						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
+						Player.velocity.x = -Player.velocity.x;
+					}
 					break;
 				case GOAL:
 					level1_state = WIN;
 				}
 			}
-			else {
+			else if (platform[abs(Y2)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(leftX)].GetPlatformType() < COLLECTABLES) {
 				switch (platform[abs(Y2)][abs(leftX)].GetPlatformType())
 				{
 				default:
@@ -262,14 +272,12 @@ void CollisionCheck() {
 					currFrameStickyCollision = true;
 					if (!prevFrameStickyCollision)Player.jumpReady = true;
 					break;
-				/*case COLLECTABLES:
-					e_collisionFlag = 0;
-					platform[abs(Y2)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
-					colliding = false;
-					std::cout << "3 \n";
-					break;*/
-				case EMPTY_SPACE:
-					colliding = false;
+				case SLIME_BLOCK:
+					if (Player.velocity.x) {
+						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
+						Player.velocity.x = -Player.velocity.x;
+					}
+					else
 					break;
 				case GOAL:
 					level1_state = WIN;

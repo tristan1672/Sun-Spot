@@ -26,7 +26,7 @@ protected:
 	AEGfxTexture* ptex{nullptr};
 	AEGfxVertexList* objMesh{ nullptr };
 public:
-	Vector2D position;
+	Vector2D position,direction;
 	//the draw function for created object, can be changed when inherited
 	virtual void DrawObj();
 

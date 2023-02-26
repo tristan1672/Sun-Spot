@@ -172,6 +172,11 @@ void Level1_Initialize()
 					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
 					{ s_gridWidth, s_gridHeight }, { 1.f,0.98f,0.63f,1.f });
 				break;
+			case SLIME_BLOCK:
+				platform[i][j] = Platform(
+					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
+					{ s_gridWidth, s_gridHeight }, { 0.19f,0.8f,0.19f,1.f });
+				break;
 			case COLLECTABLES:
 				platform[i][j] = Platform(
 					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
@@ -228,8 +233,15 @@ void Level1_Update()
 					jumpArrow.position = { Player.position.x,Player.position.y };
 					nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
 					angle = atan2f(-nDirection.x, -nDirection.y);
-					std::cout << Player.position.x << " player \n";
-					std::cout << mouse.ClickX << " angle \n";
+					currHoldDistance = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+					if (currHoldDistance > maxHoldDistance) {
+						currHoldDistance = maxHoldDistance;
+					}
+					if (currHoldDistance < minHoldDistance) {
+						currHoldDistance = minHoldDistance;
+					}
+					currHoldDistance *= e_jumpForceMod;
+					jumpArrow.SetScale({ jumpArrow.GetScale().x,currHoldDistance });
 					jumpArrow.SetRotation(angle);
 				}
 		}
