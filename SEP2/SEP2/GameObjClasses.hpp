@@ -9,11 +9,15 @@ this file contains gameobject class, a dynamic object class and function to make
 #define PLAYER_SIZE_Y 30.0f
 #define COLLECTABLE_SIZE_X 30.0f
 #define COLLECTABLE_SIZE_Y 30.0f
+#define GOAL_SIZE_X 30.0f
+#define GOAL_SIZE_Y 30.0f
 
 extern AEGfxVertexList* pMesh;
 extern AEGfxVertexList* arrMesh;
+extern AEGfxVertexList* circleMesh;
 void MakeMesh()/*used to make default mesh*/;
 void MakeArrowMesh();// use for arrow mesh
+void MakeCircle(); //used for circle objects
 
 // normal game object class, conatins all transformation data for an game object and also a function that draws the gameobject along with its colour
 class GameObject {
@@ -27,12 +31,13 @@ protected:
 	AEGfxVertexList* objMesh{ nullptr };
 public:
 	Vector2D position;
+	Vector2D direction{ 0 };
 	//the draw function for created object, can be changed when inherited
 	virtual void DrawObj();
 
 	//constructor
 	GameObject(Vector2D Position = { 0.f,0.f }, Vector2D Scale = { 10.f,10.f }, 
-		ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0.f , AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR, AEGfxVertexList* ObjectMesh = pMesh);
+		ColourValue Colour = { 1.f,1.f,1.f,1.f }, f32 Rotation = 0.f, AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR, AEGfxVertexList* ObjectMesh = pMesh, Vector2D Direction = {0,0});
 #pragma region Getter/Setter
 
 	Vector2D GetPosition();

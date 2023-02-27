@@ -49,10 +49,10 @@ int jump_counter;
 CameraPos cam;
 bool shake;
 short e_shakeStrength;
-
 float shakespeed;
 float shakedistance;
 f64 shaketime;
+
 AEGfxTexture* ptex = nullptr;
 
 // ----------------------------------------------------------------------------
@@ -63,6 +63,7 @@ void Level1_Load()
 {
 	MakeMesh();
 	MakeArrowMesh();
+	MakeCircle();
 
 	ptex = AEGfxTextureLoad("Assets/Cleared.png");
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
@@ -73,6 +74,7 @@ void Level1_Load()
 	if (levelMap.is_open()) {
 		std::cout << "Level File opened\n";
 		std::string temp;
+
 		std::getline(levelMap, temp);
 		std::string::size_type start = temp.find_first_of("0123456789");
 		std::string::size_type end = temp.find_first_of('\n');
@@ -142,7 +144,7 @@ void Level1_Initialize()
 	e_levelTime = 0.0f;
 
 	Player = DynamicObj();
-	Player.position = { 0,PLAYER_SIZE_Y/1.99 };
+	Player.position = { 0,PLAYER_SIZE_Y/2 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 	jump_counter = 0;
@@ -172,15 +174,20 @@ void Level1_Initialize()
 					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
 					{ s_gridWidth, s_gridHeight }, { 1.f,0.98f,0.63f,1.f });
 				break;
+			case SLIME_BLOCK:
+				platform[i][j] = Platform(
+					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
+					{ s_gridWidth, s_gridHeight }, { 0.19f,0.8f,0.19f,1.f });
+				break;
 			case COLLECTABLES:
 				platform[i][j] = Platform(
 					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
-					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f });
+					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f },0,AE_GFX_RM_COLOR,circleMesh);
 				break;
 			case GOAL:
 				platform[i][j] = Platform(
 					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
-					{ PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
+					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
 				break;
 			default:
 				break;
@@ -210,7 +217,7 @@ void Level1_Initialize()
 // ----------------------------------------------------------------------------
 void Level1_Update()
 {
-	if(level1_state == PLAYING)
+	if (level1_state == PLAYING)
 	{
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
@@ -220,18 +227,25 @@ void Level1_Update()
 		// Shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
 		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady) {
 			Input_Handle_HoldCheck();
-				AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
-				Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
-				Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
-				float angle = atan2f(-nDirection.x, nDirection.y);
-				if (currHoldTime >= maxHoldTime) {
-					jumpArrow.position = { Player.position.x,Player.position.y };
-					nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
-					angle = atan2f(-nDirection.x, -nDirection.y);
-					std::cout << Player.position.x << " player \n";
-					std::cout << mouse.ClickX << " angle \n";
-					jumpArrow.SetRotation(angle);
+			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
+			Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
+			Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
+			float angle = atan2f(-nDirection.x, nDirection.y);
+			if (currHoldTime >= maxHoldTime) {
+				jumpArrow.position = { Player.position.x,Player.position.y };
+				nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+				angle = atan2f(-nDirection.x, -nDirection.y);
+				currHoldDistance = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+				if (currHoldDistance > maxHoldDistance) {
+					currHoldDistance = maxHoldDistance;
 				}
+				if (currHoldDistance < minHoldDistance) {
+					currHoldDistance = minHoldDistance;
+				}
+				currHoldDistance *= e_jumpForceMod;
+				jumpArrow.SetScale({ jumpArrow.GetScale().x,currHoldDistance });
+				jumpArrow.SetRotation(angle);
+			}
 		}
 		// The player jumps in according to the direction previously specified, then resets all the rotations and click pos to 0;
 		if (AEInputCheckReleased(AEVK_LBUTTON) && Player.jumpReady) {
@@ -243,8 +257,8 @@ void Level1_Update()
 	}
 
 	// Collision function
-	CollisionCheck();
-	CollectableCheck();
+	LevelCollision();
+	ObjectiveCollision();
 
 	//std::cout << Player.position.y <<'\n';
 	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
@@ -257,24 +271,26 @@ void Level1_Update()
 
 	// code that allows the player to get affected by gravity (might need to look back at it to improve)
 	float terminalVelocity{ 2.f * e_gravity / dragCoeff };
-	if (terminalVelocity < Player.velocity.y) {
-		Player.velocity.y += static_cast<float>(vertMod * e_gravity * e_deltaTime);
-	}
-	if (Player.velocity.y) {
-		Player.velocity.y -= static_cast<float>(dragCoeff * Player.velocity.y * e_deltaTime);
-	}
-	if (abs(Player.velocity.x) < 2.f) {
-		Player.velocity.x = 0;
-	}
-	if (Player.velocity.x && friction != fullStopFriction) {
-		Player.velocity.x -= static_cast<float>(friction * Player.velocity.x * e_deltaTime);
-	}
-	else if (Player.velocity.x && friction == fullStopFriction) {
-		Player.velocity.x -= static_cast<float>(Player.velocity.x);
-	}
+	if (level1_state == PLAYING) {
+		if (terminalVelocity < Player.velocity.y) {
+			Player.velocity.y += static_cast<float>(vertMod * e_gravity * e_deltaTime);
+		}
+		if (Player.velocity.y) {
+			Player.velocity.y -= static_cast<float>(dragCoeff * Player.velocity.y * e_deltaTime);
+		}
+		if (abs(Player.velocity.x) < 2.f) {
+			Player.velocity.x = 0;
+		}
+		if (Player.velocity.x && friction != fullStopFriction) {
+			Player.velocity.x -= static_cast<float>(friction * Player.velocity.x * e_deltaTime);
+		}
+		else if (Player.velocity.x && friction == fullStopFriction) {
+			Player.velocity.x -= static_cast<float>(Player.velocity.x);
+		}
 
-	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
-	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
+		Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
+		Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
+	}
 
 	// Set camera to follow player
 	AEGfxSetCamPosition(Player.position.x, cam.Y);
@@ -372,7 +388,8 @@ void Level1_Draw()
 	
 		Cleared.SetPosition({ Player.position.x , Player.position.y });
 		Cleared.DrawObj();
-		PrintScore(0.0f, jump_counter, level1_difficulty);
+		PrintScore(e_collectableNum, jump_counter, level1_difficulty);
+		
 	}
 
 	// Draws total time in current level

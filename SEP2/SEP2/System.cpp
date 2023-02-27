@@ -16,7 +16,7 @@ void System_Initialize()
 	std::cout << "System:Initialize\n";
 
 	// Changing the window title
-	AESysSetWindowTitle("Froggy!");
+	AESysSetWindowTitle("Ready?Set.Jump!");
 
 	// reset the system modules
 	AESysReset();

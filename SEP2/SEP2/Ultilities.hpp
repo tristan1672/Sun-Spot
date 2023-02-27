@@ -13,7 +13,7 @@
 // ---------------------------------------------------------------------------
 // Enumerations
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
-enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, GOAL, COLLECTABLES = 9};
+enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK,SLIME_BLOCK, GOAL = 8, COLLECTABLES};
 enum { PLAYING = 0, WIN = 1,};
 enum { EASY, MEDIUM, HARD};
 // --------------------------------------------------------------------------- // End of enumerations
@@ -24,11 +24,17 @@ enum { EASY, MEDIUM, HARD};
 extern s8 e_fontID;
 
 // Physics
-extern float e_gravity, e_jumpForce, min_jumpForce , vertMod,dragCoeff, friction, currHoldTime;
-extern const float original_jumpForce, originalMin_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag, normalFriction, iceFriction, fullStopFriction, maxHoldTime;
+extern float e_gravity, e_jumpForce, vertMod,dragCoeff, friction, e_jumpForceMod;
+extern const float max_jumpForce, min_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag,
+normalFriction, iceFriction, fullStopFriction, slimeFriction,
+originalJumpForceMod;
 
 // Time
 extern float e_deltaTime, e_levelTime;
+
+// Jump Arrow
+extern float currHoldTime, currHoldDistance;
+extern const float maxHoldTime, maxHoldDistance, minHoldDistance;
 
 
 // Level
@@ -50,6 +56,7 @@ extern short e_shakeStrength;
 struct Vector2D {
 	f32 x;
 	f32 y;
+	Vector2D& operator-();
 };
 struct ColourValue
 {
@@ -57,6 +64,7 @@ struct ColourValue
 };
 
 Vector2D normalDirection(f32 X1, f32 Y1, f32 X2, f32 Y2);
+float Distance(f32 X1, f32 Y1, f32 X2, f32 Y2);
 
 struct mousePos {
 	s32 ClickX;

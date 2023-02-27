@@ -13,6 +13,7 @@
 // Pointer to Mesh
 AEGfxVertexList* pMesh = nullptr;
 AEGfxVertexList* arrMesh = nullptr;
+AEGfxVertexList* circleMesh = nullptr;
 //fucntion defination that used to make mesh
 void MakeMesh() {
 	// Informing the library that we're about to start adding triangles
@@ -48,11 +49,25 @@ void MakeArrowMesh() {
 	// Saving the mesh (list of triangles) in pMesh
 	arrMesh = AEGfxMeshEnd();
 }
+void MakeCircle() {
+	AEGfxMeshStart();
+	//Creating the circle shape
+	int Parts = 12;
+	for (float i = 0; i < Parts; ++i)
+	{
+		AEGfxTriAdd(
+			0.0f, 0.0f, 0xFFFFFF00, 0.0f, 0.0f,
+			cosf(i * 2 * PI / Parts) * 0.5f, sinf(i * 2 * PI / Parts) * 0.5f, 0xFFFFFF00, 0.0f, 0.0f,
+			cosf((i + 1) * 2 * PI / Parts) * 0.5f, sinf((i + 1) * 2 * PI / Parts) * 0.5f, 0xFFFFFF00, 0.0f, 0.0f);
+	}
+
+	circleMesh = AEGfxMeshEnd();
+}
 // all defination that the Class Gameoobject will use most if not all variables comes with default value to prevent reading werid values
 #pragma region Gameobject Class Defination
 //constructor for GameObject
-GameObject::GameObject(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh){
-	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode,objMesh = ObjectMesh;
+GameObject::GameObject(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh, Vector2D Direction){
+	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode,objMesh = ObjectMesh, direction = Direction;
 
 }
 #pragma region GameObject::Getter/Setter

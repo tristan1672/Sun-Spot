@@ -25,7 +25,7 @@ bool prevFrameStickyCollision{};
 bool currFrameStickyCollision{};
 
 // Checks for player collsion and snap if required
-void CollisionCheck() {
+void LevelCollision() {
 	
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
@@ -59,18 +59,11 @@ void CollisionCheck() {
 	}
 	else {
 		// Top collided
-		if (platform[abs(topY)][abs(X1)].GetPlatformType()|| platform[abs(topY)][abs(X2)].GetPlatformType()) {
+		if (platform[abs(topY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(topY)][abs(X1)].GetPlatformType() < GOAL
+			|| platform[abs(topY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(topY)][abs(X2)].GetPlatformType() < GOAL) {
 			colliding = true;
-
-			// Collectabiles detection
-			if (platform[abs(topY)][abs(X1)].GetPlatformType() == COLLECTABLES || platform[abs(topY)][abs(X2)].GetPlatformType() == COLLECTABLES) {
-				//e_collisionFlag = 0;
-				//colliding = false;
-				//platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
-			}else{
-				e_collisionFlag += COLLISION_TOP;
-				Player.velocity.y -= Player.velocity.y;
-			}
+			e_collisionFlag += COLLISION_TOP;
+			Player.velocity.y -= Player.velocity.y;
 
 #if DEBUG
 				std::cout << "Top collided, Coordinates\n\n";
@@ -83,13 +76,12 @@ void CollisionCheck() {
 
 		}
 		// Btm collided
-		//if (platform[abs(btmY)][abs(X1)].GetPlatformType()|| platform[abs(btmY)][abs(X2)].GetPlatformType()) {
-		if (platform[abs(btmY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X1)].GetPlatformType() < COLLECTABLES
-			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < COLLECTABLES) {
+		if (platform[abs(btmY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X1)].GetPlatformType() < GOAL
+			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_BOTTOM;
-			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f)) || // checks which side of the grid the player is cooupying more
-				Player.position.x >(platform[abs(btmY)][abs(X1)].position.x - (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) {
+			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
+
 				switch (platform[abs(btmY)][abs(X1)].GetPlatformType())
 				{
 				case NORMAL_BLOCK:// normal surface
@@ -103,19 +95,20 @@ void CollisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					Player.velocity.y -= Player.velocity.y;
 					friction = fullStopFriction;
-					std::cout << e_jumpForce << '\n';
-					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
-						e_jumpForce -= 50.f;
-						min_jumpForce -= 50.f;
-					}
+					e_jumpForceMod = 0.7f;
 					break;
-				case GOAL:
-					level1_state = WIN;
+				case SLIME_BLOCK:
+					if (abs(Player.velocity.y) <= 2) Player.velocity.y = 0;
+					Player.velocity.y = -(Player.velocity.y * 0.5f);
+					friction = slimeFriction;
+					break;
+				//case GOAL:
+				//	level1_state = WIN;
 				default:
 					break;
 				}
 			}
-			else {
+			else if (Player.position.x > (platform[abs(btmY)][abs(X1)].position.x - (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) {
 				switch (platform[abs(btmY)][abs(X2)].GetPlatformType())
 				{
 				case NORMAL_BLOCK:// normal surface
@@ -132,36 +125,37 @@ void CollisionCheck() {
 				case STICKY_BLOCK:// sticky physics
 					Player.velocity.y -= Player.velocity.y;
 					friction = fullStopFriction;
-					if (e_jumpForce == original_jumpForce && min_jumpForce == originalMin_jumpForce) {
-						e_jumpForce -= 50.f;
-						min_jumpForce -= 50.f;
-					}
+					e_jumpForceMod = 0.7f;
 					break;
-				case GOAL:
-					level1_state = WIN;
+				case SLIME_BLOCK:
+					if (abs(Player.velocity.y) <= 2) Player.velocity.y = 0;
+					Player.velocity.y = -(Player.velocity.y * 0.7f);
+					friction = slimeFriction;
+					break;
+				//case GOAL:
+				//	level1_state = WIN;
 				default:
 					break;
 				}
 			}
+
+#if DEBUG		
+			if (Player.jumpReady == false) {
+			std::cout << "Btm collided, Coordinates\n";
+			std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
+			std::cout << "[" << abs(leftX) << "," << abs(Y1) << "]     " << "[" << abs(rightX) << "," << abs(Y1) << "]\n";
+			std::cout << "        +\n";
+			std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
+			std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
+			}
+#endif
 			if (!Player.velocity.x) {
 				Player.jumpReady = true;
 			}
 			
-			/*
-#if DEBUG
-				std::cout << "Btm collided, Coordinates\n";
-				std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
-				std::cout << "[" << abs(leftX) << "," << abs(Y1) << "]     " << "[" << abs(rightX) << "," << abs(Y1) << "]\n";
-				std::cout << "        +\n";
-				std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
-				std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
-#endif
-			*/
 		}
 		// Right collided
-		//if (platform[abs(Y1)][abs(rightX)].GetPlatformType()|| platform[abs(Y2)][abs(rightX)].GetPlatformType()) {
-		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < COLLECTABLES
-			|| platform[abs(Y2)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(rightX)].GetPlatformType() < COLLECTABLES) {
+		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_RIGHT;
 			if (Player.position.y < (platform[abs(Y1)][abs(rightX)].position.y + (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
@@ -177,8 +171,14 @@ void CollisionCheck() {
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
-				case GOAL:
-					level1_state = WIN;
+				//case GOAL:
+				//	level1_state = WIN;
+					break;
+				case SLIME_BLOCK:
+					if (Player.velocity.x) {
+						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
+						Player.velocity.x = -Player.velocity.x;
+					}
 					break;
 				default:
 					dragCoeff = normalDrag;
@@ -186,7 +186,7 @@ void CollisionCheck() {
 					break;
 				}
 			}
-			else {
+			else if(platform[abs(Y2)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(rightX)].GetPlatformType() < GOAL) {
 				switch (platform[abs(Y2)][abs(rightX)].GetPlatformType())
 				{
 				case STICKY_BLOCK:// sticky physics
@@ -197,6 +197,12 @@ void CollisionCheck() {
 					break;
 				case EMPTY_SPACE:
 					colliding = false;
+					break;
+				case SLIME_BLOCK:
+					if (Player.velocity.x) {
+						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y); 
+						Player.velocity.x = -Player.velocity.x;
+					}
 					break;
 				default:
 					dragCoeff = normalDrag;
@@ -215,9 +221,7 @@ void CollisionCheck() {
 #endif
 		}
 		// Left collided
-		//if (platform[abs(Y1)][abs(leftX)].GetPlatformType() || platform[abs(Y2)][abs(leftX)].GetPlatformType()) {
-		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < COLLECTABLES
-			|| platform[abs(Y2)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(leftX)].GetPlatformType() < COLLECTABLES) {
+		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_LEFT;
 			if (Player.position.y < (platform[abs(Y1)][abs(leftX)].position.y + (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
@@ -235,20 +239,17 @@ void CollisionCheck() {
 					currFrameStickyCollision = true;
 					if (!prevFrameStickyCollision)Player.jumpReady = true;
 					break;
-				/*case COLLECTABLES:
-					e_collisionFlag = 0;
-					platform[abs(Y1)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
-					colliding = false;
-					std::cout << "1 \n";
-					break;*/
-				case EMPTY_SPACE:
-					colliding = false;
+				case SLIME_BLOCK:
+					if (Player.velocity.x) {
+						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
+						Player.velocity.x = -Player.velocity.x;
+					}
 					break;
-				case GOAL:
-					level1_state = WIN;
+				//case GOAL:
+				//	level1_state = WIN;
 				}
 			}
-			else {
+			else if (platform[abs(Y2)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(leftX)].GetPlatformType() < GOAL) {
 				switch (platform[abs(Y2)][abs(leftX)].GetPlatformType())
 				{
 				default:
@@ -262,17 +263,15 @@ void CollisionCheck() {
 					currFrameStickyCollision = true;
 					if (!prevFrameStickyCollision)Player.jumpReady = true;
 					break;
-				/*case COLLECTABLES:
-					e_collisionFlag = 0;
-					platform[abs(Y2)][abs(leftX)].SetPlatformType(EMPTY_SPACE);
-					colliding = false;
-					std::cout << "3 \n";
-					break;*/
-				case EMPTY_SPACE:
-					colliding = false;
+				case SLIME_BLOCK:
+					if (Player.velocity.x) {
+						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
+						Player.velocity.x = -Player.velocity.x;
+					}
+					else
 					break;
-				case GOAL:
-					level1_state = WIN;
+				//case GOAL:
+				//	level1_state = WIN;
 				}
 			}
 
@@ -334,8 +333,8 @@ void CollisionCheck() {
 	prevFrameStickyCollision = currFrameStickyCollision;
 }
 
-void CollectableCheck() {
-	// Thinking of making this into a static, when there will be grids outside of the exe window
+void ObjectiveCollision() {
+	// Will be a static value once there are grids outside of the window
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 
@@ -354,41 +353,55 @@ void CollectableCheck() {
 	int playerHsY1 = Player.position.y - Player.GetScale().y / 4.0f; // 25% Y
 	int playerHsY2 = Player.position.y + Player.GetScale().y / 4.0f; // 75% Y
 
-#ifdef DEBUG
 	e_collectableNum = 0;
-#endif
 
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
+
+			if (platform[i][j].GetPlatformType() == GOAL) {
+				float goalTopY = heightOffset - i * gridHeight - (gridHeight - GOAL_SIZE_Y) / 2.0f;
+				float goalBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - GOAL_SIZE_Y) / 2.0f;
+				float goalLeftX = -widthOffset + j * gridWidth + (gridWidth - GOAL_SIZE_X) / 2;
+				float goalRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - GOAL_SIZE_X) / 2.0f;
+
+				// If player x position is within the goal
+				if (playerHsX1 > goalLeftX && playerLeftX < goalRightX || playerHsX2 < goalRightX && playerRightX > goalLeftX) {
+					// If player y position is within the goal
+					if (playerHsY1 > goalBtmY && playerTopY < goalTopY || playerHsY2 > goalBtmY && playerBtmY < goalTopY) {
+						level1_state = WIN;
+						Player.velocity.x = 0.0f;
+						Player.velocity.y = 0.0f;
+					}
+				}
+			}
+
+
 			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
-#ifdef DEBUG
+
 				e_collectableNum++;
-#endif
+
 				float collectableTopY = heightOffset - i * gridHeight - (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
 				float collectableBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
 				float collectableLeftX = -widthOffset + j * gridWidth + (gridWidth - COLLECTABLE_SIZE_X) / 2;
 				float collectableRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - COLLECTABLE_SIZE_X) / 2.0f;
 
-				// If player x position is within the collectable // GOT EXCESS CODE
-				/*if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 > collectableLeftX && playerRightX < collectableRightX
-					|| playerHsX1 < collectableRightX && playerRightX > collectableLeftX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {*/
+				// If player x position is within the collectable
 				if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {
-					// If player y position is within the collectable // Think this is wrong, now need both X hotspot and Y hotspot to work
+					// If player y position is within the collectable
 					if (playerHsY1 > collectableBtmY && playerTopY < collectableTopY || playerHsY2 > collectableBtmY && playerBtmY < collectableTopY) {
 						platform[i][j].SetPlatformType(EMPTY_SPACE);
 
-#ifdef DEBUG
-						std::cout << "Collision with a collectible \n";
+
+#if DEBUG
 						e_collectableNum--;
+						std::cout << "Collision with a collectible \n";
+						std::cout << "Collectable Left: " << e_collectableNum << "\n";
+						
 #endif
 					}
 				}
 			}
 		}
 	}
-
-#ifdef DEBUG
-	//std::cout << "Collectable Left: " << collectibleCounter << "\n";
-#endif
 
 }
