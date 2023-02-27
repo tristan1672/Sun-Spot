@@ -74,6 +74,7 @@ void Level1_Load()
 	if (levelMap.is_open()) {
 		std::cout << "Level File opened\n";
 		std::string temp;
+
 		std::getline(levelMap, temp);
 		std::string::size_type start = temp.find_first_of("0123456789");
 		std::string::size_type end = temp.find_first_of('\n');
@@ -343,11 +344,11 @@ void Level1_Update()
 		LevelTime();
 	}
 
-//#if DEBUG
-//		std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
-//		std::cout << "Delta Time: " << e_deltaTime << "\n";
-//		std::cout << "Level Time: " << e_levelTime << "\n\n";
-//#endif
+#if DEBUG
+		std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
+		std::cout << "Delta Time: " << e_deltaTime << "\n";
+		std::cout << "Level Time: " << e_levelTime << "\n\n";
+#endif
 }
 
 // ----------------------------------------------------------------------------
