@@ -44,7 +44,6 @@ extern int e_binaryMapWidth, e_binaryMapHeight;
 extern int e_totalNumOfCollectable, e_numOfCollectableCollected;
 
 // Collision
-//extern Platform** platform;
 extern int e_collisionFlag;
 
 // Camera

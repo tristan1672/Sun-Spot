@@ -70,8 +70,6 @@ void Level1_Load()
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
 
-	e_totalNumOfCollectable = 0;
-
 	std::cout << "Level 1:Load\n";
 	std::fstream levelMap("Assets/Script/Level1.txt", std::ios_base::in);
 	//std::fstream levelMap("Assets/Script/Testing.txt", std::ios_base::in);
@@ -151,6 +149,7 @@ void Level1_Initialize()
 	level1_state = PLAYING;
 	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
+	e_totalNumOfCollectable = 0;
 
 	Player = DynamicObj();
 	Player.position = { 0,PLAYER_SIZE_Y/2 };

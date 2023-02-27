@@ -24,7 +24,10 @@ const int	COLLISION_BOTTOM = 0x00000008;	//1000
 bool prevFrameStickyCollision{};
 bool currFrameStickyCollision{};
 
-// Checks for player collsion and snap if required
+
+// ----------------------------------------------------------------------------
+// Checks for player collision against level and snap accordingly
+// ----------------------------------------------------------------------------
 void LevelCollision() {
 	
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
@@ -32,7 +35,7 @@ void LevelCollision() {
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
 
-	e_collisionFlag = false;
+	e_collisionFlag = 0;
 	currFrameStickyCollision = false;
 	bool colliding{};
 
@@ -319,6 +322,10 @@ void LevelCollision() {
 	prevFrameStickyCollision = currFrameStickyCollision;
 }
 
+// ----------------------------------------------------------------------------
+// Checks for player collision against objects that dont require snaping,
+// such as collectables and goal(exit point)
+// ----------------------------------------------------------------------------
 void ObjectiveCollision() {
 	// Will be a static value once there are grids outside of the window
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
