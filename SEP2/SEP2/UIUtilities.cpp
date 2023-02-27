@@ -16,6 +16,7 @@
 #include <string>
 
 static int counter, counter_2, counter_3, counter_4;
+static float timegrade_x = -1.0f, jumpgrade_x = -1.0f, string_x = -1.0f, jumpcount_x = -1.0f;
 
 // Button collisions
 int IsAreaClicked(float area_center_x, float area_center_y, float area_width, float area_height, float click_x, float click_y)
@@ -168,20 +169,51 @@ void PrintScore(int COLLECTIBLE_COUNT, int JUMP_COUNT, int DIFFICULTY)
 	time.score = calculateScore(e_levelTime, time.F);
 	jump.score = calculateScore(JUMP_COUNT, jump.F);
 
-	//Counting Animations
+	//Animations
 	if (counter < time.score)
 	{
-		counter += 2000 * GetTime();
+		counter += 3000 * GetTime();
+
+		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip 
+		{
+			counter = time.score;
+		}
+	
 	}
 
 	if (counter_2 < jump.score)
 	{
-		counter_2 += 2000 * GetTime();
+		counter_2 += 3000 * GetTime();
+
+		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip 
+		{
+			counter_2 = jump.score;
+		}
 	}
 
 	if (counter_3 < JUMP_COUNT)
 	{
 		counter_3 += 100 * GetTime();
+	}
+
+	if (timegrade_x < -0.225f)
+	{
+		timegrade_x += GetTime();
+	}
+
+	if (string_x < -0.8f)
+	{
+		string_x += GetTime();
+	}
+
+	if (jumpgrade_x < 0.625f)
+	{
+		jumpgrade_x += 2 * GetTime();
+	}
+
+	if (jumpcount_x < 0.02f)
+	{
+		jumpcount_x += 2 * GetTime();
 	}
 
 	//Print scores on win screen
@@ -190,10 +222,10 @@ void PrintScore(int COLLECTIBLE_COUNT, int JUMP_COUNT, int DIFFICULTY)
 	snprintf(jumpgrade, sizeof timegrade, "%c", jump.grade);
 	snprintf(tempStr, sizeof tempStr, "time score: %-13djump score: %d", counter, counter_2);
 
-	AEGfxPrint(e_fontID, tempStr, -0.7f, -0.3f, 0.7f, 1.0f, 1.0f, 1.0f);
-	AEGfxPrint(e_fontID, timegrade, -0.125f, -0.3f, 3.0f, time.red, time.green, time.blue);
-	AEGfxPrint(e_fontID, jumpgrade, 0.725f, -0.3f, 3.0f, jump.red, jump.green, jump.blue);
-	AEGfxPrint(e_fontID, jumpcount, 0.12f, -0.15f, 0.7f, 1.0f, 1.0f, 1.0f);
+	AEGfxPrint(e_fontID, tempStr, string_x, -0.3f, 0.7f, 1.0f, 1.0f, 1.0f);
+	AEGfxPrint(e_fontID, timegrade, timegrade_x, -0.3f, 3.0f, time.red, time.green, time.blue);
+	AEGfxPrint(e_fontID, jumpgrade, jumpgrade_x, -0.3f, 3.0f, jump.red, jump.green, jump.blue);
+	AEGfxPrint(e_fontID, jumpcount, jumpcount_x, -0.15f, 0.7f, 1.0f, 1.0f, 1.0f);
 } 
 
 /*!************************************************************************
