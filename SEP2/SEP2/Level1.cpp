@@ -71,8 +71,6 @@ void Level1_Load()
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
 
-	e_totalNumOfCollectable = 0;
-
 	std::cout << "Level 1:Load\n";
 	std::fstream levelMap("Assets/Script/Level1.txt", std::ios_base::in);
 	//std::fstream levelMap("Assets/Script/Testing.txt", std::ios_base::in);
@@ -149,9 +147,10 @@ void Level1_Initialize()
 {
 	std::cout << "Level 1:Initialize\n";
 
-	level1_state		= PLAYING;
-	level1_difficulty   = MEDIUM;
-	e_levelTime			= 0.0f;
+	level1_state = PLAYING;
+	level1_difficulty = EASY;
+	e_levelTime = 0.0f;
+	e_totalNumOfCollectable = 0;
 
 	Player = DynamicObj();
 	Player.position = { 0,PLAYER_SIZE_Y/2 };
@@ -162,9 +161,9 @@ void Level1_Initialize()
 	float s_gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float s_gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 
-#if DEBUG
+//#if DEBUG
 	std::cout << "Total number of collectables: " << e_totalNumOfCollectable << "\n";
-#endif
+//#endif
 
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects

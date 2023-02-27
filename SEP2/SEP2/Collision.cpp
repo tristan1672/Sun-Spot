@@ -11,7 +11,6 @@
 DynamicObj Player;
 Platform** platform;
 int e_collisionFlag;
-//int e_totalNumOfCollectable;
 int e_numOfCollectableCollected;
 // --------------------------------------------------------------------------- // End of external variables
 
@@ -25,7 +24,10 @@ const int	COLLISION_BOTTOM = 0x00000008;	//1000
 bool prevFrameStickyCollision{};
 bool currFrameStickyCollision{};
 
-// Checks for player collsion and snap if required
+
+// ----------------------------------------------------------------------------
+// Checks for player collision against level and snap accordingly
+// ----------------------------------------------------------------------------
 void LevelCollision() {
 	
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
@@ -33,7 +35,7 @@ void LevelCollision() {
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
 
-	e_collisionFlag = false;
+	e_collisionFlag = 0;
 	currFrameStickyCollision = false;
 	bool colliding{};
 
@@ -48,7 +50,6 @@ void LevelCollision() {
 	int Y1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / gridHeight; // 25% Y
 	int Y2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / gridHeight; // 75% Y
 	
-
 	// If out of play area
 	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
 		Player.velocity.x = 0.0f;
@@ -56,7 +57,6 @@ void LevelCollision() {
 		Player.jumpReady = true;
 		Player.position.x = 0.0f;
 		Player.position.y = PLAYER_SIZE_Y / 2.0f;
-		e_levelTime = 0.0f;
 	}
 	else {
 		// Top collided
@@ -74,8 +74,8 @@ void LevelCollision() {
 				std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
 				std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
 #endif
-
 		}
+
 		// Btm collided
 		if (platform[abs(btmY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X1)].GetPlatformType() < GOAL
 			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < GOAL) {
@@ -149,8 +149,8 @@ void LevelCollision() {
 			if (!Player.velocity.x) {
 				Player.jumpReady = true;
 			}
-			
 		}
+
 		// Right collided
 		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < GOAL) {
 			colliding = true;
@@ -204,7 +204,6 @@ void LevelCollision() {
 					break;
 				}
 			}
-
 #if DEBUG
 				std::cout << "Right collided, Coordinates\n";
 				std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
@@ -214,6 +213,7 @@ void LevelCollision() {
 				std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
 #endif
 		}
+
 		// Left collided
 		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < GOAL) {
 			colliding = true;
@@ -225,7 +225,6 @@ void LevelCollision() {
 				default:
 					dragCoeff = normalDrag;
 					friction = fullStopFriction;
-					std::cout << "2 \n";
 					break;
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
@@ -247,7 +246,6 @@ void LevelCollision() {
 				default:
 					dragCoeff = normalDrag;
 					friction = fullStopFriction;
-					std::cout << "4 \n";
 					break;
 				case STICKY_BLOCK:// sticky physics
 					friction = fullStopFriction;
@@ -278,7 +276,6 @@ void LevelCollision() {
 			dragCoeff = airDrag;
 			friction = 0.f;
 		}
-
 	}
 
 	// Cam shake effect
@@ -323,6 +320,10 @@ void LevelCollision() {
 	prevFrameStickyCollision = currFrameStickyCollision;
 }
 
+// ----------------------------------------------------------------------------
+// Checks for player collision against objects that dont require snaping,
+// such as collectables and goal(exit point)
+// ----------------------------------------------------------------------------
 void ObjectiveCollision() {
 	// Will be a static value once there are grids outside of the window
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;

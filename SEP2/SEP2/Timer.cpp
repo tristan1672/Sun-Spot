@@ -15,17 +15,23 @@
 #include "Timer.hpp"
 #include <string>
 
+
+// ----------------------------------------------------------------------------
 // Get and returns delta time
+// ----------------------------------------------------------------------------
 float GetTime() {
 	return e_deltaTime = AEFrameRateControllerGetFrameTime();
 }
 
+// ----------------------------------------------------------------------------
 // Updates and return level time
+// ----------------------------------------------------------------------------
 float LevelTime() {
 	e_levelTime += e_deltaTime;
 	return e_levelTime;
 }
 
+// ----------------------------------------------------------------------------
 // Display time on screen
 void DisplayTime(float pos_x, float pos_y) {
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
