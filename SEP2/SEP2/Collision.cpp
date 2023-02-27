@@ -11,7 +11,6 @@
 DynamicObj Player;
 Platform** platform;
 int e_collisionFlag;
-//int e_totalNumOfCollectable;
 int e_numOfCollectableCollected;
 // --------------------------------------------------------------------------- // End of external variables
 
@@ -56,7 +55,6 @@ void LevelCollision() {
 		Player.jumpReady = true;
 		Player.position.x = 0.0f;
 		Player.position.y = PLAYER_SIZE_Y / 2.0f;
-		e_levelTime = 0.0f;
 	}
 	else {
 		// Top collided
@@ -225,7 +223,6 @@ void LevelCollision() {
 				default:
 					dragCoeff = normalDrag;
 					friction = fullStopFriction;
-					std::cout << "2 \n";
 					break;
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
@@ -247,7 +244,6 @@ void LevelCollision() {
 				default:
 					dragCoeff = normalDrag;
 					friction = fullStopFriction;
-					std::cout << "4 \n";
 					break;
 				case STICKY_BLOCK:// sticky physics
 					friction = fullStopFriction;

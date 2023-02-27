@@ -161,9 +161,9 @@ void Level1_Initialize()
 	float s_gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float s_gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 
-#if DEBUG
+//#if DEBUG
 	std::cout << "Total number of collectables: " << e_totalNumOfCollectable << "\n";
-#endif
+//#endif
 
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
