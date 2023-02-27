@@ -50,7 +50,6 @@ void LevelCollision() {
 	int Y1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / gridHeight; // 25% Y
 	int Y2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / gridHeight; // 75% Y
 	
-
 	// If out of play area
 	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
 		Player.velocity.x = 0.0f;
@@ -75,8 +74,8 @@ void LevelCollision() {
 				std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
 				std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
 #endif
-
 		}
+
 		// Btm collided
 		if (platform[abs(btmY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X1)].GetPlatformType() < GOAL
 			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < GOAL) {
@@ -150,8 +149,8 @@ void LevelCollision() {
 			if (!Player.velocity.x) {
 				Player.jumpReady = true;
 			}
-			
 		}
+
 		// Right collided
 		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < GOAL) {
 			colliding = true;
@@ -205,7 +204,6 @@ void LevelCollision() {
 					break;
 				}
 			}
-
 #if DEBUG
 				std::cout << "Right collided, Coordinates\n";
 				std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
@@ -215,6 +213,7 @@ void LevelCollision() {
 				std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
 #endif
 		}
+
 		// Left collided
 		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < GOAL) {
 			colliding = true;
@@ -277,7 +276,6 @@ void LevelCollision() {
 			dragCoeff = airDrag;
 			friction = 0.f;
 		}
-
 	}
 
 	// Cam shake effect
