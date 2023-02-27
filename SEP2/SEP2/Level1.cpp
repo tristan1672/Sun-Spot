@@ -49,10 +49,10 @@ int jump_counter;
 CameraPos cam;
 bool shake;
 short e_shakeStrength;
-
 float shakespeed;
 float shakedistance;
 f64 shaketime;
+
 AEGfxTexture* ptex = nullptr;
 
 // ----------------------------------------------------------------------------
@@ -143,7 +143,7 @@ void Level1_Initialize()
 	e_levelTime = 0.0f;
 
 	Player = DynamicObj();
-	Player.position = { 0,PLAYER_SIZE_Y/1.99 };
+	Player.position = { 0,PLAYER_SIZE_Y/2 };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 	jump_counter = 0;
@@ -343,11 +343,11 @@ void Level1_Update()
 		LevelTime();
 	}
 
-#if DEBUG
-		std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
-		std::cout << "Delta Time: " << e_deltaTime << "\n";
-		std::cout << "Level Time: " << e_levelTime << "\n\n";
-#endif
+//#if DEBUG
+//		std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
+//		std::cout << "Delta Time: " << e_deltaTime << "\n";
+//		std::cout << "Level Time: " << e_levelTime << "\n\n";
+//#endif
 }
 
 // ----------------------------------------------------------------------------
@@ -386,7 +386,7 @@ void Level1_Draw()
 	
 		Cleared.SetPosition({ Player.position.x , Player.position.y });
 		Cleared.DrawObj();
-		PrintScore(0.0f, jump_counter, level1_difficulty);
+		PrintScore(e_collectableNum, jump_counter, level1_difficulty);
 		
 	}
 

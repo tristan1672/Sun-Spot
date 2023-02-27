@@ -61,16 +61,8 @@ void CollisionCheck() {
 		// Top collided
 		if (platform[abs(topY)][abs(X1)].GetPlatformType()|| platform[abs(topY)][abs(X2)].GetPlatformType()) {
 			colliding = true;
-
-			// Collectabiles detection
-			if (platform[abs(topY)][abs(X1)].GetPlatformType() == COLLECTABLES || platform[abs(topY)][abs(X2)].GetPlatformType() == COLLECTABLES) {
-				//e_collisionFlag = 0;
-				//colliding = false;
-				//platform[abs(btmY)][abs(X1)].SetPlatformType(EMPTY_SPACE);
-			}else{
-				e_collisionFlag += COLLISION_TOP;
-				Player.velocity.y -= Player.velocity.y;
-			}
+			e_collisionFlag += COLLISION_TOP;
+			Player.velocity.y -= Player.velocity.y;
 
 #if DEBUG
 				std::cout << "Top collided, Coordinates\n\n";
@@ -83,13 +75,12 @@ void CollisionCheck() {
 
 		}
 		// Btm collided
-		//if (platform[abs(btmY)][abs(X1)].GetPlatformType()|| platform[abs(btmY)][abs(X2)].GetPlatformType()) {
 		if (platform[abs(btmY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X1)].GetPlatformType() < COLLECTABLES
 			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < COLLECTABLES) {
 			colliding = true;
 			e_collisionFlag += COLLISION_BOTTOM;
-			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))){ // checks which side of the grid the player is cooupying more
-				
+			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
+
 				switch (platform[abs(btmY)][abs(X1)].GetPlatformType())
 				{
 				case NORMAL_BLOCK:// normal surface
@@ -107,7 +98,7 @@ void CollisionCheck() {
 					break;
 				case SLIME_BLOCK:
 					if (abs(Player.velocity.y) <= 2) Player.velocity.y = 0;
-					Player.velocity.y = -(Player.velocity.y* 0.5f);
+					Player.velocity.y = -(Player.velocity.y * 0.5f);
 					friction = slimeFriction;
 					break;
 				case GOAL:
@@ -146,23 +137,23 @@ void CollisionCheck() {
 					break;
 				}
 			}
+
+#if DEBUG		
+			if (Player.jumpReady == false) {
+			std::cout << "Btm collided, Coordinates\n";
+			std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
+			std::cout << "[" << abs(leftX) << "," << abs(Y1) << "]     " << "[" << abs(rightX) << "," << abs(Y1) << "]\n";
+			std::cout << "        +\n";
+			std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
+			std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
+			}
+#endif
 			if (!Player.velocity.x) {
 				Player.jumpReady = true;
 			}
 			
-			/*
-#if DEBUG
-				std::cout << "Btm collided, Coordinates\n";
-				std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
-				std::cout << "[" << abs(leftX) << "," << abs(Y1) << "]     " << "[" << abs(rightX) << "," << abs(Y1) << "]\n";
-				std::cout << "        +\n";
-				std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
-				std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
-#endif
-			*/
 		}
 		// Right collided
-		//if (platform[abs(Y1)][abs(rightX)].GetPlatformType()|| platform[abs(Y2)][abs(rightX)].GetPlatformType()) {
 		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < COLLECTABLES) {
 			colliding = true;
 			e_collisionFlag += COLLISION_RIGHT;
@@ -229,7 +220,6 @@ void CollisionCheck() {
 #endif
 		}
 		// Left collided
-		//if (platform[abs(Y1)][abs(leftX)].GetPlatformType() || platform[abs(Y2)][abs(leftX)].GetPlatformType()) {
 		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < COLLECTABLES) {
 			colliding = true;
 			e_collisionFlag += COLLISION_LEFT;
@@ -362,41 +352,36 @@ void CollectableCheck() {
 	int playerHsY1 = Player.position.y - Player.GetScale().y / 4.0f; // 25% Y
 	int playerHsY2 = Player.position.y + Player.GetScale().y / 4.0f; // 75% Y
 
-#ifdef DEBUG
 	e_collectableNum = 0;
-#endif
 
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
-#ifdef DEBUG
+
 				e_collectableNum++;
-#endif
+
 				float collectableTopY = heightOffset - i * gridHeight - (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
 				float collectableBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
 				float collectableLeftX = -widthOffset + j * gridWidth + (gridWidth - COLLECTABLE_SIZE_X) / 2;
 				float collectableRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - COLLECTABLE_SIZE_X) / 2.0f;
 
-				// If player x position is within the collectable // GOT EXCESS CODE
-				/*if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 > collectableLeftX && playerRightX < collectableRightX
-					|| playerHsX1 < collectableRightX && playerRightX > collectableLeftX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {*/
+				// If player x position is within the collectable
 				if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {
-					// If player y position is within the collectable // Think this is wrong, now need both X hotspot and Y hotspot to work
+					// If player y position is within the collectable
 					if (playerHsY1 > collectableBtmY && playerTopY < collectableTopY || playerHsY2 > collectableBtmY && playerBtmY < collectableTopY) {
 						platform[i][j].SetPlatformType(EMPTY_SPACE);
 
-#ifdef DEBUG
-						std::cout << "Collision with a collectible \n";
+
+#if DEBUG
 						e_collectableNum--;
+						std::cout << "Collision with a collectible \n";
+						std::cout << "Collectable Left: " << e_collectableNum << "\n";
+						
 #endif
 					}
 				}
 			}
 		}
 	}
-
-#ifdef DEBUG
-	//std::cout << "Collectable Left: " << collectibleCounter << "\n";
-#endif
 
 }
