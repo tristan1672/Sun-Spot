@@ -16,7 +16,8 @@
 #include "Level1.hpp"
 #include "Collision.hpp"
 #include "Timer.hpp"
-#include "UIUtilities.hpp"
+#include "UI.hpp"
+#include "Score.hpp"
 //#include <vector>
 #include<string>
 
@@ -148,9 +149,9 @@ void Level1_Initialize()
 {
 	std::cout << "Level 1:Initialize\n";
 
-	level1_state = PLAYING;
-	level1_difficulty = EASY;
-	e_levelTime = 0.0f;
+	level1_state		= PLAYING;
+	level1_difficulty   = MEDIUM;
+	e_levelTime			= 0.0f;
 
 	Player = DynamicObj();
 	Player.position = { 0,PLAYER_SIZE_Y/2 };
@@ -202,6 +203,9 @@ void Level1_Initialize()
 					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
 				break;
+			//case HINT:
+				//platform[i][j] = 
+				//break;
 			default:
 				break;
 			}
@@ -307,7 +311,7 @@ void Level1_Update()
 	}
 
 	// Set camera to follow player
-	AEGfxSetCamPosition(Player.position.x, cam.Y);
+	AEGfxSetCamPosition(cam.X, cam.Y);
 
 	// Cam shake
 	if (!Player.jumpReady) // set shake and shaketime
@@ -352,8 +356,29 @@ void Level1_Update()
 		}
 		
 	}
-	
+	cam.X = Player.position.x;
 	cam.Y = Player.position.y + shakespeed * e_deltaTime;
+	
+	//Cam Bounding TEMP
+	if (cam.X > 150.0f)
+	{
+		cam.X = 150.0f;
+	}
+
+	if (cam.X < -150.0f)
+	{
+		cam.X = -150.0f;
+	}
+	
+	if (cam.Y > 150.0f)
+	{
+		cam.Y = 150.0f;
+	}
+	
+	if (cam.Y < -150.0f)
+	{
+		cam.Y = -150.0f;
+	}
 
 	// Update total time taken for level
 	if (level1_state == PLAYING) {
@@ -398,17 +423,17 @@ void Level1_Draw()
 		WinScreen = GameObject();
 		WinScreen.position = { 0.0f, 0.0f };
 		WinScreen.SetScale({ 1270.f, 720.f });
-		WinScreen.SetColour({ 0.f,0.0f,0.f,0.7f });
+		WinScreen.SetColour({ 0.f,0.0f,0.f,0.9f });
 		WinScreen.DrawObj();
 
-		Cleared.SetPosition({ Player.position.x , Player.position.y });
+		Cleared.SetPosition({ Player.position.x , Player.position.y + 100.0f});
 		Cleared.DrawObj();
-		PrintScore(e_numOfCollectableCollected, jump_counter, level1_difficulty);
+		PrintScore(jump_counter, level1_difficulty);
 
 	}
 	else {
 		// Draws total time in current level
-		DisplayTime();
+		DisplayTime(0.58f, 0.86f);
 	}
 }
 

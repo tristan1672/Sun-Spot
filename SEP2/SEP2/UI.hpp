@@ -1,7 +1,10 @@
 #pragma once
-#include "AEEngine.h"
-#include "Ultilities.hpp"
-#include "GameObjClasses.hpp"
+#include "Timer.hpp"
+#include <iostream>
 
-void UIMesh();
-void DrawTexture(AEGfxTexture* ptex, f32 pos_x, f32 pos_y, f32 scale_x, f32 scale_y);
+#ifndef UI_HPP
+#define UI_HPP
+
+int IsAreaClicked(float area_center_x, float area_center_y, float area_width, float area_height, float click_x, float click_y);
+
+#endif // UI_HPP
