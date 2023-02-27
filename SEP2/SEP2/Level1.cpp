@@ -381,6 +381,7 @@ void Level1_Draw()
 	
 	if (level1_state == WIN) //draw win screen
 	{
+
 		WinScreen = GameObject();
 		WinScreen.position = { 0.0f, 0.0f };
 		WinScreen.SetScale({ 1270.f, 720.f });
