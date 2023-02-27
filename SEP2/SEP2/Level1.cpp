@@ -63,6 +63,7 @@ void Level1_Load()
 {
 	MakeMesh();
 	MakeArrowMesh();
+	MakeCircle();
 
 	ptex = AEGfxTextureLoad("Assets/Cleared.png");
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
@@ -180,7 +181,7 @@ void Level1_Initialize()
 			case COLLECTABLES:
 				platform[i][j] = Platform(
 					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
-					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f });
+					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f },0,AE_GFX_RM_COLOR,circleMesh);
 				break;
 			case GOAL:
 				platform[i][j] = Platform(
