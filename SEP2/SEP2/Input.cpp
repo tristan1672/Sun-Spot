@@ -71,7 +71,6 @@ void Input_Handle_Jump() {
 		Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
 		Player.velocity.x = static_cast<float>(e_jumpForce * Player.direction.x);
 	}
-
 	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
 	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 	Player.jumpReady = false;

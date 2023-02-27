@@ -222,7 +222,7 @@ void Level1_Update()
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
-			jump_counter++;
+
 		}
 		// Shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
 		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady) {
@@ -252,6 +252,7 @@ void Level1_Update()
 			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
 			Input_Handle_Jump();
 			jumpArrow.SetRotation(0);
+			if (Player.velocity.x && Player.velocity.y) 	jump_counter++;
 			mouse = { 0,0,0,0 };
 		}
 	}
