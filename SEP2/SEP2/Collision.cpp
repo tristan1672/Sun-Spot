@@ -11,7 +11,8 @@
 DynamicObj Player;
 Platform** platform;
 int e_collisionFlag;
-int e_collectableNum;
+//int e_totalNumOfCollectable;
+int e_numOfCollectableCollected;
 // --------------------------------------------------------------------------- // End of external variables
 
 // ---------------------------------------------------------------------------
@@ -102,8 +103,6 @@ void LevelCollision() {
 					Player.velocity.y = -(Player.velocity.y * 0.5f);
 					friction = slimeFriction;
 					break;
-				//case GOAL:
-				//	level1_state = WIN;
 				default:
 					break;
 				}
@@ -132,8 +131,6 @@ void LevelCollision() {
 					Player.velocity.y = -(Player.velocity.y * 0.7f);
 					friction = slimeFriction;
 					break;
-				//case GOAL:
-				//	level1_state = WIN;
 				default:
 					break;
 				}
@@ -170,9 +167,6 @@ void LevelCollision() {
 					break;
 				case EMPTY_SPACE:
 					colliding = false;
-					break;
-				//case GOAL:
-				//	level1_state = WIN;
 					break;
 				case SLIME_BLOCK:
 					if (Player.velocity.x) {
@@ -245,8 +239,6 @@ void LevelCollision() {
 						Player.velocity.x = -Player.velocity.x;
 					}
 					break;
-				//case GOAL:
-				//	level1_state = WIN;
 				}
 			}
 			else if (platform[abs(Y2)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(leftX)].GetPlatformType() < GOAL) {
@@ -270,8 +262,6 @@ void LevelCollision() {
 					}
 					else
 					break;
-				//case GOAL:
-				//	level1_state = WIN;
 				}
 			}
 
@@ -353,8 +343,6 @@ void ObjectiveCollision() {
 	int playerHsY1 = Player.position.y - Player.GetScale().y / 4.0f; // 25% Y
 	int playerHsY2 = Player.position.y + Player.GetScale().y / 4.0f; // 75% Y
 
-	e_collectableNum = 0;
-
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 
@@ -375,11 +363,7 @@ void ObjectiveCollision() {
 				}
 			}
 
-
 			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
-
-				e_collectableNum++;
-
 				float collectableTopY = heightOffset - i * gridHeight - (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
 				float collectableBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
 				float collectableLeftX = -widthOffset + j * gridWidth + (gridWidth - COLLECTABLE_SIZE_X) / 2;
@@ -391,11 +375,12 @@ void ObjectiveCollision() {
 					if (playerHsY1 > collectableBtmY && playerTopY < collectableTopY || playerHsY2 > collectableBtmY && playerBtmY < collectableTopY) {
 						platform[i][j].SetPlatformType(EMPTY_SPACE);
 
+						++e_numOfCollectableCollected;
+
 
 #if DEBUG
-						e_collectableNum--;
 						std::cout << "Collision with a collectible \n";
-						std::cout << "Collectable Left: " << e_collectableNum << "\n";
+						std::cout << "Collectable Left: " << e_totalNumOfCollectable - e_numOfCollectableCollected << "\n";
 						
 #endif
 					}

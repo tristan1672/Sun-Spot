@@ -41,7 +41,7 @@ extern const float maxHoldTime, maxHoldDistance, minHoldDistance;
 extern int level1_state;
 extern int** e_levelGrid;
 extern int e_binaryMapWidth, e_binaryMapHeight;
-extern int e_collectableNum;
+extern int e_totalNumOfCollectable, e_numOfCollectableCollected;
 
 // Collision
 //extern Platform** platform;

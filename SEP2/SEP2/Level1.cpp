@@ -38,6 +38,7 @@ float e_levelTime;
 int** e_levelGrid;
 int e_binaryMapWidth;
 int e_binaryMapHeight;
+int e_totalNumOfCollectable;
 
 int level1_state;
 int level1_difficulty;
@@ -69,8 +70,12 @@ void Level1_Load()
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
 
+	e_totalNumOfCollectable = 0;
+
 	std::cout << "Level 1:Load\n";
 	std::fstream levelMap("Assets/Script/Level1.txt", std::ios_base::in);
+	//std::fstream levelMap("Assets/Script/Testing.txt", std::ios_base::in);
+
 	if (levelMap.is_open()) {
 		std::cout << "Level File opened\n";
 		std::string temp;
@@ -103,6 +108,10 @@ void Level1_Load()
 
 			if (character >= '0' && character <= '9')
 			{
+				if (character == '9') {
+					++e_totalNumOfCollectable;
+				}
+
 				platform[i][j].SetPlatformType(static_cast<int>(character) - '0');
 #if DEBUG
 				std::cout << platform[i][j].GetPlatformType();
@@ -151,6 +160,10 @@ void Level1_Initialize()
 
 	float s_gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float s_gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
+
+#if DEBUG
+	std::cout << "Total number of collectables: " << e_totalNumOfCollectable << "\n";
+#endif
 
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
@@ -359,7 +372,7 @@ void Level1_Update()
 // ----------------------------------------------------------------------------
 void Level1_Draw()
 {
-	
+
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
@@ -375,9 +388,9 @@ void Level1_Draw()
 	Player.DrawObj();
 	// Draws the arrow direction
 	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && currHoldTime >= maxHoldTime) {
-			jumpArrow.DrawObj();
+		jumpArrow.DrawObj();
 	}
-	
+
 	if (level1_state == WIN) //draw win screen
 	{
 
@@ -386,15 +399,16 @@ void Level1_Draw()
 		WinScreen.SetScale({ 1270.f, 720.f });
 		WinScreen.SetColour({ 0.f,0.0f,0.f,0.7f });
 		WinScreen.DrawObj();
-	
+
 		Cleared.SetPosition({ Player.position.x , Player.position.y });
 		Cleared.DrawObj();
-		PrintScore(e_collectableNum, jump_counter, level1_difficulty);
-		
-	}
+		PrintScore(e_numOfCollectableCollected, jump_counter, level1_difficulty);
 
-	// Draws total time in current level
-	DisplayTime();
+	}
+	else {
+		// Draws total time in current level
+		DisplayTime();
+	}
 }
 
 // ----------------------------------------------------------------------------
