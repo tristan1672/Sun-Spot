@@ -9,6 +9,8 @@ this file contains gameobject class, a dynamic object class and function to make
 #define PLAYER_SIZE_Y 30.0f
 #define COLLECTABLE_SIZE_X 30.0f
 #define COLLECTABLE_SIZE_Y 30.0f
+#define GOAL_SIZE_X 30.0f
+#define GOAL_SIZE_Y 30.0f
 
 extern AEGfxVertexList* pMesh;
 extern AEGfxVertexList* arrMesh;

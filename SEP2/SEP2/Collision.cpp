@@ -25,7 +25,7 @@ bool prevFrameStickyCollision{};
 bool currFrameStickyCollision{};
 
 // Checks for player collsion and snap if required
-void CollisionCheck() {
+void LevelCollision() {
 	
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
@@ -59,7 +59,8 @@ void CollisionCheck() {
 	}
 	else {
 		// Top collided
-		if (platform[abs(topY)][abs(X1)].GetPlatformType()|| platform[abs(topY)][abs(X2)].GetPlatformType()) {
+		if (platform[abs(topY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(topY)][abs(X1)].GetPlatformType() < GOAL
+			|| platform[abs(topY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(topY)][abs(X2)].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_TOP;
 			Player.velocity.y -= Player.velocity.y;
@@ -75,8 +76,8 @@ void CollisionCheck() {
 
 		}
 		// Btm collided
-		if (platform[abs(btmY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X1)].GetPlatformType() < COLLECTABLES
-			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < COLLECTABLES) {
+		if (platform[abs(btmY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X1)].GetPlatformType() < GOAL
+			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_BOTTOM;
 			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
@@ -101,8 +102,8 @@ void CollisionCheck() {
 					Player.velocity.y = -(Player.velocity.y * 0.5f);
 					friction = slimeFriction;
 					break;
-				case GOAL:
-					level1_state = WIN;
+				//case GOAL:
+				//	level1_state = WIN;
 				default:
 					break;
 				}
@@ -131,8 +132,8 @@ void CollisionCheck() {
 					Player.velocity.y = -(Player.velocity.y * 0.7f);
 					friction = slimeFriction;
 					break;
-				case GOAL:
-					level1_state = WIN;
+				//case GOAL:
+				//	level1_state = WIN;
 				default:
 					break;
 				}
@@ -154,7 +155,7 @@ void CollisionCheck() {
 			
 		}
 		// Right collided
-		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < COLLECTABLES) {
+		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_RIGHT;
 			if (Player.position.y < (platform[abs(Y1)][abs(rightX)].position.y + (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
@@ -170,8 +171,8 @@ void CollisionCheck() {
 				case EMPTY_SPACE:
 					colliding = false;
 					break;
-				case GOAL:
-					level1_state = WIN;
+				//case GOAL:
+				//	level1_state = WIN;
 					break;
 				case SLIME_BLOCK:
 					if (Player.velocity.x) {
@@ -185,7 +186,7 @@ void CollisionCheck() {
 					break;
 				}
 			}
-			else if(platform[abs(Y2)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(rightX)].GetPlatformType() < COLLECTABLES) {
+			else if(platform[abs(Y2)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(rightX)].GetPlatformType() < GOAL) {
 				switch (platform[abs(Y2)][abs(rightX)].GetPlatformType())
 				{
 				case STICKY_BLOCK:// sticky physics
@@ -220,7 +221,7 @@ void CollisionCheck() {
 #endif
 		}
 		// Left collided
-		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < COLLECTABLES) {
+		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_LEFT;
 			if (Player.position.y < (platform[abs(Y1)][abs(leftX)].position.y + (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
@@ -244,11 +245,11 @@ void CollisionCheck() {
 						Player.velocity.x = -Player.velocity.x;
 					}
 					break;
-				case GOAL:
-					level1_state = WIN;
+				//case GOAL:
+				//	level1_state = WIN;
 				}
 			}
-			else if (platform[abs(Y2)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(leftX)].GetPlatformType() < COLLECTABLES) {
+			else if (platform[abs(Y2)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(leftX)].GetPlatformType() < GOAL) {
 				switch (platform[abs(Y2)][abs(leftX)].GetPlatformType())
 				{
 				default:
@@ -269,8 +270,8 @@ void CollisionCheck() {
 					}
 					else
 					break;
-				case GOAL:
-					level1_state = WIN;
+				//case GOAL:
+				//	level1_state = WIN;
 				}
 			}
 
@@ -332,8 +333,8 @@ void CollisionCheck() {
 	prevFrameStickyCollision = currFrameStickyCollision;
 }
 
-void CollectableCheck() {
-	// Thinking of making this into a static, when there will be grids outside of the exe window
+void ObjectiveCollision() {
+	// Will be a static value once there are grids outside of the window
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 
@@ -356,6 +357,25 @@ void CollectableCheck() {
 
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
+
+			if (platform[i][j].GetPlatformType() == GOAL) {
+				float goalTopY = heightOffset - i * gridHeight - (gridHeight - GOAL_SIZE_Y) / 2.0f;
+				float goalBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - GOAL_SIZE_Y) / 2.0f;
+				float goalLeftX = -widthOffset + j * gridWidth + (gridWidth - GOAL_SIZE_X) / 2;
+				float goalRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - GOAL_SIZE_X) / 2.0f;
+
+				// If player x position is within the goal
+				if (playerHsX1 > goalLeftX && playerLeftX < goalRightX || playerHsX2 < goalRightX && playerRightX > goalLeftX) {
+					// If player y position is within the goal
+					if (playerHsY1 > goalBtmY && playerTopY < goalTopY || playerHsY2 > goalBtmY && playerBtmY < goalTopY) {
+						level1_state = WIN;
+						Player.velocity.x = 0.0f;
+						Player.velocity.y = 0.0f;
+					}
+				}
+			}
+
+
 			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
 
 				e_collectableNum++;

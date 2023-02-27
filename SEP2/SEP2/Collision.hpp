@@ -6,7 +6,7 @@
 #include "Level1.hpp"
 
 // Checks collision and snap player into position if required
-void CollisionCheck();
+void LevelCollision();
 
 // Checks collision against collectible
-void CollectableCheck();
+void ObjectiveCollision();
