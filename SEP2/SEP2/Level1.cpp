@@ -364,7 +364,6 @@ void Level1_Draw()
 	
 	if (level1_state == WIN) //draw win screen
 	{
-
 		WinScreen = GameObject();
 		WinScreen.position = { 0.0f, 0.0f };
 		WinScreen.SetScale({ 1270.f, 720.f });
@@ -374,7 +373,6 @@ void Level1_Draw()
 		Cleared.SetPosition({ Player.position.x , Player.position.y });
 		Cleared.DrawObj();
 		PrintScore(0.0f, jump_counter, level1_difficulty);
-		
 	}
 
 	// Draws total time in current level
