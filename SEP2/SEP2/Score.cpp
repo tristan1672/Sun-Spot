@@ -17,7 +17,6 @@
 #include "Score.hpp"
 
 
-// STRUCTS
 /***********************************************************************************************************************/
 		//Initial positions {count_pos.x, count_pos.y, grade_pos.x, grade_pos.y, score_pos.x, score_pos.y}
 struct Score timer															= { -1.0f, -0.05f, -1.0f, -0.2f , -1.0f,  -0.2f };
@@ -119,7 +118,7 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	//Print Time Taken
 	if (e_levelTime > 60.0f)
 	{
-		DisplayTime(timer.count_pos.x + 0.35f, -0.05f); 
+		DisplayTime(timer.count_pos.x + 0.35f, -0.05f); //Shift Right if include Minutes
 	}
 	else
 	{

@@ -33,6 +33,7 @@ float LevelTime() {
 
 // ----------------------------------------------------------------------------
 // Display time on screen
+// ----------------------------------------------------------------------------
 void DisplayTime(float pos_x, float pos_y) {
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 

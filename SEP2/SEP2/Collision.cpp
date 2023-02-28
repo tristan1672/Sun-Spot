@@ -88,6 +88,7 @@ void LevelCollision() {
 				case NORMAL_BLOCK:// normal surface
 					Player.velocity.y -= Player.velocity.y;
 					friction = normalFriction;
+					shake = true;
 					break;
 				case ICE_BLOCK: // ice physics
 					Player.velocity.y -= Player.velocity.y;
@@ -97,6 +98,7 @@ void LevelCollision() {
 					Player.velocity.y -= Player.velocity.y;
 					friction = fullStopFriction;
 					e_jumpForceMod = 0.7f;
+					shake = true;
 					break;
 				case SLIME_BLOCK:
 					if (abs(Player.velocity.y) <= 2) Player.velocity.y = 0;

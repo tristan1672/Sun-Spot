@@ -18,6 +18,7 @@
 #include "Timer.hpp"
 #include "UI.hpp"
 #include "Score.hpp"
+#include "Cam.hpp"
 //#include <vector>
 #include<string>
 
@@ -48,12 +49,7 @@ int gGameRunning = 1;
 bool flick = false;
 int jump_counter;
 
-CameraPos cam;
-bool shake;
-short e_shakeStrength;
-float shakespeed;
-float shakedistance;
-f64 shaketime;
+bool airCheck;
 
 AEGfxTexture* ptex = nullptr;
 
@@ -220,11 +216,8 @@ void Level1_Initialize()
 	mouse.ClickY = 0;
 	mouse.ReleaseX = 0;
 	mouse.ReleaseY = 0;
-
+	airCheck = false;
 	shake = false;
-	e_shakeStrength = NO_SHAKE;
-	shakespeed = 0.0f;
-	shakedistance = 0.5f;
 }
 
 // ----------------------------------------------------------------------------
@@ -235,6 +228,7 @@ void Level1_Update()
 {
 	if (level1_state == PLAYING)
 	{
+		
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
@@ -272,6 +266,8 @@ void Level1_Update()
 			mouse = { 0,0,0,0 };
 		}
 	}
+	// Prev collesion flag check
+	airCheck = e_collisionFlag;
 
 	// Collision function
 	LevelCollision();
@@ -309,75 +305,8 @@ void Level1_Update()
 		Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 	}
 
-	// Set camera to follow player
-	AEGfxSetCamPosition(cam.X, cam.Y);
-
 	// Cam shake
-	if (!Player.jumpReady) // set shake and shaketime
-	{
-		shake = 1;
-		shaketime = 0;
-		e_shakeStrength = NO_SHAKE;
-	}
-
-	// shake conditions
-	if (shake == 1 && (Player.jumpReady) && (shaketime < 0.2f)) 
-	{
-		shakespeed = 1.0f;
-		shaketime += e_deltaTime;
-		float distance = cam.Y - Player.position.y;
-		if (shakespeed >= 0)
-		{
-			if (e_shakeStrength == HEAVY_SHAKE)
-			{
-				shakespeed = 500.0f;
-			}
-			else if (e_shakeStrength == MEDIUM_SHAKE)
-			{
-				shakespeed = 100.0f;
-			}
-			else
-			{
-				shakespeed = 0.0f;
-			}
-
-			if (distance > shakedistance)
-			{
-				shakespeed *= -1.0f;
-			}
-		}
-		else
-		{
-			if (distance < -shakedistance)
-			{
-				shakespeed *= -1.0f;
-			}
-		}
-		
-	}
-	cam.X = Player.position.x;
-	cam.Y = Player.position.y + shakespeed * e_deltaTime;
-	
-	//Cam Bounding TEMP
-	if (cam.X > 150.0f)
-	{
-		cam.X = 150.0f;
-	}
-
-	if (cam.X < -150.0f)
-	{
-		cam.X = -150.0f;
-	}
-	
-	if (cam.Y > 150.0f)
-	{
-		cam.Y = 150.0f;
-	}
-	
-	if (cam.Y < -150.0f)
-	{
-		cam.Y = -150.0f;
-	}
+	Cam(airCheck);
 
 	// Update total time taken for level
 	if (level1_state == PLAYING) {

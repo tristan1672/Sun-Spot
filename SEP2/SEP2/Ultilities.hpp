@@ -48,6 +48,7 @@ extern int e_collisionFlag;
 
 // Camera
 extern short e_shakeStrength;
+extern bool shake;
 // --------------------------------------------------------------------------- // End of external variables
 
 // ---------------------------------------------------------------------------
@@ -72,9 +73,5 @@ struct mousePos {
 	s32 ReleaseY;
 };
 
-struct CameraPos
-{
-	f32 X;
-	f32 Y;
-};
+
 // --------------------------------------------------------------------------- // End of structs

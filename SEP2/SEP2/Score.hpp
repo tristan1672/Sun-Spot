@@ -13,7 +13,6 @@ struct Score
 	float S, A, B, C, F, red, green, blue;
 	int  count, score, scoreDisplay, countDisplay;
 	char grade;
-
 };
 
 void PrintScore(int JUMP_COUNT, int DIFFICULTY);
