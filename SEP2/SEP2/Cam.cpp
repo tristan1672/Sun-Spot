@@ -90,34 +90,34 @@ void Cam(bool airCheck)
 		shakespeed += 30.0f; //Increase
 	}
 	
-#if DEBUG
+
 	std::cout << "e_shakeStrength: " << e_shakeStrength << std::endl;
 	std::cout << "distance: " << distance << std::endl;
 	std::cout << "cam.Y: " << cam.Y << std::endl;
 	std::cout << "shakespeed: " << shakespeed << std::endl;
-#endif
+
 	cam.X = Player.position.x;
 	cam.Y = Player.position.y + (shakespeed * e_deltaTime * e_shakeStrength);
 	AEGfxSetCamPosition(cam.X, cam.Y); // Set camera to follow player
 
 	//Cam Bounding TEMP
-	if (cam.X > 200.0f) //Right Bound
+	if (cam.X > 250.0f) //Right Bound
 	{
-		cam.X = 200.0f;
+		cam.X = 250.0f;
 	}
 
-	if (cam.X < -200.0f) //Left Bound
+	if (cam.X < -250.0f) //Left Bound
 	{
-		cam.X = -200.0f;
+		cam.X = -250.0f;
 	}
 
-	if (cam.Y > 200.0f) //Top Bound
+	if (cam.Y > 250.0f) //Top Bound
 	{
-		cam.Y = 200.0f;
+		cam.Y = 250.0f;
 	}
 
-	if (cam.Y < -200.0f) //Bottom Bound
+	if (cam.Y < -250.0f) //Bottom Bound
 	{
-		cam.Y = -200.0f;
+		cam.Y = -250.0f;
 	}
 }
