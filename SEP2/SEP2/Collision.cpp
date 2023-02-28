@@ -1,3 +1,18 @@
+/*
+  *  \file Collision.cpp
+  *  \author      : Peh Zong Lin Adrian
+  *  \par DP Email: p.zonglinadrian\@digipen.edu
+  *  \par Course  : csd1451
+  *
+  *  \brief
+  *  Collision component.
+  *  - LevelCollision
+  *		 Checks for player collision against level and snap accordingly.
+  *  - ObjectiveCollision
+  *		 Checks for player collision against objects that dont require have seperate width and height.
+  *
+*/
+
 // ---------------------------------------------------------------------------
 // Includes
 #include "Collision.hpp"
@@ -30,6 +45,7 @@ bool currFrameStickyCollision{};
 // ----------------------------------------------------------------------------
 void LevelCollision() {
 	
+	// Will be a static value once there are grids outside of the window
 	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 	float widthOffset = WINDOW_WIDTH / 2.0f;
@@ -60,8 +76,8 @@ void LevelCollision() {
 	}
 	else {
 		// Top collided
-		if (platform[abs(topY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(topY)][abs(X1)].GetPlatformType() < GOAL
-			|| platform[abs(topY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(topY)][abs(X2)].GetPlatformType() < GOAL) {
+		if (platform[topY][X1].GetPlatformType() > EMPTY_SPACE && platform[topY][X1].GetPlatformType() < GOAL
+			|| platform[topY][X2].GetPlatformType() > EMPTY_SPACE && platform[topY][X2].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_TOP;
 			Player.velocity.y -= Player.velocity.y;
@@ -77,13 +93,13 @@ void LevelCollision() {
 		}
 
 		// Btm collided
-		if (platform[abs(btmY)][abs(X1)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X1)].GetPlatformType() < GOAL
-			|| platform[abs(btmY)][abs(X2)].GetPlatformType() > EMPTY_SPACE && platform[abs(btmY)][abs(X2)].GetPlatformType() < GOAL) {
+		if (platform[btmY][X1].GetPlatformType() > EMPTY_SPACE && platform[btmY][X1].GetPlatformType() < GOAL
+			|| platform[btmY][X2].GetPlatformType() > EMPTY_SPACE && platform[btmY][X2].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_BOTTOM;
-			if (Player.position.x < (platform[abs(btmY)][abs(X1)].position.x + (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
+			if (Player.position.x < (platform[btmY][X1].position.x + (platform[btmY][X1].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
 
-				switch (platform[abs(btmY)][abs(X1)].GetPlatformType())
+				switch (platform[btmY][X1].GetPlatformType())
 				{
 				case NORMAL_BLOCK:// normal surface
 					Player.velocity.y -= Player.velocity.y;
@@ -109,8 +125,8 @@ void LevelCollision() {
 					break;
 				}
 			}
-			else if (Player.position.x > (platform[abs(btmY)][abs(X1)].position.x - (platform[abs(btmY)][abs(X1)].GetScale().x / 2.f))) {
-				switch (platform[abs(btmY)][abs(X2)].GetPlatformType())
+			else if (Player.position.x > (platform[btmY][X1].position.x - (platform[btmY][X1].GetScale().x / 2.f))) {
+				switch (platform[btmY][X2].GetPlatformType())
 				{
 				case NORMAL_BLOCK:// normal surface
 					Player.velocity.y -= Player.velocity.y;
@@ -154,12 +170,12 @@ void LevelCollision() {
 		}
 
 		// Right collided
-		if (platform[abs(Y1)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(rightX)].GetPlatformType() < GOAL) {
+		if (platform[Y1][rightX].GetPlatformType() > EMPTY_SPACE && platform[Y1][rightX].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_RIGHT;
-			if (Player.position.y < (platform[abs(Y1)][abs(rightX)].position.y + (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
-				Player.position.y >(platform[abs(Y1)][abs(rightX)].position.y - (platform[abs(Y1)][abs(rightX)].GetScale().y / 2.f))) {
-				switch (platform[abs(Y1)][abs(rightX)].GetPlatformType())
+			if (Player.position.y < (platform[Y1][rightX].position.y + (platform[Y1][rightX].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
+				Player.position.y >(platform[Y1][rightX].position.y - (platform[Y1][rightX].GetScale().y / 2.f))) {
+				switch (platform[Y1][rightX].GetPlatformType())
 				{
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
@@ -182,8 +198,8 @@ void LevelCollision() {
 					break;
 				}
 			}
-			else if(platform[abs(Y2)][abs(rightX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(rightX)].GetPlatformType() < GOAL) {
-				switch (platform[abs(Y2)][abs(rightX)].GetPlatformType())
+			else if(platform[Y2][rightX].GetPlatformType() > EMPTY_SPACE && platform[Y2][rightX].GetPlatformType() < GOAL) {
+				switch (platform[Y2][rightX].GetPlatformType())
 				{
 				case STICKY_BLOCK:// sticky physics
 					dragCoeff = stickDrag;
@@ -217,12 +233,12 @@ void LevelCollision() {
 		}
 
 		// Left collided
-		if (platform[abs(Y1)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y1)][abs(leftX)].GetPlatformType() < GOAL) {
+		if (platform[Y1][leftX].GetPlatformType() > EMPTY_SPACE && platform[Y1][leftX].GetPlatformType() < GOAL) {
 			colliding = true;
 			e_collisionFlag += COLLISION_LEFT;
-			if (Player.position.y < (platform[abs(Y1)][abs(leftX)].position.y + (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
-				Player.position.y >(platform[abs(Y1)][abs(leftX)].position.y - (platform[abs(Y1)][abs(leftX)].GetScale().y / 2.f))) {
-				switch (platform[abs(Y1)][abs(leftX)].GetPlatformType())
+			if (Player.position.y < (platform[Y1][leftX].position.y + (platform[Y1][leftX].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
+				Player.position.y >(platform[Y1][leftX].position.y - (platform[Y1][leftX].GetScale().y / 2.f))) {
+				switch (platform[Y1][leftX].GetPlatformType())
 				{
 				default:
 					dragCoeff = normalDrag;
@@ -242,8 +258,8 @@ void LevelCollision() {
 					break;
 				}
 			}
-			else if (platform[abs(Y2)][abs(leftX)].GetPlatformType() > EMPTY_SPACE && platform[abs(Y2)][abs(leftX)].GetPlatformType() < GOAL) {
-				switch (platform[abs(Y2)][abs(leftX)].GetPlatformType())
+			else if (platform[Y2][leftX].GetPlatformType() > EMPTY_SPACE && platform[Y2][leftX].GetPlatformType() < GOAL) {
+				switch (platform[Y2][leftX].GetPlatformType())
 				{
 				default:
 					dragCoeff = normalDrag;
@@ -323,7 +339,7 @@ void LevelCollision() {
 }
 
 // ----------------------------------------------------------------------------
-// Checks for player collision against objects that dont require snaping,
+// Checks for player collision against objects that dont require have seperate width and height,
 // such as collectables and goal(exit point)
 // ----------------------------------------------------------------------------
 void ObjectiveCollision() {

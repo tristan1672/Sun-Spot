@@ -146,7 +146,7 @@ void Level1_Initialize()
 	level1_state = PLAYING;
 	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
-	e_totalNumOfCollectable = 0;
+	e_numOfCollectableCollected = 0;
 
 	Player = DynamicObj();
 	Player.position = { 0,PLAYER_SIZE_Y/2 };
@@ -157,9 +157,9 @@ void Level1_Initialize()
 	float s_gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float s_gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 
-//#if DEBUG
+#if DEBUG
 	std::cout << "Total number of collectables: " << e_totalNumOfCollectable << "\n";
-//#endif
+#endif
 
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
@@ -311,6 +311,9 @@ void Level1_Update()
 	// Update total time taken for level
 	if (level1_state == PLAYING) {
 		LevelTime();
+		//if (e_levelTime > 60 * 60) {
+			// Over 1 hr = lose/restart
+		//}
 	}
 
 #if DEBUG

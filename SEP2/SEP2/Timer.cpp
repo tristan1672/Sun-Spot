@@ -12,9 +12,11 @@
   *
 */
 
+// ---------------------------------------------------------------------------
+// Includes
 #include "Timer.hpp"
 #include <string>
-
+// --------------------------------------------------------------------------- // End of includes
 
 // ----------------------------------------------------------------------------
 // Get and returns delta time
@@ -37,7 +39,7 @@ float LevelTime() {
 void DisplayTime(float pos_x, float pos_y) {
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 
-	char tempStr[30];
+	char tempStr[6];
 	int minute = static_cast<int>(e_levelTime / 60.0f);
 	float second = e_levelTime, miliseconds = e_levelTime * 100;
 
