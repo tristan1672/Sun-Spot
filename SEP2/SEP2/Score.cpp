@@ -41,13 +41,13 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 {
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 	char timerscore[25];
-	char timergrade[5];
+	char timergrade[2];
 	char timercount[15];
 	char jumpscore[25];
-	char jumpgrade[5];
+	char jumpgrade[2];
 	char jumpcount[10];
 	char collectablescore[25];
-	char collectablegrade[5];
+	char collectablegrade[2];
 	char collectablecount[25];
 	jump.count = JUMP_COUNT;
 
