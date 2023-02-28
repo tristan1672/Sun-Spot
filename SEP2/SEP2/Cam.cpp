@@ -89,8 +89,9 @@ void Cam(bool airCheck)
 	{
 		shakespeed += 30.0f; //Increase
 	}
-	std::cout << e_shakeStrength << std::endl;
+	
 #if DEBUG
+	std::cout << "e_shakeStrength: " << e_shakeStrength << std::endl;
 	std::cout << "distance: " << distance << std::endl;
 	std::cout << "cam.Y: " << cam.Y << std::endl;
 	std::cout << "shakespeed: " << shakespeed << std::endl;
