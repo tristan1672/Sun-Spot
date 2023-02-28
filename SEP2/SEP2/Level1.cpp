@@ -309,9 +309,6 @@ void Level1_Update()
 		Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 	}
 
-	// Set camera to follow player
-	AEGfxSetCamPosition(cam.X, cam.Y);
-
 	// Cam shake
 	if (!Player.jumpReady) // set shake and shaketime
 	{
@@ -378,6 +375,9 @@ void Level1_Update()
 	{
 		cam.Y = -150.0f;
 	}
+	// Set camera to follow player
+	AEGfxSetCamPosition(cam.X, cam.Y);
+
 
 	// Update total time taken for level
 	if (level1_state == PLAYING) {
