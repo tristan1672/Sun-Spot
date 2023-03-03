@@ -12,9 +12,11 @@
   *
 */
 
+// ---------------------------------------------------------------------------
+// Includes
 #include "Timer.hpp"
 #include <string>
-
+// --------------------------------------------------------------------------- // End of includes
 
 // ----------------------------------------------------------------------------
 // Get and returns delta time
@@ -34,10 +36,10 @@ float LevelTime() {
 // ----------------------------------------------------------------------------
 // Display time on screen
 // ----------------------------------------------------------------------------
-void DisplayTime() {
+void DisplayTime(float pos_x, float pos_y) {
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 
-	char tempStr[30];
+	char tempStr[6];
 	int minute = static_cast<int>(e_levelTime / 60.0f);
 	float second = e_levelTime, miliseconds = e_levelTime * 100;
 
@@ -51,14 +53,14 @@ void DisplayTime() {
 
 	if (minute > 0) { // Print minute and seconds
 		snprintf(tempStr, sizeof tempStr, "%2d:%02d", minute, static_cast<int>(second));
-		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.86f, 1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, tempStr, pos_x, pos_y, 1.0f, 1.0f, 1.0f, 1.0f);
 	} 
 	else { // Print seconds
 		snprintf(tempStr, sizeof tempStr, "   %02d", static_cast<int>(second));
-		AEGfxPrint(e_fontID, tempStr, 0.58f, 0.86f, 1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, tempStr, pos_x, pos_y, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	// Prints miliseconds in a smaller font size
 	snprintf(tempStr, sizeof tempStr, ".%02.0f", miliseconds);
-	AEGfxPrint(e_fontID, tempStr, 0.82f, 0.86f, 0.7f, 1.0f, 1.0f, 1.0f);
+	AEGfxPrint(e_fontID, tempStr, pos_x + 0.24f, pos_y, 0.7f, 1.0f, 1.0f, 1.0f);
 }

@@ -8,4 +8,4 @@ float GetTime();
 float LevelTime();
 
 // Display time on screen
-void DisplayTime();
+void DisplayTime(float pos_x, float pos_y);

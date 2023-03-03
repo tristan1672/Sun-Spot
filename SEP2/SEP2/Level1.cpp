@@ -16,7 +16,9 @@
 #include "Level1.hpp"
 #include "Collision.hpp"
 #include "Timer.hpp"
-#include "UIUtilities.hpp"
+#include "UI.hpp"
+#include "Score.hpp"
+#include "Cam.hpp"
 //#include <vector>
 #include<string>
 
@@ -50,12 +52,7 @@ int gGameRunning = 1;
 bool flick = false;
 int jump_counter;
 
-CameraPos cam;
-bool shake;
-short e_shakeStrength;
-float shakespeed;
-float shakedistance;
-f64 shaketime;
+bool airCheck;
 
 AEGfxTexture* ptex = nullptr;
 
@@ -154,7 +151,7 @@ void Level1_Initialize()
 	level1_state = PLAYING;
 	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
-	e_totalNumOfCollectable = 0;
+	e_numOfCollectableCollected = 0;
 
 	Player = DynamicObj();
 	Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
@@ -165,9 +162,9 @@ void Level1_Initialize()
 	float s_gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
 	float s_gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 
-//#if DEBUG
+#if DEBUG
 	std::cout << "Total number of collectables: " << e_totalNumOfCollectable << "\n";
-//#endif
+#endif
 
 	// sets the array with informations needed for the platform's property
 #pragma region set platform objects
@@ -206,6 +203,9 @@ void Level1_Initialize()
 					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
 				break;
+			//case HINT:
+				//platform[i][j] = 
+				//break;
 			default:
 				break;
 			}
@@ -221,11 +221,8 @@ void Level1_Initialize()
 	mouse.ClickY = 0;
 	mouse.ReleaseX = 0;
 	mouse.ReleaseY = 0;
-
+	airCheck = false;
 	shake = false;
-	e_shakeStrength = NO_SHAKE;
-	shakespeed = 0.0f;
-	shakedistance = 0.5f;
 }
 
 // ----------------------------------------------------------------------------
@@ -236,6 +233,7 @@ void Level1_Update()
 {
 	if (level1_state == PLAYING)
 	{
+		
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
@@ -273,6 +271,8 @@ void Level1_Update()
 			mouse = { 0,0,0,0 };
 		}
 	}
+	// Prev collesion flag check
+	airCheck = e_collisionFlag;
 
 	// Collision function
 	LevelCollision();
@@ -309,58 +309,15 @@ void Level1_Update()
 		Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 	}
 
-	// Set camera to follow player
-	AEGfxSetCamPosition(Player.position.x, cam.Y);
-
 	// Cam shake
-	if (!Player.jumpReady) // set shake and shaketime
-	{
-		shake = 1;
-		shaketime = 0;
-		e_shakeStrength = NO_SHAKE;
-	}
-
-	// shake conditions
-	if (shake == 1 && (Player.jumpReady) && (shaketime < 0.2f)) 
-	{
-		shakespeed = 1.0f;
-		shaketime += e_deltaTime;
-		float distance = cam.Y - Player.position.y;
-		if (shakespeed >= 0)
-		{
-			if (e_shakeStrength == HEAVY_SHAKE)
-			{
-				shakespeed = 500.0f;
-			}
-			else if (e_shakeStrength == MEDIUM_SHAKE)
-			{
-				shakespeed = 100.0f;
-			}
-			else
-			{
-				shakespeed = 0.0f;
-			}
-
-			if (distance > shakedistance)
-			{
-				shakespeed *= -1.0f;
-			}
-		}
-		else
-		{
-			if (distance < -shakedistance)
-			{
-				shakespeed *= -1.0f;
-			}
-		}
-		
-	}
-	
-	cam.Y = Player.position.y + shakespeed * e_deltaTime;
+	Cam(airCheck);
 
 	// Update total time taken for level
 	if (level1_state == PLAYING) {
 		LevelTime();
+		//if (e_levelTime > 60 * 60) {
+			// Over 1 hr = lose/restart
+		//}
 	}
 
 #if DEBUG
@@ -401,17 +358,17 @@ void Level1_Draw()
 		WinScreen = GameObject();
 		WinScreen.position = { 0.0f, 0.0f };
 		WinScreen.SetScale({ 1270.f, 720.f });
-		WinScreen.SetColour({ 0.f,0.0f,0.f,0.7f });
+		WinScreen.SetColour({ 0.f,0.0f,0.f,0.9f });
 		WinScreen.DrawObj();
 
-		Cleared.SetPosition({ Player.position.x , Player.position.y });
+		Cleared.SetPosition({ Player.position.x , Player.position.y + 100.0f});
 		Cleared.DrawObj();
-		PrintScore(e_numOfCollectableCollected, jump_counter, level1_difficulty);
+		PrintScore(jump_counter, level1_difficulty);
 
 	}
 	else {
 		// Draws total time in current level
-		DisplayTime();
+		DisplayTime(0.58f, 0.86f);
 	}
 }
 
