@@ -38,6 +38,7 @@ extern const float maxHoldTime, maxHoldDistance, minHoldDistance;
 
 
 // Level
+extern f32 e_playerSpawnPointX, e_playerSpawnPointY;
 extern int level1_state;
 extern int** e_levelGrid;
 extern int e_binaryMapWidth, e_binaryMapHeight;

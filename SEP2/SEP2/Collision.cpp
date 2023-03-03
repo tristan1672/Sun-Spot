@@ -49,14 +49,14 @@ void LevelCollision() {
 	int X2 = (widthOffset + Player.position.x + Player.GetScale().x / 4.0f) / gridWidth; // 75% X
 	int Y1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / gridHeight; // 25% Y
 	int Y2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / gridHeight; // 75% Y
-	
-	// If out of play area
+
+	// If out of play area // This not running cause the 1 in level 1 running
 	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
 		Player.velocity.x = 0.0f;
 		Player.velocity.y = 0.0f;
 		Player.jumpReady = true;
-		Player.position.x = 0.0f;
-		Player.position.y = PLAYER_SIZE_Y / 2.0f;
+		Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
+
 	}
 	else {
 		// Top collided

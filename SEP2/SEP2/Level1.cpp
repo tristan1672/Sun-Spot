@@ -35,6 +35,9 @@ GameObject Cleared;
 float e_deltaTime;
 float e_levelTime;
 
+f32 e_playerSpawnPointX;
+f32 e_playerSpawnPointY;
+
 int** e_levelGrid;
 int e_binaryMapWidth;
 int e_binaryMapHeight;
@@ -69,9 +72,11 @@ void Level1_Load()
 	ptex = AEGfxTextureLoad("Assets/Cleared.png");
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
+	e_playerSpawnPointX = - 520.f;
+	e_playerSpawnPointY = - 300.f;
 
 	std::cout << "Level 1:Load\n";
-	std::fstream levelMap("Assets/Script/Level1.txt", std::ios_base::in);
+	std::fstream levelMap("Assets/Script/Level2.txt", std::ios_base::in);
 	//std::fstream levelMap("Assets/Script/Testing.txt", std::ios_base::in);
 
 	if (levelMap.is_open()) {
@@ -152,7 +157,7 @@ void Level1_Initialize()
 	e_totalNumOfCollectable = 0;
 
 	Player = DynamicObj();
-	Player.position = { 0,PLAYER_SIZE_Y/2 };
+	Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 	jump_counter = 0;
@@ -276,8 +281,7 @@ void Level1_Update()
 	//std::cout << Player.position.y <<'\n';
 	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
 	{
-		Player.position.x = 0.0f;
-		Player.position.y = 10.0f;
+		Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
 		Player.velocity.y = 0.0f;
 		Player.velocity.x = 0.0f;
 	}
