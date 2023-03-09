@@ -26,27 +26,27 @@
 int e_numOfCollectableCollected;
 // --------------------------------------------------------------------------- // End of external variables
 
-
-// --------------------------------------------------------------------------- // End of external variables
+// ---------------------------------------------------------------------------
+// Static Variables
+static float g_widthOffset = WINDOW_WIDTH * 0.5f;
+static float g_heightOffset = WINDOW_HEIGHT * 0.5f;
+// --------------------------------------------------------------------------- // End of static variables
 
 
 // ----------------------------------------------------------------------------
 // Checks for player collision against level and snap accordingly
 // ----------------------------------------------------------------------------
 void DynamicObj::LevelCollision(){
-	// Will be a static value once there are grids outside of the window
-	float widthOffset = WINDOW_WIDTH / 2.0f;
-	float heightOffset = WINDOW_HEIGHT / 2.0f;
 	collisionFlag = 0;
 	// "Normalizing" hotspots
-	topY = (heightOffset - position.y - GetScale().y / 2.0f) / e_gridHeightSize; // Top bound
-	btmY = (heightOffset - position.y + GetScale().y / 2.0f) / e_gridHeightSize; // Btm bound
-	leftX = (widthOffset + position.x - GetScale().x / 2.0f) / e_gridWidthSize; // Left bound
-	rightX = (widthOffset + position.x + GetScale().x / 2.0f) / e_gridWidthSize; // Right bound
-	X1 = (widthOffset + position.x - GetScale().x / 4.0f) / e_gridWidthSize; // 25% X
-	X2 = (widthOffset + position.x + GetScale().x / 4.0f) / e_gridWidthSize; // 75% X
-	Y1 = (heightOffset - position.y - GetScale().y / 4.0f) / e_gridHeightSize; // 25% Y
-	Y2 = (heightOffset - position.y + GetScale().y / 4.0f) / e_gridHeightSize; // 75% Y
+	topY = (g_heightOffset - position.y - GetScale().y / 2.0f) / e_gridHeightSize; // Top bound
+	btmY = (g_heightOffset - position.y + GetScale().y / 2.0f) / e_gridHeightSize; // Btm bound
+	leftX = (g_widthOffset + position.x - GetScale().x / 2.0f) / e_gridWidthSize; // Left bound
+	rightX = (g_widthOffset + position.x + GetScale().x / 2.0f) / e_gridWidthSize; // Right bound
+	X1 = (g_widthOffset + position.x - GetScale().x / 4.0f) / e_gridWidthSize; // 25% X
+	X2 = (g_widthOffset + position.x + GetScale().x / 4.0f) / e_gridWidthSize; // 75% X
+	Y1 = (g_heightOffset - position.y - GetScale().y / 4.0f) / e_gridHeightSize; // 25% Y
+	Y2 = (g_heightOffset - position.y + GetScale().y / 4.0f) / e_gridHeightSize; // 75% Y
 
 	// If out of play area // This not running cause the 1 in level 1 running
 	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
@@ -131,25 +131,20 @@ void DynamicObj::LevelCollision(){
 
 void DynamicObj::SnapToGrid() {
 
-	// Will be a static value once there are grids outside of the window
-	float widthOffset = WINDOW_WIDTH / 2.0f;
-	float heightOffset = WINDOW_HEIGHT / 2.0f;
-
-
 	if (collisionFlag & COLLISION_TOP) {
-		position.y = heightOffset - (topY + 1) * e_gridHeightSize - (PLAYER_SIZE_Y / 2.0f);
+		position.y = g_heightOffset - (topY + 1) * e_gridHeightSize - (PLAYER_SIZE_Y / 2.0f);
 	}
 
 	if (collisionFlag & COLLISION_BOTTOM) {
-		position.y = heightOffset - btmY * e_gridHeightSize + (PLAYER_SIZE_Y / 2.0f);
+		position.y = g_heightOffset - btmY * e_gridHeightSize + (PLAYER_SIZE_Y / 2.0f);
 	}
 
 	if (collisionFlag & COLLISION_LEFT) {
-		position.x = -widthOffset + (leftX + 0.9999) * e_gridWidthSize + PLAYER_SIZE_X / 2.0f;
+		position.x = -g_widthOffset + (leftX + 0.9999) * e_gridWidthSize + PLAYER_SIZE_X / 2.0f;
 	}
 
 	if (collisionFlag & COLLISION_RIGHT) {
-		position.x = -widthOffset + rightX * e_gridWidthSize - PLAYER_SIZE_X / 2.0f;
+		position.x = -g_widthOffset + rightX * e_gridWidthSize - PLAYER_SIZE_X / 2.0f;
 	}
 }
 
@@ -158,10 +153,6 @@ void DynamicObj::SnapToGrid() {
 // such as collectables and goal(exit point)
 // ----------------------------------------------------------------------------
 void ObjectiveCollision() {
-	// Offset used for grid position calculation, making calculation start from top left instead of center of window
-	float widthOffset = WINDOW_WIDTH / 2.0f;
-	float heightOffset = WINDOW_HEIGHT / 2.0f;
-
 	// Player hotspots
 	int playerTopY = Player.position.y - Player.GetScale().y / 2.0f; // Top bound
 	int playerBtmY = Player.position.y + Player.GetScale().y / 2.0f; // Btm bound
@@ -177,10 +168,10 @@ void ObjectiveCollision() {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 
 			if (platform[i][j].GetPlatformType() == GOAL) {
-				float goalTopY = heightOffset - i * e_gridHeightSize - (e_gridHeightSize - GOAL_SIZE_Y) / 2.0f;
-				float goalBtmY = heightOffset - (i + 1) * e_gridHeightSize + (e_gridHeightSize - GOAL_SIZE_Y) / 2.0f;
-				float goalLeftX = -widthOffset + j * e_gridWidthSize + (e_gridWidthSize - GOAL_SIZE_X) / 2;
-				float goalRightX = -widthOffset + (j + 1) * e_gridWidthSize - (e_gridWidthSize - GOAL_SIZE_X) / 2.0f;
+				float goalTopY = g_heightOffset - i * e_gridHeightSize - (e_gridHeightSize - GOAL_SIZE_Y) / 2.0f;
+				float goalBtmY = g_heightOffset - (i + 1) * e_gridHeightSize + (e_gridHeightSize - GOAL_SIZE_Y) / 2.0f;
+				float goalLeftX = -g_widthOffset + j * e_gridWidthSize + (e_gridWidthSize - GOAL_SIZE_X) / 2;
+				float goalRightX = -g_widthOffset + (j + 1) * e_gridWidthSize - (e_gridWidthSize - GOAL_SIZE_X) / 2.0f;
 
 				// If player x position is within the goal
 				if (playerHsX1 > goalLeftX && playerLeftX < goalRightX || playerHsX2 < goalRightX && playerRightX > goalLeftX) {
@@ -194,10 +185,10 @@ void ObjectiveCollision() {
 			}
 
 			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
-				float collectableTopY = heightOffset - i * e_gridHeightSize - (e_gridHeightSize - COLLECTABLE_SIZE_Y) / 2.0f;
-				float collectableBtmY = heightOffset - (i + 1) * e_gridHeightSize + (e_gridHeightSize - COLLECTABLE_SIZE_Y) / 2.0f;
-				float collectableLeftX = -widthOffset + j * e_gridWidthSize + (e_gridWidthSize - COLLECTABLE_SIZE_X) / 2;
-				float collectableRightX = -widthOffset + (j + 1) * e_gridWidthSize - (e_gridWidthSize - COLLECTABLE_SIZE_X) / 2.0f;
+				float collectableTopY = g_heightOffset - i * e_gridHeightSize - (e_gridHeightSize - COLLECTABLE_SIZE_Y) / 2.0f;
+				float collectableBtmY = g_heightOffset - (i + 1) * e_gridHeightSize + (e_gridHeightSize - COLLECTABLE_SIZE_Y) / 2.0f;
+				float collectableLeftX = -g_widthOffset + j * e_gridWidthSize + (e_gridWidthSize - COLLECTABLE_SIZE_X) / 2;
+				float collectableRightX = -g_widthOffset + (j + 1) * e_gridWidthSize - (e_gridWidthSize - COLLECTABLE_SIZE_X) / 2.0f;
 
 				// If player x position is within the collectable
 				if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {

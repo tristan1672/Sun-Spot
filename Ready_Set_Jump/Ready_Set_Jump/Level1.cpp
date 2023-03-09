@@ -56,6 +56,8 @@ bool airCheck;
 
 AEGfxTexture* ptex = nullptr;
 
+int ImportMapDataFromFile(const char* FileName);
+
 // ----------------------------------------------------------------------------
 // This function loads necessary data(resource and asset) and initialize it
 // It is called once at the start of the state 
@@ -73,71 +75,11 @@ void Level1_Load()
 	e_playerSpawnPointY =  100.f;
 
 	std::cout << "Level 1:Load\n";
-	std::fstream levelMap("Assets/Script/Level2.txt", std::ios_base::in);
+	//std::fstream levelMap("Assets/Script/Level2.txt", std::ios_base::in);
 	//std::fstream levelMap("Assets/Script/Testing.txt", std::ios_base::in);
 
-	if (levelMap.is_open()) {
+	if (!ImportMapDataFromFile("Assets/Script/Level2.txt")){
 		std::cout << "Level File opened\n";
-		std::string temp;
-
-		std::getline(levelMap, temp);
-		std::string::size_type start = temp.find_first_of("0123456789");
-		std::string::size_type end = temp.find_first_of('\n');
-		std::string subStr = temp.substr(start,end-start);
-		e_binaryMapWidth = std::stoi(subStr);
-
-		std::getline(levelMap, temp);
-		start = temp.find_first_of("0123456789");
-		end = temp.find_first_of('\n');
-		subStr = temp.substr(start, end - start);
-		e_binaryMapHeight = std::stoi(subStr);
-
-#if DEBUG
-		std::cout << "Width :" << e_binaryMapWidth << '\n';
-		std::cout << "Height :" << e_binaryMapHeight << '\n';
-#endif
-
-		platform = new Platform * [e_binaryMapHeight] {};
-		for (int i = 0; i < e_binaryMapHeight; i++) {
-			platform[i] = new Platform[e_binaryMapWidth]{};
-		}
-
-		char character = 0;
-		int i = 0, j = 0;
-		while (levelMap.get(character)) {
-
-			if (character >= '0' && character <= '9')
-			{
-				if (character == '9') {
-					++e_totalNumOfCollectable;
-				}
-
-				platform[i][j].SetPlatformType(static_cast<int>(character) - '0');
-#if DEBUG
-				std::cout << platform[i][j].GetPlatformType();
-#endif
-
-				j++;
-
-				if (j == e_binaryMapWidth) {
-#if DEBUG
-					std::cout << "	Row " << i << "\n";
-#endif
-					j = 0;
-					i++;
-
-					if (i == e_binaryMapHeight) {
-						break;
-					}
-				}
-			}
-		}
-
-		levelMap.close();
-	}
-	else {
-		std::cout << "Level File Cannot be opened\n";
-		exit(0);
 	}
 }
 // ----------------------------------------------------------------------------
@@ -357,4 +299,81 @@ void Level1_Unload()
 	AEGfxTextureUnload(ptex);
 	AEGfxMeshFree(pMesh);
 	AEGfxMeshFree(arrMesh);
+}
+
+
+// Functions
+
+int ImportMapDataFromFile(const char* FileName) {
+
+	std::fstream levelMap(FileName, std::ios_base::in);
+
+	if (levelMap.is_open()) {
+#if DEBUG
+			std::cout << FileName << " is opened\n";
+#endif
+
+		std::string temp;
+		std::getline(levelMap, temp);
+		std::string::size_type start = temp.find_first_of("0123456789");
+		std::string::size_type end = temp.find_first_of('\n');
+		std::string subStr = temp.substr(start, end - start);
+		e_binaryMapWidth = std::stoi(subStr);
+
+		std::getline(levelMap, temp);
+		start = temp.find_first_of("0123456789");
+		end = temp.find_first_of('\n');
+		subStr = temp.substr(start, end - start);
+		e_binaryMapHeight = std::stoi(subStr);
+
+#if DEBUG
+		std::cout << "Width :" << e_binaryMapWidth << '\n';
+		std::cout << "Height :" << e_binaryMapHeight << '\n';
+#endif
+
+		platform = new Platform * [e_binaryMapHeight] {};
+		for (int i = 0; i < e_binaryMapHeight; i++) {
+			platform[i] = new Platform[e_binaryMapWidth]{};
+		}
+	}
+	else {
+#if DEBUG
+			std::cout << "File Cannot be opened\n";
+#endif
+		return 0;
+	}
+
+	char character = 0;
+	int i = 0, j = 0;
+	while (levelMap.get(character)) {
+
+		if (character >= '0' && character <= '9')
+		{
+			if (character == '9') {
+				++e_totalNumOfCollectable;
+			}
+
+			platform[i][j].SetPlatformType(static_cast<int>(character) - '0');
+#if DEBUG
+			std::cout << platform[i][j].GetPlatformType();
+#endif
+
+			j++;
+
+			if (j == e_binaryMapWidth) {
+#if DEBUG
+				std::cout << "	Row " << i << "\n";
+#endif
+				j = 0;
+				i++;
+
+				if (i == e_binaryMapHeight) {
+					break;
+				}
+			}
+		}
+	}
+
+	levelMap.close();
+	return 1;
 }

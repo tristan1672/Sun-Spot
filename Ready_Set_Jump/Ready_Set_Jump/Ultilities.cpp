@@ -26,6 +26,7 @@ Vector2D normalDirection(f32 X1, f32 Y1, f32 X2, f32 Y2){
 		return { 0,0 };
 	}
 }
+
 float Distance(f32 X1, f32 Y1, f32 X2, f32 Y2) {
 	f32 X = X2 - X1;
 	f32 Y = Y1 - Y2;
