@@ -15,16 +15,16 @@ extern DynamicObj Player;
 extern Platform** platform;
 extern GameObject jumpArrow;
 
-void Level1_Load();
+void Level_Load();
 
-void Level1_Initialize();
+void Level_Initialize();
 
-void Level1_Update();
+void Level_Update();
 
-void Level1_Draw();
+void Level_Draw();
 
-void Level1_Free();
+void Level_Free();
 
-void Level1_Unload();
+void Level_Unload();
 
 int ImportMapDataFromFile(char* FileName);

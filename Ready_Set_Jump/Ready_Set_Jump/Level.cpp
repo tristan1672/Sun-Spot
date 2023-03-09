@@ -13,7 +13,7 @@
 // includes
 #pragma once
 
-#include "Level1.hpp"
+#include "Level.hpp"
 #include "Collision.hpp"
 #include "Timer.hpp"
 #include "UI.hpp"
@@ -62,7 +62,7 @@ int ImportMapDataFromFile(const char* FileName);
 // This function loads necessary data(resource and asset) and initialize it
 // It is called once at the start of the state 
 // ----------------------------------------------------------------------------
-void Level1_Load()
+void Level_Load()
 {
 	MakeMesh();
 	MakeArrowMesh();
@@ -74,7 +74,7 @@ void Level1_Load()
 	e_playerSpawnPointX = - 520.f;
 	e_playerSpawnPointY =  100.f;
 
-	std::cout << "Level 1:Load\n";
+	std::cout << "Level :Load\n";
 	//std::fstream levelMap("Assets/Script/Level2.txt", std::ios_base::in);
 	//std::fstream levelMap("Assets/Script/Testing.txt", std::ios_base::in);
 
@@ -86,9 +86,9 @@ void Level1_Load()
 // This function initialize game object instances
 // It is called once at the start of the state
 // ----------------------------------------------------------------------------
-void Level1_Initialize()
+void Level_Initialize()
 {
-	std::cout << "Level 1:Initialize\n";
+	std::cout << "Level :Initialize\n";
 
 	level1_state = PLAYING;
 	level1_difficulty = EASY;
@@ -168,7 +168,7 @@ void Level1_Initialize()
 // This function updates the state data
 // It is called whenever there is a need to update the state's data
 // ----------------------------------------------------------------------------
-void Level1_Update()
+void Level_Update()
 {
 	if (level1_state == PLAYING)
 	{	
@@ -234,7 +234,7 @@ void Level1_Update()
 // This function sends data that needs to be drawn to the graphic engine
 // It is called after update to show animation/movement
 // ----------------------------------------------------------------------------
-void Level1_Draw()
+void Level_Draw()
 {
 
 	// Set the background to black.
@@ -279,9 +279,9 @@ void Level1_Draw()
 // This function frees objects instances
 // It is called after to prepare the state to be unloaded or initialized again
 // ----------------------------------------------------------------------------
-void Level1_Free()
+void Level_Free()
 {
-	std::cout << "Level 1:Free\n";
+	std::cout << "Level :Free\n";
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		delete[] platform[i];
 	}
@@ -293,9 +293,9 @@ void Level1_Free()
 // This function dumps all loaded during Level1_Load()
 // It is called when the state should be terminated
 // ----------------------------------------------------------------------------
-void Level1_Unload()
+void Level_Unload()
 {
-	std::cout << "Level 1:Unload\n";
+	std::cout << "Level :Unload\n";
 	AEGfxTextureUnload(ptex);
 	AEGfxMeshFree(pMesh);
 	AEGfxMeshFree(arrMesh);

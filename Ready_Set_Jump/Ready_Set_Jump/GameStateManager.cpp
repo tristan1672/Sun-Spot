@@ -6,7 +6,7 @@
 #include "PreCompiledHeader.hpp"
 #include "GameStateManager.hpp"
 #include "Ultilities.hpp"
-#include "Level1.hpp"
+#include "Level.hpp"
 // ---------------------------------------------------------------------------
 
 
@@ -38,12 +38,12 @@ void GSM_Update()
 	switch (next)
 	{
 	case GS_LEVEL1:
-		e_fpLoad = Level1_Load;
-		e_fpInitialize = Level1_Initialize;
-		e_fpUpdate = Level1_Update;
-		e_fpDraw = Level1_Draw;
-		e_fpFree = Level1_Free;
-		e_fpUnload = Level1_Unload;
+		e_fpLoad = Level_Load;
+		e_fpInitialize = Level_Initialize;
+		e_fpUpdate = Level_Update;
+		e_fpDraw = Level_Draw;
+		e_fpFree = Level_Free;
+		e_fpUnload = Level_Unload;
 		break;
 
 	case GS_RESTART:
