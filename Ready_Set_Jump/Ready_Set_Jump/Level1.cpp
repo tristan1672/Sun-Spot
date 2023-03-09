@@ -28,8 +28,8 @@
 #define GROUND_LEVEL 20
 
 mousePos mouse;
-extern DynamicObj Player;
-extern Platform **platform;
+DynamicObj Player;
+Platform** platform;
 GameObject jumpArrow;
 GameObject WinScreen;
 GameObject Cleared;
@@ -229,35 +229,14 @@ void Level1_Initialize()
 void Level1_Update()
 {
 	if (level1_state == PLAYING)
-	{
-		
+	{	
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
-			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
-
+			Input_Update_Mouse_Pos();
 		}
-		// Shows the direction of the player will initially jump on mouse release(will have to revise this part as it is based off jump force, might want to change it later to base off time held)
+		// Shows the direction of the player will initially jump on mouse release
 		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady) {
 			Input_Handle_HoldCheck();
-			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
-			Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
-			Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
-			float angle = atan2f(-nDirection.x, nDirection.y);
-			if (currHoldTime >= maxHoldTime) {
-				jumpArrow.position = { Player.position.x,Player.position.y };
-				nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
-				angle = atan2f(-nDirection.x, -nDirection.y);
-				currHoldDistance = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
-				if (currHoldDistance > maxHoldDistance) {
-					currHoldDistance = maxHoldDistance;
-				}
-				if (currHoldDistance < minHoldDistance) {
-					currHoldDistance = minHoldDistance;
-				}
-				currHoldDistance *= e_jumpForceMod;
-				jumpArrow.SetScale({ jumpArrow.GetScale().x,currHoldDistance });
-				jumpArrow.SetRotation(angle);
-			}
 		}
 		// The player jumps in according to the direction previously specified, then resets all the rotations and click pos to 0;
 		if (AEInputCheckReleased(AEVK_LBUTTON) && Player.jumpReady) {
@@ -269,11 +248,11 @@ void Level1_Update()
 		}
 	}
 	// Prev collesion flag check
-	airCheck = e_collisionFlag;
+	airCheck = Player.GetColFlag();
 
 	// Collision function
-	LevelCollision();
-	SnapPlayer();
+	Player.LevelCollision();
+	Player.SnapToGrid();
 	ObjectiveCollision();
 	
 
@@ -286,26 +265,9 @@ void Level1_Update()
 	}
 
 	// code that allows the player to get affected by gravity (might need to look back at it to improve)
-	float terminalVelocity{ 2.f * e_gravity / dragCoeff };
-	if (level1_state == PLAYING) {
-		if (terminalVelocity < Player.velocity.y) {
-			Player.velocity.y += static_cast<float>(vertMod * e_gravity * e_deltaTime);
-		}
-		if (Player.velocity.y) {
-			Player.velocity.y -= static_cast<float>(dragCoeff * Player.velocity.y * e_deltaTime);
-		}
-		if (abs(Player.velocity.x) < 2.f) {
-			Player.velocity.x = 0;
-		}
-		if (Player.velocity.x && friction != fullStopFriction) {
-			Player.velocity.x -= static_cast<float>(friction * Player.velocity.x * e_deltaTime);
-		}
-		else if (Player.velocity.x && friction == fullStopFriction) {
-			Player.velocity.x -= static_cast<float>(Player.velocity.x);
-		}
 
-		Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
-		Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
+	if (level1_state == PLAYING) {
+		Player.PhysicsUpdate();
 	}
 
 	// Cam shake

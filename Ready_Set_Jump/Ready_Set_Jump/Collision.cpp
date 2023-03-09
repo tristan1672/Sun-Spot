@@ -23,62 +23,44 @@
 
 // ---------------------------------------------------------------------------
 // External Variables
-DynamicObj Player;
-Platform** platform;
-int e_collisionFlag;
 int e_numOfCollectableCollected;
 // --------------------------------------------------------------------------- // End of external variables
 
-// ---------------------------------------------------------------------------
-// Const Variables
-const int	COLLISION_LEFT   = 0x00000001;	//0001
-const int	COLLISION_RIGHT  = 0x00000002;	//0010
-const int	COLLISION_TOP    = 0x00000004;	//0100
-const int	COLLISION_BOTTOM = 0x00000008;	//1000
+
 // --------------------------------------------------------------------------- // End of external variables
-bool prevFrameStickyCollision{};
-bool currFrameStickyCollision{};
 
 
 // ----------------------------------------------------------------------------
 // Checks for player collision against level and snap accordingly
 // ----------------------------------------------------------------------------
-void LevelCollision() {
-	
+void DynamicObj::LevelCollision(){
 	// Will be a static value once there are grids outside of the window
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
-
-	e_collisionFlag = 0;
-	currFrameStickyCollision = false;
-	bool colliding{};
-
+	collisionFlag = 0;
 	// "Normalizing" hotspots
-	int topY = (heightOffset - Player.position.y - Player.GetScale().y / 2.0f) / e_gridHeightSize; // Top bound
-	int btmY = (heightOffset - Player.position.y + Player.GetScale().y / 2.0f) / e_gridHeightSize; // Btm bound
-	int leftX = (widthOffset + Player.position.x - Player.GetScale().x / 2.0f) / e_gridWidthSize; // Left bound
-	int rightX = (widthOffset + Player.position.x + Player.GetScale().x / 2.0f) / e_gridWidthSize; // Right bound
-
-	int X1 = (widthOffset + Player.position.x - Player.GetScale().x / 4.0f) / e_gridWidthSize; // 25% X
-	int X2 = (widthOffset + Player.position.x + Player.GetScale().x / 4.0f) / e_gridWidthSize; // 75% X
-	int Y1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / e_gridHeightSize; // 25% Y
-	int Y2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / e_gridHeightSize; // 75% Y
+	topY = (heightOffset - position.y - GetScale().y / 2.0f) / e_gridHeightSize; // Top bound
+	btmY = (heightOffset - position.y + GetScale().y / 2.0f) / e_gridHeightSize; // Btm bound
+	leftX = (widthOffset + position.x - GetScale().x / 2.0f) / e_gridWidthSize; // Left bound
+	rightX = (widthOffset + position.x + GetScale().x / 2.0f) / e_gridWidthSize; // Right bound
+	X1 = (widthOffset + position.x - GetScale().x / 4.0f) / e_gridWidthSize; // 25% X
+	X2 = (widthOffset + position.x + GetScale().x / 4.0f) / e_gridWidthSize; // 75% X
+	Y1 = (heightOffset - position.y - GetScale().y / 4.0f) / e_gridHeightSize; // 25% Y
+	Y2 = (heightOffset - position.y + GetScale().y / 4.0f) / e_gridHeightSize; // 75% Y
 
 	// If out of play area // This not running cause the 1 in level 1 running
 	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
-		Player.velocity.x = 0.0f;
-		Player.velocity.y = 0.0f;
-		Player.jumpReady = true;
-		Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
+		velocity.x = 0.0f;
+		velocity.y = 0.0f;
+		jumpReady = true;
+		position = { e_playerSpawnPointX,e_playerSpawnPointY };
 
 	}
 	else {
 		// Top collided
 		if (platform[topY][X1].GetPlatformType() > EMPTY_SPACE && platform[topY][X1].GetPlatformType() < GOAL
 			|| platform[topY][X2].GetPlatformType() > EMPTY_SPACE && platform[topY][X2].GetPlatformType() < GOAL) {
-			colliding = true;
-			e_collisionFlag |= COLLISION_TOP;
-			Player.velocity.y -= Player.velocity.y;
+			collisionFlag |= COLLISION_TOP;
 
 #if DEBUG
 				std::cout << "Top collided, Coordinates\n\n";
@@ -93,64 +75,7 @@ void LevelCollision() {
 		// Btm collided
 		if (platform[btmY][X1].GetPlatformType() > EMPTY_SPACE && platform[btmY][X1].GetPlatformType() < GOAL
 			|| platform[btmY][X2].GetPlatformType() > EMPTY_SPACE && platform[btmY][X2].GetPlatformType() < GOAL) {
-			colliding = true;
-			e_collisionFlag |= COLLISION_BOTTOM;
-			if (Player.position.x < (platform[btmY][X1].position.x + (platform[btmY][X1].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
-
-				switch (platform[btmY][X1].GetPlatformType())
-				{
-				case NORMAL_BLOCK:// normal surface
-					Player.velocity.y -= Player.velocity.y;
-					friction = normalFriction;
-					shake = true;
-					break;
-				case ICE_BLOCK: // ice physics
-					Player.velocity.y -= Player.velocity.y;
-					friction = iceFriction;
-					break;
-				case STICKY_BLOCK:// sticky physics
-					Player.velocity.y -= Player.velocity.y;
-					friction = fullStopFriction;
-					e_jumpForceMod = 0.7f;
-					shake = true;
-					break;
-				case SLIME_BLOCK:
-					if (abs(Player.velocity.y) <= 2) Player.velocity.y = 0;
-					Player.velocity.y = -(Player.velocity.y * 0.5f);
-					friction = slimeFriction;
-					break;
-				default:
-					break;
-				}
-			}
-			else if (Player.position.x > (platform[btmY][X1].position.x - (platform[btmY][X1].GetScale().x / 2.f))) {
-				switch (platform[btmY][X2].GetPlatformType())
-				{
-				case NORMAL_BLOCK:// normal surface
-					Player.velocity.y -= Player.velocity.y;
-					friction = normalFriction;
-					if (abs(Player.velocity.x) < 2.f) {
-						Player.velocity.x = 0;
-					}
-					break;
-				case ICE_BLOCK:// ice physics
-					Player.velocity.y -= Player.velocity.y;
-					friction = iceFriction;
-					break;
-				case STICKY_BLOCK:// sticky physics
-					Player.velocity.y -= Player.velocity.y;
-					friction = fullStopFriction;
-					e_jumpForceMod = 0.7f;
-					break;
-				case SLIME_BLOCK:
-					if (abs(Player.velocity.y) <= 2) Player.velocity.y = 0;
-					Player.velocity.y = -(Player.velocity.y * 0.7f);
-					friction = slimeFriction;
-					break;
-				default:
-					break;
-				}
-			}
+			collisionFlag |= COLLISION_BOTTOM;
 
 #if DEBUG		
 			if (Player.jumpReady == false) {
@@ -162,64 +87,12 @@ void LevelCollision() {
 			std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
 			}
 #endif
-			if (!Player.velocity.x) {
-				Player.jumpReady = true;
-			}
+
 		}
 
 		// Right collided
 		if (platform[Y1][rightX].GetPlatformType() > EMPTY_SPACE && platform[Y1][rightX].GetPlatformType() < GOAL) {
-			colliding = true;
-			e_collisionFlag |= COLLISION_RIGHT;
-			if (Player.position.y < (platform[Y1][rightX].position.y + (platform[Y1][rightX].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
-				Player.position.y >(platform[Y1][rightX].position.y - (platform[Y1][rightX].GetScale().y / 2.f))) {
-				switch (platform[Y1][rightX].GetPlatformType())
-				{
-				case STICKY_BLOCK:// sticky physics
-					dragCoeff = stickDrag;
-					friction = fullStopFriction;
-					currFrameStickyCollision = true;
-					if(!prevFrameStickyCollision)Player.jumpReady = true;
-					break;
-				case EMPTY_SPACE:
-					colliding = false;
-					break;
-				case SLIME_BLOCK:
-					if (Player.velocity.x) {
-						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
-						Player.velocity.x = -Player.velocity.x;
-					}
-					break;
-				default:
-					dragCoeff = normalDrag;
-					friction = fullStopFriction;
-					break;
-				}
-			}
-			else if(platform[Y2][rightX].GetPlatformType() > EMPTY_SPACE && platform[Y2][rightX].GetPlatformType() < GOAL) {
-				switch (platform[Y2][rightX].GetPlatformType())
-				{
-				case STICKY_BLOCK:// sticky physics
-					dragCoeff = stickDrag;
-					friction = fullStopFriction;
-					currFrameStickyCollision = true;
-					if (!prevFrameStickyCollision)Player.jumpReady = true;
-					break;
-				case EMPTY_SPACE:
-					colliding = false;
-					break;
-				case SLIME_BLOCK:
-					if (Player.velocity.x) {
-						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y); 
-						Player.velocity.x = -Player.velocity.x;
-					}
-					break;
-				default:
-					dragCoeff = normalDrag;
-					friction = fullStopFriction;
-					break;
-				}
-			}
+			collisionFlag |= COLLISION_RIGHT;
 #if DEBUG
 				std::cout << "Right collided, Coordinates\n";
 				std::cout << "  [" << abs(X1) << "," << abs(topY) << "] " << "[" << abs(X2) << "," << abs(topY) << "]\n";
@@ -232,52 +105,7 @@ void LevelCollision() {
 
 		// Left collided
 		if (platform[Y1][leftX].GetPlatformType() > EMPTY_SPACE && platform[Y1][leftX].GetPlatformType() < GOAL) {
-			colliding = true;
-			e_collisionFlag |= COLLISION_LEFT;
-			if (Player.position.y < (platform[Y1][leftX].position.y + (platform[Y1][leftX].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
-				Player.position.y >(platform[Y1][leftX].position.y - (platform[Y1][leftX].GetScale().y / 2.f))) {
-				switch (platform[Y1][leftX].GetPlatformType())
-				{
-				default:
-					dragCoeff = normalDrag;
-					friction = fullStopFriction;
-					break;
-				case STICKY_BLOCK:// sticky physics
-					dragCoeff = stickDrag;
-					friction = fullStopFriction;
-					currFrameStickyCollision = true;
-					if (!prevFrameStickyCollision)Player.jumpReady = true;
-					break;
-				case SLIME_BLOCK:
-					if (Player.velocity.x) {
-						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
-						Player.velocity.x = -Player.velocity.x;
-					}
-					break;
-				}
-			}
-			else if (platform[Y2][leftX].GetPlatformType() > EMPTY_SPACE && platform[Y2][leftX].GetPlatformType() < GOAL) {
-				switch (platform[Y2][leftX].GetPlatformType())
-				{
-				default:
-					dragCoeff = normalDrag;
-					friction = fullStopFriction;
-					break;
-				case STICKY_BLOCK:// sticky physics
-					friction = fullStopFriction;
-					dragCoeff = stickDrag;
-					currFrameStickyCollision = true;
-					if (!prevFrameStickyCollision)Player.jumpReady = true;
-					break;
-				case SLIME_BLOCK:
-					if (Player.velocity.x) {
-						//Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
-						Player.velocity.x = -Player.velocity.x;
-					}
-					else
-					break;
-				}
-			}
+			collisionFlag |= COLLISION_LEFT;
 
 #if DEBUG
 				std::cout << "Left collided, Coordinates\n";
@@ -287,10 +115,6 @@ void LevelCollision() {
 				std::cout << "[" << abs(leftX) << "," << abs(Y2) << "]     " << "[" << abs(rightX) << "," << abs(Y2) << "]\n";
 				std::cout << "  [" << abs(X1) << "," << abs(btmY) << "] " << "[" << abs(X2) << "," << abs(btmY) << "]\n\n";
 #endif
-		}
-		if (!colliding) {
-			dragCoeff = airDrag;
-			friction = 0.f;
 		}
 	}
 
@@ -303,40 +127,29 @@ void LevelCollision() {
 	{
 		e_shakeStrength = MEDIUM_SHAKE;
 	}
-	prevFrameStickyCollision = currFrameStickyCollision;
 }
 
-void SnapPlayer(void) {
+void DynamicObj::SnapToGrid() {
 
 	// Will be a static value once there are grids outside of the window
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
 
-	// "Normalizing" hotspots
-	int topY = (heightOffset - Player.position.y - Player.GetScale().y / 2.0f) / e_gridHeightSize; // Top bound
-	int btmY = (heightOffset - Player.position.y + Player.GetScale().y / 2.0f) / e_gridHeightSize; // Btm bound
-	int leftX = (widthOffset + Player.position.x - Player.GetScale().x / 2.0f) / e_gridWidthSize; // Left bound
-	int rightX = (widthOffset + Player.position.x + Player.GetScale().x / 2.0f) / e_gridWidthSize; // Right bound
 
-	int X1 = (widthOffset + Player.position.x - Player.GetScale().x / 4.0f) / e_gridWidthSize; // 25% X
-	int X2 = (widthOffset + Player.position.x + Player.GetScale().x / 4.0f) / e_gridWidthSize; // 75% X
-	int Y1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / e_gridHeightSize; // 25% Y
-	int Y2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / e_gridHeightSize; // 75% Y
-
-	if (e_collisionFlag & COLLISION_TOP) {
-		Player.position.y = heightOffset - (topY + 1) * e_gridHeightSize - (PLAYER_SIZE_Y / 2.0f);
+	if (collisionFlag & COLLISION_TOP) {
+		position.y = heightOffset - (topY + 1) * e_gridHeightSize - (PLAYER_SIZE_Y / 2.0f);
 	}
 
-	if (e_collisionFlag & COLLISION_BOTTOM) {
-		Player.position.y = heightOffset - btmY * e_gridHeightSize + (PLAYER_SIZE_Y / 2.0f);
+	if (collisionFlag & COLLISION_BOTTOM) {
+		position.y = heightOffset - btmY * e_gridHeightSize + (PLAYER_SIZE_Y / 2.0f);
 	}
 
-	if (e_collisionFlag & COLLISION_LEFT) {
-		Player.position.x = -widthOffset + (leftX + 0.9999) * e_gridWidthSize + PLAYER_SIZE_X / 2.0f;
+	if (collisionFlag & COLLISION_LEFT) {
+		position.x = -widthOffset + (leftX + 0.9999) * e_gridWidthSize + PLAYER_SIZE_X / 2.0f;
 	}
 
-	if (e_collisionFlag & COLLISION_RIGHT) {
-		Player.position.x = -widthOffset + rightX * e_gridWidthSize - PLAYER_SIZE_X / 2.0f;
+	if (collisionFlag & COLLISION_RIGHT) {
+		position.x = -widthOffset + rightX * e_gridWidthSize - PLAYER_SIZE_X / 2.0f;
 	}
 }
 

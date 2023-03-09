@@ -23,17 +23,42 @@
 
 extern mousePos mouse;
 extern DynamicObj Player;
+extern GameObject jumpArrow;
+// ----------------------------------------------------------------------------
+// This function updates the initial mouse click position
+// ----------------------------------------------------------------------------
+void Input_Update_Mouse_Pos() {
+	AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
+}
 
 // ----------------------------------------------------------------------------
-// This function decreases the jump velocity if mouse click is held 
-// It is called whenever mouse click is held and player is on the ground
+// This Function initiates the aim mode
 // ----------------------------------------------------------------------------
 void Input_Handle_HoldCheck()
-{	
+{
 
-	// Holding too long will make it jump shorter (Aiming)
+	// Holding too long will initiate aim mode
 	if (currHoldTime < maxHoldTime) {
 		currHoldTime += e_deltaTime;
+	}
+	AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
+	Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
+	Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
+	float angle = atan2f(-nDirection.x, nDirection.y);
+	if (currHoldTime >= maxHoldTime) {
+		jumpArrow.position = { Player.position.x,Player.position.y };
+		nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+		angle = atan2f(-nDirection.x, -nDirection.y);
+		currHoldDistance = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+		if (currHoldDistance > maxHoldDistance) {
+			currHoldDistance = maxHoldDistance;
+		}
+		if (currHoldDistance < minHoldDistance) {
+			currHoldDistance = minHoldDistance;
+		}
+		currHoldDistance *= Player.e_jumpForceMod;
+		jumpArrow.SetScale({ jumpArrow.GetScale().x,currHoldDistance });
+		jumpArrow.SetRotation(angle);
 	}
 }
 
@@ -46,36 +71,36 @@ void Input_Handle_Jump() {
 	if (currHoldTime >= maxHoldTime) {
 		Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
 		Player.direction = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
-		e_jumpForce = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y) * 2;
-		if (e_jumpForce > max_jumpForce) {
-			e_jumpForce = max_jumpForce;
+		Player.e_jumpForce = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y) * 2;
+		if (Player.e_jumpForce > max_jumpForce) {
+			Player.e_jumpForce = max_jumpForce;
 		}
-		if (e_jumpForce < min_jumpForce) {
-			e_jumpForce = min_jumpForce;
+		if (Player.e_jumpForce < min_jumpForce) {
+			Player.e_jumpForce = min_jumpForce;
 		}
-		e_jumpForce *= e_jumpForceMod;
-		Player.velocity.y = static_cast<float>(e_jumpForce * -Player.direction.y);
-		Player.velocity.x = static_cast<float>(e_jumpForce * Player.direction.x);
+		Player.e_jumpForce *= Player.e_jumpForceMod;
+		Player.velocity.y += static_cast<float>(Player.e_jumpForce * -Player.direction.y);
+		Player.velocity.x += static_cast<float>(Player.e_jumpForce * Player.direction.x);
 	}
 	else
 	{
 		Player.direction = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
-		e_jumpForce = Distance(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY) * 1.5;
-		if (e_jumpForce > max_jumpForce) {
-			e_jumpForce = max_jumpForce;
+		Player.e_jumpForce = Distance(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY) * 1.5;
+		if (Player.e_jumpForce > max_jumpForce) {
+			Player.e_jumpForce = max_jumpForce;
 		}
-		if (e_jumpForce < min_jumpForce) {
-			e_jumpForce = min_jumpForce;
+		if (Player.e_jumpForce < min_jumpForce) {
+			Player.e_jumpForce = min_jumpForce;
 		}
-		e_jumpForce *= e_jumpForceMod;
-		Player.velocity.y = static_cast<float>(e_jumpForce * Player.direction.y);
-		Player.velocity.x = static_cast<float>(e_jumpForce * Player.direction.x);
+		Player.e_jumpForce *= Player.e_jumpForceMod;
+		Player.velocity.y += static_cast<float>(Player.e_jumpForce * Player.direction.y);
+		Player.velocity.x += static_cast<float>(Player.e_jumpForce * Player.direction.x);
 	}
 	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
 	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
 	Player.jumpReady = false;
 	currHoldTime = 0.f;
-	e_jumpForceMod = originalJumpForceMod;
+	Player.e_jumpForceMod = originalJumpForceMod;
 #if DEBUG
 	std::cout << "Jump Force: " << e_jumpForce << "\n";
 #endif

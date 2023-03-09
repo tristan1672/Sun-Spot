@@ -11,6 +11,10 @@
 #include "Ultilities.hpp"
 #include "UI.hpp"
 
+extern DynamicObj Player;
+extern Platform** platform;
+extern GameObject jumpArrow;
+
 void Level1_Load();
 
 void Level1_Initialize();

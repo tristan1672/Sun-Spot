@@ -1,7 +1,6 @@
 #include "Ultilities.hpp"
 
-float e_gravity = -400.f, e_jumpForce = 350.f, vertMod = 1.0f,
-dragCoeff = 1.f, friction = 1.f ,  e_jumpForceMod = 1.0;
+float e_gravity = -500.f;
 const float max_jumpForce = 350.f, min_jumpForce = 100.f, originalVertMod = 1.0f,
 airDrag = 0.f, stickDrag = 10.f, normalDrag = 2.f,
 normalFriction = 10.f, iceFriction = 1.5f, fullStopFriction = 1 / e_deltaTime, slimeFriction = 25.f,

@@ -54,8 +54,17 @@ public:
 };
 // obj class with extra booleans, use to check for collision, also contains velosity so it is affected by gravity and forces
 class DynamicObj:public GameObject {
+	int collisionFlag{};
+//hot spot
+	int topY{}, btmY{}, leftX{}, rightX{}, X1{}, X2{}, Y1{}, Y2{};
+//use for 
+	bool prevFrameStickyCollision{}, currFrameStickyCollision{};
+
+
 public:
 	Vector2D velocity;
+//physics modifiers
+	float e_jumpForce = 350.f, vertMod = 1.0f,dragCoeff = 1.f, friction = 1.f, e_jumpForceMod = 1.0;
 	bool jumpReady = true, collideTop = false, collideRight = false, collideLeft = false;
 	DynamicObj(Vector2D Velocity = {0.f,0.f}, Vector2D Position = {0.f,0.f}, Vector2D Scale = { PLAYER_SIZE_X, PLAYER_SIZE_Y }, 
 		ColourValue Colour = {1.f,1.f,1.f,1.f}, f32 Rotation = 0, AEGfxRenderMode RenderMode = AE_GFX_RM_COLOR, AEGfxVertexList* ObjectMesh = pMesh);
@@ -63,6 +72,11 @@ public:
 
 	Vector2D GetVelocity();
 	void SetVelocity(Vector2D Velocity);
+	void PhysicsUpdate();
+	void SetColFlag(int colFlag);
+	int  GetColFlag();
+	void LevelCollision();
+	void SnapToGrid();
 #pragma endregion
 };
 

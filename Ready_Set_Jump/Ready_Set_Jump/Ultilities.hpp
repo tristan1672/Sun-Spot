@@ -25,7 +25,7 @@ enum { EASY, MEDIUM, HARD};
 extern s8 e_fontID;
 
 // Physics
-extern float e_gravity, e_jumpForce, vertMod,dragCoeff, friction, e_jumpForceMod;
+extern float e_gravity;
 extern const float max_jumpForce, min_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag,
 normalFriction, iceFriction, fullStopFriction, slimeFriction,
 originalJumpForceMod;
@@ -52,9 +52,6 @@ extern int level1_state;
 extern int** e_levelGrid;
 extern int e_binaryMapWidth, e_binaryMapHeight;
 extern int e_totalNumOfCollectable, e_numOfCollectableCollected;
-
-// Collision
-extern int e_collisionFlag;
 
 // Camera
 extern short e_shakeStrength;

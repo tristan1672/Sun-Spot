@@ -13,7 +13,6 @@
 #include "Cam.hpp"
 
 struct CameraPos cam;
-extern DynamicObj Player;
 float shakespeed = 0.0f, shakedistance = 0.5f;
 f64 shaketime;
 bool shake;
@@ -23,7 +22,7 @@ short e_shakeStrength;
 void Cam(bool airCheck)
 {
 	float distance = cam.Y - Player.position.y;
-	if ((airCheck == true) && (e_collisionFlag == 0)) //Reset flag, Checks previous frame collision flag and current collision flag
+	if ((airCheck == true) && (Player.GetColFlag() == 0)) //Reset flag, Checks previous frame collision flag and current collision flag
 	{
 		shake = false;
 		shaketime = 0.0f;

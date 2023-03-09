@@ -148,6 +148,13 @@ Vector2D DynamicObj::GetVelocity() {// returns object velocity
 void DynamicObj::SetVelocity(Vector2D Velocity) {//set object velocity
 		velocity = Velocity;
 	}
+
+void DynamicObj::SetColFlag(int colFlag) {
+	collisionFlag = colFlag;
+}
+int  DynamicObj::GetColFlag() {
+	return collisionFlag;
+}
 #pragma endregion
 #pragma endregion
 

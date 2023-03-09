@@ -111,6 +111,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClCompile Include="GameStateManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="Level1.cpp" />
+    <ClCompile Include="Physics.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Timer.cpp" />
     <ClCompile Include="System.cpp" />
@@ -123,6 +124,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClInclude Include="GameObjClasses.hpp" />
     <ClInclude Include="GameStateManager.hpp" />
     <ClInclude Include="GameStateList.hpp" />
+    <ClInclude Include="Physics.hpp" />
     <ClInclude Include="Score.hpp" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="UI.hpp" />
