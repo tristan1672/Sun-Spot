@@ -327,7 +327,7 @@ void scoreAnimations()
 //*******************************************************************************
 	if (timer.scoreDisplay < timer.score) //Timer Score Counting Animation
 	{
-		timer.scoreDisplay += 3000 * GetTime();
+		timer.scoreDisplay += 3000 * e_deltaTime;
 
 		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip counting
 		{
@@ -337,7 +337,7 @@ void scoreAnimations()
 
 	if (jump.scoreDisplay < jump.score) //Jump Score Counting Animation
 	{
-		jump.scoreDisplay += 3000 * GetTime();
+		jump.scoreDisplay += 3000 * e_deltaTime;
 
 		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip counting
 		{
@@ -347,12 +347,12 @@ void scoreAnimations()
 
 	if (jump.countDisplay < jump.count) //Jump Count Counting Animation
 	{
-		jump.countDisplay += 100 * GetTime();
+		jump.countDisplay += 100 * e_deltaTime;
 	}
 
 	if (collectable.scoreDisplay < collectable.score) //Collectable Score Counting Animation
 	{
-		collectable.scoreDisplay += 3000 * GetTime();
+		collectable.scoreDisplay += 3000 * e_deltaTime;
 
 		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip counting
 		{
@@ -367,47 +367,47 @@ void scoreAnimations()
 
 	if (timer.grade_pos.x < -0.175f) //Timer Grade Sliding Animation
 	{
-		timer.grade_pos.x += GetTime();
+		timer.grade_pos.x += e_deltaTime;
 	}
 
 	if (timer.score_pos.x < -0.9f) //Timer Score Sliding Animation
 	{	
-		timer.score_pos.x += GetTime();
+		timer.score_pos.x += e_deltaTime;
 	}
 
 	if (timer.count_pos.x < -0.9f) //Timer Score Sliding Animation
 	{
-		timer.count_pos.x += GetTime();
+		timer.count_pos.x += e_deltaTime;
 	}
 
 	if (jump.grade_pos.x < 0.725f) //Jump Grade Sliding Animation
 	{
-		jump.grade_pos.x += 2 * GetTime();
+		jump.grade_pos.x += 2 * e_deltaTime;
 	}
 
 	if (jump.score_pos.x < 0.125f) //Jump Score Sliding Animation
 	{
-		jump.score_pos.x += GetTime();
+		jump.score_pos.x += e_deltaTime;
 	}
 
 	if (jump.count_pos.x < 0.12f) //Jump Count Sliding Animation
 	{
-		jump.count_pos.x += 2 * GetTime();
+		jump.count_pos.x += 2 * e_deltaTime;
 	}
 
 	if (collectable.score_pos.x < -0.4f) //Collectable Score Sliding Animation
 	{
-		collectable.score_pos.x += GetTime();
+		collectable.score_pos.x += e_deltaTime;
 	}
 
 	if (collectable.grade_pos.x < 0.4f) //Collectable Grade Sliding Animation
 	{
-		collectable.grade_pos.x += 2 * GetTime();
+		collectable.grade_pos.x += 2 * e_deltaTime;
 	}
 
 	if (collectable.count_pos.x < -0.4f) //Collectable Count Sliding Animation
 	{
-		collectable.count_pos.x += GetTime();
+		collectable.count_pos.x += e_deltaTime;
 	}
 
 //*******************************************************************************

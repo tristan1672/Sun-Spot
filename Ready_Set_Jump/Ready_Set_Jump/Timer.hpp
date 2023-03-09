@@ -2,7 +2,7 @@
 #include "Ultilities.hpp"
 
 // Get and returns delta time
-float GetTime();
+void GetTime();
 
 // Updates and return level time
 float LevelTime();

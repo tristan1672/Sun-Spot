@@ -21,8 +21,10 @@
 // ----------------------------------------------------------------------------
 // Get and returns delta time
 // ----------------------------------------------------------------------------
-float GetTime() {
-	return e_deltaTime = AEFrameRateControllerGetFrameTime();
+void GetTime() {
+	e_deltaTime = AEFrameRateControllerGetFrameTime();
+	if(e_deltaTime > 0.01667f)
+		e_deltaTime = 0.01667f;
 }
 
 // ----------------------------------------------------------------------------
