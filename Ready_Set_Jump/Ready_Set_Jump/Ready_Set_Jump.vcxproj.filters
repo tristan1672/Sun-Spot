@@ -27,7 +27,7 @@
     <ClCompile Include="System.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Level1.cpp">
+    <ClCompile Include="Level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Ultilities.cpp">
@@ -71,7 +71,7 @@
     <ClInclude Include="PreCompiledHeader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Level1.hpp">
+    <ClInclude Include="Level.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Ultilities.hpp">

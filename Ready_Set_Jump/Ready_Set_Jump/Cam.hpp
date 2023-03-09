@@ -3,7 +3,7 @@
 #include "PreCompiledHeader.hpp"
 #include "Collision.hpp"
 #include "GameObjClasses.hpp"
-#include "Level1.hpp"
+#include "Level.hpp"
 #include <iostream>
 
 #ifndef Cam_HPP
