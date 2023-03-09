@@ -19,7 +19,7 @@
 // --------------------------------------------------------------------------- // End of includes
 
 // ----------------------------------------------------------------------------
-// Get and returns delta time
+// Get and sets delta time (Called in main)
 // ----------------------------------------------------------------------------
 void GetTime() {
 	e_deltaTime = AEFrameRateControllerGetFrameTime();

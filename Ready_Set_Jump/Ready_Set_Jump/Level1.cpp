@@ -257,7 +257,7 @@ void Level1_Update()
 	
 
 	//std::cout << Player.position.y <<'\n';
-	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
+	if (Player.position.x <  (-e_gridWidthSize * e_binaryMapWidth * 0.5) || Player.position.x > (e_gridWidthSize * e_binaryMapWidth * 0.5) || Player.position.y < (-e_gridHeightSize * e_binaryMapHeight * 0.5) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
 	{
 		Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
 		Player.velocity.y = 0.0f;

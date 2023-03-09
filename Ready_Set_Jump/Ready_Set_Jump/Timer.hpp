@@ -1,7 +1,7 @@
 #pragma once
 #include "Ultilities.hpp"
 
-// Get and returns delta time
+// Get and sets delta time(Called in main)
 void GetTime();
 
 // Updates and return level time
