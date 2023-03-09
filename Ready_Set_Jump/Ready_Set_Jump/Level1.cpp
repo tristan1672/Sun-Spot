@@ -70,7 +70,7 @@ void Level1_Load()
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
 	e_playerSpawnPointX = - 520.f;
-	e_playerSpawnPointY = - 300.f;
+	e_playerSpawnPointY =  100.f;
 
 	std::cout << "Level 1:Load\n";
 	std::fstream levelMap("Assets/Script/Level2.txt", std::ios_base::in);
@@ -159,9 +159,6 @@ void Level1_Initialize()
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 	jump_counter = 0;
 
-	float s_gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
-	float s_gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
-
 #if DEBUG
 	std::cout << "Total number of collectables: " << e_totalNumOfCollectable << "\n";
 #endif
@@ -175,32 +172,32 @@ void Level1_Initialize()
 			{
 			case NORMAL_BLOCK:
 				platform[i][j] = Platform(
-					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
-					{ s_gridWidth, s_gridHeight });
+					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
+					{ e_gridWidthSize, e_gridHeightSize });
 				break;
 			case ICE_BLOCK:
 				platform[i][j] = Platform(
-					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
-					{ s_gridWidth, s_gridHeight }, {0.47f,0.76f,0.93f,1.f});
+					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
+					{ e_gridWidthSize, e_gridHeightSize }, {0.47f,0.76f,0.93f,1.f});
 				break;
 			case STICKY_BLOCK:
 				platform[i][j] = Platform(
-					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
-					{ s_gridWidth, s_gridHeight }, { 1.f,0.98f,0.63f,1.f });
+					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
+					{ e_gridWidthSize, e_gridHeightSize }, { 1.f,0.98f,0.63f,1.f });
 				break;
 			case SLIME_BLOCK:
 				platform[i][j] = Platform(
-					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
-					{ s_gridWidth, s_gridHeight }, { 0.19f,0.8f,0.19f,1.f });
+					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
+					{ e_gridWidthSize, e_gridHeightSize }, { 0.19f,0.8f,0.19f,1.f });
 				break;
 			case COLLECTABLES:
 				platform[i][j] = Platform(
-					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
+					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
 					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f },0,AE_GFX_RM_COLOR,circleMesh);
 				break;
 			case GOAL:
 				platform[i][j] = Platform(
-					{ s_gridWidth / 2.0f - (WINDOW_WIDTH / 2.0f) + j * s_gridWidth, -s_gridHeight / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * s_gridHeight },
+					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
 				break;
 			//case HINT:
@@ -276,7 +273,9 @@ void Level1_Update()
 
 	// Collision function
 	LevelCollision();
+	SnapPlayer();
 	ObjectiveCollision();
+	
 
 	//std::cout << Player.position.y <<'\n';
 	if (Player.position.x <  (-WINDOW_WIDTH / 2) || Player.position.x >(WINDOW_WIDTH / 2) || Player.position.y < (-WINDOW_HEIGHT) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position

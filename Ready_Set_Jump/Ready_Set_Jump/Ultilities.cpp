@@ -7,6 +7,10 @@ airDrag = 0.f, stickDrag = 10.f, normalDrag = 2.f,
 normalFriction = 10.f, iceFriction = 1.5f, fullStopFriction = 1 / e_deltaTime, slimeFriction = 25.f,
 originalJumpForceMod = 1.0f;
 
+const f32 e_gridWidthSize = WINDOW_WIDTH / viewPortWidth;
+const f32 e_gridHeightSize = WINDOW_HEIGHT / viewPortHeight;
+
+
 // Jump Arrow
 extern float currHoldTime = 0.f, currHoldDistance = 0.f;
 extern const float maxHoldTime = 0.5f, maxHoldDistance = 150.f, minHoldDistance= 10.f;

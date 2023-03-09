@@ -2,6 +2,7 @@
 // Includes
 #pragma once
 #include <cmath>
+#include "PreCompiledHeader.hpp"
 #include "AEEngine.h"
 // --------------------------------------------------------------------------- // End of includes
 
@@ -38,6 +39,14 @@ extern const float maxHoldTime, maxHoldDistance, minHoldDistance;
 
 
 // Level
+
+const int viewPortWidth = 30;
+const int viewPortHeight = 30;
+extern const f32 e_gridWidthSize;
+extern const f32 e_gridHeightSize;
+
+
+
 extern f32 e_playerSpawnPointX, e_playerSpawnPointY;
 extern int level1_state;
 extern int** e_levelGrid;

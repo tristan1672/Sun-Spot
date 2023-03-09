@@ -46,8 +46,6 @@ bool currFrameStickyCollision{};
 void LevelCollision() {
 	
 	// Will be a static value once there are grids outside of the window
-	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
-	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
 
@@ -56,15 +54,15 @@ void LevelCollision() {
 	bool colliding{};
 
 	// "Normalizing" hotspots
-	int topY = (heightOffset - Player.position.y - Player.GetScale().y / 2.0f) / gridHeight; // Top bound
-	int btmY = (heightOffset - Player.position.y + Player.GetScale().y / 2.0f) / gridHeight; // Btm bound
-	int leftX = (widthOffset + Player.position.x - Player.GetScale().x / 2.0f) / gridWidth; // Left bound
-	int rightX = (widthOffset + Player.position.x + Player.GetScale().x / 2.0f) / gridWidth; // Right bound
+	int topY = (heightOffset - Player.position.y - Player.GetScale().y / 2.0f) / e_gridHeightSize; // Top bound
+	int btmY = (heightOffset - Player.position.y + Player.GetScale().y / 2.0f) / e_gridHeightSize; // Btm bound
+	int leftX = (widthOffset + Player.position.x - Player.GetScale().x / 2.0f) / e_gridWidthSize; // Left bound
+	int rightX = (widthOffset + Player.position.x + Player.GetScale().x / 2.0f) / e_gridWidthSize; // Right bound
 
-	int X1 = (widthOffset + Player.position.x - Player.GetScale().x / 4.0f) / gridWidth; // 25% X
-	int X2 = (widthOffset + Player.position.x + Player.GetScale().x / 4.0f) / gridWidth; // 75% X
-	int Y1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / gridHeight; // 25% Y
-	int Y2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / gridHeight; // 75% Y
+	int X1 = (widthOffset + Player.position.x - Player.GetScale().x / 4.0f) / e_gridWidthSize; // 25% X
+	int X2 = (widthOffset + Player.position.x + Player.GetScale().x / 4.0f) / e_gridWidthSize; // 75% X
+	int Y1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / e_gridHeightSize; // 25% Y
+	int Y2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / e_gridHeightSize; // 75% Y
 
 	// If out of play area // This not running cause the 1 in level 1 running
 	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
@@ -79,7 +77,7 @@ void LevelCollision() {
 		if (platform[topY][X1].GetPlatformType() > EMPTY_SPACE && platform[topY][X1].GetPlatformType() < GOAL
 			|| platform[topY][X2].GetPlatformType() > EMPTY_SPACE && platform[topY][X2].GetPlatformType() < GOAL) {
 			colliding = true;
-			e_collisionFlag += COLLISION_TOP;
+			e_collisionFlag |= COLLISION_TOP;
 			Player.velocity.y -= Player.velocity.y;
 
 #if DEBUG
@@ -96,7 +94,7 @@ void LevelCollision() {
 		if (platform[btmY][X1].GetPlatformType() > EMPTY_SPACE && platform[btmY][X1].GetPlatformType() < GOAL
 			|| platform[btmY][X2].GetPlatformType() > EMPTY_SPACE && platform[btmY][X2].GetPlatformType() < GOAL) {
 			colliding = true;
-			e_collisionFlag += COLLISION_BOTTOM;
+			e_collisionFlag |= COLLISION_BOTTOM;
 			if (Player.position.x < (platform[btmY][X1].position.x + (platform[btmY][X1].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
 
 				switch (platform[btmY][X1].GetPlatformType())
@@ -172,7 +170,7 @@ void LevelCollision() {
 		// Right collided
 		if (platform[Y1][rightX].GetPlatformType() > EMPTY_SPACE && platform[Y1][rightX].GetPlatformType() < GOAL) {
 			colliding = true;
-			e_collisionFlag += COLLISION_RIGHT;
+			e_collisionFlag |= COLLISION_RIGHT;
 			if (Player.position.y < (platform[Y1][rightX].position.y + (platform[Y1][rightX].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
 				Player.position.y >(platform[Y1][rightX].position.y - (platform[Y1][rightX].GetScale().y / 2.f))) {
 				switch (platform[Y1][rightX].GetPlatformType())
@@ -235,7 +233,7 @@ void LevelCollision() {
 		// Left collided
 		if (platform[Y1][leftX].GetPlatformType() > EMPTY_SPACE && platform[Y1][leftX].GetPlatformType() < GOAL) {
 			colliding = true;
-			e_collisionFlag += COLLISION_LEFT;
+			e_collisionFlag |= COLLISION_LEFT;
 			if (Player.position.y < (platform[Y1][leftX].position.y + (platform[Y1][leftX].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
 				Player.position.y >(platform[Y1][leftX].position.y - (platform[Y1][leftX].GetScale().y / 2.f))) {
 				switch (platform[Y1][leftX].GetPlatformType())
@@ -305,37 +303,41 @@ void LevelCollision() {
 	{
 		e_shakeStrength = MEDIUM_SHAKE;
 	}
-	
-	// Snapping
-	if (e_collisionFlag == COLLISION_TOP) {
-		Player.position.y = heightOffset - (topY+1) * gridHeight - (PLAYER_SIZE_Y / 2.0f);
-	}
-	if (e_collisionFlag == COLLISION_TOP + COLLISION_LEFT) {
-		Player.position.y = heightOffset - (topY + 1) * gridHeight - (PLAYER_SIZE_Y / 2.0f);
-		Player.position.x = -widthOffset + (leftX + 0.9999) * gridWidth + PLAYER_SIZE_X / 2.0f;
-	}
-	if (e_collisionFlag == COLLISION_TOP + COLLISION_RIGHT) {
-		Player.position.y = heightOffset - (topY + 1) * gridHeight - (PLAYER_SIZE_Y / 2.0f);
-		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
-	}
-	if (e_collisionFlag == COLLISION_BOTTOM) {
-		Player.position.y = heightOffset - btmY * gridHeight + (PLAYER_SIZE_Y / 2.0f);
-	}
-	if (e_collisionFlag == COLLISION_BOTTOM + COLLISION_LEFT) {
-		Player.position.y = heightOffset - btmY * gridHeight + (PLAYER_SIZE_Y / 2.0f);
-		Player.position.x = -widthOffset + (leftX + 0.9999) * gridWidth + PLAYER_SIZE_X / 2.0f;
-	}
-	if (e_collisionFlag == COLLISION_BOTTOM + COLLISION_RIGHT) {
-		Player.position.y = heightOffset - btmY * gridHeight + (PLAYER_SIZE_Y / 2.0f);
-		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
-	}
-	if (e_collisionFlag == COLLISION_LEFT) {
-		Player.position.x = -widthOffset + (leftX+0.9999) * gridWidth + PLAYER_SIZE_X / 2.0f;
-	}
-	if (e_collisionFlag == COLLISION_RIGHT) {
-		Player.position.x = -widthOffset + rightX * gridWidth - PLAYER_SIZE_X / 2.0f;
-	}
 	prevFrameStickyCollision = currFrameStickyCollision;
+}
+
+void SnapPlayer(void) {
+
+	// Will be a static value once there are grids outside of the window
+	float widthOffset = WINDOW_WIDTH / 2.0f;
+	float heightOffset = WINDOW_HEIGHT / 2.0f;
+
+	// "Normalizing" hotspots
+	int topY = (heightOffset - Player.position.y - Player.GetScale().y / 2.0f) / e_gridHeightSize; // Top bound
+	int btmY = (heightOffset - Player.position.y + Player.GetScale().y / 2.0f) / e_gridHeightSize; // Btm bound
+	int leftX = (widthOffset + Player.position.x - Player.GetScale().x / 2.0f) / e_gridWidthSize; // Left bound
+	int rightX = (widthOffset + Player.position.x + Player.GetScale().x / 2.0f) / e_gridWidthSize; // Right bound
+
+	int X1 = (widthOffset + Player.position.x - Player.GetScale().x / 4.0f) / e_gridWidthSize; // 25% X
+	int X2 = (widthOffset + Player.position.x + Player.GetScale().x / 4.0f) / e_gridWidthSize; // 75% X
+	int Y1 = (heightOffset - Player.position.y - Player.GetScale().y / 4.0f) / e_gridHeightSize; // 25% Y
+	int Y2 = (heightOffset - Player.position.y + Player.GetScale().y / 4.0f) / e_gridHeightSize; // 75% Y
+
+	if (e_collisionFlag & COLLISION_TOP) {
+		Player.position.y = heightOffset - (topY + 1) * e_gridHeightSize - (PLAYER_SIZE_Y / 2.0f);
+	}
+
+	if (e_collisionFlag & COLLISION_BOTTOM) {
+		Player.position.y = heightOffset - btmY * e_gridHeightSize + (PLAYER_SIZE_Y / 2.0f);
+	}
+
+	if (e_collisionFlag & COLLISION_LEFT) {
+		Player.position.x = -widthOffset + (leftX + 0.9999) * e_gridWidthSize + PLAYER_SIZE_X / 2.0f;
+	}
+
+	if (e_collisionFlag & COLLISION_RIGHT) {
+		Player.position.x = -widthOffset + rightX * e_gridWidthSize - PLAYER_SIZE_X / 2.0f;
+	}
 }
 
 // ----------------------------------------------------------------------------
@@ -343,10 +345,6 @@ void LevelCollision() {
 // such as collectables and goal(exit point)
 // ----------------------------------------------------------------------------
 void ObjectiveCollision() {
-	// Will be a static value once there are grids outside of the window
-	float gridWidth = WINDOW_WIDTH / e_binaryMapWidth;
-	float gridHeight = WINDOW_HEIGHT / e_binaryMapHeight;
-
 	// Offset used for grid position calculation, making calculation start from top left instead of center of window
 	float widthOffset = WINDOW_WIDTH / 2.0f;
 	float heightOffset = WINDOW_HEIGHT / 2.0f;
@@ -366,10 +364,10 @@ void ObjectiveCollision() {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 
 			if (platform[i][j].GetPlatformType() == GOAL) {
-				float goalTopY = heightOffset - i * gridHeight - (gridHeight - GOAL_SIZE_Y) / 2.0f;
-				float goalBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - GOAL_SIZE_Y) / 2.0f;
-				float goalLeftX = -widthOffset + j * gridWidth + (gridWidth - GOAL_SIZE_X) / 2;
-				float goalRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - GOAL_SIZE_X) / 2.0f;
+				float goalTopY = heightOffset - i * e_gridHeightSize - (e_gridHeightSize - GOAL_SIZE_Y) / 2.0f;
+				float goalBtmY = heightOffset - (i + 1) * e_gridHeightSize + (e_gridHeightSize - GOAL_SIZE_Y) / 2.0f;
+				float goalLeftX = -widthOffset + j * e_gridWidthSize + (e_gridWidthSize - GOAL_SIZE_X) / 2;
+				float goalRightX = -widthOffset + (j + 1) * e_gridWidthSize - (e_gridWidthSize - GOAL_SIZE_X) / 2.0f;
 
 				// If player x position is within the goal
 				if (playerHsX1 > goalLeftX && playerLeftX < goalRightX || playerHsX2 < goalRightX && playerRightX > goalLeftX) {
@@ -383,10 +381,10 @@ void ObjectiveCollision() {
 			}
 
 			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
-				float collectableTopY = heightOffset - i * gridHeight - (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
-				float collectableBtmY = heightOffset - (i + 1) * gridHeight + (gridHeight - COLLECTABLE_SIZE_Y) / 2.0f;
-				float collectableLeftX = -widthOffset + j * gridWidth + (gridWidth - COLLECTABLE_SIZE_X) / 2;
-				float collectableRightX = -widthOffset + (j + 1) * gridWidth - (gridWidth - COLLECTABLE_SIZE_X) / 2.0f;
+				float collectableTopY = heightOffset - i * e_gridHeightSize - (e_gridHeightSize - COLLECTABLE_SIZE_Y) / 2.0f;
+				float collectableBtmY = heightOffset - (i + 1) * e_gridHeightSize + (e_gridHeightSize - COLLECTABLE_SIZE_Y) / 2.0f;
+				float collectableLeftX = -widthOffset + j * e_gridWidthSize + (e_gridWidthSize - COLLECTABLE_SIZE_X) / 2;
+				float collectableRightX = -widthOffset + (j + 1) * e_gridWidthSize - (e_gridWidthSize - COLLECTABLE_SIZE_X) / 2.0f;
 
 				// If player x position is within the collectable
 				if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {
