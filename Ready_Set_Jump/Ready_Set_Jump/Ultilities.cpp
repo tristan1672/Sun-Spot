@@ -1,10 +1,6 @@
 #include "Ultilities.hpp"
 
 float e_gravity = -500.f;
-const float max_jumpForce = 350.f, min_jumpForce = 100.f, originalVertMod = 1.0f,
-airDrag = 0.f, stickDrag = 10.f, normalDrag = 2.f,
-normalFriction = 10.f, iceFriction = 1.5f, fullStopFriction = 1 / e_deltaTime, slimeFriction = 25.f,
-originalJumpForceMod = 1.0f;
 
 // Jump Arrow
 extern float currHoldTime = 0.f, currHoldDistance = 0.f;

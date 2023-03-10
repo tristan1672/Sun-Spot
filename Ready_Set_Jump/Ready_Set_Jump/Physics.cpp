@@ -11,25 +11,25 @@ void DynamicObj::PhysicsUpdate() {
 			{
 			case NORMAL_BLOCK:// normal surface
 				velocity.y -= velocity.y;
-				friction = normalFriction;
+				friction = NORMAL_FRICTION;
 				jumpReady = true;
 				shake = true;
 				break;
 			case ICE_BLOCK: // ice physics
 				velocity.y -= velocity.y;
-				friction = iceFriction;
+				friction = ICE_FRICTION;
 				jumpReady = true;
 				break;
 			case STICKY_BLOCK:// sticky physics
 				velocity.y -= velocity.y;
-				friction = fullStopFriction;
+				friction = FULL_STOP_FRICTION;
 				e_jumpForceMod = 0.7f;
 				shake = true;
 				break;
 			case SLIME_BLOCK:
 				if (abs(velocity.y) <= 2) velocity.y = 0;
 				velocity.y = -(velocity.y * 0.5f);
-				friction = slimeFriction;
+				friction = SLIME_FRICTION;
 				break;
 			default:
 				break;
@@ -40,7 +40,7 @@ void DynamicObj::PhysicsUpdate() {
 			{
 			case NORMAL_BLOCK:// normal surface
 				velocity.y -= velocity.y;
-				friction = normalFriction;
+				friction = NORMAL_FRICTION;
 				if (abs(velocity.x) < 2.f) {
 					velocity.x = 0;
 				}
@@ -48,18 +48,18 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			case ICE_BLOCK:// ice physics
 				velocity.y -= velocity.y;
-				friction = iceFriction;
+				friction = ICE_FRICTION;
 				jumpReady = true;
 				break;
 			case STICKY_BLOCK:// sticky physics
 				velocity.y -= velocity.y;
-				friction = fullStopFriction;
+				friction = FULL_STOP_FRICTION;
 				e_jumpForceMod = 0.7f;
 				break;
 			case SLIME_BLOCK:
 				if (abs(velocity.y) <= 2) velocity.y = 0;
 				velocity.y = -(velocity.y * 0.7f);
-				friction = slimeFriction;
+				friction = SLIME_FRICTION;
 				break;
 			default:
 				break;
@@ -75,8 +75,8 @@ void DynamicObj::PhysicsUpdate() {
 			switch (platform[Y1][rightX].GetPlatformType())
 			{
 			case STICKY_BLOCK:// sticky physics
-				dragCoeff = stickDrag;
-				friction = fullStopFriction;
+				dragCoeff = STICK_DRAG;
+				friction = FULL_STOP_FRICTION;
 				currFrameStickyCollision = true;
 				if (!prevFrameStickyCollision)jumpReady = true;
 				break;
@@ -87,8 +87,8 @@ void DynamicObj::PhysicsUpdate() {
 				}
 				break;
 			default:
-				dragCoeff = normalDrag;
-				friction = fullStopFriction;
+				dragCoeff = NORMAL_DRAG;
+				friction = FULL_STOP_FRICTION;
 				break;
 			}
 		}
@@ -96,8 +96,8 @@ void DynamicObj::PhysicsUpdate() {
 			switch (platform[Y2][rightX].GetPlatformType())
 			{
 			case STICKY_BLOCK:// sticky physics
-				dragCoeff = stickDrag;
-				friction = fullStopFriction;
+				dragCoeff = STICK_DRAG;
+				friction = FULL_STOP_FRICTION;
 				currFrameStickyCollision = true;
 				if (!prevFrameStickyCollision)jumpReady = true;
 				break;
@@ -108,8 +108,8 @@ void DynamicObj::PhysicsUpdate() {
 				}
 				break;
 			default:
-				dragCoeff = normalDrag;
-				friction = fullStopFriction;
+				dragCoeff = NORMAL_DRAG;
+				friction = FULL_STOP_FRICTION;
 				break;
 			}
 		}
@@ -120,12 +120,12 @@ void DynamicObj::PhysicsUpdate() {
 			switch (platform[Y1][leftX].GetPlatformType())
 			{
 			default:
-				dragCoeff = normalDrag;
-				friction = fullStopFriction;
+				dragCoeff = NORMAL_DRAG;
+				friction = FULL_STOP_FRICTION;
 				break;
 			case STICKY_BLOCK:// sticky physics
-				dragCoeff = stickDrag;
-				friction = fullStopFriction;
+				dragCoeff = STICK_DRAG;
+				friction = FULL_STOP_FRICTION;
 				currFrameStickyCollision = true;
 				if (!prevFrameStickyCollision)jumpReady = true;
 				break;
@@ -141,12 +141,12 @@ void DynamicObj::PhysicsUpdate() {
 			switch (platform[Y2][leftX].GetPlatformType())
 			{
 			default:
-				dragCoeff = normalDrag;
-				friction = fullStopFriction;
+				dragCoeff = NORMAL_DRAG;
+				friction = FULL_STOP_FRICTION;
 				break;
 			case STICKY_BLOCK:// sticky physics
-				friction = fullStopFriction;
-				dragCoeff = stickDrag;
+				friction = FULL_STOP_FRICTION;
+				dragCoeff = STICK_DRAG;
 				currFrameStickyCollision = true;
 				if (!prevFrameStickyCollision)jumpReady = true;
 				break;
@@ -160,7 +160,7 @@ void DynamicObj::PhysicsUpdate() {
 		}
 	}
 	if (!collisionFlag) {
-		dragCoeff = airDrag;
+		dragCoeff = AIR_DRAG;
 		friction = 0.f;
 	}
 	float terminalVelocity{ 2.f * e_gravity / dragCoeff };
@@ -173,10 +173,10 @@ void DynamicObj::PhysicsUpdate() {
 	if (abs(velocity.x) < 2.f) {
 		velocity.x = 0;
 	}
-	if (velocity.x && friction != fullStopFriction) {
+	if (velocity.x && friction != FULL_STOP_FRICTION) {
 		velocity.x -= static_cast<float>(friction * velocity.x * e_deltaTime);
 	}
-	else if (velocity.x && friction == fullStopFriction) {
+	else if (velocity.x && friction == FULL_STOP_FRICTION) {
 		velocity.x -= static_cast<float>(velocity.x);
 	}
 

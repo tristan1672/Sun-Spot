@@ -27,9 +27,6 @@ extern s8 e_fontID;
 
 // Physics
 extern float e_gravity;
-extern const float max_jumpForce, min_jumpForce, originalVertMod, airDrag, stickDrag, normalDrag,
-normalFriction, iceFriction, fullStopFriction, slimeFriction,
-originalJumpForceMod;
 
 // Time
 extern float e_deltaTime, e_levelTime;
