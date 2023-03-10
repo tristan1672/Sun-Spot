@@ -36,7 +36,6 @@ extern float e_deltaTime, e_levelTime;
 
 // Jump Arrow
 extern float currHoldTime, currHoldDistance;
-extern const float maxHoldTime, maxHoldDistance, minHoldDistance;
 
 
 // Level

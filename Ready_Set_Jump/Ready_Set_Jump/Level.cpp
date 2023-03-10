@@ -114,32 +114,32 @@ void Level_Initialize()
 			{
 			case NORMAL_BLOCK:
 				platform[i][j] = Platform(
-					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
-					{ e_gridWidthSize, e_gridHeightSize });
+					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 				break;
 			case ICE_BLOCK:
 				platform[i][j] = Platform(
-					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
-					{ e_gridWidthSize, e_gridHeightSize }, {0.47f,0.76f,0.93f,1.f});
+					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, {0.47f,0.76f,0.93f,1.f});
 				break;
 			case STICKY_BLOCK:
 				platform[i][j] = Platform(
-					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
-					{ e_gridWidthSize, e_gridHeightSize }, { 1.f,0.98f,0.63f,1.f });
+					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 1.f,0.98f,0.63f,1.f });
 				break;
 			case SLIME_BLOCK:
 				platform[i][j] = Platform(
-					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
-					{ e_gridWidthSize, e_gridHeightSize }, { 0.19f,0.8f,0.19f,1.f });
+					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 0.19f,0.8f,0.19f,1.f });
 				break;
 			case COLLECTABLES:
 				platform[i][j] = Platform(
-					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
+					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
 					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f },0,AE_GFX_RM_COLOR,circleMesh);
 				break;
 			case GOAL:
 				platform[i][j] = Platform(
-					{ e_gridWidthSize / 2.0f - (WINDOW_WIDTH / 2.0f) + j * e_gridWidthSize, -e_gridHeightSize / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * e_gridHeightSize },
+					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
 				break;
 			//case HINT:
@@ -199,7 +199,7 @@ void Level_Update()
 	
 
 	//std::cout << Player.position.y <<'\n';
-	if (Player.position.x <  (-e_gridWidthSize * e_binaryMapWidth * 0.5) || Player.position.x > (e_gridWidthSize * e_binaryMapWidth * 0.5) || Player.position.y < (-e_gridHeightSize * e_binaryMapHeight * 0.5) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
+	if (Player.position.x <  (-GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.x > (GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.y < (-GRID_HEIGHT_SIZE * e_binaryMapHeight * 0.5) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
 	{
 		Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
 		Player.velocity.y = 0.0f;
@@ -251,7 +251,7 @@ void Level_Draw()
 	// Draws the player
 	Player.DrawObj();
 	// Draws the arrow direction
-	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && currHoldTime >= maxHoldTime) {
+	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && currHoldTime >= MAX_HOLD_TIME) {
 		jumpArrow.DrawObj();
 	}
 

@@ -99,7 +99,7 @@ void Cam(bool airCheck)
 	cam.Y = Player.position.y + (shakespeed * e_deltaTime * e_shakeStrength);
 	
 	//Cam Bounding TEMP
-	if (cam.X > (e_gridWidthSize * e_binaryMapWidth * 0.5)) //Right Bound
+	if (cam.X > (GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5)) //Right Bound
 	{
 		cam.X = 100.0f;
 	}

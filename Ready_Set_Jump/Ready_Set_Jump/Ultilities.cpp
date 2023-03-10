@@ -8,7 +8,6 @@ originalJumpForceMod = 1.0f;
 
 // Jump Arrow
 extern float currHoldTime = 0.f, currHoldDistance = 0.f;
-extern const float maxHoldTime = 0.5f, maxHoldDistance = 150.f, minHoldDistance= 10.f;
 
 Vector2D normalDirection(f32 X1, f32 Y1, f32 X2, f32 Y2){
 	f32 X = X2 - X1;

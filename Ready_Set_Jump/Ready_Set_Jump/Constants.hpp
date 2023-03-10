@@ -20,8 +20,12 @@ extern const float COLLECTABLE_SIZE_Y;
 extern const int VIEWPORT_WIDTH;
 extern const int VIEWPORT_HEIGHT;
 // Platform
-extern const f32 e_gridWidthSize;
-extern const f32 e_gridHeightSize;
+extern const f32 GRID_WIDTH_SIZE;
+extern const f32 GRID_HEIGHT_SIZE;
+// Jump Arrow
+extern const float MAX_HOLD_TIME;
+extern const float MAX_HOLD_DISTANCE;
+extern const float MIN_HOLD_DISTANCE;
 
 // Collision
 //---------------------------

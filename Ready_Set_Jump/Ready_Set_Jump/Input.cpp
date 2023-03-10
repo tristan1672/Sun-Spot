@@ -38,23 +38,23 @@ void Input_Handle_HoldCheck()
 {
 
 	// Holding too long will initiate aim mode
-	if (currHoldTime < maxHoldTime) {
+	if (currHoldTime < MAX_HOLD_TIME) {
 		currHoldTime += e_deltaTime;
 	}
 	AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
 	Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
 	Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
 	float angle = atan2f(-nDirection.x, nDirection.y);
-	if (currHoldTime >= maxHoldTime) {
+	if (currHoldTime >= MAX_HOLD_TIME) {
 		jumpArrow.position = { Player.position.x,Player.position.y };
 		nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
 		angle = atan2f(-nDirection.x, -nDirection.y);
 		currHoldDistance = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
-		if (currHoldDistance > maxHoldDistance) {
-			currHoldDistance = maxHoldDistance;
+		if (currHoldDistance > MAX_HOLD_DISTANCE) {
+			currHoldDistance = MAX_HOLD_DISTANCE;
 		}
-		if (currHoldDistance < minHoldDistance) {
-			currHoldDistance = minHoldDistance;
+		if (currHoldDistance < MIN_HOLD_DISTANCE) {
+			currHoldDistance = MIN_HOLD_DISTANCE;
 		}
 		currHoldDistance *= Player.e_jumpForceMod;
 		jumpArrow.SetScale({ jumpArrow.GetScale().x,currHoldDistance });
@@ -68,7 +68,7 @@ void Input_Handle_HoldCheck()
 // ----------------------------------------------------------------------------
 void Input_Handle_Jump() {
 	
-	if (currHoldTime >= maxHoldTime) {
+	if (currHoldTime >= MAX_HOLD_TIME) {
 		Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
 		Player.direction = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
 		Player.e_jumpForce = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y) * 2;
