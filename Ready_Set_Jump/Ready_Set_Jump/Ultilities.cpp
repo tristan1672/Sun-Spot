@@ -6,8 +6,9 @@ airDrag = 0.f, stickDrag = 10.f, normalDrag = 2.f,
 normalFriction = 10.f, iceFriction = 1.5f, fullStopFriction = 1 / e_deltaTime, slimeFriction = 25.f,
 originalJumpForceMod = 1.0f;
 
-const f32 e_gridWidthSize = WINDOW_WIDTH / viewPortWidth;
-const f32 e_gridHeightSize = WINDOW_HEIGHT / viewPortHeight;
+// Level
+const f32 e_gridWidthSize = static_cast<f32>(WINDOW_WIDTH) / static_cast<f32>(viewPortWidth);
+const f32 e_gridHeightSize = static_cast<f32>(WINDOW_HEIGHT) / static_cast<f32>(viewPortHeight);
 
 
 // Jump Arrow

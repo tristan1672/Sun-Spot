@@ -3,6 +3,7 @@
 #pragma once
 #include <cmath>
 #include "PreCompiledHeader.hpp"
+#include "Constants.hpp"
 #include "AEEngine.h"
 // --------------------------------------------------------------------------- // End of includes
 
@@ -39,9 +40,6 @@ extern const float maxHoldTime, maxHoldDistance, minHoldDistance;
 
 
 // Level
-
-const int viewPortWidth = 30;
-const int viewPortHeight = 30;
 extern const f32 e_gridWidthSize;
 extern const f32 e_gridHeightSize;
 
