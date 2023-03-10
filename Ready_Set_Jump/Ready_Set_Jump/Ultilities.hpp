@@ -40,11 +40,6 @@ extern const float maxHoldTime, maxHoldDistance, minHoldDistance;
 
 
 // Level
-extern const f32 e_gridWidthSize;
-extern const f32 e_gridHeightSize;
-
-
-
 extern f32 e_playerSpawnPointX, e_playerSpawnPointY;
 extern int level1_state;
 extern int** e_levelGrid;

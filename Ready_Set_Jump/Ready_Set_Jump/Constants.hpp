@@ -1,9 +1,31 @@
+#include "AEEngine.h"
+
+// Window
+//---------------------------
+extern const int WINDOW_WIDTH;
+extern const int WINDOW_HEIGHT;
+
 // Level
-const int viewPortWidth  = 30;
-const int viewPortHeight = 30;
+//---------------------------
+// PLayer
+extern const float PLAYER_SIZE_X;
+extern const float PLAYER_SIZE_Y;
+// Goal
+extern const float GOAL_SIZE_X;
+extern const float GOAL_SIZE_Y;
+// Collectable
+extern const float COLLECTABLE_SIZE_X;
+extern const float COLLECTABLE_SIZE_Y;
+// View Port
+extern const int VIEWPORT_WIDTH;
+extern const int VIEWPORT_HEIGHT;
+// Platform
+extern const f32 e_gridWidthSize;
+extern const f32 e_gridHeightSize;
 
 // Collision
-const int	COLLISION_LEFT   = 0x00000001;	//0001
-const int	COLLISION_RIGHT  = 0x00000002;	//0010
-const int	COLLISION_TOP    = 0x00000004;	//0100
-const int	COLLISION_BOTTOM = 0x00000008;	//1000
+//---------------------------
+extern const int COLLISION_LEFT;
+extern const int COLLISION_RIGHT;
+extern const int COLLISION_TOP;
+extern const int COLLISION_BOTTOM;
