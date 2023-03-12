@@ -88,7 +88,7 @@ void Level_Load()
 // ----------------------------------------------------------------------------
 void Level_Initialize()
 {
-	std::cout << "Level :Initialize\n";
+	std::cout << "Level: Initialize\n";
 
 	level1_state = PLAYING;
 	level1_difficulty = EASY;
@@ -112,6 +112,7 @@ void Level_Initialize()
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 			switch (platform[i][j].GetPlatformType())
 			{
+				/*
 			case NORMAL_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
@@ -145,6 +146,31 @@ void Level_Initialize()
 			//case HINT:
 				//platform[i][j] = 
 				//break;
+			default:
+				break;
+				*/
+
+			case NORMAL_BLOCK:
+				platform[i][j] = Platform({j + 0.5f, i + 0.5f}, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+				break;
+			case ICE_BLOCK:
+				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+				break;
+			case STICKY_BLOCK:
+				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+				break;
+			case SLIME_BLOCK:
+				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+				break;
+			case COLLECTABLES:
+				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f }, 0, AE_GFX_RM_COLOR, circleMesh);
+				break;
+			case GOAL:
+				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
+				break;
+				//case HINT:
+					//platform[i][j] = 
+					//break;
 			default:
 				break;
 			}
@@ -248,6 +274,7 @@ void Level_Draw()
 			}
 		}
 	}
+
 	// Draws the player
 	Player.DrawObj();
 	// Draws the arrow direction
@@ -377,3 +404,4 @@ int ImportMapDataFromFile(const char* FileName) {
 	levelMap.close();
 	return 1;
 }
+

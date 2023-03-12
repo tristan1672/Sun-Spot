@@ -111,6 +111,32 @@ void GameObject::DrawObj() {
 	// Set the texture to pTex
 	//AEGfxTextureSet(pTex, 0, 0);
 	// Create a scale matrix that scales by 100 x and y
+	
+	AEMtx33 Scale = { 0 };
+	AEMtx33Scale(&Scale, scale.x, scale.y);
+
+	AEMtx33 Rotate = { 0 };
+	AEMtx33Rot(&Rotate, rotation);
+
+	AEMtx33 Translate = { 0 };
+	//AEMtx33Trans(&Translate, position.x, position.y);
+	AEMtx33Trans(&Translate, static_cast<float>(-WINDOW_WIDTH / 2.0f), static_cast<float>(-WINDOW_HEIGHT / 2.0f));
+
+	AEMtx33 Transform = { 0 };
+	AEMtx33Concat(&Transform, &Rotate, &Scale);
+	AEMtx33Concat(&Transform, &Translate, &Transform);
+
+	AEMtx33Trans(&Translate, position.x, position.y);
+
+	//AEMtx33 cellFinalTransformation = { 0 };
+	AEMtx33Concat(&Transform, &Transform, &Translate);
+
+	//AEMtx33Concat(&Transform, &Translate, &cellFinalTransformation);
+
+	AEGfxSetTransform(Transform.m);
+	
+
+	/*
 	AEMtx33 Scale = { 0 };
 	AEMtx33Scale(&Scale, scale.x, scale.y);
 	// Create a rotation matrix that rotates by 0 degrees
@@ -126,6 +152,10 @@ void GameObject::DrawObj() {
 	AEMtx33Concat(&Transform, &Translate, &Transform);
 	// Choose the transform to use
 	AEGfxSetTransform(Transform.m);
+	*/
+
+
+
 	// Actually drawing the mesh 
 	AEGfxTextureSet(ptex, 0, 0);
 	if (objMesh == nullptr) {

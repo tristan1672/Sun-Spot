@@ -102,7 +102,7 @@ void Input_Handle_Jump() {
 	currHoldTime = 0.f;
 	Player.e_jumpForceMod = ORIGINAL_JUMP_FORCE_MOD;
 #if DEBUG
-	std::cout << "Jump Force: " << e_jumpForce << "\n";
+	std::cout << "Jump Force: " << ORIGINAL_JUMP_FORCE_MOD << "\n";
 #endif
 
 }
