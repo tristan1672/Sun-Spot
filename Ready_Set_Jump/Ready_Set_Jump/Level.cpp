@@ -95,10 +95,10 @@ void Level_Initialize()
 	e_levelTime = 0.0f;
 	e_numOfCollectableCollected = 0;
 
-	Player = DynamicObj();
+	Player = DynamicObj({0.f,0.f}, { e_playerSpawnPointX,e_playerSpawnPointY }, { PLAYER_SIZE_X , PLAYER_SIZE_Y }, { 1.f,1.f,1.f,1.f });
 	Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
-	Player.SetColour({ 0.f,1.f,1.f,1.f });
-	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
+	//Player.SetColour({ 1.f,1.f,1.f,1.f });
+	//Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 	jump_counter = 0;
 
 #if DEBUG
@@ -154,13 +154,13 @@ void Level_Initialize()
 				platform[i][j] = Platform({j + 0.5f, i + 0.5f}, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 				break;
 			case ICE_BLOCK:
-				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 0.47f,0.76f,0.93f,1.f });
 				break;
 			case STICKY_BLOCK:
-				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 1.f,0.98f,0.63f,1.f });
 				break;
 			case SLIME_BLOCK:
-				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 0.19f,0.8f,0.19f,1.f });
 				break;
 			case COLLECTABLES:
 				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f }, 0, AE_GFX_RM_COLOR, circleMesh);
@@ -168,9 +168,6 @@ void Level_Initialize()
 			case GOAL:
 				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
 				break;
-				//case HINT:
-					//platform[i][j] = 
-					//break;
 			default:
 				break;
 			}
