@@ -24,7 +24,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     
 
     //Initialize the gamestate manager
-    GSM_Initialize(GS_LEVEL1);
+    GSM_Initialize(GS_MAINMENU);
 
     while (current != GS_QUIT)
     {

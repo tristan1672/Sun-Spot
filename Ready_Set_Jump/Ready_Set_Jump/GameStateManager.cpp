@@ -7,6 +7,7 @@
 #include "GameStateManager.hpp"
 #include "Ultilities.hpp"
 #include "Level.hpp"
+#include "MainMenu.hpp"
 // ---------------------------------------------------------------------------
 
 
@@ -37,7 +38,15 @@ void GSM_Update()
 
 	switch (next)
 	{
-	case GS_LEVEL1:
+	case GS_MAINMENU:
+		e_fpLoad = Menu_Load;
+		e_fpInitialize = Menu_Initialize;
+		e_fpUpdate = Menu_Update;
+		e_fpDraw = Menu_Draw;
+		e_fpFree = Menu_Free;
+		e_fpUnload = Menu_Unload;
+		break;
+	case GS_LEVEL:
 		e_fpLoad = Level_Load;
 		e_fpInitialize = Level_Initialize;
 		e_fpUpdate = Level_Update;
