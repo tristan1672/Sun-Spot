@@ -15,7 +15,7 @@
 // ---------------------------------------------------------------------------
 // Enumerations
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
-enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, SLIME_BLOCK, GOAL = 6, PLAYER, HINT ,COLLECTABLES};
+enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, SLIME_BLOCK, GOAL = 7, HINT ,COLLECTABLES};
 enum { PAUSED, PLAYING , WIN ,};
 enum { EASY, MEDIUM, HARD};
 // --------------------------------------------------------------------------- // End of enumerations

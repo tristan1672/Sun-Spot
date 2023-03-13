@@ -66,8 +66,8 @@ void MakeCircle() {
 // all defination that the Class Gameoobject will use most if not all variables comes with default value to prevent reading werid values
 #pragma region Gameobject Class Defination
 //constructor for GameObject
-GameObject::GameObject(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh, Vector2D Direction){
-	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode,objMesh = ObjectMesh, direction = Direction;
+GameObject::GameObject(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh, Vector2D Direction) {
+	position = Position; scale = Scale; colour = Colour; rotation = Rotation, renderMode = RenderMode, objMesh = ObjectMesh, direction = Direction;
 
 }
 #pragma region GameObject::Getter/Setter
@@ -111,32 +111,6 @@ void GameObject::DrawObj() {
 	// Set the texture to pTex
 	//AEGfxTextureSet(pTex, 0, 0);
 	// Create a scale matrix that scales by 100 x and y
-	
-	AEMtx33 Scale = { 0 };
-	AEMtx33Scale(&Scale, scale.x, scale.y);
-
-	AEMtx33 Rotate = { 0 };
-	AEMtx33Rot(&Rotate, rotation);
-
-	AEMtx33 Translate = { 0 };
-	//AEMtx33Trans(&Translate, position.x, position.y);
-	AEMtx33Trans(&Translate, static_cast<float>(-WINDOW_WIDTH / 2.0f), static_cast<float>(-WINDOW_HEIGHT / 2.0f));
-
-	AEMtx33 Transform = { 0 };
-	AEMtx33Concat(&Transform, &Rotate, &Scale);
-	AEMtx33Concat(&Transform, &Translate, &Transform);
-
-	AEMtx33Trans(&Translate, position.x, position.y);
-
-	//AEMtx33 cellFinalTransformation = { 0 };
-	AEMtx33Concat(&Transform, &Transform, &Translate);
-
-	//AEMtx33Concat(&Transform, &Translate, &cellFinalTransformation);
-
-	AEGfxSetTransform(Transform.m);
-	
-
-	/*
 	AEMtx33 Scale = { 0 };
 	AEMtx33Scale(&Scale, scale.x, scale.y);
 	// Create a rotation matrix that rotates by 0 degrees
@@ -152,10 +126,6 @@ void GameObject::DrawObj() {
 	AEMtx33Concat(&Transform, &Translate, &Transform);
 	// Choose the transform to use
 	AEGfxSetTransform(Transform.m);
-	*/
-
-
-
 	// Actually drawing the mesh 
 	AEGfxTextureSet(ptex, 0, 0);
 	if (objMesh == nullptr) {
@@ -168,16 +138,16 @@ void GameObject::DrawObj() {
 #pragma region Defination for DynamicObjClass
 //constructor for any dynamic obj
 DynamicObj::DynamicObj(Vector2D Velocity, Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh) {
-	velocity = Velocity,position = Position; scale = Scale; colour = Colour; rotation = Rotation, renderMode = RenderMode, objMesh = ObjectMesh;
+	velocity = Velocity, position = Position; scale = Scale; colour = Colour; rotation = Rotation, renderMode = RenderMode, objMesh = ObjectMesh;
 }
 #pragma region Getter/Setter For DynamicObj
 
 Vector2D DynamicObj::GetVelocity() {// returns object velocity 
-		return velocity;
-	}
+	return velocity;
+}
 void DynamicObj::SetVelocity(Vector2D Velocity) {//set object velocity
-		velocity = Velocity;
-	}
+	velocity = Velocity;
+}
 
 void DynamicObj::SetColFlag(int colFlag) {
 	collisionFlag = colFlag;
@@ -190,7 +160,7 @@ int  DynamicObj::GetColFlag() {
 
 #pragma region Platform Object Class
 Platform::Platform(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh) {
-	position = Position; scale = Scale; colour = Colour; rotation = Rotation,renderMode = RenderMode, objMesh = ObjectMesh;
+	position = Position; scale = Scale; colour = Colour; rotation = Rotation, renderMode = RenderMode, objMesh = ObjectMesh;
 }
 
 int Platform::GetPlatformType() {
@@ -207,5 +177,4 @@ Platform& Platform::operator=(const Platform& p) {
 }
 
 #pragma endregion
-
 

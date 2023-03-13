@@ -71,14 +71,14 @@ void Level_Load()
 	ptex = AEGfxTextureLoad("Assets/Cleared.png");
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
-	//e_playerSpawnPointX = - 520.f;
-	//e_playerSpawnPointY =  100.f;
+	e_playerSpawnPointX = -520.f;
+	e_playerSpawnPointY = 100.f;
 
 	std::cout << "Level :Load\n";
 	//std::fstream levelMap("Assets/Script/Level2.txt", std::ios_base::in);
 	//std::fstream levelMap("Assets/Script/Testing.txt", std::ios_base::in);
 
-	if (!ImportMapDataFromFile("Assets/Script/Level2.txt")){
+	if (!ImportMapDataFromFile("Assets/Script/Level2.txt")) {
 		std::cout << "Level File opened\n";
 	}
 }
@@ -88,15 +88,17 @@ void Level_Load()
 // ----------------------------------------------------------------------------
 void Level_Initialize()
 {
-	std::cout << "Level: Initialize\n";
+	std::cout << "Level :Initialize\n";
 
 	level1_state = PLAYING;
 	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
 	e_numOfCollectableCollected = 0;
 
-	//Player = DynamicObj({0.f,0.f}, { e_playerSpawnPointX,e_playerSpawnPointY }, { PLAYER_SIZE_X , PLAYER_SIZE_Y }, { 1.f,1.f,1.f,1.f });
-	//Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
+	Player = DynamicObj();
+	Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
+	Player.SetColour({ 0.f,1.f,1.f,1.f });
+	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 	jump_counter = 0;
 
 #if DEBUG
@@ -110,7 +112,6 @@ void Level_Initialize()
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 			switch (platform[i][j].GetPlatformType())
 			{
-				/*
 			case NORMAL_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
@@ -119,7 +120,7 @@ void Level_Initialize()
 			case ICE_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, {0.47f,0.76f,0.93f,1.f});
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 0.47f,0.76f,0.93f,1.f });
 				break;
 			case STICKY_BLOCK:
 				platform[i][j] = Platform(
@@ -134,45 +135,16 @@ void Level_Initialize()
 			case COLLECTABLES:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f },0,AE_GFX_RM_COLOR,circleMesh);
+					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f }, 0, AE_GFX_RM_COLOR, circleMesh);
 				break;
 			case GOAL:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
 				break;
-			//case HINT:
-				//platform[i][j] = 
-				//break;
-			default:
-				break;
-				*/
-
-			case NORMAL_BLOCK:
-				platform[i][j] = Platform({j + 0.5f, i + 0.5f}, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
-				break;
-			case ICE_BLOCK:
-				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 0.47f,0.76f,0.93f,1.f });
-				break;
-			case STICKY_BLOCK:
-				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 1.f,0.98f,0.63f,1.f });
-				break;
-			case SLIME_BLOCK:
-				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 0.19f,0.8f,0.19f,1.f });
-				break;
-			case COLLECTABLES:
-				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f }, 0, AE_GFX_RM_COLOR, circleMesh);
-				break;
-			case GOAL:
-				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
-				break;
-			case PLAYER:
-				//platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.f,1.f,1.f,1.f });
-				Player = DynamicObj({ 0,0 }, { j + 0.5f, i + 0.5f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.f, 1.0f, 1.0f ,1.0f});
-				e_playerSpawnPointX = (j + 0.5f) * GRID_WIDTH_SIZE;
-				e_playerSpawnPointY = (i + 0.5f) * GRID_HEIGHT_SIZE;
-
-				break;
+				//case HINT:
+					//platform[i][j] = 
+					//break;
 			default:
 				break;
 			}
@@ -180,8 +152,8 @@ void Level_Initialize()
 	}
 #pragma endregion
 	//sets the ui indicator for where the character is about to jump
-	jumpArrow = GameObject({ 0.f,0.f }, { 10.f,100.f }, 
-		{ 0.f,1.f,0.f,0.5f },0.f, AE_GFX_RM_COLOR,arrMesh);
+	jumpArrow = GameObject({ 0.f,0.f }, { 10.f,100.f },
+		{ 0.f,1.f,0.f,0.5f }, 0.f, AE_GFX_RM_COLOR, arrMesh);
 	jumpArrow.SetScale({ 10.f,100.f });
 	jumpArrow.SetColour({ 0.f,1.f,0.f,0.5f });
 	mouse.ClickX = 0;
@@ -199,7 +171,7 @@ void Level_Initialize()
 void Level_Update()
 {
 	if (level1_state == PLAYING)
-	{	
+	{
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 			Input_Update_Mouse_Pos();
@@ -224,10 +196,10 @@ void Level_Update()
 	Player.LevelCollision();
 	Player.SnapToGrid();
 	ObjectiveCollision();
-	
+
 
 	//std::cout << Player.position.y <<'\n';
-	if (Player.position.x <  (-GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.x > (GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.y < (-GRID_HEIGHT_SIZE * e_binaryMapHeight * 0.5) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
+	if (Player.position.x <  (-GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.x >(GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.y < (-GRID_HEIGHT_SIZE * e_binaryMapHeight * 0.5) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
 	{
 		Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
 		Player.velocity.y = 0.0f;
@@ -252,9 +224,9 @@ void Level_Update()
 	}
 
 #if DEBUG
-		std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
-		std::cout << "Delta Time: " << e_deltaTime << "\n";
-		std::cout << "Level Time: " << e_levelTime << "\n\n";
+	std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
+	std::cout << "Delta Time: " << e_deltaTime << "\n";
+	std::cout << "Level Time: " << e_levelTime << "\n\n";
 #endif
 }
 
@@ -276,10 +248,8 @@ void Level_Draw()
 			}
 		}
 	}
-
 	// Draws the player
 	Player.DrawObj();
-
 	// Draws the arrow direction
 	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && currHoldTime >= MAX_HOLD_TIME) {
 		jumpArrow.DrawObj();
@@ -294,7 +264,7 @@ void Level_Draw()
 		WinScreen.SetColour({ 0.f,0.0f,0.f,0.9f });
 		WinScreen.DrawObj();
 
-		Cleared.SetPosition({ Player.position.x , Player.position.y + 100.0f});
+		Cleared.SetPosition({ Player.position.x , Player.position.y + 100.0f });
 		Cleared.DrawObj();
 		PrintScore(jump_counter, level1_difficulty);
 
@@ -316,7 +286,7 @@ void Level_Free()
 		delete[] platform[i];
 	}
 	delete[] platform;
-	
+
 }
 
 // ----------------------------------------------------------------------------
@@ -340,7 +310,7 @@ int ImportMapDataFromFile(const char* FileName) {
 
 	if (levelMap.is_open()) {
 #if DEBUG
-			std::cout << FileName << " is opened\n";
+		std::cout << FileName << " is opened\n";
 #endif
 
 		std::string temp;
@@ -368,13 +338,13 @@ int ImportMapDataFromFile(const char* FileName) {
 	}
 	else {
 #if DEBUG
-			std::cout << "File Cannot be opened\n";
+		std::cout << "File Cannot be opened\n";
 #endif
 		return 0;
 	}
 
 	char character = 0;
-	int i = e_binaryMapHeight - 1, j = 0;
+	int i = 0, j = 0;
 	while (levelMap.get(character)) {
 
 		if (character >= '0' && character <= '9')
@@ -395,9 +365,9 @@ int ImportMapDataFromFile(const char* FileName) {
 				std::cout << "	Row " << i << "\n";
 #endif
 				j = 0;
-				--i;
+				i++;
 
-				if (i < 0) {
+				if (i == e_binaryMapHeight) {
 					break;
 				}
 			}
@@ -407,4 +377,3 @@ int ImportMapDataFromFile(const char* FileName) {
 	levelMap.close();
 	return 1;
 }
-
