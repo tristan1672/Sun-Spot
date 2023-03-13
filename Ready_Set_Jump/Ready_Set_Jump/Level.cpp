@@ -71,8 +71,8 @@ void Level_Load()
 	ptex = AEGfxTextureLoad("Assets/Cleared.png");
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
-	e_playerSpawnPointX = - 520.f;
-	e_playerSpawnPointY =  100.f;
+	//e_playerSpawnPointX = - 520.f;
+	//e_playerSpawnPointY =  100.f;
 
 	std::cout << "Level :Load\n";
 	//std::fstream levelMap("Assets/Script/Level2.txt", std::ios_base::in);
@@ -95,10 +95,8 @@ void Level_Initialize()
 	e_levelTime = 0.0f;
 	e_numOfCollectableCollected = 0;
 
-	Player = DynamicObj({0.f,0.f}, { e_playerSpawnPointX,e_playerSpawnPointY }, { PLAYER_SIZE_X , PLAYER_SIZE_Y }, { 1.f,1.f,1.f,1.f });
-	Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
-	//Player.SetColour({ 1.f,1.f,1.f,1.f });
-	//Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
+	//Player = DynamicObj({0.f,0.f}, { e_playerSpawnPointX,e_playerSpawnPointY }, { PLAYER_SIZE_X , PLAYER_SIZE_Y }, { 1.f,1.f,1.f,1.f });
+	//Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
 	jump_counter = 0;
 
 #if DEBUG
@@ -167,6 +165,13 @@ void Level_Initialize()
 				break;
 			case GOAL:
 				platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
+				break;
+			case PLAYER:
+				//platform[i][j] = Platform({ j + 0.5f, i + 0.5f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.f,1.f,1.f,1.f });
+				Player = DynamicObj({ 0,0 }, { j + 0.5f, i + 0.5f }, { PLAYER_SIZE_X, PLAYER_SIZE_Y }, { 0.f, 1.0f, 1.0f ,1.0f});
+				e_playerSpawnPointX = (j + 0.5f) * GRID_WIDTH_SIZE;
+				e_playerSpawnPointY = (i + 0.5f) * GRID_HEIGHT_SIZE;
+
 				break;
 			default:
 				break;
@@ -274,6 +279,7 @@ void Level_Draw()
 
 	// Draws the player
 	Player.DrawObj();
+
 	// Draws the arrow direction
 	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && currHoldTime >= MAX_HOLD_TIME) {
 		jumpArrow.DrawObj();
@@ -368,7 +374,7 @@ int ImportMapDataFromFile(const char* FileName) {
 	}
 
 	char character = 0;
-	int i = 0, j = 0;
+	int i = e_binaryMapHeight - 1, j = 0;
 	while (levelMap.get(character)) {
 
 		if (character >= '0' && character <= '9')
@@ -389,9 +395,9 @@ int ImportMapDataFromFile(const char* FileName) {
 				std::cout << "	Row " << i << "\n";
 #endif
 				j = 0;
-				i++;
+				--i;
 
-				if (i == e_binaryMapHeight) {
+				if (i < 0) {
 					break;
 				}
 			}
