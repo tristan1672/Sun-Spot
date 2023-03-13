@@ -26,29 +26,22 @@
 int e_numOfCollectableCollected;
 // --------------------------------------------------------------------------- // End of external variables
 
-// ---------------------------------------------------------------------------
-// Static Variables
-static float g_widthOffset = WINDOW_WIDTH * 0.5f;
-static float g_heightOffset = WINDOW_HEIGHT * 0.5f;
-// --------------------------------------------------------------------------- // End of static variables
-
-
 // ----------------------------------------------------------------------------
 // Checks for player collision against level and snap accordingly
 // ----------------------------------------------------------------------------
 void DynamicObj::LevelCollision(){
 	collisionFlag = 0;
-	// "Normalizing" hotspots
-	topY = (g_heightOffset - position.y - GetScale().y / 2.0f) / GRID_HEIGHT_SIZE; // Top bound
-	btmY = (g_heightOffset - position.y + GetScale().y / 2.0f) / GRID_HEIGHT_SIZE; // Btm bound
-	leftX = (g_widthOffset + position.x - GetScale().x / 2.0f) / GRID_WIDTH_SIZE; // Left bound
-	rightX = (g_widthOffset + position.x + GetScale().x / 2.0f) / GRID_WIDTH_SIZE; // Right bound
-	X1 = (g_widthOffset + position.x - GetScale().x / 4.0f) / GRID_WIDTH_SIZE; // 25% X
-	X2 = (g_widthOffset + position.x + GetScale().x / 4.0f) / GRID_WIDTH_SIZE; // 75% X
-	Y1 = (g_heightOffset - position.y - GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 25% Y
-	Y2 = (g_heightOffset - position.y + GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 75% Y
+	// Hotspots
+	topY = (WINDOW_HEIGHT_OFFSET - position.y - GetScale().y / 2.0f) / GRID_HEIGHT_SIZE; // Top bound
+	btmY = (WINDOW_HEIGHT_OFFSET - position.y + GetScale().y / 2.0f) / GRID_HEIGHT_SIZE; // Btm bound
+	leftX = (WINDOW_WIDTH_OFFSET + position.x - GetScale().x / 2.0f) / GRID_WIDTH_SIZE; // Left bound
+	rightX = (WINDOW_WIDTH_OFFSET + position.x + GetScale().x / 2.0f) / GRID_WIDTH_SIZE; // Right bound
+	X1 = (WINDOW_WIDTH_OFFSET + position.x - GetScale().x / 4.0f) / GRID_WIDTH_SIZE; // 25% X
+	X2 = (WINDOW_WIDTH_OFFSET + position.x + GetScale().x / 4.0f) / GRID_WIDTH_SIZE; // 75% X
+	Y1 = (WINDOW_HEIGHT_OFFSET - position.y - GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 25% Y
+	Y2 = (WINDOW_HEIGHT_OFFSET - position.y + GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 75% Y
 
-	// If out of play area // This not running cause the 1 in level 1 running
+	// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
 	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
 		velocity.x = 0.0f;
 		velocity.y = 0.0f;
@@ -132,19 +125,19 @@ void DynamicObj::LevelCollision(){
 void DynamicObj::SnapToGrid() {
 
 	if (collisionFlag & COLLISION_TOP) {
-		position.y = g_heightOffset - (topY + 1) * GRID_HEIGHT_SIZE - (PLAYER_SIZE_Y / 2.0f);
+		position.y = WINDOW_HEIGHT_OFFSET - (topY + 1) * GRID_HEIGHT_SIZE - (PLAYER_SIZE_Y / 2.0f);
 	}
 
 	if (collisionFlag & COLLISION_BOTTOM) {
-		position.y = g_heightOffset - btmY * GRID_HEIGHT_SIZE + (PLAYER_SIZE_Y / 2.0f);
+		position.y = WINDOW_HEIGHT_OFFSET - btmY * GRID_HEIGHT_SIZE + (PLAYER_SIZE_Y / 2.0f);
 	}
 
 	if (collisionFlag & COLLISION_LEFT) {
-		position.x = -g_widthOffset + (leftX + 0.9999) * GRID_WIDTH_SIZE + PLAYER_SIZE_X / 2.0f;
+		position.x = -WINDOW_WIDTH_OFFSET + (leftX + 0.9999) * GRID_WIDTH_SIZE + PLAYER_SIZE_X / 2.0f;
 	}
 
 	if (collisionFlag & COLLISION_RIGHT) {
-		position.x = -g_widthOffset + rightX * GRID_WIDTH_SIZE - PLAYER_SIZE_X / 2.0f;
+		position.x = -WINDOW_WIDTH_OFFSET + rightX * GRID_WIDTH_SIZE - PLAYER_SIZE_X / 2.0f;
 	}
 }
 
@@ -152,7 +145,7 @@ void DynamicObj::SnapToGrid() {
 // Checks for player collision against objects that dont require have seperate width and height,
 // such as collectables and goal(exit point)
 // ----------------------------------------------------------------------------
-void ObjectiveCollision() {
+void ObjectiveCollision() { // COMBINE IF GOT TIME
 	// Player hotspots
 	int playerTopY = Player.position.y - Player.GetScale().y / 2.0f; // Top bound
 	int playerBtmY = Player.position.y + Player.GetScale().y / 2.0f; // Btm bound
@@ -168,10 +161,10 @@ void ObjectiveCollision() {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 
 			if (platform[i][j].GetPlatformType() == GOAL) {
-				float goalTopY = g_heightOffset - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - GOAL_SIZE_Y) / 2.0f;
-				float goalBtmY = g_heightOffset - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - GOAL_SIZE_Y) / 2.0f;
-				float goalLeftX = -g_widthOffset + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - GOAL_SIZE_X) / 2;
-				float goalRightX = -g_widthOffset + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - GOAL_SIZE_X) / 2.0f;
+				float goalTopY = WINDOW_HEIGHT_OFFSET - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - GOAL_SIZE_Y) / 2.0f;
+				float goalBtmY = WINDOW_HEIGHT_OFFSET - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - GOAL_SIZE_Y) / 2.0f;
+				float goalLeftX = -WINDOW_WIDTH_OFFSET + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - GOAL_SIZE_X) / 2;
+				float goalRightX = -WINDOW_WIDTH_OFFSET + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - GOAL_SIZE_X) / 2.0f;
 
 				// If player x position is within the goal
 				if (playerHsX1 > goalLeftX && playerLeftX < goalRightX || playerHsX2 < goalRightX && playerRightX > goalLeftX) {
@@ -185,10 +178,10 @@ void ObjectiveCollision() {
 			}
 
 			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
-				float collectableTopY = g_heightOffset - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - COLLECTABLE_SIZE_Y) / 2.0f;
-				float collectableBtmY = g_heightOffset - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - COLLECTABLE_SIZE_Y) / 2.0f;
-				float collectableLeftX = -g_widthOffset + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - COLLECTABLE_SIZE_X) / 2;
-				float collectableRightX = -g_widthOffset + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - COLLECTABLE_SIZE_X) / 2.0f;
+				float collectableTopY = WINDOW_HEIGHT_OFFSET - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - COLLECTABLE_SIZE_Y) / 2.0f;
+				float collectableBtmY = WINDOW_HEIGHT_OFFSET - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - COLLECTABLE_SIZE_Y) / 2.0f;
+				float collectableLeftX = -WINDOW_WIDTH_OFFSET + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - COLLECTABLE_SIZE_X) / 2;
+				float collectableRightX = -WINDOW_WIDTH_OFFSET + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - COLLECTABLE_SIZE_X) / 2.0f;
 
 				// If player x position is within the collectable
 				if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {

@@ -5,6 +5,8 @@
 //---------------------------
 extern const int WINDOW_WIDTH;
 extern const int WINDOW_HEIGHT;
+extern const float WINDOW_WIDTH_OFFSET;
+extern const float WINDOW_HEIGHT_OFFSET;
 
 // Level
 //---------------------------
