@@ -33,6 +33,7 @@ Platform** platform;
 GameObject jumpArrow;
 GameObject WinScreen;
 GameObject Cleared;
+std::string fileToLoad;
 
 float e_deltaTime;
 float e_levelTime;
@@ -78,7 +79,7 @@ void Level_Load()
 	//std::fstream levelMap("Assets/Script/Level2.txt", std::ios_base::in);
 	//std::fstream levelMap("Assets/Script/Testing.txt", std::ios_base::in);
 
-	if (!ImportMapDataFromFile("Assets/Script/Level2.txt")) {
+	if (!ImportMapDataFromFile(fileToLoad.c_str())) {
 		std::cout << "Level File opened\n";
 	}
 }
@@ -281,11 +282,6 @@ void Level_Draw()
 // ----------------------------------------------------------------------------
 void Level_Free()
 {
-	std::cout << "Level :Free\n";
-	for (int i = 0; i < e_binaryMapHeight; i++) {
-		delete[] platform[i];
-	}
-	delete[] platform;
 
 }
 
@@ -295,6 +291,10 @@ void Level_Free()
 // ----------------------------------------------------------------------------
 void Level_Unload()
 {
+	for (int i = 0; i < e_binaryMapHeight; i++) {
+		delete[] platform[i];
+	}
+	delete[] platform;
 	std::cout << "Level :Unload\n";
 	AEGfxTextureUnload(ptex);
 	AEGfxMeshFree(pMesh);

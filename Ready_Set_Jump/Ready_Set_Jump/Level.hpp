@@ -14,6 +14,7 @@
 extern DynamicObj Player;
 extern Platform** platform;
 extern GameObject jumpArrow;
+extern std::string fileToLoad;
 
 void Level_Load();
 

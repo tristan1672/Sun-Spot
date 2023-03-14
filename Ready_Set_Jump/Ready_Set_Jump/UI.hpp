@@ -28,6 +28,10 @@ public:
 	void SetCharCount(size_t size);
 	void DrawObj()override;
 	bool MouseCollision(mousePos mousePos);
+	void TextBoxFadeIn();
+	void TextBoxFadeOut();
+	void SetTextBoxAlpha(f32 newAlpha);
+	f32 GetTextBoxAlpha(); 
 };
 
 #endif // UI_HPP

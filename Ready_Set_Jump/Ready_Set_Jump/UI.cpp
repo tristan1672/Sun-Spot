@@ -41,10 +41,10 @@ UIText::UIText(std::string Text, Vector2D Position, Vector2D Scale,
 	float w{};
 	float h{};
 	AEGfxGetPrintSize(e_fontID, text, 1.f, w, h);
-	TextBox = GameObject({ (position.x + w/2.f)* 660.f,(position.y + h/2.f)*360.f }, { w * 700.f,h * 600.f }, TextBoxColour);
+	TextBox = GameObject({ (position.x + w/2.f)* 640.f,(position.y + h/2.f)*360.f }, { w * 750.f,h * 600.f }, TextBoxColour);
 }
 UIText::UIText(UIText const& toCopy) {
-	position = toCopy.position; scale = toCopy.scale; colour = toCopy.colour;
+	position = toCopy.position; scale = toCopy.scale; colour = toCopy.colour; TextBoxActive = toCopy.TextBoxActive;
 	charcount = toCopy.charcount;
 	text = new char[charcount];
 	snprintf(text, charcount, toCopy.text);
@@ -52,7 +52,7 @@ UIText::UIText(UIText const& toCopy) {
 
 }
 UIText& UIText::operator=(UIText const& toCopy) {
-	position = toCopy.position; scale = toCopy.scale; colour = toCopy.colour;
+	position = toCopy.position; scale = toCopy.scale; colour = toCopy.colour; TextBoxActive = toCopy.TextBoxActive;
 	charcount = toCopy.charcount;
 	text = new char[charcount];
 	snprintf(text, charcount, toCopy.text);
@@ -64,12 +64,13 @@ UIText::~UIText() {
 }
 
 void UIText::DrawObj() {
-	if (!Active)return;
-	if (Active) {
+	if (TextBoxActive) {
 		TextBox.DrawObj();
 	}
-	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
-	AEGfxPrint(e_fontID, text, position.x, position.y, scale.x, colour.red, colour.green, colour.blue);
+	if (Active) {
+		AEGfxSetBlendMode(AE_GFX_BM_BLEND);
+		AEGfxPrint(e_fontID, text, position.x, position.y, scale.x, colour.red, colour.green, colour.blue);
+	}
 }
 
 size_t UIText::GetCharCount() {
@@ -80,6 +81,7 @@ void UIText::SetCharCount(size_t size) {
 }
 
 bool UIText::MouseCollision(mousePos mousePos) {
+	if (!TextBoxActive) { return false;}
 	//x coordinate of max/min rectangle
 	float xmax = TextBox.position.x + (TextBox.GetScale().x / 2);
 	float xmin = TextBox.position.x - (TextBox.GetScale().x / 2);
@@ -95,5 +97,23 @@ bool UIText::MouseCollision(mousePos mousePos) {
 	}
 	else {
 		return false;
+	}
+}
+void UIText::SetTextBoxAlpha(f32 newAlpha) {
+	ColourValue tempColour = TextBox.GetColour();
+	tempColour.alpha = newAlpha;
+	TextBox.SetColour(tempColour);
+}
+f32 UIText::GetTextBoxAlpha() {
+	return TextBox.GetColour().alpha;
+}
+void UIText::TextBoxFadeIn() {
+	if (TextBox.GetColour().alpha <= 1.f) {
+		SetTextBoxAlpha(TextBox.GetColour().alpha + 2.f*e_deltaTime);
+	}
+}
+void UIText::TextBoxFadeOut() {
+	if (TextBox.GetColour().alpha > 0.f) {
+		SetTextBoxAlpha(TextBox.GetColour().alpha - 1.5f * e_deltaTime);
 	}
 }

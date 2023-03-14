@@ -59,6 +59,10 @@ struct ColourValue
 	float red, green, blue, alpha;
 };
 
+static const ColourValue GreenTea{ 0.82f,0.94f,0.75f,0.f };
+static const ColourValue White{ 1.f,1.f,1.f,1.f };
+static const ColourValue Black{ 0.f,0.f,0.f,1.f };
+
 Vector2D normalDirection(f32 X1, f32 Y1, f32 X2, f32 Y2);
 float Distance(f32 X1, f32 Y1, f32 X2, f32 Y2);
 

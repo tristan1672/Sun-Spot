@@ -5,6 +5,7 @@
 #include "PreCompiledHeader.hpp"
 #include "UI.hpp"
 #include "GameStateManager.hpp"
+#include "Level.hpp"
 
 void Menu_Load();
 
