@@ -6,16 +6,20 @@ UIText **levels;
 
 void Menu_Load() {
 	MakeMesh();
+
+}
+
+void Menu_Initialize() {
+
+	selectLevelText = UIText("Select Level", { -0.26f, 0.3f },{1.f,1.f},White, true, GreenTea);
+	quitText = UIText("Quit", { -0.09f, -0.5f }, { 1.f,1.f }, White, true, GreenTea);
+	guideText= UIText("How To Play", { -0.23f, -0.1f }, { 1.f,1.f }, White, true, GreenTea);
+
 	levels = new UIText * [4] {};
 	for (int i = 0; i < 4; ++i) {
 		levels[i] = new UIText[4]{};
 	}
-}
 
-void Menu_Initialize() {
-	selectLevelText = UIText("Select Level", { -0.26f, 0.3f },{1.f,1.f},White, true, GreenTea);
-	quitText = UIText("Quit", { -0.09f, -0.5f }, { 1.f,1.f }, White, true, GreenTea);
-	guideText= UIText("How To Play", { -0.23f, -0.1f }, { 1.f,1.f }, White, true, GreenTea);
 	for (int i = 0; i < 4; ++i) {
 		for (int j = 0; j < 4; ++j) {
 			int levelcount = i * 4 + j + 1;
@@ -100,13 +104,13 @@ void Menu_Draw() {
 }
 
 void Menu_Free() {
-
-}
-
-void Menu_Unload() {
 	for (int i = 0; i < 4; ++i) {
 		delete[] levels[i];
 	}
 	delete[] levels;
+}
+
+void Menu_Unload() {
+
 	AEGfxMeshFree(pMesh);
 }
