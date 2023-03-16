@@ -26,7 +26,7 @@
 
 
 #define GROUND_LEVEL 20
-
+extern CameraPos cam;
 mousePos mouse;
 DynamicObj Player;
 Platform** platform;
@@ -101,6 +101,7 @@ void Level_Initialize()
 	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
 	e_numOfCollectableCollected = 0;
+	scoreInitialize();
 
 #if DEBUG
 	std::cout << "Total number of collectables: " << e_totalNumOfCollectable << "\n";
@@ -205,6 +206,15 @@ void Level_Update()
 			next = GS_MAINMENU;
 		}
 	}
+
+	if (level1_state == WIN)
+	{
+		if (AEInputCheckTriggered(AEVK_ESCAPE)) 
+		{
+			next = GS_MAINMENU;
+		}
+	}
+
 	// Prev collesion flag check
 	airCheck = Player.GetColFlag();
 
@@ -276,12 +286,12 @@ void Level_Draw()
 	{
 
 		WinScreen = GameObject();
-		WinScreen.position = { 0.0f, 0.0f };
+		WinScreen.position = { cam.X, cam.Y };
 		WinScreen.SetScale({ 1270.f, 720.f });
 		WinScreen.SetColour({ 0.f,0.0f,0.f,0.9f });
 		WinScreen.DrawObj();
 
-		Cleared.SetPosition({ Player.position.x , Player.position.y + 100.0f });
+		Cleared.SetPosition({ cam.X , cam.Y + 100.0f });
 		Cleared.DrawObj();
 		PrintScore(jump_counter, level1_difficulty);
 

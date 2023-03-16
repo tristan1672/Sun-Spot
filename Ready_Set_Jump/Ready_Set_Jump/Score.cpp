@@ -16,12 +16,11 @@
 
 #include "Score.hpp"
 
-
+//Structs
 /***********************************************************************************************************************/
-		//Initial positions {count_pos.x, count_pos.y, grade_pos.x, grade_pos.y, score_pos.x, score_pos.y}
-struct Score timer															= { -1.0f, -0.05f, -1.0f, -0.2f , -1.0f,  -0.2f };
-struct Score jump															= { -1.0f, -0.05f, -1.0f, -0.2f , -1.0f,  -0.2f };
-struct Score collectable													= { -1.0f, -0.4f , -1.0f, -0.55f, -1.0f,  -0.55f };
+struct Score timer;
+struct Score jump;
+struct Score collectable;
 /***********************************************************************************************************************/
 
 /*!****************************************************************************
@@ -50,6 +49,8 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	char collectablegrade[2];
 	char collectablecount[25];
 	jump.count = JUMP_COUNT;
+
+
 
 	switch (DIFFICULTY) //Set Score conditions based on level difficulty
 	{
@@ -325,24 +326,18 @@ void scoreAnimations()
 {
 //Counting Animation
 //*******************************************************************************
+	//timer.scoreDisplay			= 0;
+	//jump.scoreDisplay			= 0;
+	//collectable.scoreDisplay	= 0;
+
 	if (timer.scoreDisplay < timer.score) //Timer Score Counting Animation
 	{
 		timer.scoreDisplay += 3000 * e_deltaTime;
-
-		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip counting
-		{
-			timer.scoreDisplay = timer.score;
-		}
 	}
 
 	if (jump.scoreDisplay < jump.score) //Jump Score Counting Animation
 	{
 		jump.scoreDisplay += 3000 * e_deltaTime;
-
-		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip counting
-		{
-			jump.scoreDisplay = jump.score;
-		}
 	}
 
 	if (jump.countDisplay < jump.count) //Jump Count Counting Animation
@@ -353,11 +348,6 @@ void scoreAnimations()
 	if (collectable.scoreDisplay < collectable.score) //Collectable Score Counting Animation
 	{
 		collectable.scoreDisplay += 3000 * e_deltaTime;
-
-		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip counting
-		{
-			collectable.scoreDisplay = collectable.score;
-		}
 	}
 //*******************************************************************************
 
@@ -410,5 +400,43 @@ void scoreAnimations()
 		collectable.count_pos.x += e_deltaTime;
 	}
 
+	if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip all Animations
+	{
+		timer.scoreDisplay			= timer.score;
+		jump.scoreDisplay			= jump.score;
+		collectable.scoreDisplay	= collectable.score;
+
+		timer.grade_pos.x			= -0.175f;
+		timer.score_pos.x			= -0.9f;
+		timer.count_pos.x			= -0.9f;
+
+		jump.grade_pos.x			= 0.725f;
+		jump.score_pos.x			= 0.125f;
+		jump.count_pos.x			= 0.12f;
+
+		collectable.score_pos.x		= -0.4f;
+		collectable.grade_pos.x		=  0.4f;
+		collectable.count_pos.x		= -0.4f;
+	}
 //*******************************************************************************
+}
+
+
+/*!*************************************************************************
+* 
+	\brief
+	Initializes Struct variables to default values
+
+***************************************************************************/
+void scoreInitialize()
+{
+	timer			= { -1.0f, -0.05f, -1.0f, -0.2f , -1.0f,  -0.2f,
+						 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+						 0, 0, 0, 0, '0' };
+	jump			= { -1.0f, -0.05f, -1.0f, -0.2f , -1.0f,  -0.2f,
+						 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+						 0, 0, 0, 0, '0' };
+	collectable		= { -1.0f, -0.4f , -1.0f, -0.55f, -1.0f,  -0.55f,
+						 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+						 0, 0, 0, 0, '0' };
 }

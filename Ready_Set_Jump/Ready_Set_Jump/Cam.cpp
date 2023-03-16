@@ -98,7 +98,7 @@ void Cam(bool airCheck)
 	cam.X = Player.position.x;
 	cam.Y = Player.position.y + (shakespeed * e_deltaTime * e_shakeStrength);
 	
-	//Cam Bounding TEMP
+	/*Cam Bounding TEMP
 	if (cam.X > (GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5)) //Right Bound
 	{
 		cam.X = 100.0f;
@@ -118,6 +118,11 @@ void Cam(bool airCheck)
 	{
 		cam.Y = -200.0f;
 	}
+	*/
+	cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE * (VIEWPORT_WIDTH / 2.0f)) + (0.5f * VIEWPORT_WIDTH * GRID_WIDTH_SIZE), (GRID_WIDTH_SIZE * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * VIEWPORT_WIDTH * GRID_WIDTH_SIZE));
+	cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f)) + (0.5f * VIEWPORT_HEIGHT * GRID_HEIGHT_SIZE), GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f));
 
+	std::cout << "player x:" << Player.position.x << " player y:" << Player.position.y << std::endl;
+	std::cout << cam.X << ',' << cam.Y << std::endl;
 	AEGfxSetCamPosition(cam.X, cam.Y); // Set camera to follow player
 }

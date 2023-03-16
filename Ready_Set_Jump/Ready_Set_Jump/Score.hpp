@@ -19,5 +19,6 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY);
 int	 calculateScore(float timer, float maxTime, float maxScore, bool inverse = false);
 void calculateGrades();
 void scoreAnimations();
+void scoreInitialize();
 
 #endif // SCORE_HPP
