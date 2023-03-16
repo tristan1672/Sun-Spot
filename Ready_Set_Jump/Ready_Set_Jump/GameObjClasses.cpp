@@ -99,6 +99,9 @@ void GameObject::SetRotation(f32 Rotation) {// Setter for rotation
 void GameObject::SetTexture(AEGfxTexture* texturePointer) {
 	ptex = texturePointer;
 }
+void GameObject::SetRenderMode(AEGfxRenderMode render) {
+	renderMode = render;
+}
 #pragma endregion
 //the draw function for created object, can be changed when inherited
 void GameObject::DrawObj() {
