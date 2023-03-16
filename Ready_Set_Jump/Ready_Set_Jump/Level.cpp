@@ -38,8 +38,7 @@ std::string fileToLoad;
 float e_deltaTime;
 float e_levelTime;
 
-f32 e_playerSpawnPointX;
-f32 e_playerSpawnPointY;
+Vector2D playerSpawnPoint;
 
 int** e_levelGrid;
 int e_binaryMapWidth;
@@ -72,12 +71,8 @@ void Level_Load()
 	ptex = AEGfxTextureLoad("Assets/Cleared.png");
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
-	e_playerSpawnPointX = -520.f;
-	e_playerSpawnPointY = 100.f;
-
-	std::cout << "Level :Load\n";
-	//std::fstream levelMap("Assets/Script/Level2.txt", std::ios_base::in);
-	//std::fstream levelMap("Assets/Script/Testing.txt", std::ios_base::in);
+	playerSpawnPoint.x = -520.f;
+	playerSpawnPoint.y = 100.f;
 
 	if (!ImportMapDataFromFile(fileToLoad.c_str())) {
 		std::cout << "Level File opened\n";
@@ -89,18 +84,11 @@ void Level_Load()
 // ----------------------------------------------------------------------------
 void Level_Initialize()
 {
-	std::cout << "Level :Initialize\n";
 
 	level1_state = PLAYING;
 	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
 	e_numOfCollectableCollected = 0;
-
-	Player = DynamicObj();
-	Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
-	Player.SetColour({ 0.f,1.f,1.f,1.f });
-	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
-	jump_counter = 0;
 
 #if DEBUG
 	std::cout << "Total number of collectables: " << e_totalNumOfCollectable << "\n";
@@ -138,19 +126,27 @@ void Level_Initialize()
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
 					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f }, 0, AE_GFX_RM_COLOR, circleMesh);
 				break;
+			case CHECKPOINT:
+				platform[i][j] = Platform(
+					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 1.f, 0.65f, 0.f,1.f });
+				break;
 			case GOAL:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
 				break;
-				//case HINT:
-					//platform[i][j] = 
-					//break;
 			default:
 				break;
 			}
 		}
 	}
+
+	Player = DynamicObj();
+	Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
+	Player.SetColour({ 0.f,1.f,1.f,1.f });
+	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
+	jump_counter = 0;
 #pragma endregion
 	//sets the ui indicator for where the character is about to jump
 	jumpArrow = GameObject({ 0.f,0.f }, { 10.f,100.f },
@@ -189,6 +185,9 @@ void Level_Update()
 			if (Player.velocity.x && Player.velocity.y) 	jump_counter++;
 			mouse = { 0,0,0,0 };
 		}
+		if (AEInputCheckTriggered(AEVK_ESCAPE)) {
+			next = GS_MAINMENU;
+		}
 	}
 	// Prev collesion flag check
 	airCheck = Player.GetColFlag();
@@ -202,7 +201,7 @@ void Level_Update()
 	//std::cout << Player.position.y <<'\n';
 	if (Player.position.x <  (-GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.x >(GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.y < (-GRID_HEIGHT_SIZE * e_binaryMapHeight * 0.5) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
 	{
-		Player.position = { e_playerSpawnPointX,e_playerSpawnPointY };
+		Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
 		Player.velocity.y = 0.0f;
 		Player.velocity.x = 0.0f;
 	}
@@ -295,7 +294,6 @@ void Level_Unload()
 		delete[] platform[i];
 	}
 	delete[] platform;
-	std::cout << "Level :Unload\n";
 	AEGfxTextureUnload(ptex);
 	AEGfxMeshFree(pMesh);
 	AEGfxMeshFree(arrMesh);

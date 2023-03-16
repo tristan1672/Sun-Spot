@@ -15,7 +15,7 @@
 // ---------------------------------------------------------------------------
 // Enumerations
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
-enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, SLIME_BLOCK, GOAL = 7, HINT ,COLLECTABLES};
+enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, SLIME_BLOCK, GOAL = 7, CHECKPOINT ,COLLECTABLES};
 enum { PAUSED, PLAYING , WIN ,};
 enum { EASY, MEDIUM, HARD};
 // --------------------------------------------------------------------------- // End of enumerations
@@ -34,9 +34,19 @@ extern float e_deltaTime, e_levelTime;
 // Jump Arrow
 extern float currHoldTime, currHoldDistance;
 
+// Structs
+struct Vector2D {
+	f32 x;
+	f32 y;
+	Vector2D& operator-();
+};
+struct ColourValue
+{
+	float red, green, blue, alpha;
+};
 
 // Level
-extern f32 e_playerSpawnPointX, e_playerSpawnPointY;
+extern Vector2D playerSpawnPoint;
 extern int level1_state;
 extern int** e_levelGrid;
 extern int e_binaryMapWidth, e_binaryMapHeight;
@@ -48,16 +58,7 @@ extern bool shake;
 // --------------------------------------------------------------------------- // End of external variables
 
 // ---------------------------------------------------------------------------
-// Structs
-struct Vector2D {
-	f32 x;
-	f32 y;
-	Vector2D& operator-();
-};
-struct ColourValue
-{
-	float red, green, blue, alpha;
-};
+
 
 static const ColourValue GreenTea{ 0.82f,0.94f,0.75f,0.f };
 static const ColourValue White{ 1.f,1.f,1.f,1.f };

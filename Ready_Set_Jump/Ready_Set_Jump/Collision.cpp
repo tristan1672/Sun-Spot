@@ -46,7 +46,7 @@ void DynamicObj::LevelCollision(){
 		velocity.x = 0.0f;
 		velocity.y = 0.0f;
 		jumpReady = true;
-		position = { e_playerSpawnPointX,e_playerSpawnPointY };
+		position = { playerSpawnPoint.x,playerSpawnPoint.y };
 
 	}
 	else {
@@ -173,6 +173,21 @@ void ObjectiveCollision() { // COMBINE IF GOT TIME
 						level1_state = WIN;
 						Player.velocity.x = 0.0f;
 						Player.velocity.y = 0.0f;
+					}
+				}
+			}
+			if (platform[i][j].GetPlatformType() == CHECKPOINT) {
+				float checkPointTopY = WINDOW_HEIGHT_OFFSET - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - GOAL_SIZE_Y) / 2.0f;
+				float checkPointBtmY = WINDOW_HEIGHT_OFFSET - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - GOAL_SIZE_Y) / 2.0f;
+				float checkPointLeftX = -WINDOW_WIDTH_OFFSET + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - GOAL_SIZE_X) / 2;
+				float checkPointRightX = -WINDOW_WIDTH_OFFSET + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - GOAL_SIZE_X) / 2.0f;
+
+				// If player x position is within the goal
+				if (playerHsX1 > checkPointLeftX && playerLeftX < checkPointRightX || playerHsX2 < checkPointRightX && playerRightX > checkPointLeftX) {
+					// If player y position is within the goal
+					if (playerHsY1 > checkPointBtmY && playerTopY < checkPointTopY || playerHsY2 > checkPointBtmY && playerBtmY < checkPointTopY) {
+						playerSpawnPoint = platform[i][j].GetPosition();
+						platform[i][j].SetPlatformType(EMPTY_SPACE);
 					}
 				}
 			}

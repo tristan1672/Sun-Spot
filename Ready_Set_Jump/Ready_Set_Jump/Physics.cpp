@@ -119,10 +119,7 @@ void DynamicObj::PhysicsUpdate() {
 			position.y >(platform[Y1][leftX].position.y - (platform[Y1][leftX].GetScale().y / 2.f))) {
 			switch (platform[Y1][leftX].GetPlatformType())
 			{
-			default:
-				dragCoeff = NORMAL_DRAG;
-				friction = FULL_STOP_FRICTION;
-				break;
+
 			case STICKY_BLOCK:// sticky physics
 				dragCoeff = STICK_DRAG;
 				friction = FULL_STOP_FRICTION;
@@ -134,16 +131,16 @@ void DynamicObj::PhysicsUpdate() {
 					//velocity.y = static_cast<float>(e_jumpForce * direction.y);
 					velocity.x = -velocity.x;
 				}
+				break;
+			default:
+				dragCoeff = NORMAL_DRAG;
+				friction = FULL_STOP_FRICTION;
 				break;
 			}
 		}
 		else if (platform[Y2][leftX].GetPlatformType() > EMPTY_SPACE && platform[Y2][leftX].GetPlatformType() < GOAL) {
 			switch (platform[Y2][leftX].GetPlatformType())
 			{
-			default:
-				dragCoeff = NORMAL_DRAG;
-				friction = FULL_STOP_FRICTION;
-				break;
 			case STICKY_BLOCK:// sticky physics
 				friction = FULL_STOP_FRICTION;
 				dragCoeff = STICK_DRAG;
@@ -155,6 +152,10 @@ void DynamicObj::PhysicsUpdate() {
 					//velocity.y = static_cast<float>(e_jumpForce * direction.y);
 					velocity.x = -velocity.x;
 				}
+				break;
+			default:
+				dragCoeff = NORMAL_DRAG;
+				friction = FULL_STOP_FRICTION;
 				break;
 			}
 		}

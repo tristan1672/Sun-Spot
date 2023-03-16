@@ -10,6 +10,7 @@
 #include "PreCompiledHeader.hpp"
 #include "Ultilities.hpp"
 #include "UI.hpp"
+#include "GameStateManager.hpp"
 
 extern DynamicObj Player;
 extern Platform** platform;
