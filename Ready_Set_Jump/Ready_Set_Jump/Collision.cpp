@@ -41,10 +41,24 @@ void DynamicObj::LevelCollision(){
 	Y1 = (WINDOW_HEIGHT_OFFSET - position.y - GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 25% Y
 	Y2 = (WINDOW_HEIGHT_OFFSET - position.y + GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 75% Y
 
+	//std::cout << "  [" << (X1) << "," << (topY) << "] " << "[" << (X2) << "," << (topY) << "]\n";
+	//std::cout << "[" << (leftX) << "," << (Y1) << "]     " << "[" << (rightX) << "," << (Y1) << "]\n";
+	//std::cout << "        +\n";
+	//std::cout << "[" << (leftX) << "," << (Y2) << "]     " << "[" << (rightX) << "," << (Y2) << "]\n";
+	//std::cout << "  [" << (X1) << "," << (btmY) << "] " << "[" << (X2) << "," << (btmY) << "]\n\n";
 
 	// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
-	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
+	if (leftX < 0 || rightX > e_binaryMapWidth || topY < 0 || btmY > e_binaryMapHeight) {
 		
+
+		std::cout << "==================== Reset =====================\n";
+		std::cout << "  [" << (X1) << "," << (topY) << "] " << "[" << (X2) << "," << (topY) << "]\n";
+		std::cout << "[" << (leftX) << "," << (Y1) << "]     " << "[" << (rightX) << "," << (Y1) << "]\n";
+		std::cout << "        +\n";
+		std::cout << "[" << (leftX) << "," << (Y2) << "]     " << "[" << (rightX) << "," << (Y2) << "]\n";
+		std::cout << "  [" << (X1) << "," << (btmY) << "] " << "[" << (X2) << "," << (btmY) << "]\n\n";
+
+
 		velocity.x = 0.0f;
 		velocity.y = 0.0f;
 		jumpReady = true;
@@ -53,8 +67,8 @@ void DynamicObj::LevelCollision(){
 	}
 	else {
 		// Top collided
-		if (platform[topY][X1].GetPlatformType() > EMPTY_SPACE && platform[topY][X1].GetPlatformType() < GOAL
-			|| platform[topY][X2].GetPlatformType() > EMPTY_SPACE && platform[topY][X2].GetPlatformType() < GOAL) {
+		if (platform[static_cast<int>(topY)][static_cast<int>(X1)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(topY)][static_cast<int>(X1)].GetPlatformType() < GOAL
+			|| platform[static_cast<int>(topY)][static_cast<int>(X2)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(topY)][static_cast<int>(X2)].GetPlatformType() < GOAL) {
 			collisionFlag |= COLLISION_TOP;
 
 #if DEBUG
@@ -68,9 +82,11 @@ void DynamicObj::LevelCollision(){
 		}
 
 		// Btm collided
-		if (platform[btmY][X1].GetPlatformType() > EMPTY_SPACE && platform[btmY][X1].GetPlatformType() < GOAL
-			|| platform[btmY][X2].GetPlatformType() > EMPTY_SPACE && platform[btmY][X2].GetPlatformType() < GOAL) {
+		if (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetPlatformType() < GOAL
+			|| platform[static_cast<int>(btmY)][static_cast<int>(X2)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(btmY)][static_cast<int>(X2)].GetPlatformType() < GOAL) {
 			collisionFlag |= COLLISION_BOTTOM;
+
+			std::cout << "Btm collided, Coordinates\n";
 
 #if DEBUG		
 			if (Player.jumpReady == false) {
@@ -86,7 +102,7 @@ void DynamicObj::LevelCollision(){
 		}
 
 		// Right collided
-		if (platform[Y1][rightX].GetPlatformType() > EMPTY_SPACE && platform[Y1][rightX].GetPlatformType() < GOAL) {
+		if (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetPlatformType() < GOAL) {
 			collisionFlag |= COLLISION_RIGHT;
 #if DEBUG
 				std::cout << "Right collided, Coordinates\n";
@@ -99,7 +115,7 @@ void DynamicObj::LevelCollision(){
 		}
 
 		// Left collided
-		if (platform[Y1][leftX].GetPlatformType() > EMPTY_SPACE && platform[Y1][leftX].GetPlatformType() < GOAL) {
+		if (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetPlatformType() < GOAL) {
 			collisionFlag |= COLLISION_LEFT;
 
 #if DEBUG
@@ -127,19 +143,19 @@ void DynamicObj::LevelCollision(){
 void DynamicObj::SnapToGrid() {
 
 	if (collisionFlag & COLLISION_TOP) {
-		position.y = WINDOW_HEIGHT_OFFSET - (topY + 1) * GRID_HEIGHT_SIZE - (PLAYER_SIZE_Y / 2.0f);
+		position.y = WINDOW_HEIGHT_OFFSET - static_cast<int>(topY + 1) * GRID_HEIGHT_SIZE - (PLAYER_SIZE_Y / 2.0f);
 	}
 
 	if (collisionFlag & COLLISION_BOTTOM) {
-		position.y = WINDOW_HEIGHT_OFFSET - btmY * GRID_HEIGHT_SIZE + (PLAYER_SIZE_Y / 2.0f);
+		position.y = WINDOW_HEIGHT_OFFSET - static_cast<int>(btmY) * GRID_HEIGHT_SIZE + (PLAYER_SIZE_Y / 2.0f);
 	}
 
 	if (collisionFlag & COLLISION_LEFT) {
-		position.x = -WINDOW_WIDTH_OFFSET + (leftX + 0.9999) * GRID_WIDTH_SIZE + PLAYER_SIZE_X / 2.0f;
+		position.x = -WINDOW_WIDTH_OFFSET + (static_cast<int>(leftX) + 0.9999) * GRID_WIDTH_SIZE + PLAYER_SIZE_X / 2.0f;
 	}
 
 	if (collisionFlag & COLLISION_RIGHT) {
-		position.x = -WINDOW_WIDTH_OFFSET + rightX * GRID_WIDTH_SIZE - PLAYER_SIZE_X / 2.0f;
+		position.x = -WINDOW_WIDTH_OFFSET + static_cast<int>(rightX) * GRID_WIDTH_SIZE - PLAYER_SIZE_X / 2.0f;
 	}
 }
 

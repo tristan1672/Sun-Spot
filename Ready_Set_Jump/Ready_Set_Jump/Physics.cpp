@@ -5,9 +5,9 @@ void DynamicObj::PhysicsUpdate() {
 		velocity.y -= velocity.y;
 	}
 	if (collisionFlag & COLLISION_BOTTOM) {
-		if (position.x < (platform[btmY][X1].position.x + (platform[btmY][X1].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
+		if (position.x < (platform[static_cast<int>(btmY)][static_cast<int>(X1)].position.x + (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
 
-			switch (platform[btmY][X1].GetPlatformType())
+			switch (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetPlatformType())
 			{
 			case NORMAL_BLOCK:// normal surface
 				velocity.y -= velocity.y;
@@ -35,8 +35,8 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			}
 		}
-		else if (position.x > (platform[btmY][X1].position.x - (platform[btmY][X1].GetScale().x / 2.f))) {
-			switch (platform[btmY][X2].GetPlatformType())
+		else if (position.x > (platform[static_cast<int>(btmY)][static_cast<int>(X1)].position.x - (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetScale().x / 2.f))) {
+			switch (platform[static_cast<int>(btmY)][static_cast<int>(X2)].GetPlatformType())
 			{
 			case NORMAL_BLOCK:// normal surface
 				velocity.y -= velocity.y;
@@ -70,9 +70,9 @@ void DynamicObj::PhysicsUpdate() {
 		}
 	}
 	if (collisionFlag & COLLISION_RIGHT) {
-		if (position.y < (platform[Y1][rightX].position.y + (platform[Y1][rightX].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
-			position.y >(platform[Y1][rightX].position.y - (platform[Y1][rightX].GetScale().y / 2.f))) {
-			switch (platform[Y1][rightX].GetPlatformType())
+		if (position.y < (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].position.y + (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
+			position.y >(platform[static_cast<int>(Y1)][static_cast<int>(rightX)].position.y - (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetScale().y / 2.f))) {
+			switch (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetPlatformType())
 			{
 			case STICKY_BLOCK:// sticky physics
 				dragCoeff = STICK_DRAG;
@@ -92,8 +92,8 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			}
 		}
-		else if (platform[Y2][rightX].GetPlatformType() > EMPTY_SPACE && platform[Y2][rightX].GetPlatformType() < GOAL) {
-			switch (platform[Y2][rightX].GetPlatformType())
+		else if (platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() < GOAL) {
+			switch (platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType())
 			{
 			case STICKY_BLOCK:// sticky physics
 				dragCoeff = STICK_DRAG;
@@ -115,9 +115,9 @@ void DynamicObj::PhysicsUpdate() {
 		}
 	}
 	if (collisionFlag & COLLISION_LEFT) {
-		if (position.y < (platform[Y1][leftX].position.y + (platform[Y1][leftX].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
-			position.y >(platform[Y1][leftX].position.y - (platform[Y1][leftX].GetScale().y / 2.f))) {
-			switch (platform[Y1][leftX].GetPlatformType())
+		if (position.y < (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].position.y + (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
+			position.y >(platform[static_cast<int>(Y1)][static_cast<int>(leftX)].position.y - (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetScale().y / 2.f))) {
+			switch (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetPlatformType())
 			{
 
 			case STICKY_BLOCK:// sticky physics
@@ -138,8 +138,8 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			}
 		}
-		else if (platform[Y2][leftX].GetPlatformType() > EMPTY_SPACE && platform[Y2][leftX].GetPlatformType() < GOAL) {
-			switch (platform[Y2][leftX].GetPlatformType())
+		else if (platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() < GOAL) {
+			switch (platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType())
 			{
 			case STICKY_BLOCK:// sticky physics
 				friction = FULL_STOP_FRICTION;
