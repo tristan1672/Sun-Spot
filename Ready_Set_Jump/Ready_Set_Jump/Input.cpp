@@ -17,6 +17,7 @@
 #include "PreCompiledHeader.hpp"
 #include "Ultilities.hpp"
 #include "Input.hpp"
+#include "Cam.hpp"
 #include "GameObjClasses.hpp"
 // ---------------------------------------------------------------------------
 
@@ -24,6 +25,7 @@
 extern mousePos mouse;
 extern DynamicObj Player;
 extern GameObject jumpArrow;
+extern CameraPos cam;
 // ----------------------------------------------------------------------------
 // This function updates the initial mouse click position
 // ----------------------------------------------------------------------------
@@ -42,13 +44,14 @@ void Input_Handle_HoldCheck()
 		currHoldTime += e_deltaTime;
 	}
 	AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
-	Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
+	Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + cam.X, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + cam.Y };
 	Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
 	float angle = atan2f(-nDirection.x, nDirection.y);
 	if (currHoldTime >= MAX_HOLD_TIME) {
 		jumpArrow.position = { Player.position.x,Player.position.y };
 		nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
-		angle = atan2f(-nDirection.x, -nDirection.y);
+		std::cout << Player.position.x << " "<< Player.position.y<<" "<< mouseClickQuadPos.x<<" "<< mouseClickQuadPos.y<<"\n";
+		angle = atan2f(-nDirection.x, nDirection.y);
 		currHoldDistance = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
 		if (currHoldDistance > MAX_HOLD_DISTANCE) {
 			currHoldDistance = MAX_HOLD_DISTANCE;
@@ -69,7 +72,7 @@ void Input_Handle_HoldCheck()
 void Input_Handle_Jump() {
 	
 	if (currHoldTime >= MAX_HOLD_TIME) {
-		Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + Player.position.x, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + Player.position.y };
+		Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - WINDOW_WIDTH / 2.f + cam.X, -(static_cast<float>(mouse.ReleaseY) - WINDOW_HEIGHT / 2.f) + cam.Y };
 		Player.direction = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
 		Player.e_jumpForce = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y) * 2;
 		if (Player.e_jumpForce > MAX_JUMP_FORCE) {
@@ -79,13 +82,13 @@ void Input_Handle_Jump() {
 			Player.e_jumpForce = MIN_JUMP_FORCE;
 		}
 		Player.e_jumpForce *= Player.e_jumpForceMod;
-		Player.velocity.y += static_cast<float>(Player.e_jumpForce * -Player.direction.y);
+		Player.velocity.y += static_cast<float>(Player.e_jumpForce * Player.direction.y);
 		Player.velocity.x += static_cast<float>(Player.e_jumpForce * Player.direction.x);
 	}
 	else
 	{
-		Player.direction = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
-		Player.e_jumpForce = Distance(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY) * 1.5;
+		Player.direction = normalDirection(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY);
+		Player.e_jumpForce = Distance(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY) * 1.5;
 		if (Player.e_jumpForce > MAX_JUMP_FORCE) {
 			Player.e_jumpForce = MAX_JUMP_FORCE;
 		}
