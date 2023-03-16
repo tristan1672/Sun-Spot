@@ -45,6 +45,7 @@ public:
 	f32 GetRotation();
 	void SetRotation(f32 Rotation);
 	void SetTexture(AEGfxTexture* texturePointer);
+	void SetRenderMode(AEGfxRenderMode render);
 #pragma endregion
 
 };

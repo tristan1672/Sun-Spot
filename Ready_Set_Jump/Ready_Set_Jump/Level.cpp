@@ -55,6 +55,9 @@ int jump_counter;
 bool airCheck;
 
 AEGfxTexture* ptex = nullptr;
+AEGfxTexture* normalBlockTexture{ nullptr };
+AEGfxTexture* iceBlockTexture{ nullptr };
+
 
 int ImportMapDataFromFile(const char* FileName);
 
@@ -69,7 +72,9 @@ void Level_Load()
 	//MakeCircle();
 
 	ptex = AEGfxTextureLoad("Assets/Images/Cleared.png");
-	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
+	normalBlockTexture = AEGfxTextureLoad("Assets/Images/Basic_Platform.png");
+	iceBlockTexture = AEGfxTextureLoad("Assets/Images/Ice_Platform.png");
+	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
 	playerSpawnPoint.x = -520.f;
 	playerSpawnPoint.y = 100.f;
@@ -111,18 +116,16 @@ void Level_Initialize()
 			case NORMAL_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 1,1,1,1 }, {0}, AE_GFX_RM_TEXTURE);
-
-				platform[i][j].SetTexture(AEGfxTextureLoad("Assets/Images/Basic_Platform.png"));
-
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
+				platform[i][j].SetTexture(normalBlockTexture);
 				break;
 			case ICE_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 0.47f,0.76f,0.93f,1.f });
-
-				platform[i][j].SetTexture(AEGfxTextureLoad("Assets/Images/Ice_Platform.png"));
-
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
+				platform[i][j].SetTexture(iceBlockTexture);
 				break;
 			case STICKY_BLOCK:
 				platform[i][j] = Platform(
@@ -308,6 +311,7 @@ void Level_Unload()
 		delete[] platform[i];
 	}
 	delete[] platform;
+	AEGfxTextureUnload(normalBlockTexture);
 	AEGfxTextureUnload(ptex);
 	AEGfxMeshFree(pMesh);
 	AEGfxMeshFree(arrMesh);
