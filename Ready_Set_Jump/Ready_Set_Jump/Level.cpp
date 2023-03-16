@@ -68,11 +68,17 @@ void Level_Load()
 	MakeArrowMesh();
 	MakeCircle();
 
-	ptex = AEGfxTextureLoad("Assets/Cleared.png");
+	ptex = AEGfxTextureLoad("Assets/Images/Cleared.png");
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
 	playerSpawnPoint.x = -520.f;
 	playerSpawnPoint.y = 100.f;
+
+	/*playerSpawnPoint.x = -570.f;
+	playerSpawnPoint.y = 300.f;*/
+
+	//playerSpawnPoint.x = -510.f;
+	//playerSpawnPoint.y = 300.f;
 
 	if (!ImportMapDataFromFile(fileToLoad.c_str())) {
 		std::cout << "Level File opened\n";
@@ -104,12 +110,18 @@ void Level_Initialize()
 			case NORMAL_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 1,1,1,1 }, {0}, AE_GFX_RM_TEXTURE);
+
+				platform[i][j].SetTexture(AEGfxTextureLoad("Assets/Images/Basic_Platform.png"));
+
 				break;
 			case ICE_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 0.47f,0.76f,0.93f,1.f });
+
+				platform[i][j].SetTexture(AEGfxTextureLoad("Assets/Images/Ice_Platform.png"));
+
 				break;
 			case STICKY_BLOCK:
 				platform[i][j] = Platform(
@@ -197,14 +209,16 @@ void Level_Update()
 	Player.SnapToGrid();
 	ObjectiveCollision();
 
+	std::cout << Player.velocity.y << "\n";
+
 
 	//std::cout << Player.position.y <<'\n';
-	if (Player.position.x <  (-GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.x >(GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.y < (-GRID_HEIGHT_SIZE * e_binaryMapHeight * 0.5) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
-	{
-		Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
-		Player.velocity.y = 0.0f;
-		Player.velocity.x = 0.0f;
-	}
+	//if (Player.position.x <  (-GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.x >(GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.y < (-GRID_HEIGHT_SIZE * e_binaryMapHeight * 0.5) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
+	//{
+	//	Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
+	//	 = 0.0f;
+	//	Player.velocity.x = 0.0f;
+	//}
 
 	// code that allows the player to get affected by gravity (might need to look back at it to improve)
 
@@ -223,11 +237,11 @@ void Level_Update()
 		//}
 	}
 
-#if DEBUG
-	std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
-	std::cout << "Delta Time: " << e_deltaTime << "\n";
-	std::cout << "Level Time: " << e_levelTime << "\n\n";
-#endif
+//#if DEBUG
+//	std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
+//	std::cout << "Delta Time: " << e_deltaTime << "\n";
+//	std::cout << "Level Time: " << e_levelTime << "\n\n";
+//#endif
 }
 
 // ----------------------------------------------------------------------------

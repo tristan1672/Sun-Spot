@@ -41,12 +41,26 @@ void DynamicObj::LevelCollision(){
 	Y1 = (WINDOW_HEIGHT_OFFSET - position.y - GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 25% Y
 	Y2 = (WINDOW_HEIGHT_OFFSET - position.y + GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 75% Y
 
+	std::cout << "  [" << (X1) << "," << (topY) << "] " << "[" << (X2) << "," << (topY) << "]\n";
+	std::cout << "[" << (leftX) << "," << (Y1) << "]     " << "[" << (rightX) << "," << (Y1) << "]\n";
+	std::cout << "        +\n";
+	std::cout << "[" << (leftX) << "," << (Y2) << "]     " << "[" << (rightX) << "," << (Y2) << "]\n";
+	std::cout << "  [" << (X1) << "," << (btmY) << "] " << "[" << (X2) << "," << (btmY) << "]\n\n";
+
 	// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
 	if (leftX < 0 || rightX > e_binaryMapWidth-1 || topY < 0 || btmY > e_binaryMapHeight-1) {
+		
 		velocity.x = 0.0f;
 		velocity.y = 0.0f;
 		jumpReady = true;
 		position = { playerSpawnPoint.x,playerSpawnPoint.y };
+
+		std::cout << "==================== Reset =====================\n";
+		std::cout << "  [" << (X1) << "," << (topY) << "] " << "[" << (X2) << "," << (topY) << "]\n";
+		std::cout << "[" << (leftX) << "," << (Y1) << "]     " << "[" << (rightX) << "," << (Y1) << "]\n";
+		std::cout << "        +\n";
+		std::cout << "[" << (leftX) << "," << (Y2) << "]     " << "[" << (rightX) << "," << (Y2) << "]\n";
+		std::cout << "  [" << (X1) << "," << (btmY) << "] " << "[" << (X2) << "," << (btmY) << "]\n\n";
 
 	}
 	else {
