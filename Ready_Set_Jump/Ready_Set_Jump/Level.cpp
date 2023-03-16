@@ -33,7 +33,7 @@ Platform** platform;
 GameObject jumpArrow;
 GameObject WinScreen;
 GameObject Cleared;
-std::string fileToLoad;
+std::string fileToLoad{"Assets/Script/Level2.txt"};
 
 float e_deltaTime;
 float e_levelTime;
@@ -66,7 +66,7 @@ void Level_Load()
 {
 	MakeMesh();
 	MakeArrowMesh();
-	MakeCircle();
+	//MakeCircle();
 
 	ptex = AEGfxTextureLoad("Assets/Cleared.png");
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.0f, AE_GFX_RM_TEXTURE);
@@ -77,6 +77,7 @@ void Level_Load()
 	if (!ImportMapDataFromFile(fileToLoad.c_str())) {
 		std::cout << "Level File opened\n";
 	}
+
 }
 // ----------------------------------------------------------------------------
 // This function initialize game object instances
@@ -171,7 +172,7 @@ void Level_Update()
 	{
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
-			Input_Update_Mouse_Pos();
+			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 		}
 		// Shows the direction of the player will initially jump on mouse release
 		if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady) {
@@ -236,7 +237,6 @@ void Level_Update()
 // ----------------------------------------------------------------------------
 void Level_Draw()
 {
-
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 

@@ -39,13 +39,13 @@ void MakeArrowMesh() {
 	// Color parameters represent colours as ARGB
 	// UV coordinates to read from loaded textures
 	AEGfxTriAdd(
-		0.f, 0.f, 0xFFFFFFFF, 0.0f, 1.0f,
-		1.f, 0.f, 0xFFFFFFFF, 1.0f, 1.0f,
-		0.f, 1.f, 0xFFFFFFFF, 0.0f, 0.0f);
+		-0.5f, 0.f, 0xFFFFFFFF, 0.0f, 1.0f,
+		0.5f, 0.f, 0xFFFFFFFF, 1.0f, 1.0f,
+		-0.5f, 1.f, 0xFFFFFFFF, 0.0f, 0.0f);
 	AEGfxTriAdd(
-		1.f, 0.f, 0xFFFFFFFF, 1.0f, 1.0f,
-		1.f, 1.f, 0xFFFFFFFF, 1.0f, 0.0f,
-		0.f, 1.f, 0xFFFFFFFF, 0.0f, 0.0f);
+		0.5f, 0.f, 0xFFFFFFFF, 1.0f, 1.0f,
+		0.5f, 1.f, 0xFFFFFFFF, 1.0f, 0.0f,
+		-0.5f, 1.f, 0xFFFFFFFF, 0.0f, 0.0f);
 	// Saving the mesh (list of triangles) in pMesh
 	arrMesh = AEGfxMeshEnd();
 }

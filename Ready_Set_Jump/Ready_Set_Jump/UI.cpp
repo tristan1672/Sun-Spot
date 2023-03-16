@@ -54,6 +54,7 @@ UIText::UIText(UIText const& toCopy) {
 UIText& UIText::operator=(UIText const& toCopy) {
 	position = toCopy.position; scale = toCopy.scale; colour = toCopy.colour; TextBoxActive = toCopy.TextBoxActive;
 	charcount = toCopy.charcount;
+	delete[] text;
 	text = new char[charcount];
 	snprintf(text, charcount, toCopy.text);
 	TextBox = toCopy.TextBox;
