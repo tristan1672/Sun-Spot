@@ -61,7 +61,28 @@ AEGfxTexture* stickyBlockTexture{ nullptr };
 AEGfxTexture* slimeBlockTexture1{ nullptr };
 AEGfxTexture* slimeBlockTexture2{ nullptr };
 AEGfxTexture* slimeBlockTexture3{ nullptr };
+
 AEGfxTexture* collectibleTexture{ nullptr };
+AEGfxTexture* goalTexture1{ nullptr };
+AEGfxTexture* goalTexture2{ nullptr };
+AEGfxTexture* goalTexture3{ nullptr };
+AEGfxTexture* goalTexture4{ nullptr };
+AEGfxTexture* goalTexture5{ nullptr };
+AEGfxTexture* goalTexture6{ nullptr };
+AEGfxTexture* goalTexture7{ nullptr };
+AEGfxTexture* goalTexture8{ nullptr };
+AEGfxTexture* goalTexture9{ nullptr };
+AEGfxTexture* goalTexture10{ nullptr };
+AEGfxTexture* goalTexture11{ nullptr };
+AEGfxTexture* goalTexture12{ nullptr };
+AEGfxTexture* goalTexture13{ nullptr };
+AEGfxTexture* goalTexture14{ nullptr };
+AEGfxTexture* goalTexture15{ nullptr };
+AEGfxTexture* goalTexture16{ nullptr };
+AEGfxTexture* goalTexture17{ nullptr };
+AEGfxTexture* goalTexture18{ nullptr };
+AEGfxTexture* goalTexture19{ nullptr };
+AEGfxTexture* goalTexture20{ nullptr };
 
 
 int ImportMapDataFromFile(const char* FileName);
@@ -85,6 +106,26 @@ void Level_Load()
 	slimeBlockTexture3 = AEGfxTextureLoad("Assets/Images/Slime_Platform_3.png");
 
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
+	goalTexture1 = AEGfxTextureLoad("Assets/Images/Portal_1.png");
+	goalTexture2 = AEGfxTextureLoad("Assets/Images/Portal_2.png");
+	goalTexture3 = AEGfxTextureLoad("Assets/Images/Portal_3.png");
+	goalTexture4 = AEGfxTextureLoad("Assets/Images/Portal_4.png");
+	goalTexture5 = AEGfxTextureLoad("Assets/Images/Portal_5.png");
+	goalTexture6 = AEGfxTextureLoad("Assets/Images/Portal_6.png");
+	goalTexture7 = AEGfxTextureLoad("Assets/Images/Portal_7.png");
+	goalTexture8 = AEGfxTextureLoad("Assets/Images/Portal_8.png");
+	goalTexture9 = AEGfxTextureLoad("Assets/Images/Portal_9.png");
+	goalTexture10 = AEGfxTextureLoad("Assets/Images/Portal_10.png");
+	goalTexture11 = AEGfxTextureLoad("Assets/Images/Portal_11.png");
+	goalTexture12 = AEGfxTextureLoad("Assets/Images/Portal_12.png");
+	goalTexture13 = AEGfxTextureLoad("Assets/Images/Portal_13.png");
+	goalTexture14 = AEGfxTextureLoad("Assets/Images/Portal_14.png");
+	goalTexture15 = AEGfxTextureLoad("Assets/Images/Portal_15.png");
+	goalTexture16 = AEGfxTextureLoad("Assets/Images/Portal_16.png");
+	goalTexture17 = AEGfxTextureLoad("Assets/Images/Portal_17.png");
+	goalTexture18 = AEGfxTextureLoad("Assets/Images/Portal_18.png");
+	goalTexture19 = AEGfxTextureLoad("Assets/Images/Portal_19.png");
+	goalTexture20 = AEGfxTextureLoad("Assets/Images/Portal_20.png");
 
 
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
@@ -146,7 +187,7 @@ void Level_Initialize()
 			case STICKY_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 1.f,0.98f,0.63f,1.f });
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(stickyBlockTexture);
 				break;
@@ -154,7 +195,7 @@ void Level_Initialize()
 			case SLIME_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE }, { 0.19f,0.8f,0.19f,1.f });
+					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
@@ -166,7 +207,6 @@ void Level_Initialize()
 				else {
 					platform[i][j].SetTexture(slimeBlockTexture2);
 				}
-				
 				break;
 
 			case COLLECTIBLES:
@@ -182,11 +222,15 @@ void Level_Initialize()
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 1.f, 0.65f, 0.f,1.f });
 				break;
+
 			case GOAL:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 0.9f, 0.2f, 0.2f,1.f });
+					{ GOAL_SIZE_X, GOAL_SIZE_Y });
+				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
+				platform[i][j].SetTexture(goalTexture1);
 				break;
+
 			default:
 				break;
 			}
@@ -285,11 +329,103 @@ void Level_Update()
 		//}
 	}
 
-//#if DEBUG
-//	std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
-//	std::cout << "Delta Time: " << e_deltaTime << "\n";
-//	std::cout << "Level Time: " << e_levelTime << "\n\n";
-//#endif
+	for (int i = 0; i < e_binaryMapHeight; i++) {
+		for (int j = 0; j < e_binaryMapWidth; j++) {
+			if (platform[i][j].GetPlatformType() == GOAL)
+			{
+				int frame = static_cast<int>(e_levelTime) % 20;
+				switch (frame) {
+				case 0:
+					platform[i][j].SetTexture(goalTexture1);
+					break;
+
+				case 1:
+					platform[i][j].SetTexture(goalTexture2);
+					break;
+
+				case 2:
+					platform[i][j].SetTexture(goalTexture3);
+					break;
+
+				case 3:
+					platform[i][j].SetTexture(goalTexture4);
+					break;
+
+				case 4:
+					platform[i][j].SetTexture(goalTexture5);
+					break;
+
+				case 5:
+					platform[i][j].SetTexture(goalTexture6);
+					break;
+
+				case 6:
+					platform[i][j].SetTexture(goalTexture7);
+					break;
+
+				case 7:
+					platform[i][j].SetTexture(goalTexture8);
+					break;
+
+				case 8:
+					platform[i][j].SetTexture(goalTexture9);
+					break;
+
+				case 9:
+					platform[i][j].SetTexture(goalTexture10);
+					break;
+
+				case 10:
+					platform[i][j].SetTexture(goalTexture11);
+					break;
+
+				case 11:
+					platform[i][j].SetTexture(goalTexture12);
+					break;
+
+				case 12:
+					platform[i][j].SetTexture(goalTexture13);
+					break;
+
+				case 13:
+					platform[i][j].SetTexture(goalTexture14);
+					break;
+
+				case 14:
+					platform[i][j].SetTexture(goalTexture15);
+					break;
+
+				case 15:
+					platform[i][j].SetTexture(goalTexture16);
+					break;
+
+				case 16:
+					platform[i][j].SetTexture(goalTexture17);
+					break;
+
+				case 17:
+					platform[i][j].SetTexture(goalTexture18);
+					break;
+
+				case 18:
+					platform[i][j].SetTexture(goalTexture19);
+					break;
+
+				case 19:
+					platform[i][j].SetTexture(goalTexture20);
+					break;
+				}
+			}
+		}
+	}
+
+
+
+#if DEBUG
+	std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
+	std::cout << "Delta Time: " << e_deltaTime << "\n";
+	std::cout << "Level Time: " << e_levelTime << "\n\n";
+#endif
 }
 
 // ----------------------------------------------------------------------------
@@ -363,6 +499,30 @@ void Level_Unload()
 	AEGfxTextureUnload(slimeBlockTexture1);
 	AEGfxTextureUnload(slimeBlockTexture2);
 	AEGfxTextureUnload(slimeBlockTexture3);
+
+	AEGfxTextureUnload(collectibleTexture);
+	AEGfxTextureUnload(goalTexture1);
+	AEGfxTextureUnload(goalTexture2);
+	AEGfxTextureUnload(goalTexture3);
+	AEGfxTextureUnload(goalTexture4);
+	AEGfxTextureUnload(goalTexture5);
+	AEGfxTextureUnload(goalTexture6);
+	AEGfxTextureUnload(goalTexture7);
+	AEGfxTextureUnload(goalTexture8);
+	AEGfxTextureUnload(goalTexture9);
+	AEGfxTextureUnload(goalTexture10);
+	AEGfxTextureUnload(goalTexture11);
+	AEGfxTextureUnload(goalTexture12);
+	AEGfxTextureUnload(goalTexture13);
+	AEGfxTextureUnload(goalTexture14);
+	AEGfxTextureUnload(goalTexture15);
+	AEGfxTextureUnload(goalTexture16);
+	AEGfxTextureUnload(goalTexture17);
+	AEGfxTextureUnload(goalTexture18);
+	AEGfxTextureUnload(goalTexture19);
+	AEGfxTextureUnload(goalTexture20);
+
+
 
 	AEGfxMeshFree(pMesh);
 	AEGfxMeshFree(arrMesh);

@@ -14,7 +14,7 @@ const float PLAYER_SIZE_X = 30.0f;
 const float PLAYER_SIZE_Y = 30.0f;
 // Goal
 const float GOAL_SIZE_X = 30.0f;
-const float GOAL_SIZE_Y = 30.0f;
+const float GOAL_SIZE_Y = 45.0f;
 // collectible
 const float collectible_SIZE_X = 30.0f;
 const float collectible_SIZE_Y = 30.0f;
