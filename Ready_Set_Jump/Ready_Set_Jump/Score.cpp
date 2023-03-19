@@ -20,7 +20,7 @@
 /***********************************************************************************************************************/
 struct Score timer;
 struct Score jump;
-struct Score collectable;
+struct Score collectible;
 /***********************************************************************************************************************/
 
 /*!****************************************************************************
@@ -45,9 +45,9 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	char jumpscore[25];
 	char jumpgrade[2];
 	char jumpcount[10];
-	char collectablescore[25];
-	char collectablegrade[2];
-	char collectablecount[25];
+	char COLLECTIBLEScore[25];
+	char collectiblegrade[2];
+	char collectiblecount[25];
 	jump.count = JUMP_COUNT;
 
 
@@ -84,7 +84,7 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	}
 
 	//Score Calculation 
-	collectable.score	= calculateScore(e_numOfCollectableCollected, e_totalNumOfCollectable, e_totalNumOfCollectable * 1000.0f);
+	collectible.score	= calculateScore(e_numOfcollectibleCollected, e_totalNumOfcollectible, e_totalNumOfcollectible * 1000.0f);
 	timer.score			= calculateScore(e_levelTime, timer.F, 10000.0f, true);
 	jump.score			= calculateScore(jump.count, jump.F, 10000.0f, true);
 
@@ -95,9 +95,9 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	scoreAnimations();
 
 	//Store variables to string buffer
-	snprintf(collectablegrade, sizeof collectablegrade, "%c",						collectable.grade);
-	snprintf(collectablescore, sizeof collectablescore, "collectable score: %d",	collectable.score);
-	snprintf(collectablecount, sizeof collectablecount, "collected: %d/%d",			e_numOfCollectableCollected, e_totalNumOfCollectable);
+	snprintf(collectiblegrade, sizeof collectiblegrade, "%c",						collectible.grade);
+	snprintf(COLLECTIBLEScore, sizeof COLLECTIBLEScore, "collectible score: %d",	collectible.score);
+	snprintf(collectiblecount, sizeof collectiblecount, "collected: %d/%d",			e_numOfcollectibleCollected, e_totalNumOfcollectible);
 	snprintf(timercount,	   sizeof timercount,		"time taken: ");
 	snprintf(timergrade,	   sizeof timergrade,		"%c",						timer.grade);
 	snprintf(timerscore,       sizeof timerscore,		"time score: %d",			timer.scoreDisplay);
@@ -106,9 +106,9 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	snprintf(jumpcount ,	   sizeof jumpcount,		"jumps: %d",				jump.countDisplay);
 
 	//Print string buffer 
-	AEGfxPrint(e_fontID, collectablescore, collectable.score_pos.x, collectable.score_pos.y, 0.7f, 1.0f, 1.0f, 1.0f);
-	AEGfxPrint(e_fontID, collectablegrade, collectable.grade_pos.x, collectable.grade_pos.y, 3.0f, collectable.red, collectable.green, collectable.blue);
-	AEGfxPrint(e_fontID, collectablecount, collectable.count_pos.x, collectable.count_pos.y, 0.7f, 1.0f, 1.0f, 1.0f);
+	AEGfxPrint(e_fontID, COLLECTIBLEScore, collectible.score_pos.x, collectible.score_pos.y, 0.7f, 1.0f, 1.0f, 1.0f);
+	AEGfxPrint(e_fontID, collectiblegrade, collectible.grade_pos.x, collectible.grade_pos.y, 3.0f, collectible.red, collectible.green, collectible.blue);
+	AEGfxPrint(e_fontID, collectiblecount, collectible.count_pos.x, collectible.count_pos.y, 0.7f, 1.0f, 1.0f, 1.0f);
 	AEGfxPrint(e_fontID, timerscore,	   timer.score_pos.x,		timer.score_pos.y,		 0.7f, 1.0f, 1.0f, 1.0f);
 	AEGfxPrint(e_fontID, timergrade,	   timer.grade_pos.x,		timer.grade_pos.y,		 3.0f, timer.red, timer.green, timer.blue);
 	AEGfxPrint(e_fontID, timercount,	   timer.count_pos.x,		timer.count_pos.y,		 0.7f, 1.0f, 1.0f, 1.0f);
@@ -268,49 +268,49 @@ void calculateGrades()
 		jump.blue = 0.0f;
 	}
 
-//Collectables Grade Evaluation
-	float collectablePercent = static_cast<float>(e_numOfCollectableCollected) / static_cast<float>(e_totalNumOfCollectable);
-	if (collectablePercent > 0.8f)
+//COLLECTIBLES Grade Evaluation
+	float collectiblePercent = static_cast<float>(e_numOfcollectibleCollected) / static_cast<float>(e_totalNumOfcollectible);
+	if (collectiblePercent > 0.8f)
 	{
-		collectable.grade = 'S';
-		collectable.red = 1.0f;
-		collectable.green = 0.4f;
-		collectable.blue = 0.0f;
+		collectible.grade = 'S';
+		collectible.red = 1.0f;
+		collectible.green = 0.4f;
+		collectible.blue = 0.0f;
 	}
-	else if (collectablePercent > 0.6f && collectablePercent <= 0.8f)
+	else if (collectiblePercent > 0.6f && collectiblePercent <= 0.8f)
 	{
-		collectable.grade = 'A';
-		collectable.red = 1.0f;
-		collectable.green = 0.0f;
-		collectable.blue = 0.0f;
+		collectible.grade = 'A';
+		collectible.red = 1.0f;
+		collectible.green = 0.0f;
+		collectible.blue = 0.0f;
 	}
-	else if (collectablePercent > 0.4f && collectablePercent <= 0.6f)
+	else if (collectiblePercent > 0.4f && collectiblePercent <= 0.6f)
 	{
-		collectable.grade = 'B';
-		collectable.red = 0.4f;
-		collectable.green = 1.0f;
-		collectable.blue = 0.4f;
+		collectible.grade = 'B';
+		collectible.red = 0.4f;
+		collectible.green = 1.0f;
+		collectible.blue = 0.4f;
 	}
-	else if (collectablePercent > 0.2f && collectablePercent <= 0.4f)
+	else if (collectiblePercent > 0.2f && collectiblePercent <= 0.4f)
 	{
-		collectable.grade = 'C';
-		collectable.red = 1.0f;
-		collectable.green = 1.0f;
-		collectable.blue = 0.6f;
+		collectible.grade = 'C';
+		collectible.red = 1.0f;
+		collectible.green = 1.0f;
+		collectible.blue = 0.6f;
 	}
-	else if (collectablePercent == 0.0f)
+	else if (collectiblePercent == 0.0f)
 	{
-		collectable.grade = 'F';
-		collectable.red = 0.25f;
-		collectable.green = 0.25f;
-		collectable.blue = 0.25f;
+		collectible.grade = 'F';
+		collectible.red = 0.25f;
+		collectible.green = 0.25f;
+		collectible.blue = 0.25f;
 	}
 	else 
 	{
-		collectable.grade = 'D';
-		collectable.red = 0.25f;
-		collectable.green = 0.25f;
-		collectable.blue = 0.0f;
+		collectible.grade = 'D';
+		collectible.red = 0.25f;
+		collectible.green = 0.25f;
+		collectible.blue = 0.0f;
 	}
 }
 
@@ -328,7 +328,7 @@ void scoreAnimations()
 //*******************************************************************************
 	//timer.scoreDisplay			= 0;
 	//jump.scoreDisplay			= 0;
-	//collectable.scoreDisplay	= 0;
+	//collectible.scoreDisplay	= 0;
 
 	if (timer.scoreDisplay < timer.score) //Timer Score Counting Animation
 	{
@@ -345,9 +345,9 @@ void scoreAnimations()
 		jump.countDisplay += 100 * e_deltaTime;
 	}
 
-	if (collectable.scoreDisplay < collectable.score) //Collectable Score Counting Animation
+	if (collectible.scoreDisplay < collectible.score) //collectible Score Counting Animation
 	{
-		collectable.scoreDisplay += 3000 * e_deltaTime;
+		collectible.scoreDisplay += 3000 * e_deltaTime;
 	}
 //*******************************************************************************
 
@@ -385,26 +385,26 @@ void scoreAnimations()
 		jump.count_pos.x += 2 * e_deltaTime;
 	}
 
-	if (collectable.score_pos.x < -0.4f) //Collectable Score Sliding Animation
+	if (collectible.score_pos.x < -0.4f) //collectible Score Sliding Animation
 	{
-		collectable.score_pos.x += e_deltaTime;
+		collectible.score_pos.x += e_deltaTime;
 	}
 
-	if (collectable.grade_pos.x < 0.4f) //Collectable Grade Sliding Animation
+	if (collectible.grade_pos.x < 0.4f) //collectible Grade Sliding Animation
 	{
-		collectable.grade_pos.x += 2 * e_deltaTime;
+		collectible.grade_pos.x += 2 * e_deltaTime;
 	}
 
-	if (collectable.count_pos.x < -0.4f) //Collectable Count Sliding Animation
+	if (collectible.count_pos.x < -0.4f) //collectible Count Sliding Animation
 	{
-		collectable.count_pos.x += e_deltaTime;
+		collectible.count_pos.x += e_deltaTime;
 	}
 
 	if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip all Animations
 	{
 		timer.scoreDisplay			= timer.score;
 		jump.scoreDisplay			= jump.score;
-		collectable.scoreDisplay	= collectable.score;
+		collectible.scoreDisplay	= collectible.score;
 
 		timer.grade_pos.x			= -0.175f;
 		timer.score_pos.x			= -0.9f;
@@ -414,9 +414,9 @@ void scoreAnimations()
 		jump.score_pos.x			= 0.125f;
 		jump.count_pos.x			= 0.12f;
 
-		collectable.score_pos.x		= -0.4f;
-		collectable.grade_pos.x		=  0.4f;
-		collectable.count_pos.x		= -0.4f;
+		collectible.score_pos.x		= -0.4f;
+		collectible.grade_pos.x		=  0.4f;
+		collectible.count_pos.x		= -0.4f;
 	}
 //*******************************************************************************
 }
@@ -436,7 +436,7 @@ void scoreInitialize()
 	jump			= { -1.0f, -0.05f, -1.0f, -0.2f , -1.0f,  -0.2f,
 						 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 						 0, 0, 0, 0, '0' };
-	collectable		= { -1.0f, -0.4f , -1.0f, -0.55f, -1.0f,  -0.55f,
+	collectible		= { -1.0f, -0.4f , -1.0f, -0.55f, -1.0f,  -0.55f,
 						 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 						 0, 0, 0, 0, '0' };
 }

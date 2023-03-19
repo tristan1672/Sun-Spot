@@ -43,7 +43,7 @@ Vector2D playerSpawnPoint;
 int** e_levelGrid;
 int e_binaryMapWidth;
 int e_binaryMapHeight;
-int e_totalNumOfCollectable;
+int e_totalNumOfcollectible;
 
 int level1_state;
 int level1_difficulty;
@@ -61,6 +61,7 @@ AEGfxTexture* stickyBlockTexture{ nullptr };
 AEGfxTexture* slimeBlockTexture1{ nullptr };
 AEGfxTexture* slimeBlockTexture2{ nullptr };
 AEGfxTexture* slimeBlockTexture3{ nullptr };
+AEGfxTexture* collectibleTexture{ nullptr };
 
 
 int ImportMapDataFromFile(const char* FileName);
@@ -82,6 +83,8 @@ void Level_Load()
 	slimeBlockTexture1 = AEGfxTextureLoad("Assets/Images/Slime_Platform_1.png");
 	slimeBlockTexture2 = AEGfxTextureLoad("Assets/Images/Slime_Platform_2.png");
 	slimeBlockTexture3 = AEGfxTextureLoad("Assets/Images/Slime_Platform_3.png");
+
+	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
 
 
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
@@ -110,11 +113,11 @@ void Level_Initialize()
 	level1_state = PLAYING;
 	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
-	e_numOfCollectableCollected = 0;
+	e_numOfcollectibleCollected = 0;
 	scoreInitialize();
 
 #if DEBUG
-	std::cout << "Total number of collectables: " << e_totalNumOfCollectable << "\n";
+	std::cout << "Total number of COLLECTIBLES: " << e_totalNumOfcollectible << "\n";
 #endif
 
 	// sets the array with informations needed for the platform's property
@@ -166,10 +169,12 @@ void Level_Initialize()
 				
 				break;
 
-			case COLLECTABLES:
+			case COLLECTIBLES:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ COLLECTABLE_SIZE_X, COLLECTABLE_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f }, 0, AE_GFX_RM_COLOR, circleMesh);
+					{ collectible_SIZE_X, collectible_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f }, 0, AE_GFX_RM_COLOR, circleMesh);
+				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
+				platform[i][j].SetTexture(collectibleTexture);
 				break;
 
 			case CHECKPOINT:
@@ -412,7 +417,7 @@ int ImportMapDataFromFile(const char* FileName) {
 		if (character >= '0' && character <= '9')
 		{
 			if (character == '9') {
-				++e_totalNumOfCollectable;
+				++e_totalNumOfcollectible;
 			}
 
 			platform[i][j].SetPlatformType(static_cast<int>(character) - '0');

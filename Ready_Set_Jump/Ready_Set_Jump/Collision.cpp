@@ -23,7 +23,7 @@
 
 // ---------------------------------------------------------------------------
 // External Variables
-int e_numOfCollectableCollected;
+int e_numOfcollectibleCollected;
 // --------------------------------------------------------------------------- // End of external variables
 
 // ----------------------------------------------------------------------------
@@ -161,7 +161,7 @@ void DynamicObj::SnapToGrid() {
 
 // ----------------------------------------------------------------------------
 // Checks for player collision against objects that dont require have seperate width and height,
-// such as collectables and goal(exit point)
+// such as COLLECTIBLES and goal(exit point)
 // ----------------------------------------------------------------------------
 void ObjectiveCollision() { // COMBINE IF GOT TIME
 	// Player hotspots
@@ -210,24 +210,24 @@ void ObjectiveCollision() { // COMBINE IF GOT TIME
 				}
 			}
 
-			if (platform[i][j].GetPlatformType() == COLLECTABLES) {
-				float collectableTopY = WINDOW_HEIGHT_OFFSET - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - COLLECTABLE_SIZE_Y) / 2.0f;
-				float collectableBtmY = WINDOW_HEIGHT_OFFSET - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - COLLECTABLE_SIZE_Y) / 2.0f;
-				float collectableLeftX = -WINDOW_WIDTH_OFFSET + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - COLLECTABLE_SIZE_X) / 2;
-				float collectableRightX = -WINDOW_WIDTH_OFFSET + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - COLLECTABLE_SIZE_X) / 2.0f;
+			if (platform[i][j].GetPlatformType() == COLLECTIBLES) {
+				float collectibleTopY = WINDOW_HEIGHT_OFFSET - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - collectible_SIZE_Y) / 2.0f;
+				float collectibleBtmY = WINDOW_HEIGHT_OFFSET - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - collectible_SIZE_Y) / 2.0f;
+				float collectibleLeftX = -WINDOW_WIDTH_OFFSET + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - collectible_SIZE_X) / 2;
+				float collectibleRightX = -WINDOW_WIDTH_OFFSET + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - collectible_SIZE_X) / 2.0f;
 
-				// If player x position is within the collectable
-				if (playerHsX1 > collectableLeftX && playerLeftX < collectableRightX || playerHsX2 < collectableRightX && playerRightX > collectableLeftX) {
-					// If player y position is within the collectable
-					if (playerHsY1 > collectableBtmY && playerTopY < collectableTopY || playerHsY2 > collectableBtmY && playerBtmY < collectableTopY) {
+				// If player x position is within the collectible
+				if (playerHsX1 > collectibleLeftX && playerLeftX < collectibleRightX || playerHsX2 < collectibleRightX && playerRightX > collectibleLeftX) {
+					// If player y position is within the collectible
+					if (playerHsY1 > collectibleBtmY && playerTopY < collectibleTopY || playerHsY2 > collectibleBtmY && playerBtmY < collectibleTopY) {
 						platform[i][j].SetPlatformType(EMPTY_SPACE);
 
-						++e_numOfCollectableCollected;
+						++e_numOfcollectibleCollected;
 
 
 #if DEBUG
 						std::cout << "Collision with a collectible \n";
-						std::cout << "Collectable Left: " << e_totalNumOfCollectable - e_numOfCollectableCollected << "\n";
+						std::cout << "collectible Left: " << e_totalNumOfcollectible - e_numOfcollectibleCollected << "\n";
 						
 #endif
 					}

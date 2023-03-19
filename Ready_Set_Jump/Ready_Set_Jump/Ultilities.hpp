@@ -15,7 +15,7 @@
 // ---------------------------------------------------------------------------
 // Enumerations
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
-enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, SLIME_BLOCK, GOAL = 7, CHECKPOINT ,COLLECTABLES};
+enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, SLIME_BLOCK, GOAL = 7, CHECKPOINT ,COLLECTIBLES};
 enum { PAUSED, PLAYING , WIN ,};
 enum { EASY, MEDIUM, HARD};
 // --------------------------------------------------------------------------- // End of enumerations
@@ -50,7 +50,7 @@ extern Vector2D playerSpawnPoint;
 extern int level1_state;
 extern int** e_levelGrid;
 extern int e_binaryMapWidth, e_binaryMapHeight;
-extern int e_totalNumOfCollectable, e_numOfCollectableCollected;
+extern int e_totalNumOfcollectible, e_numOfcollectibleCollected;
 
 // Camera
 extern short e_shakeStrength;
