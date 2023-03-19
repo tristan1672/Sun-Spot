@@ -205,15 +205,16 @@ void Level_Initialize()
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-				if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
-					platform[i][j].SetTexture(slimeBlockTexture1);
-				}
-				else if(platform[i][j+1].GetPlatformType() != SLIME_BLOCK) {
-					platform[i][j].SetTexture(slimeBlockTexture3);
-				}
-				else {
+				if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK && platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
 					platform[i][j].SetTexture(slimeBlockTexture2);
 				}
+				else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
+					platform[i][j].SetTexture(slimeBlockTexture1);
+				}
+				else {
+					platform[i][j].SetTexture(slimeBlockTexture3);
+				}
+
 				break;
 
 			case COLLECTIBLES:
@@ -336,128 +337,8 @@ void Level_Update()
 		//}
 	}
 
-	for (int i = 0; i < e_binaryMapHeight; i++) {
-		for (int j = 0; j < e_binaryMapWidth; j++) {
 
-			if (platform[i][j].GetPlatformType() == SLIME_BLOCK) {
-				int frame = frameCounter % 30;
-				switch (frame) {
-				case 0:
-					if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
-						platform[i][j].SetTexture(slimeBlockTexture1);
-					}
-					else if (platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
-						platform[i][j].SetTexture(slimeBlockTexture3);
-					}
-					else {
-						platform[i][j].SetTexture(slimeBlockTexture2);
-					}
-					break;
-
-				case 15:
-					if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
-						platform[i][j].SetTexture(slimeBlockTextureFlipped3);
-					}
-					else if (platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
-						platform[i][j].SetTexture(slimeBlockTextureFlipped1);
-					}
-					else {
-						platform[i][j].SetTexture(slimeBlockTextureFlipped2);
-					}
-					break;
-				}
-			}
-
-
-
-
-			if (platform[i][j].GetPlatformType() == GOAL) {
-				int frame = frameCounter % 20;
-				switch (frame) {
-				case 0:
-					platform[i][j].SetTexture(goalTexture1);
-					break;
-
-				case 1:
-					platform[i][j].SetTexture(goalTexture2);
-					break;
-
-				case 2:
-					platform[i][j].SetTexture(goalTexture3);
-					break;
-
-				case 3:
-					platform[i][j].SetTexture(goalTexture4);
-					break;
-
-				case 4:
-					platform[i][j].SetTexture(goalTexture5);
-					break;
-
-				case 5:
-					platform[i][j].SetTexture(goalTexture6);
-					break;
-
-				case 6:
-					platform[i][j].SetTexture(goalTexture7);
-					break;
-
-				case 7:
-					platform[i][j].SetTexture(goalTexture8);
-					break;
-
-				case 8:
-					platform[i][j].SetTexture(goalTexture9);
-					break;
-
-				case 9:
-					platform[i][j].SetTexture(goalTexture10);
-					break;
-
-				case 10:
-					platform[i][j].SetTexture(goalTexture11);
-					break;
-
-				case 11:
-					platform[i][j].SetTexture(goalTexture12);
-					break;
-
-				case 12:
-					platform[i][j].SetTexture(goalTexture13);
-					break;
-
-				case 13:
-					platform[i][j].SetTexture(goalTexture14);
-					break;
-
-				case 14:
-					platform[i][j].SetTexture(goalTexture15);
-					break;
-
-				case 15:
-					platform[i][j].SetTexture(goalTexture16);
-					break;
-
-				case 16:
-					platform[i][j].SetTexture(goalTexture17);
-					break;
-
-				case 17:
-					platform[i][j].SetTexture(goalTexture18);
-					break;
-
-				case 18:
-					platform[i][j].SetTexture(goalTexture19);
-					break;
-
-				case 19:
-					platform[i][j].SetTexture(goalTexture20);
-					break;
-				}
-			}
-		}
-	}
-
+	PlatformAnimationUpdate();
 	++frameCounter;
 
 
@@ -644,4 +525,125 @@ int ImportMapDataFromFile(const char* FileName) {
 
 	levelMap.close();
 	return 1;
+}
+
+void PlatformAnimationUpdate(void) {
+	for (int i = 0; i < e_binaryMapHeight; i++) {
+		for (int j = 0; j < e_binaryMapWidth; j++) {
+
+			if (platform[i][j].GetPlatformType() == SLIME_BLOCK) {
+				int frame = frameCounter % 30;
+				switch (frame) {
+				case 0:
+					if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK && platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
+						platform[i][j].SetTexture(slimeBlockTexture2);
+					}
+					else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
+						platform[i][j].SetTexture(slimeBlockTexture1);
+					}
+					else {
+						platform[i][j].SetTexture(slimeBlockTexture3);
+					}
+					break;
+
+				case 15:
+					if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK && platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
+						platform[i][j].SetTexture(slimeBlockTextureFlipped2);
+					}
+					else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
+						platform[i][j].SetTexture(slimeBlockTextureFlipped3);
+					}
+					else {
+						platform[i][j].SetTexture(slimeBlockTextureFlipped1);
+					}
+					break;
+				}
+			}
+
+			if (platform[i][j].GetPlatformType() == GOAL) {
+				int frame = frameCounter % 20;
+				switch (frame) {
+				case 0:
+					platform[i][j].SetTexture(goalTexture1);
+					break;
+
+				case 1:
+					platform[i][j].SetTexture(goalTexture2);
+					break;
+
+				case 2:
+					platform[i][j].SetTexture(goalTexture3);
+					break;
+
+				case 3:
+					platform[i][j].SetTexture(goalTexture4);
+					break;
+
+				case 4:
+					platform[i][j].SetTexture(goalTexture5);
+					break;
+
+				case 5:
+					platform[i][j].SetTexture(goalTexture6);
+					break;
+
+				case 6:
+					platform[i][j].SetTexture(goalTexture7);
+					break;
+
+				case 7:
+					platform[i][j].SetTexture(goalTexture8);
+					break;
+
+				case 8:
+					platform[i][j].SetTexture(goalTexture9);
+					break;
+
+				case 9:
+					platform[i][j].SetTexture(goalTexture10);
+					break;
+
+				case 10:
+					platform[i][j].SetTexture(goalTexture11);
+					break;
+
+				case 11:
+					platform[i][j].SetTexture(goalTexture12);
+					break;
+
+				case 12:
+					platform[i][j].SetTexture(goalTexture13);
+					break;
+
+				case 13:
+					platform[i][j].SetTexture(goalTexture14);
+					break;
+
+				case 14:
+					platform[i][j].SetTexture(goalTexture15);
+					break;
+
+				case 15:
+					platform[i][j].SetTexture(goalTexture16);
+					break;
+
+				case 16:
+					platform[i][j].SetTexture(goalTexture17);
+					break;
+
+				case 17:
+					platform[i][j].SetTexture(goalTexture18);
+					break;
+
+				case 18:
+					platform[i][j].SetTexture(goalTexture19);
+					break;
+
+				case 19:
+					platform[i][j].SetTexture(goalTexture20);
+					break;
+				}
+			}
+		}
+	}
 }

@@ -30,3 +30,5 @@ void Level_Free();
 void Level_Unload();
 
 int ImportMapDataFromFile(char* FileName);
+
+void PlatformAnimationUpdate(void);
