@@ -37,6 +37,7 @@ std::string fileToLoad{"Assets/Script/Level2.txt"};
 
 float e_deltaTime;
 float e_levelTime;
+static int frameCounter;
 
 Vector2D playerSpawnPoint;
 
@@ -333,7 +334,7 @@ void Level_Update()
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 			if (platform[i][j].GetPlatformType() == GOAL)
 			{
-				int frame = static_cast<int>(e_levelTime) % 20;
+				int frame = frameCounter % 20;
 				switch (frame) {
 				case 0:
 					platform[i][j].SetTexture(goalTexture1);
@@ -418,6 +419,8 @@ void Level_Update()
 			}
 		}
 	}
+
+	++frameCounter;
 
 
 
