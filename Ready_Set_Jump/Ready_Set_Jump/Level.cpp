@@ -62,6 +62,9 @@ AEGfxTexture* stickyBlockTexture{ nullptr };
 AEGfxTexture* slimeBlockTexture1{ nullptr };
 AEGfxTexture* slimeBlockTexture2{ nullptr };
 AEGfxTexture* slimeBlockTexture3{ nullptr };
+AEGfxTexture* slimeBlockTextureFlipped1{ nullptr };
+AEGfxTexture* slimeBlockTextureFlipped2{ nullptr };
+AEGfxTexture* slimeBlockTextureFlipped3{ nullptr };
 
 AEGfxTexture* collectibleTexture{ nullptr };
 AEGfxTexture* goalTexture1{ nullptr };
@@ -105,6 +108,9 @@ void Level_Load()
 	slimeBlockTexture1 = AEGfxTextureLoad("Assets/Images/Slime_Platform_1.png");
 	slimeBlockTexture2 = AEGfxTextureLoad("Assets/Images/Slime_Platform_2.png");
 	slimeBlockTexture3 = AEGfxTextureLoad("Assets/Images/Slime_Platform_3.png");
+	slimeBlockTextureFlipped1 = AEGfxTextureLoad("Assets/Images/Slime_Platform_1(Flipped).png");
+	slimeBlockTextureFlipped2 = AEGfxTextureLoad("Assets/Images/Slime_Platform_2(Flipped).png");
+	slimeBlockTextureFlipped3 = AEGfxTextureLoad("Assets/Images/Slime_Platform_3(Flipped).png");
 
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
 	goalTexture1 = AEGfxTextureLoad("Assets/Images/Portal_1.png");
@@ -332,8 +338,40 @@ void Level_Update()
 
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
-			if (platform[i][j].GetPlatformType() == GOAL)
-			{
+
+			if (platform[i][j].GetPlatformType() == SLIME_BLOCK) {
+				int frame = frameCounter % 30;
+				switch (frame) {
+				case 0:
+					if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
+						platform[i][j].SetTexture(slimeBlockTexture1);
+					}
+					else if (platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
+						platform[i][j].SetTexture(slimeBlockTexture3);
+					}
+					else {
+						platform[i][j].SetTexture(slimeBlockTexture2);
+					}
+					break;
+
+				case 15:
+					if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
+						platform[i][j].SetTexture(slimeBlockTextureFlipped3);
+					}
+					else if (platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
+						platform[i][j].SetTexture(slimeBlockTextureFlipped1);
+					}
+					else {
+						platform[i][j].SetTexture(slimeBlockTextureFlipped2);
+					}
+					break;
+				}
+			}
+
+
+
+
+			if (platform[i][j].GetPlatformType() == GOAL) {
 				int frame = frameCounter % 20;
 				switch (frame) {
 				case 0:
