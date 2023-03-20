@@ -421,6 +421,9 @@ void Level_Unload()
 	AEGfxTextureUnload(slimeBlockTexture1);
 	AEGfxTextureUnload(slimeBlockTexture2);
 	AEGfxTextureUnload(slimeBlockTexture3);
+	AEGfxTextureUnload(slimeBlockTextureFlipped1);
+	AEGfxTextureUnload(slimeBlockTextureFlipped2);
+	AEGfxTextureUnload(slimeBlockTextureFlipped3);
 
 	AEGfxTextureUnload(collectibleTexture);
 	AEGfxTextureUnload(goalTexture1);
