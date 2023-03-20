@@ -41,22 +41,17 @@ void DynamicObj::LevelCollision(){
 	Y1 = (WINDOW_HEIGHT_OFFSET - position.y - GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 25% Y
 	Y2 = (WINDOW_HEIGHT_OFFSET - position.y + GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 75% Y
 
-	//std::cout << "  [" << (X1) << "," << (topY) << "] " << "[" << (X2) << "," << (topY) << "]\n";
-	//std::cout << "[" << (leftX) << "," << (Y1) << "]     " << "[" << (rightX) << "," << (Y1) << "]\n";
-	//std::cout << "        +\n";
-	//std::cout << "[" << (leftX) << "," << (Y2) << "]     " << "[" << (rightX) << "," << (Y2) << "]\n";
-	//std::cout << "  [" << (X1) << "," << (btmY) << "] " << "[" << (X2) << "," << (btmY) << "]\n\n";
-
 	// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
 	if (leftX < 0 || rightX > e_binaryMapWidth || topY < 0 || btmY > e_binaryMapHeight) {
 		
-
+#if DEBUG
 		std::cout << "==================== Reset =====================\n";
 		std::cout << "  [" << (X1) << "," << (topY) << "] " << "[" << (X2) << "," << (topY) << "]\n";
 		std::cout << "[" << (leftX) << "," << (Y1) << "]     " << "[" << (rightX) << "," << (Y1) << "]\n";
 		std::cout << "        +\n";
 		std::cout << "[" << (leftX) << "," << (Y2) << "]     " << "[" << (rightX) << "," << (Y2) << "]\n";
 		std::cout << "  [" << (X1) << "," << (btmY) << "] " << "[" << (X2) << "," << (btmY) << "]\n\n";
+#endif
 
 
 		velocity.x = 0.0f;
@@ -86,7 +81,7 @@ void DynamicObj::LevelCollision(){
 			|| platform[static_cast<int>(btmY)][static_cast<int>(X2)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(btmY)][static_cast<int>(X2)].GetPlatformType() < GOAL) {
 			collisionFlag |= COLLISION_BOTTOM;
 
-			std::cout << "Btm collided, Coordinates\n";
+			std::cout << "Btm collided Jump ready: " << jumpReady << "\n";
 
 #if DEBUG		
 			if (Player.jumpReady == false) {
@@ -102,7 +97,8 @@ void DynamicObj::LevelCollision(){
 		}
 
 		// Right collided
-		if (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetPlatformType() < GOAL) {
+		if (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetPlatformType() < GOAL
+			|| platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() < GOAL) {
 			collisionFlag |= COLLISION_RIGHT;
 #if DEBUG
 				std::cout << "Right collided, Coordinates\n";
@@ -115,7 +111,8 @@ void DynamicObj::LevelCollision(){
 		}
 
 		// Left collided
-		if (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetPlatformType() < GOAL) {
+		if (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetPlatformType() < GOAL
+			|| platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() < GOAL) {
 			collisionFlag |= COLLISION_LEFT;
 
 #if DEBUG
@@ -148,6 +145,7 @@ void DynamicObj::SnapToGrid() {
 
 	if (collisionFlag & COLLISION_BOTTOM) {
 		position.y = WINDOW_HEIGHT_OFFSET - static_cast<int>(btmY) * GRID_HEIGHT_SIZE + (PLAYER_SIZE_Y / 2.0f);
+		std::cout << "Y Pos = " << position.y << "\n";
 	}
 
 	if (collisionFlag & COLLISION_LEFT) {
@@ -163,7 +161,7 @@ void DynamicObj::SnapToGrid() {
 // Checks for player collision against objects that dont require have seperate width and height,
 // such as COLLECTIBLES and goal(exit point)
 // ----------------------------------------------------------------------------
-void ObjectiveCollision() { // COMBINE IF GOT TIME
+void ObjectiveCollision() {
 	// Player hotspots
 	int playerTopY = Player.position.y - Player.GetScale().y / 2.0f; // Top bound
 	int playerBtmY = Player.position.y + Player.GetScale().y / 2.0f; // Btm bound

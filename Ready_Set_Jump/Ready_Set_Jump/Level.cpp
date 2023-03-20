@@ -309,7 +309,7 @@ void Level_Update()
 	Player.SnapToGrid();
 	ObjectiveCollision();
 
-	std::cout << Player.velocity.y << "\n";
+	std::cout << "Player Y velocity = " << Player.velocity.y << "\n";
 
 
 	//std::cout << Player.position.y <<'\n';
