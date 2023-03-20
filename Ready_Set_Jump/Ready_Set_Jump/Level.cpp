@@ -205,7 +205,7 @@ void Level_Initialize()
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-				if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK && platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
+				if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK && platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) {
 					platform[i][j].SetTexture(slimeBlockTexture2);
 				}
 				else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
@@ -538,7 +538,7 @@ void PlatformAnimationUpdate(void) {
 				int frame = frameCounter % 30;
 				switch (frame) {
 				case 0:
-					if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK && platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
+					if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK && platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) {
 						platform[i][j].SetTexture(slimeBlockTexture2);
 					}
 					else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
@@ -550,7 +550,7 @@ void PlatformAnimationUpdate(void) {
 					break;
 
 				case 15:
-					if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK && platform[i][j + 1].GetPlatformType() != SLIME_BLOCK) {
+					if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK && platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) {
 						platform[i][j].SetTexture(slimeBlockTextureFlipped2);
 					}
 					else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
