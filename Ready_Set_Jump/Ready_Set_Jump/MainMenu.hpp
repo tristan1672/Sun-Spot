@@ -4,6 +4,7 @@
 #include "GameObjClasses.hpp"
 #include "PreCompiledHeader.hpp"
 #include "UI.hpp"
+#include "LevelSelect.hpp"
 #include "GameStateManager.hpp"
 #include "Level.hpp"
 

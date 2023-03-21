@@ -2,7 +2,6 @@
 UIText* selectLevelText;
 UIText* quitText;
 UIText* guideText;
-UIText **levels;
 
 void Menu_Load() {
 	MakeMesh();
@@ -14,20 +13,8 @@ void Menu_Initialize() {
 	selectLevelText = new UIText{ UIText("Select Level", { -0.26f, 0.3f },{1.f,1.f},White, true, GreenTea) };
 	quitText = new UIText {UIText("Quit", { -0.09f, -0.5f }, { 1.f,1.f }, White, true, GreenTea)};
 	guideText = new UIText{ UIText("How To Play", { -0.23f, -0.1f }, { 1.f,1.f }, White, true, GreenTea) };
+	LevelSelect::CreateLevelSelectUI();
 
-	levels = new UIText * [4] {};
-	for (int i = 0; i < 4; ++i) {
-		levels[i] = new UIText[4]{};
-	}
-
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 4; ++j) {
-			int levelcount = i * 4 + j + 1;
-			levels[i][j] = UIText(std::to_string(levelcount), { (j * 0.2f - 0.3f), (-i * 0.3f + 0.4f) }, { 1.f,1.f }, White,true, GreenTea);
-			levels[i][j].TextBoxActive = false;
-			levels[i][j].Active = false;
-		}
-	}
 }
 
 void Menu_Update() {
@@ -37,27 +24,13 @@ void Menu_Update() {
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 
 		if ( selectLevelText->MouseCollision({ mouse.ClickX ,mouse.ClickY})) {
-			for (int i = 0; i < 4; ++i) {
-				for (int j = 0; j < 4; ++j) {
-					levels[i][j].TextBoxActive = true;
-					levels[i][j].Active = true;
-				}
-			}
+			LevelSelect::SetLevelSelectActive();
 			selectLevelText->TextBoxActive = false; selectLevelText->Active = false;
 			quitText->TextBoxActive = false; quitText->Active = false;
 			guideText->TextBoxActive = false; guideText->Active = false;
 		}
-		for (int i = 0; i < 4; ++i) {
-			for (int j = 0; j < 4; ++j) {
-				if (levels[i][j].MouseCollision({ mouse.ClickX ,mouse.ClickY })) {
-					int levelcount = i * 4 + j + 1;
-					fileToLoad = "Assets/Script/Level";
-					fileToLoad += std::to_string(levelcount);
-					fileToLoad += ".txt";
-					next = GS_LEVEL;
-				}
-			}
-		}
+
+		LevelSelect::ButtonSelectBehaviour(mouse);
 
 		if (quitText->MouseCollision({ mouse.ClickX ,mouse.ClickY })) {
 			next = GS_QUIT;
@@ -67,13 +40,7 @@ void Menu_Update() {
 	/*
 		Fade animation calls
 	*/
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 4; ++j) {
-			if (levels[i][j].MouseCollision({ mouse.ClickX ,mouse.ClickY }) && levels[i][j].GetTextBoxAlpha() <1.f) {
-				levels[i][j].TextBoxFadeIn();
-			}else if(!(levels[i][j].MouseCollision({ mouse.ClickX ,mouse.ClickY }))) levels[i][j].TextBoxFadeOut();
-		}
-	}
+	LevelSelect::LSButtonAnimation(mouse);
 	if (selectLevelText->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && selectLevelText->GetTextBoxAlpha() < 1.f) {
 		selectLevelText->TextBoxFadeIn();
 	}else if(!(selectLevelText->MouseCollision({ mouse.ClickX ,mouse.ClickY }))) selectLevelText->TextBoxFadeOut();
@@ -95,19 +62,11 @@ void Menu_Draw() {
 	selectLevelText->DrawObj();
 	quitText->DrawObj();
 	guideText->DrawObj();
-
-	for (int i = 0; i < 4; ++i) {
-		for (int j = 0; j < 4; ++j) {
-			levels[i][j].DrawObj();
-		}
-	}
+	LevelSelect::DrawLevelButton();
 }
 
 void Menu_Free() {
-	for (int i = 0; i < 4; ++i) {
-		delete[] levels[i];
-	}
-	delete[] levels;
+	LevelSelect::FreeLevelButton();
 	delete selectLevelText;
 	delete quitText;
 	delete guideText;
