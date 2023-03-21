@@ -2,7 +2,6 @@
 #include "UI.hpp"
 #include "Level.hpp"
 namespace LevelSelect {
-
 	void CreateLevelSelectUI();
 	void SetLevelSelectActive();
 	void SetLevelSelectInActive();
