@@ -2,6 +2,7 @@
 UIText* selectLevelText;
 UIText* quitText;
 UIText* guideText;
+UIText backButton;
 
 void Menu_Load() {
 	MakeMesh();
@@ -23,16 +24,21 @@ void Menu_Update() {
 	// UI button checks
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 
-		if ( selectLevelText->MouseCollision({ mouse.ClickX ,mouse.ClickY})) {
+		if ( selectLevelText->MouseCollision(mouse)) {
 			LevelSelect::SetLevelSelectActive();
 			selectLevelText->TextBoxActive = false; selectLevelText->Active = false;
 			quitText->TextBoxActive = false; quitText->Active = false;
 			guideText->TextBoxActive = false; guideText->Active = false;
 		}
+		if (LevelSelect::BackButtonBehaviour(mouse)) {
+			selectLevelText->TextBoxActive = true; selectLevelText->Active = true;
+			quitText->TextBoxActive = true; quitText->Active = true;
+			guideText->TextBoxActive = true; guideText->Active = true;
+		}
 
 		LevelSelect::ButtonSelectBehaviour(mouse);
 
-		if (quitText->MouseCollision({ mouse.ClickX ,mouse.ClickY })) {
+		if (quitText->MouseCollision(mouse)) {
 			next = GS_QUIT;
 		}
 	}
@@ -41,17 +47,17 @@ void Menu_Update() {
 		Fade animation calls
 	*/
 	LevelSelect::LSButtonAnimation(mouse);
-	if (selectLevelText->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && selectLevelText->GetTextBoxAlpha() < 1.f) {
+	if (selectLevelText->MouseCollision(mouse) && selectLevelText->GetTextBoxAlpha() < 1.f) {
 		selectLevelText->TextBoxFadeIn();
-	}else if(!(selectLevelText->MouseCollision({ mouse.ClickX ,mouse.ClickY }))) selectLevelText->TextBoxFadeOut();
+	}else if(!(selectLevelText->MouseCollision(mouse))) selectLevelText->TextBoxFadeOut();
 
-	if (quitText->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && quitText->GetTextBoxAlpha() < 1.f) {
+	if (quitText->MouseCollision(mouse) && quitText->GetTextBoxAlpha() < 1.f) {
 		quitText->TextBoxFadeIn();
-	}else if(!(quitText->MouseCollision({ mouse.ClickX ,mouse.ClickY }))) quitText->TextBoxFadeOut();
+	}else if(!(quitText->MouseCollision(mouse))) quitText->TextBoxFadeOut();
 
-	if (guideText->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && guideText->GetTextBoxAlpha() < 1.f) {
+	if (guideText->MouseCollision(mouse) && guideText->GetTextBoxAlpha() < 1.f) {
 		guideText->TextBoxFadeIn();
-	}else if(!(guideText->MouseCollision({ mouse.ClickX ,mouse.ClickY }))) guideText->TextBoxFadeOut();
+	}else if(!(guideText->MouseCollision(mouse))) guideText->TextBoxFadeOut();
 
 
 

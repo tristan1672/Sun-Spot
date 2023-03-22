@@ -8,6 +8,7 @@
 #include "Ultilities.hpp"
 #include "Level.hpp"
 #include "MainMenu.hpp"
+#include "SplashScreen.hpp"
 // ---------------------------------------------------------------------------
 
 
@@ -38,6 +39,14 @@ void GSM_Update()
 
 	switch (next)
 	{
+	case GS_SPLASH:
+		e_fpLoad = SplashScreen_Load;
+		e_fpInitialize = SplashScreen_Initialize;
+		e_fpUpdate = SplashScreen_Update;
+		e_fpDraw = SplashScreen_Draw;
+		e_fpFree = SplashScreen_Free;
+		e_fpUnload = SplashScreen_Unload;
+		break;
 	case GS_MAINMENU:
 		e_fpLoad = Menu_Load;
 		e_fpInitialize = Menu_Initialize;

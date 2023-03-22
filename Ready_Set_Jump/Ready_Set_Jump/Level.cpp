@@ -96,7 +96,7 @@ void Level_Load()
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
 	for (int i{}; i < sizeof(goalTexture)/sizeof(goalTexture[0]); ++i) {
 		std::string location{"Assets/Images/Portal_"};
-		location += std::to_string(i)+".png" ;
+		location += std::to_string(i + 1)+".png" ;
 		goalTexture[i] = AEGfxTextureLoad(location.c_str());
 	}
 
@@ -186,7 +186,7 @@ void Level_Initialize()
 			case COLLECTIBLES:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ collectible_SIZE_X, collectible_SIZE_Y }, { 0.65f, 0.39f, 0.65f,1.f }, 0, AE_GFX_RM_COLOR, circleMesh);
+					{ collectible_SIZE_X, collectible_SIZE_Y }, White, 0, AE_GFX_RM_COLOR, circleMesh);
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(collectibleTexture);
 				break;
@@ -194,7 +194,7 @@ void Level_Initialize()
 			case CHECKPOINT:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
-					{ GOAL_SIZE_X, GOAL_SIZE_Y }, { 1.f, 0.65f, 0.f,1.f });
+					{ GOAL_SIZE_X, GOAL_SIZE_Y });
 				break;
 
 			case GOAL:
@@ -275,7 +275,7 @@ void Level_Update()
 	Player.SnapToGrid();
 	ObjectiveCollision();
 
-	std::cout << "Player Y velocity = " << Player.velocity.y << "\n";
+	//std::cout << "Player Y velocity = " << Player.velocity.y << "\n";
 
 
 	//std::cout << Player.position.y <<'\n';

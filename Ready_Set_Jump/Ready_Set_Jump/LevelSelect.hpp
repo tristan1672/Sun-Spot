@@ -9,4 +9,5 @@ namespace LevelSelect {
 	void LSButtonAnimation(mousePos mouse);
 	void DrawLevelButton();
 	void FreeLevelButton();
+	bool BackButtonBehaviour(mousePos mouse);
 }

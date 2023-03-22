@@ -2,6 +2,7 @@
 enum GS_STATES
 {
 	GS_LEVEL = 0,
+	GS_SPLASH,
 	GS_MAINMENU,
 
 	GS_QUIT,

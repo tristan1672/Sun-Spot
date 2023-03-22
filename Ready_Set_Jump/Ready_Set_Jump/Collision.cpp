@@ -81,7 +81,7 @@ void DynamicObj::LevelCollision(){
 			|| platform[static_cast<int>(btmY)][static_cast<int>(X2)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(btmY)][static_cast<int>(X2)].GetPlatformType() < GOAL) {
 			collisionFlag |= COLLISION_BOTTOM;
 
-			std::cout << "Btm collided Jump ready: " << jumpReady << "\n";
+			//std::cout << "Btm collided Jump ready: " << jumpReady << "\n";
 
 #if DEBUG		
 			if (Player.jumpReady == false) {
@@ -145,7 +145,7 @@ void DynamicObj::SnapToGrid() {
 
 	if (collisionFlag & COLLISION_BOTTOM) {
 		position.y = WINDOW_HEIGHT_OFFSET - static_cast<int>(btmY) * GRID_HEIGHT_SIZE + (PLAYER_SIZE_Y / 2.0f);
-		std::cout << "Y Pos = " << position.y << "\n";
+		//std::cout << "Y Pos = " << position.y << "\n";
 	}
 
 	if (collisionFlag & COLLISION_LEFT) {
