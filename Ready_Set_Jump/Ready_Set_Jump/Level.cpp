@@ -55,6 +55,8 @@ int jump_counter;
 
 bool airCheck;
 
+float sceneSwitchBufferTimer = 0.1f;
+
 AEGfxTexture* ptex{ nullptr };
 AEGfxTexture* normalBlockTexture{ nullptr };
 AEGfxTexture* iceBlockTexture{ nullptr };
@@ -80,7 +82,6 @@ void Level_Load()
 {
 	MakeMesh();
 	MakeArrowMesh();
-	//MakeCircle();
 
 	ptex = AEGfxTextureLoad("Assets/Images/Cleared.png");
 	normalBlockTexture = AEGfxTextureLoad("Assets/Images/Basic_Platform.png");
@@ -103,8 +104,6 @@ void Level_Load()
 
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
-	playerSpawnPoint.x = 0.f;
-	playerSpawnPoint.y = 0.f;
 
 	if (!ImportMapDataFromFile(fileToLoad.c_str())) {
 		std::cout << "Level File opened\n";
@@ -118,7 +117,7 @@ void Level_Load()
 void Level_Initialize()
 {
 
-	level1_state = PLAYING;
+	level1_state = SCENE_SWITCH_BUFFER;
 	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
 	e_numOfcollectibleCollected = 0;
@@ -174,12 +173,6 @@ void Level_Initialize()
 				else {
 					platform[i][j].SetTexture(slimeBlockTexture3);
 				}
-				break;
-
-			case PLAYER_SPAWN:
-				platform[i][j].SetPlatformType(EMPTY_SPACE);
-				playerSpawnPoint.x = -WINDOW_WIDTH_OFFSET + j * GRID_WIDTH_SIZE;
-				playerSpawnPoint.y = WINDOW_HEIGHT_OFFSET - (i + 1) * GRID_HEIGHT_SIZE;
 
 				break;
 
@@ -204,6 +197,10 @@ void Level_Initialize()
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(goalTexture[0]);
 				break;
+			case PLAYER_SPAWN:
+				playerSpawnPoint = { GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE };
+				platform[i][j].SetPlatformType(0);
+				break;
 
 			default:
 				break;
@@ -215,6 +212,7 @@ void Level_Initialize()
 	Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
 	Player.SetColour({ 0.f,1.f,1.f,1.f });
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
+	Player.jumpReady = false;
 	jump_counter = 0;
 #pragma endregion
 	//sets the ui indicator for where the character is about to jump
@@ -236,6 +234,14 @@ void Level_Initialize()
 // ----------------------------------------------------------------------------
 void Level_Update()
 {
+	/*
+	* this part is to prevent the player from moving due to input from previous scene
+	*/
+	if (level1_state == SCENE_SWITCH_BUFFER) {
+		sceneSwitchBufferTimer -= e_deltaTime;
+		if (sceneSwitchBufferTimer <= 0) level1_state = PLAYING;
+	}
+
 	if (level1_state == PLAYING)
 	{
 		// Checks the current pos of the mouse when initially clicked

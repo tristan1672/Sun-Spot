@@ -56,7 +56,7 @@ void DynamicObj::LevelCollision(){
 
 		velocity.x = 0.0f;
 		velocity.y = 0.0f;
-		jumpReady = true;
+		jumpReady = false;
 		position = { playerSpawnPoint.x,playerSpawnPoint.y };
 
 	}
