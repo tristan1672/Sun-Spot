@@ -186,7 +186,7 @@ void ObjectiveCollision() {
 				if (playerHsX1 > goalLeftX && playerLeftX < goalRightX || playerHsX2 < goalRightX && playerRightX > goalLeftX) {
 					// If player y position is within the goal
 					if (playerHsY1 > goalBtmY && playerTopY < goalTopY || playerHsY2 > goalBtmY && playerBtmY < goalTopY) {
-						level1_state = WIN;
+						level_state = WIN;
 						Player.velocity.x = 0.0f;
 						Player.velocity.y = 0.0f;
 					}

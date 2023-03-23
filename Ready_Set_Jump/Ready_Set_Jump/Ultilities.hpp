@@ -47,7 +47,7 @@ struct ColourValue
 
 // Level
 extern Vector2D playerSpawnPoint;
-extern int level1_state;
+extern int level_state;
 extern int** e_levelGrid;
 extern int e_binaryMapWidth, e_binaryMapHeight;
 extern int e_totalNumOfcollectible, e_numOfcollectibleCollected;

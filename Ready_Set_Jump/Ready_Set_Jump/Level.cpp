@@ -46,7 +46,7 @@ int e_binaryMapWidth;
 int e_binaryMapHeight;
 int e_totalNumOfcollectible;
 
-int level1_state;
+int level_state;
 int level1_difficulty;
 
 int gGameRunning = 1;
@@ -54,6 +54,7 @@ bool flick = false;
 int jump_counter;
 
 bool airCheck;
+bool followMouseCheat;
 
 float sceneSwitchBufferTimer = 0.1f;
 
@@ -117,10 +118,11 @@ void Level_Load()
 void Level_Initialize()
 {
 
-	level1_state = SCENE_SWITCH_BUFFER;
+	level_state = SCENE_SWITCH_BUFFER;
 	level1_difficulty = EASY;
 	e_levelTime = 0.0f;
 	e_numOfcollectibleCollected = 0;
+	followMouseCheat = false;
 	scoreInitialize();
 
 #if DEBUG
@@ -237,12 +239,26 @@ void Level_Update()
 	/*
 	* this part is to prevent the player from moving due to input from previous scene
 	*/
-	if (level1_state == SCENE_SWITCH_BUFFER) {
+	if (level_state == SCENE_SWITCH_BUFFER) {
 		sceneSwitchBufferTimer -= e_deltaTime;
-		if (sceneSwitchBufferTimer <= 0) level1_state = PLAYING;
+		if (sceneSwitchBufferTimer <= 0) level_state = PLAYING;
+	}
+	if (level_state == WIN)
+	{
+		if (AEInputCheckTriggered(AEVK_ESCAPE))
+		{
+			next = GS_MAINMENU;
+		}
+	}
+	if (AEInputCheckTriggered(AEVK_ESCAPE)) {
+		if (level_state != PAUSED)level_state = PAUSED;
+		else
+		{
+			level_state = PLAYING;
+		}
 	}
 
-	if (level1_state == PLAYING)
+	if (level_state == PLAYING)
 	{
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
@@ -257,21 +273,13 @@ void Level_Update()
 			AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
 			Input_Handle_Jump();
 			jumpArrow.SetRotation(0);
-			if (Player.velocity.x && Player.velocity.y) 	jump_counter++;
+			if (Player.velocity.x && Player.velocity.y)jump_counter++;
 			mouse = { 0,0,0,0 };
 		}
-		if (AEInputCheckTriggered(AEVK_ESCAPE)) {
-			next = GS_MAINMENU;
+		if (AEInputCheckTriggered(AEVK_1)) {
+			followMouseCheat = !followMouseCheat;
 		}
-	}
 
-	if (level1_state == WIN)
-	{
-		if (AEInputCheckTriggered(AEVK_ESCAPE)) 
-		{
-			next = GS_MAINMENU;
-		}
-	}
 
 	// Prev collesion flag check
 	airCheck = Player.GetColFlag();
@@ -281,39 +289,25 @@ void Level_Update()
 	Player.SnapToGrid();
 	ObjectiveCollision();
 
-	//std::cout << "Player Y velocity = " << Player.velocity.y << "\n";
 
+	// code that allows the player to get affected by gravity
+	Player.PhysicsUpdate();
 
-	//std::cout << Player.position.y <<'\n';
-	//if (Player.position.x <  (-GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.x >(GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5) || Player.position.y < (-GRID_HEIGHT_SIZE * e_binaryMapHeight * 0.5) || AEInputCheckTriggered(AEVK_Q)) //press 'q' to reset player position
-	//{
-	//	Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
-	//	 = 0.0f;
-	//	Player.velocity.x = 0.0f;
-	//}
-
-	// code that allows the player to get affected by gravity (might need to look back at it to improve)
-
-	if (level1_state == PLAYING) {
-		Player.PhysicsUpdate();
+	if (followMouseCheat) {
+		mousePos temp{};
+		AEInputGetCursorPosition(&temp.ClickX, &temp.ClickY);
+		Vector2D mouseQuadPos = { static_cast<float>(temp.ClickX) - WINDOW_WIDTH / 2.f + cam.X, -(static_cast<float>(temp.ClickY) - WINDOW_HEIGHT / 2.f) + cam.Y };
+		Player.position = mouseQuadPos;
 	}
 
 	// Cam shake
 	Cam(airCheck);
 
 	// Update total time taken for level
-	if (level1_state == PLAYING) {
-		LevelTime();
-		//if (e_levelTime > 60 * 60) {
-			// Over 1 hr = lose/restart
-		//}
+	LevelTime();
 	}
 
-
-	PlatformAnimationUpdate();
 	++frameCounter;
-
-
 
 #if DEBUG
 	std::cout << "\nShake Strength: " << e_shakeStrength << "\n";
@@ -331,6 +325,9 @@ void Level_Draw()
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
+	if(level_state == PLAYING)
+	PlatformAnimationUpdate();
+
 	// Draws the platform
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
@@ -346,7 +343,7 @@ void Level_Draw()
 		jumpArrow.DrawObj();
 	}
 
-	if (level1_state == WIN) //draw win screen
+	if (level_state == WIN) //draw win screen
 	{
 
 		WinScreen = GameObject();

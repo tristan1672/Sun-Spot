@@ -1,6 +1,6 @@
 #include "Ultilities.hpp"
 
-float e_gravity = -500.f;
+float e_gravity = -600.f;
 
 // Jump Arrow
 extern float currHoldTime = 0.f, currHoldDistance = 0.f;

@@ -27,7 +27,7 @@ const f32 GRID_HEIGHT_SIZE = static_cast<f32>(WINDOW_HEIGHT) / static_cast<f32>(
 // Physics
 // Jump
 const float ORIGINAL_JUMP_FORCE_MOD = 1.0f;
-const float MAX_JUMP_FORCE = 350.f;
+const float MAX_JUMP_FORCE = 425.f;
 const float MIN_JUMP_FORCE = 100.f;
 const float ORIGINAL_VERT_MOD = 1.0f; // Not used
 // Drag
@@ -42,7 +42,7 @@ const float FULL_STOP_FRICTION = 1 / e_deltaTime;
 
 // Jump Arrow
 const float MAX_HOLD_TIME = 0.5f;
-const float MAX_HOLD_DISTANCE = 150.f;
+const float MAX_HOLD_DISTANCE = 158.f;
 const float MIN_HOLD_DISTANCE = 10.f;
 
 // Collision

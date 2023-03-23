@@ -12,7 +12,6 @@ void DynamicObj::PhysicsUpdate() {
 			case NORMAL_BLOCK:// normal surface
 				velocity.y -= velocity.y;
 				friction = NORMAL_FRICTION;
-				jumpReady = true;
 				shake = true;
 				break;
 			case ICE_BLOCK: // ice physics
@@ -28,8 +27,9 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			case SLIME_BLOCK:
 				if (abs(velocity.y) <= 2) velocity.y = 0;
-				velocity.y = -(velocity.y * 0.5f);
+				velocity.y = -(velocity.y * 0.9f);
 				friction = SLIME_FRICTION;
+				jumpReady = true;
 				break;
 			default:
 				break;
@@ -82,7 +82,6 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
-					//velocity.y = static_cast<float>(e_jumpForce * direction.y);
 					velocity.x = -velocity.x;
 				}
 				break;
@@ -103,7 +102,6 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
-					//velocity.y = static_cast<float>(e_jumpForce * direction.y); 
 					velocity.x = -velocity.x;
 				}
 				break;

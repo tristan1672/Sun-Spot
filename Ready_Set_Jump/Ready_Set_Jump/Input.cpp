@@ -88,7 +88,7 @@ void Input_Handle_Jump() {
 	else
 	{
 		Player.direction = normalDirection(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY);
-		Player.e_jumpForce = Distance(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY) * 1.5;
+		Player.e_jumpForce = Distance(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY) * 2;
 		if (Player.e_jumpForce > MAX_JUMP_FORCE) {
 			Player.e_jumpForce = MAX_JUMP_FORCE;
 		}
