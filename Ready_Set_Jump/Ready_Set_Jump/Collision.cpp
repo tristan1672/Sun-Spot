@@ -42,7 +42,7 @@ void DynamicObj::LevelCollision(){
 	Y2 = (WINDOW_HEIGHT_OFFSET - position.y + GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 75% Y
 
 	// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
-	if (leftX < 0 || rightX > e_binaryMapWidth || topY < 0 || btmY > e_binaryMapHeight) {
+	if (leftX < 0 || rightX > e_binaryMapWidth || btmY > e_binaryMapHeight) {
 		
 #if DEBUG
 		std::cout << "==================== Reset =====================\n";

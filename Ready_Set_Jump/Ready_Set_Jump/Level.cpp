@@ -103,14 +103,8 @@ void Level_Load()
 
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
-	playerSpawnPoint.x = -520.f;
-	playerSpawnPoint.y = 100.f;
-
-	/*playerSpawnPoint.x = -570.f;
-	playerSpawnPoint.y = 300.f;*/
-
-	//playerSpawnPoint.x = -510.f;
-	//playerSpawnPoint.y = 300.f;
+	playerSpawnPoint.x = 0.f;
+	playerSpawnPoint.y = 0.f;
 
 	if (!ImportMapDataFromFile(fileToLoad.c_str())) {
 		std::cout << "Level File opened\n";
@@ -180,6 +174,12 @@ void Level_Initialize()
 				else {
 					platform[i][j].SetTexture(slimeBlockTexture3);
 				}
+				break;
+
+			case PLAYER_SPAWN:
+				platform[i][j].SetPlatformType(EMPTY_SPACE);
+				playerSpawnPoint.x = -WINDOW_WIDTH_OFFSET + j * GRID_WIDTH_SIZE;
+				playerSpawnPoint.y = WINDOW_HEIGHT_OFFSET - (i + 1) * GRID_HEIGHT_SIZE;
 
 				break;
 
