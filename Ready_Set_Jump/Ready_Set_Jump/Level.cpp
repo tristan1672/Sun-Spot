@@ -21,6 +21,7 @@
 #include "Cam.hpp"
 //#include <vector>
 #include<string>
+#include "Tutorial.hpp"
 
 // ---------------------------------------------------------------------------
 
@@ -33,7 +34,8 @@ Platform** platform;
 GameObject jumpArrow;
 GameObject WinScreen;
 GameObject Cleared;
-std::string fileToLoad{"Assets/Script/Level2.txt"};
+std::string fileToLoad;
+bool isTutorial;
 
 float e_deltaTime;
 float e_levelTime;
@@ -109,6 +111,8 @@ void Level_Load()
 	if (!ImportMapDataFromFile(fileToLoad.c_str())) {
 		std::cout << "Level File opened\n";
 	}
+
+	if (isTutorial) Tutorial::MakeTutorialText();
 
 }
 // ----------------------------------------------------------------------------
@@ -228,6 +232,8 @@ void Level_Initialize()
 	mouse.ReleaseY = 0;
 	airCheck = false;
 	shake = false;
+
+	Cam(airCheck);
 }
 
 // ----------------------------------------------------------------------------
@@ -322,6 +328,7 @@ void Level_Update()
 // ----------------------------------------------------------------------------
 void Level_Draw()
 {
+
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
@@ -336,12 +343,13 @@ void Level_Draw()
 			}
 		}
 	}
-	// Draws the player
-	Player.DrawObj();
+	if (isTutorial) Tutorial::RenderTutorialText();
 	// Draws the arrow direction
 	if (AEInputCheckCurr(AEVK_LBUTTON) && Player.jumpReady && currHoldTime >= MAX_HOLD_TIME) {
 		jumpArrow.DrawObj();
 	}
+	// Draws the player
+	Player.DrawObj();
 
 	if (level_state == WIN) //draw win screen
 	{
@@ -361,6 +369,7 @@ void Level_Draw()
 		// Draws total time in current level
 		DisplayTime(0.58f, 0.86f);
 	}
+
 }
 
 // ----------------------------------------------------------------------------
@@ -378,6 +387,7 @@ void Level_Free()
 // ----------------------------------------------------------------------------
 void Level_Unload()
 {
+	if (isTutorial) Tutorial::FreeTutorialtext();
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		delete[] platform[i];
 	}

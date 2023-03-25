@@ -2,7 +2,6 @@
 UIText* selectLevelText;
 UIText* quitText;
 UIText* guideText;
-UIText backButton;
 
 void Menu_Load() {
 	MakeMesh();
@@ -34,6 +33,11 @@ void Menu_Update() {
 			selectLevelText->TextBoxActive = true; selectLevelText->Active = true;
 			quitText->TextBoxActive = true; quitText->Active = true;
 			guideText->TextBoxActive = true; guideText->Active = true;
+		}
+		if (guideText->MouseCollision(mouse)) {
+			fileToLoad = "Assets/Script/LevelTutorial.txt";
+			isTutorial = true;
+			next = GS_LEVEL;
 		}
 
 		LevelSelect::ButtonSelectBehaviour(mouse);
