@@ -446,7 +446,7 @@ void Level_Unload()
 // Functions
 
 int ImportMapDataFromFile(const char* FileName) {
-
+	e_totalNumOfcollectible = 0;
 	std::fstream levelMap(FileName, std::ios_base::in);
 
 	if (levelMap.is_open()) {
