@@ -1,6 +1,5 @@
 #include "Physics.hpp"
 void DynamicObj::PhysicsUpdate() {
-	currFrameStickyCollision = false;
 	if (collisionFlag & COLLISION_TOP) {
 		velocity.y -= velocity.y;
 	}
@@ -77,8 +76,7 @@ void DynamicObj::PhysicsUpdate() {
 			case STICKY_BLOCK:// sticky physics
 				dragCoeff = STICK_DRAG;
 				friction = FULL_STOP_FRICTION;
-				currFrameStickyCollision = true;
-				if (!prevFrameStickyCollision)jumpReady = true;
+				jumpReady = true;
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
@@ -98,8 +96,7 @@ void DynamicObj::PhysicsUpdate() {
 			case STICKY_BLOCK:// sticky physics
 				dragCoeff = STICK_DRAG;
 				friction = FULL_STOP_FRICTION;
-				currFrameStickyCollision = true;
-				if (!prevFrameStickyCollision)jumpReady = true;
+				jumpReady = true;
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
@@ -123,8 +120,7 @@ void DynamicObj::PhysicsUpdate() {
 			case STICKY_BLOCK:// sticky physics
 				dragCoeff = STICK_DRAG;
 				friction = FULL_STOP_FRICTION;
-				currFrameStickyCollision = true;
-				if (!prevFrameStickyCollision)jumpReady = true;
+				jumpReady = true;
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
@@ -144,8 +140,7 @@ void DynamicObj::PhysicsUpdate() {
 			case STICKY_BLOCK:// sticky physics
 				friction = FULL_STOP_FRICTION;
 				dragCoeff = STICK_DRAG;
-				currFrameStickyCollision = true;
-				if (!prevFrameStickyCollision)jumpReady = true;
+				jumpReady = true;
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
@@ -183,6 +178,4 @@ void DynamicObj::PhysicsUpdate() {
 
 	position.y += static_cast<float>(velocity.y * e_deltaTime);
 	position.x += static_cast<float>(velocity.x * e_deltaTime);
-
-	prevFrameStickyCollision = currFrameStickyCollision;
 }

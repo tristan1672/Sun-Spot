@@ -84,6 +84,12 @@ void Input_Handle_Jump() {
 		Player.e_jumpForce *= Player.e_jumpForceMod;
 		Player.velocity.y += static_cast<float>(Player.e_jumpForce * Player.direction.y);
 		Player.velocity.x += static_cast<float>(Player.e_jumpForce * Player.direction.x);
+		if (Player.GetColFlag() & COLLISION_RIGHT && Player.velocity.x > 0) {
+			Player.velocity.y -= static_cast<float>(Player.e_jumpForce * Player.direction.y);
+		}
+		if (Player.GetColFlag() & COLLISION_LEFT && Player.velocity.x < 0)  {
+			Player.velocity.y -= static_cast<float>(Player.e_jumpForce * Player.direction.y);
+		}
 	}
 	else
 	{
@@ -98,6 +104,12 @@ void Input_Handle_Jump() {
 		Player.e_jumpForce *= Player.e_jumpForceMod;
 		Player.velocity.y += static_cast<float>(Player.e_jumpForce * Player.direction.y);
 		Player.velocity.x += static_cast<float>(Player.e_jumpForce * Player.direction.x);
+		if (Player.GetColFlag() & COLLISION_RIGHT && Player.velocity.x > 0) {
+			Player.velocity.y -= static_cast<float>(Player.e_jumpForce * Player.direction.y);
+		}
+		if (Player.GetColFlag() & COLLISION_LEFT && Player.velocity.x < 0) {
+			Player.velocity.y -= static_cast<float>(Player.e_jumpForce * Player.direction.y);
+		}
 	}
 	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
 	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);

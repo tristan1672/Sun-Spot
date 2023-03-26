@@ -53,10 +53,6 @@ public:
 class DynamicObj:public GameObject {
 	int collisionFlag{};
 
-//use for 
-	bool prevFrameStickyCollision{}, currFrameStickyCollision{};
-
-
 public:
 	Vector2D velocity{};
 //physics modifiers
