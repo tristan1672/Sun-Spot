@@ -60,9 +60,13 @@ extern bool shake;
 // ---------------------------------------------------------------------------
 
 
-static const ColourValue GreenTea{ 0.82f,0.94f,0.75f,0.f };
+static const ColourValue GreenTea{ 0.33f,0.61f,0.19f,0.f };
+static const ColourValue Green{ 0.82f,0.94f,0.75f,1.f };
+static const ColourValue Red{ 0.73f,0.118f,0.063f,1.f };
+static const ColourValue Yellow{ 0.97f,0.71f,0.f,1.f };
 static const ColourValue White{ 1.f,1.f,1.f,1.f };
 static const ColourValue Black{ 0.f,0.f,0.f,1.f };
+static const ColourValue Grey{ 0.5f,0.5f,0.5f,0.5f };
 
 Vector2D normalDirection(f32 X1, f32 Y1, f32 X2, f32 Y2);
 float Distance(f32 X1, f32 Y1, f32 X2, f32 Y2);
