@@ -19,7 +19,7 @@
 #include "UI.hpp"
 #include "Score.hpp"
 #include "Cam.hpp"
-//#include <vector>
+#include "PauseMenu.hpp"
 #include<string>
 #include "Tutorial.hpp"
 
@@ -111,7 +111,7 @@ void Level_Load()
 	if (!ImportMapDataFromFile(fileToLoad.c_str())) {
 		std::cout << "Level File opened\n";
 	}
-
+	PauseMenu::CreatePauseMenu();
 	if (isTutorial) Tutorial::MakeTutorialText();
 
 }
@@ -263,6 +263,9 @@ void Level_Update()
 			level_state = PLAYING;
 		}
 	}
+	if (level_state == PAUSED) { 
+		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
+		PauseMenu::PauseMenuBehaviour(mouse); }
 
 	if (level_state == PLAYING)
 	{
@@ -332,6 +335,8 @@ void Level_Draw()
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
+
+
 	if(level_state == PLAYING)
 	PlatformAnimationUpdate();
 
@@ -370,6 +375,8 @@ void Level_Draw()
 		DisplayTime(0.58f, 0.86f);
 	}
 
+	if (level_state == PAUSED)PauseMenu::DrawPauseMenu();
+
 }
 
 // ----------------------------------------------------------------------------
@@ -388,11 +395,14 @@ void Level_Free()
 void Level_Unload()
 {
 	if (isTutorial) Tutorial::FreeTutorialtext();
+
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		delete[] platform[i];
 	}
 	delete[] platform;
-	
+
+	PauseMenu::FreePauseMenu();
+
 	AEGfxTextureUnload(ptex);
 	AEGfxTextureUnload(normalBlockTexture);
 	AEGfxTextureUnload(iceBlockTexture);
