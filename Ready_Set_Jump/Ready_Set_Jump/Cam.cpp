@@ -118,8 +118,13 @@ void Cam(bool airCheck)
 		cam.Y = -200.0f;
 	}
 	*/
-	cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE  * (VIEWPORT_WIDTH / 2.0f))    + (0.5f * screenWidth) , (GRID_WIDTH_SIZE  * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * screenWidth));
-	cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f)) + (0.5f * screenHeight),  GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f));
+	//cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE  * (VIEWPORT_WIDTH / 2.0f))    + (0.5f * screenWidth) , (GRID_WIDTH_SIZE  * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * screenWidth));
+	cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (VIEWPORT_HEIGHT * 0.5f + 1)) + (0.5f * screenHeight),  GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f));
+
+	cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE * (VIEWPORT_WIDTH / 2.0f)) + (0.5f * screenWidth), (GRID_WIDTH_SIZE * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * screenWidth));
+	//cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f)) + (0.5f * screenHeight), GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f));
+
+	
 
 	/*
 	std::cout << "e_shakeStrength: " << e_shakeStrength << std::endl;
