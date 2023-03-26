@@ -73,6 +73,8 @@ AEGfxTexture* slimeBlockTextureFlipped2{ nullptr };
 AEGfxTexture* slimeBlockTextureFlipped3{ nullptr };
 
 AEGfxTexture* collectibleTexture{ nullptr };
+AEGfxTexture* checkPointTexture1{ nullptr };
+AEGfxTexture* checkPointTexture2{ nullptr };
 AEGfxTexture* goalTexture[20]{nullptr};
 
 
@@ -97,6 +99,9 @@ void Level_Load()
 	slimeBlockTextureFlipped1 = AEGfxTextureLoad("Assets/Images/Slime_Platform_1(Flipped).png");
 	slimeBlockTextureFlipped2 = AEGfxTextureLoad("Assets/Images/Slime_Platform_2(Flipped).png");
 	slimeBlockTextureFlipped3 = AEGfxTextureLoad("Assets/Images/Slime_Platform_3(Flipped).png");
+
+	checkPointTexture1 = AEGfxTextureLoad("Assets/Images/Flag_Down.png");
+	checkPointTexture2 = AEGfxTextureLoad("Assets/Images/Flag_Up.png");
 
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
 	for (int i{}; i < sizeof(goalTexture)/sizeof(goalTexture[0]); ++i) {
@@ -195,6 +200,8 @@ void Level_Initialize()
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y });
+				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
+				platform[i][j].SetTexture(checkPointTexture2);
 				break;
 
 			case GOAL:
@@ -421,6 +428,9 @@ void Level_Unload()
 	AEGfxTextureUnload(slimeBlockTextureFlipped3);
 
 	AEGfxTextureUnload(collectibleTexture);
+	AEGfxTextureUnload(checkPointTexture1);
+	AEGfxTextureUnload(checkPointTexture2);
+
 	for (int i{}; i < sizeof(goalTexture) / sizeof(goalTexture[0]); ++i) {
 		if(goalTexture[i])
 		AEGfxTextureUnload(goalTexture[i]);

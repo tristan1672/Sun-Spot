@@ -203,7 +203,7 @@ void ObjectiveCollision() {
 					// If player y position is within the goal
 					if (playerHsY1 > checkPointBtmY && playerTopY < checkPointTopY || playerHsY2 > checkPointBtmY && playerBtmY < checkPointTopY) {
 						playerSpawnPoint = platform[i][j].GetPosition();
-						platform[i][j].SetPlatformType(EMPTY_SPACE);
+						//platform[i][j].SetPlatformType(EMPTY_SPACE);
 					}
 				}
 			}
