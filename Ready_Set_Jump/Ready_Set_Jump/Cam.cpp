@@ -15,7 +15,7 @@
 struct  CameraPos cam;
 
 float	screenWidth				=  VIEWPORT_WIDTH	 * GRID_WIDTH_SIZE;
-float   screenHeight			=  VIEWPORT_HEIGHT * GRID_HEIGHT_SIZE;
+float   screenHeight			=  VIEWPORT_HEIGHT   * GRID_HEIGHT_SIZE;
 float	shakespeed				= 0.0f;
 float   shakedistance			= 0.5f;
 f64		shaketime;
@@ -119,21 +119,21 @@ void Cam(bool airCheck)
 	}
 	*/
 	//cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE  * (VIEWPORT_WIDTH / 2.0f))    + (0.5f * screenWidth) , (GRID_WIDTH_SIZE  * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * screenWidth));
-	cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * ((e_binaryMapHeight+1) * 0.5f)) + (0.5f * screenHeight),  GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f));
+	//cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * ((e_binaryMapHeight+1) * 0.5f)) + (0.5f * screenHeight),  GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f));
 
 	cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE * (VIEWPORT_WIDTH / 2.0f)) + (0.5f * screenWidth), (GRID_WIDTH_SIZE * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * screenWidth));
 	//cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (VIEWPORT_HEIGHT / 2.0f)) + (0.5f * screenHeight), (GRID_HEIGHT_SIZE * (e_binaryMapHeight - (VIEWPORT_HEIGHT / 2.0f))) - (0.5f * screenHeight));
 	//cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f)) + (0.5f * screenHeight), GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f));
-
+	cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (e_binaryMapHeight - (VIEWPORT_HEIGHT / 2.0f))) + (0.5f * screenHeight), (GRID_HEIGHT_SIZE * (VIEWPORT_HEIGHT / 2.0f) - (0.5f * screenHeight)));
 	
 
-	/*
-	std::cout << "e_shakeStrength: " << e_shakeStrength << std::endl;
-	std::cout << "distance: " << distance << std::endl;
-	std::cout << "cam.Y: " << cam.Y << std::endl;
-	std::cout << "shakespeed: " << shakespeed << std::endl; 
+	
+	//std::cout << "e_shakeStrength: " << e_shakeStrength << std::endl;
+	//std::cout << "distance: " << distance << std::endl;
+	//std::cout << "cam.Y: " << cam.Y << std::endl;
+	//std::cout << "shakespeed: " << shakespeed << std::endl; 
 	std::cout << "player x:" << Player.position.x << " player y:" << Player.position.y << std::endl;
-	std::cout << cam.X << ',' << cam.Y << std::endl;*/
+	std::cout << cam.X << ',' << cam.Y << std::endl;
 
 	AEGfxSetCamPosition(cam.X, cam.Y); // Set camera to follow player
 }
