@@ -11,7 +11,7 @@ void Menu_Load() {
 }
 
 void Menu_Initialize() {
-	std::cout << "init\n";
+	isTutorial = false;
 	titleText[0] = new UIText{UIText("Ready?", {-0.4f, 0.65f}, {1.4f,1.f}, Red)};
 	titleText[1] = new UIText{UIText("Set.", {0.03f, 0.65f}, {1.4f,1.f}, Yellow)};
 	titleText[2] = new UIText{UIText("Go!", {0.3f, 0.65f}, {1.4f,1.f}, GreenTea)};

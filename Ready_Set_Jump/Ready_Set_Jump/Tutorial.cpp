@@ -31,9 +31,7 @@ namespace Tutorial {
 	void FreeTutorialtext() {
 		for (size_t i{}; i < sizeof(TutorialTextObj) / sizeof(TutorialTextObj[0]); ++i) {
 			if (TurorialText[i]) {
-			std::cout << i;
-			
-			AEGfxTextureUnload(TurorialText[i]);
+				AEGfxTextureUnload(TurorialText[i]);
 			}
 		}
 	}
