@@ -132,8 +132,8 @@ void Cam(bool airCheck)
 	//std::cout << "distance: " << distance << std::endl;
 	//std::cout << "cam.Y: " << cam.Y << std::endl;
 	//std::cout << "shakespeed: " << shakespeed << std::endl; 
-	std::cout << "player x:" << Player.position.x << " player y:" << Player.position.y << std::endl;
-	std::cout << cam.X << ',' << cam.Y << std::endl;
+	//std::cout << "player x:" << Player.position.x << " player y:" << Player.position.y << std::endl;
+	//std::cout << cam.X << ',' << cam.Y << std::endl;
 
 	AEGfxSetCamPosition(cam.X, cam.Y); // Set camera to follow player
 }
