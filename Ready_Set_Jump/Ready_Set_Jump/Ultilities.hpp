@@ -34,6 +34,9 @@ extern float e_deltaTime, e_levelTime;
 // Jump Arrow
 extern float currHoldTime, currHoldDistance;
 
+// Score animation
+extern bool e_scoreAnimation;
+
 // Structs
 struct Vector2D {
 	f32 x;

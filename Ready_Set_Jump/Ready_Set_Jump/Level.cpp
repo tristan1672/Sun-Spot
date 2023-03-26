@@ -50,6 +50,7 @@ int e_totalNumOfcollectible;
 
 int level_state;
 int level1_difficulty;
+bool e_scoreAnimation;
 
 int gGameRunning = 1;
 bool flick = false;
@@ -253,6 +254,11 @@ void Level_Update()
 	{
 		if (AEInputCheckTriggered(AEVK_ESCAPE))
 		{
+			next = GS_MAINMENU;
+		}
+
+		// Mouse click to return to menu
+		if (e_scoreAnimation && AEInputCheckTriggered(AEVK_LBUTTON)) {
 			next = GS_MAINMENU;
 		}
 	}

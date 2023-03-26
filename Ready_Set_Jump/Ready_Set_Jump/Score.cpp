@@ -92,7 +92,7 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	calculateGrades();
 
 	//Setting Animation 
-	scoreAnimations();
+	e_scoreAnimation = scoreAnimations();
 
 	//Store variables to string buffer
 	snprintf(collectiblegrade, sizeof collectiblegrade, "%c",						collectible.grade);
@@ -322,7 +322,7 @@ void calculateGrades()
 	-Display fonts moving laterally into position (Lateral Sliding)
 
 ***************************************************************************/
-void scoreAnimations()
+bool scoreAnimations()
 {
 //Counting Animation
 //*******************************************************************************
@@ -348,6 +348,10 @@ void scoreAnimations()
 	if (collectible.scoreDisplay < collectible.score) //collectible Score Counting Animation
 	{
 		collectible.scoreDisplay += 3000 * e_deltaTime;
+	}
+
+	if (timer.scoreDisplay >= timer.score && jump.scoreDisplay >= jump.score && jump.countDisplay >= jump.count && collectible.scoreDisplay >= collectible.score) {
+		return true;
 	}
 //*******************************************************************************
 
@@ -417,7 +421,11 @@ void scoreAnimations()
 		collectible.score_pos.x		= -0.4f;
 		collectible.grade_pos.x		=  0.4f;
 		collectible.count_pos.x		= -0.4f;
+
+		return true;
 	}
+
+	return false;
 //*******************************************************************************
 }
 
