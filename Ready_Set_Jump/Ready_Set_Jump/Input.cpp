@@ -50,7 +50,6 @@ void Input_Handle_HoldCheck()
 	if (currHoldTime >= MAX_HOLD_TIME) {
 		jumpArrow.position = { Player.position.x,Player.position.y };
 		nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
-		std::cout << Player.position.x << " "<< Player.position.y<<" "<< mouseClickQuadPos.x<<" "<< mouseClickQuadPos.y<<"\n";
 		angle = atan2f(-nDirection.x, nDirection.y);
 		currHoldDistance = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
 		if (currHoldDistance > MAX_HOLD_DISTANCE) {
