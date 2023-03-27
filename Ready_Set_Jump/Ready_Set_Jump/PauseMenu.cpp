@@ -8,8 +8,7 @@ namespace PauseMenu {
 	UIText* quitText;
 	GameObject* backGround;
 	void CreatePauseMenu() {
-		pauseText = new UIText{ UIText("Paused", { -0.15f, 0.6f }, { 1.f,1.f }, White) };
-
+		pauseText = new UIText{ UIText("PAUSED", { -0.15f, 0.6f }, { 1.f,1.f }, White) };
 		resumeText = new UIText{ UIText("Resume", { -0.15f, 0.3f }, { 1.f,1.f }, White, true, GreenTea) };
 		mainMenuText = new UIText{ UIText("Main Menu", { -0.2f, 0.f }, { 1.f,1.f }, White, true, GreenTea) };
 		quitText = new UIText{ UIText("Quit", { -0.09f, -0.3f }, { 1.f,1.f }, White, true, GreenTea) };
