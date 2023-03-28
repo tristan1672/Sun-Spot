@@ -29,7 +29,7 @@ void Menu_Initialize() {
 
 	LevelSelect::CreateLevelSelectUI();
 
-	e_uiState = GS_MAINMENU;
+	e_uiState = MAIN;
 }
 
 void Menu_Update() {
@@ -39,6 +39,7 @@ void Menu_Update() {
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 
 		if (selectLevelText->MouseCollision(mouse)) {
+			e_uiState = LS;
 			LevelSelect::SetLevelSelectActive();
 			selectLevelText->TextBoxActive = false; selectLevelText->Active = false;
 			quitText->TextBoxActive = false; quitText->Active = false;
@@ -46,10 +47,24 @@ void Menu_Update() {
 			creditText->TextBoxActive = false; creditText->Active = false;
 		}
 		if (LevelSelect::BackButtonBehaviour(mouse)) {
-			selectLevelText->TextBoxActive = true; selectLevelText->Active = true;
-			quitText->TextBoxActive = true; quitText->Active = true;
-			guideText->TextBoxActive = true; guideText->Active = true;
-			creditText->TextBoxActive = true; creditText->Active = true;
+			if (e_uiState == LS)
+			{
+				LevelSelect::SetLevelSelectInActive();
+				selectLevelText->TextBoxActive = true; selectLevelText->Active = true;
+				quitText->TextBoxActive = true; quitText->Active = true;
+				guideText->TextBoxActive = true; guideText->Active = true;
+				creditText->TextBoxActive = true; creditText->Active = true;
+			}
+			if (e_uiState == STAGE)
+			{
+				e_uiState = LS;
+				LevelSelect::SetLevelSelectActive();
+				selectLevelText->TextBoxActive = false; selectLevelText->Active = false;
+				quitText->TextBoxActive = false; quitText->Active = false;
+				guideText->TextBoxActive = false; guideText->Active = false;
+				creditText->TextBoxActive = false; creditText->Active = false;
+			}
+			
 		}
 		if (guideText->MouseCollision(mouse)) {
 			fileToLoad = "Assets/Script/LevelTutorial.txt";
