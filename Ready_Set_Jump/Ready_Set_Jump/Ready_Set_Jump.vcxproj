@@ -66,6 +66,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\Swarsch\Desktop\SIT\Sun Spot\Ready_Set_Jump\Extern\nlohmann\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -87,6 +88,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmodL.dll" "$(OutDir)" /s /r /
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\Swarsch\Desktop\SIT\Sun Spot\Ready_Set_Jump\Extern\nlohmann\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -116,6 +118,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -135,6 +138,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="PauseMenu.hpp" />
     <ClInclude Include="Physics.hpp" />
+    <ClInclude Include="SaveManager.hpp" />
     <ClInclude Include="Score.hpp" />
     <ClInclude Include="SplashScreen.hpp" />
     <ClInclude Include="Timer.hpp" />

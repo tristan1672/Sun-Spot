@@ -8,6 +8,7 @@
 #include "Ultilities.hpp"
 #include "Level.hpp"
 #include "MainMenu.hpp"
+#include "SaveManager.hpp"
 #include "SplashScreen.hpp"
 // ---------------------------------------------------------------------------
 
@@ -27,6 +28,7 @@ void GSM_Initialize(int startingState)
 	current = previous = next = startingState;
 	e_fontID = AEGfxCreateFont("Assets/Font/kongtext.ttf", 30);
 	std::cout << "GSM:Initialize\n";
+	Save::ReadFile();
 }
 
 // ----------------------------------------------------------------------------

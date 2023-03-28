@@ -1,9 +1,13 @@
 #include "MainMenu.hpp"
+#include "SaveManager.hpp"
+
 UIText* selectLevelText;
 UIText* quitText;
 UIText* guideText;
 UIText* titleText[3];
 UIText* creditText;
+
+
 
 void Menu_Load() {
 	MakeMesh();
@@ -22,7 +26,6 @@ void Menu_Initialize() {
 	quitText = new UIText {UIText("Quit", { -0.09f, -0.6f }, { 1.f,1.f }, White, true, GreenTea)};
 
 	LevelSelect::CreateLevelSelectUI();
-
 }
 
 void Menu_Update() {
@@ -50,6 +53,7 @@ void Menu_Update() {
 		}
 		if (guideText->MouseCollision(mouse)) {
 			fileToLoad = "Assets/Script/LevelTutorial.txt";
+			levelNumber = 0;
 			isTutorial = true;
 			next = GS_LEVEL;
 		}
