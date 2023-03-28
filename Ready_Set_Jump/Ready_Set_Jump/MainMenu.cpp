@@ -44,10 +44,6 @@ void Menu_Update() {
 			guideText->TextBoxActive = true; guideText->Active = true;
 			creditText->TextBoxActive = true; creditText->Active = true;
 		}
-		if (LevelSelect::StartButtonBehaviour(mouse))
-		{
-			next = GS_LEVEL;
-		}
 		if (guideText->MouseCollision(mouse)) {
 			fileToLoad = "Assets/Script/LevelTutorial.txt";
 			isTutorial = true;
@@ -58,6 +54,10 @@ void Menu_Update() {
 
 		if (quitText->MouseCollision(mouse)) {
 			next = GS_QUIT;
+		}
+		if (LevelSelect::StartButtonBehaviour(mouse))
+		{
+			next = GS_LEVEL;
 		}
 	}
 

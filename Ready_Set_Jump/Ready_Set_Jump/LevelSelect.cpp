@@ -33,11 +33,13 @@ namespace LevelSelect {
 			for (int j = 0; j < 4; ++j) {
 				if (levels[i][j].MouseCollision(mouse)) {
 					int levelcount = i * 4 + j + 1;
+					SetLevelSelectInActive();
 					StagingScreen(levelcount);
 				}
 			}
 		}
 	}
+
 	void LSButtonAnimation(mousePos mouse) {
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
@@ -117,6 +119,9 @@ namespace LevelSelect {
 	{
 		startButton->TextBoxActive = true;
 		startButton->Active = true;
+		backButton->TextBoxActive = true;
+		backButton->Active = true;
+
 		fileToLoad = "Assets/Script/Level";
 		fileToLoad += std::to_string(levelcount);
 		fileToLoad += ".txt";
