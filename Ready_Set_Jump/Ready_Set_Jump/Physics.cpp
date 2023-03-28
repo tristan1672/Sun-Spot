@@ -34,7 +34,7 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			}
 		}
-		if (position.x > (platform[static_cast<int>(btmY)][static_cast<int>(X1)].position.x - (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetScale().x / 2.f))) {
+		else if (position.x > (platform[static_cast<int>(btmY)][static_cast<int>(X1)].position.x - (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetScale().x / 2.f))) {
 			switch (platform[static_cast<int>(btmY)][static_cast<int>(X2)].GetPlatformType())
 			{
 			case NORMAL_BLOCK:// normal surface
@@ -90,7 +90,7 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			}
 		}
-		 if (platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() < GOAL) {
+		 else if (platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() < GOAL) {
 			switch (platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType())
 			{
 			case STICKY_BLOCK:// sticky physics
@@ -134,7 +134,7 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			}
 		}
-		 if (platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() < GOAL) {
+		 else if (platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() < GOAL) {
 			switch (platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType())
 			{
 			case STICKY_BLOCK:// sticky physics
