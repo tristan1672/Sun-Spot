@@ -12,9 +12,9 @@ void Menu_Load() {
 
 void Menu_Initialize() {
 	isTutorial = false;
-	titleText[0] = new UIText{UIText("Ready?", {-0.4f, 0.65f}, {1.4f,1.f}, Red)};
-	titleText[1] = new UIText{UIText("Set.", {0.03f, 0.65f}, {1.4f,1.f}, Yellow)};
-	titleText[2] = new UIText{UIText("Go!", {0.3f, 0.65f}, {1.4f,1.f}, GreenTea)};
+	titleText[0] = new UIText{UIText("Ready?", {-0.5f, 0.65f}, {1.4f,1.f}, Red)};
+	titleText[1] = new UIText{UIText("Set.", {-0.07f, 0.65f}, {1.4f,1.f}, Yellow)};
+	titleText[2] = new UIText{UIText("Jump!", {0.2f, 0.65f}, {1.4f,1.f}, GreenTea)};
 
 	selectLevelText = new UIText{ UIText("Select Level", { -0.26f, 0.3f },{1.f,1.f},White, true, GreenTea) };
 	guideText = new UIText{ UIText("How To Play", { -0.23f, -0.0f }, { 1.f,1.f }, White, true, GreenTea) };
