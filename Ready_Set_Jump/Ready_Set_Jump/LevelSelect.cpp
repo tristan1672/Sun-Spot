@@ -39,23 +39,8 @@ namespace LevelSelect {
 			for (int j = 0; j < 4; ++j) {
 				if (levels[i][j].MouseCollision(mouse)) {
 					levelNumber = i * 4 + j + 1;
-					StagingScreen(levelNumber);
-
-					fileToLoad = "Assets/Script/Level";
-					fileToLoad += std::to_string(levelNumber);
-					fileToLoad += ".txt";
-					Save::GetSaveValue(levelNumber, jump, collc, time, attempt);
-
-					std::cout << "Level:dsa " << levelNumber << std::endl;
-					std::cout << "Jumps: " << jump << std::endl;
-					std::cout << "Collectibles: " << collc << std::endl;
-					std::cout << "Time: " << time << std::endl;
-					std::cout << "Attempted: " << attempt << std::endl;
-
-					next = GS_LEVEL;
-					int levelcount = i * 4 + j + 1;
 					SetLevelSelectInActive();
-					StagingScreen(levelcount);
+					StagingScreen(levelNumber);
 				}
 			}
 		}
@@ -147,6 +132,14 @@ namespace LevelSelect {
 		fileToLoad = "Assets/Script/Level";
 		fileToLoad += std::to_string(levelcount);
 		fileToLoad += ".txt";
+
+		Save::GetSaveValue(levelNumber, jump, collc, time, attempt);
+
+		std::cout << "Level:dsa " << levelNumber << std::endl;
+		std::cout << "Jumps: " << jump << std::endl;
+		std::cout << "Collectibles: " << collc << std::endl;
+		std::cout << "Time: " << time << std::endl;
+		std::cout << "Attempted: " << attempt << std::endl;
 		
 	}
 }
