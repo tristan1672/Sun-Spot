@@ -6,7 +6,7 @@ namespace LevelSelect {
 	UIText* startButton{ nullptr };
 	GameObject* Stats;
 
-	int jump{}, collc{};
+	int jump{}, collc{}, difficulty{},totalscore{};
 	float time{};
 	bool attempt{};
 
