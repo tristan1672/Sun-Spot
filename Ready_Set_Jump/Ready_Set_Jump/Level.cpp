@@ -400,8 +400,9 @@ void Level_Draw()
 // ----------------------------------------------------------------------------
 void Level_Free()
 {
+	int temp{}; // this is a temp variable that should not be used once total score have been implemented
 	if (level_state == WIN) {
-		Save::SetSaveValue(levelNumber, jump_counter, e_numOfcollectibleCollected, e_levelTime, true);
+		Save::SetSaveValue(levelNumber, jump_counter, e_numOfcollectibleCollected, e_levelTime, temp,true);
 		Save::WriteFile();
 	}
 }
