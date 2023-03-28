@@ -12,4 +12,8 @@ namespace LevelSelect {
 	bool BackButtonBehaviour(mousePos mouse);
 	bool StartButtonBehaviour(mousePos mouse);
 	void StagingScreen(int levelcount);
+	void InitLSTexture();
+	void LoadLSTexture();
+	void UnloadLSTexture();
+	void DrawLSTexture();
 }

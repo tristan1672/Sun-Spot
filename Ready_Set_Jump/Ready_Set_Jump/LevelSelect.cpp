@@ -5,7 +5,11 @@ namespace LevelSelect {
 	UIText** levels{ nullptr };
 	UIText* backButton{ nullptr };
 	UIText* startButton{ nullptr };
-	GameObject* Stats;
+
+	AEGfxTexture* timeTexture;
+	AEGfxTexture* frameTexture;
+
+	GameObject Frame, Time;
 
 	int jump{}, collc{}, difficulty{},totalscore{};
 	float time{};
@@ -40,8 +44,8 @@ namespace LevelSelect {
 			for (int j = 0; j < 4; ++j) {
 				if (levels[i][j].MouseCollision(mouse)) {
 					levelNumber = i * 4 + j + 1;
-					SetLevelSelectInActive();
 					e_uiState = STAGE;
+					SetLevelSelectInActive();
 					StagingScreen(levelNumber);
 				}
 			}
@@ -110,6 +114,8 @@ namespace LevelSelect {
 	bool BackButtonBehaviour(mousePos mouse) {
 		if (backButton->MouseCollision(mouse)) 
 		{
+			Frame.SetTexture(nullptr);
+			Time.SetTexture(nullptr);
 			return true;
 		}
 		return false;
@@ -130,6 +136,8 @@ namespace LevelSelect {
 		startButton->Active = true;
 		backButton->TextBoxActive = true;
 		backButton->Active = true;
+		Frame.SetTexture(frameTexture);
+		Time.SetTexture(timeTexture);
 
 		fileToLoad = "Assets/Script/Level";
 		fileToLoad += std::to_string(levelcount);
@@ -143,5 +151,29 @@ namespace LevelSelect {
 		std::cout << "Time: " << time << std::endl;
 		std::cout << "Attempted: " << attempt << std::endl;
 		
+	}
+
+	void InitLSTexture()
+	{
+		Frame = GameObject({ 0.0f, 0.0f }, { 700.0f, 400.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
+		Time = GameObject({ -220.f, -100.f }, { 70.0f, 80.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
+	}
+
+	void LoadLSTexture()
+	{
+		timeTexture = AEGfxTextureLoad("Assets/Images/Time.png");
+		frameTexture = AEGfxTextureLoad("Assets/Images/ScoreFrame.png");
+	}
+
+	void UnloadLSTexture()
+	{
+		AEGfxTextureUnload(timeTexture);
+		AEGfxTextureUnload(frameTexture);
+	}
+
+	void DrawLSTexture()
+	{
+		Frame.DrawObj();
+		Time.DrawObj();
 	}
 }

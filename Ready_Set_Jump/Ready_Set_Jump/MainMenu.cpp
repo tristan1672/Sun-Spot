@@ -9,15 +9,16 @@ UIText* creditText;
 
 int e_uiState;
 
-
-
 void Menu_Load() {
 	MakeMesh();
 	AEGfxSetCamPosition(0.f, 0.f);
+	LevelSelect::LoadLSTexture();
 }
 
 void Menu_Initialize() {
 	isTutorial = false;
+	e_uiState = MAIN;
+
 	titleText[0] = new UIText{UIText("Ready?", {-0.5f, 0.65f}, {1.4f,1.f}, Red)};
 	titleText[1] = new UIText{UIText("Set.", {-0.07f, 0.65f}, {1.4f,1.f}, Yellow)};
 	titleText[2] = new UIText{UIText("Jump!", {0.2f, 0.65f}, {1.4f,1.f}, GreenTea)};
@@ -27,9 +28,11 @@ void Menu_Initialize() {
 	creditText = new UIText{ UIText("Credits", { -0.15f, -0.3f }, { 1.f,1.f }, White, true, GreenTea) };
 	quitText = new UIText {UIText("Quit", { -0.09f, -0.6f }, { 1.f,1.f }, White, true, GreenTea)};
 
+	
+	LevelSelect::InitLSTexture();
 	LevelSelect::CreateLevelSelectUI();
 
-	e_uiState = MAIN;
+	
 }
 
 void Menu_Update() {
@@ -38,7 +41,8 @@ void Menu_Update() {
 	// UI button checks
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 
-		if (selectLevelText->MouseCollision(mouse)) {
+		if (selectLevelText->MouseCollision(mouse)) 
+		{
 			e_uiState = LS;
 			LevelSelect::SetLevelSelectActive();
 			selectLevelText->TextBoxActive = false; selectLevelText->Active = false;
@@ -46,9 +50,11 @@ void Menu_Update() {
 			guideText->TextBoxActive = false; guideText->Active = false;
 			creditText->TextBoxActive = false; creditText->Active = false;
 		}
-		if (LevelSelect::BackButtonBehaviour(mouse)) {
+		if (LevelSelect::BackButtonBehaviour(mouse)) 
+		{
 			if (e_uiState == LS)
 			{
+				e_uiState = MAIN;
 				LevelSelect::SetLevelSelectInActive();
 				selectLevelText->TextBoxActive = true; selectLevelText->Active = true;
 				quitText->TextBoxActive = true; quitText->Active = true;
@@ -66,7 +72,8 @@ void Menu_Update() {
 			}
 			
 		}
-		if (guideText->MouseCollision(mouse)) {
+		if (guideText->MouseCollision(mouse)) 
+		{
 			fileToLoad = "Assets/Script/LevelTutorial.txt";
 			levelNumber = 0;
 			isTutorial = true;
@@ -75,7 +82,8 @@ void Menu_Update() {
 
 		LevelSelect::ButtonSelectBehaviour(mouse);
 
-		if (quitText->MouseCollision(mouse)) {
+		if (quitText->MouseCollision(mouse)) 
+		{
 			next = GS_QUIT;
 		}
 		if (LevelSelect::StartButtonBehaviour(mouse))
@@ -111,12 +119,14 @@ void Menu_Update() {
 
 void Menu_Draw() {
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+	LevelSelect::DrawLSTexture();
 	selectLevelText->DrawObj();
 	quitText->DrawObj();
 	guideText->DrawObj();
 	creditText->DrawObj();
 	for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) titleText[i]->DrawObj();
 	LevelSelect::DrawLevelButton();
+	
 }
 
 void Menu_Free() {
@@ -129,6 +139,7 @@ void Menu_Free() {
 }
 
 void Menu_Unload() {
-
+	
+	LevelSelect::UnloadLSTexture();
 	AEGfxMeshFree(pMesh);
 }
