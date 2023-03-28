@@ -8,10 +8,13 @@ extern const int WINDOW_HEIGHT;
 extern const float WINDOW_WIDTH_OFFSET;
 extern const float WINDOW_HEIGHT_OFFSET;
 
+// Level Select Menu
+//---------------------------
+extern const int LEVEL_ARRAY_SIZE;
+extern const float LEVEL_BUTTON_GAP;
+
 // Level
 //---------------------------
-// Level Array
-extern const int LEVEL_ARRAY_SIZE;
 // PLayer
 extern const float PLAYER_SIZE_X;
 extern const float PLAYER_SIZE_Y;

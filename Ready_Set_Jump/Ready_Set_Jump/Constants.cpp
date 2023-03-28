@@ -7,10 +7,13 @@ const int WINDOW_HEIGHT  = 720;
 const float WINDOW_WIDTH_OFFSET = WINDOW_WIDTH * 0.5f;
 const float WINDOW_HEIGHT_OFFSET = WINDOW_HEIGHT * 0.5f;
 
+// Level Select Menu
+//---------------------------
+const int LEVEL_ARRAY_SIZE = 3;
+const float LEVEL_BUTTON_GAP = 0.3f;
+
 // Level
 //---------------------------
-// Level Array
-const int LEVEL_ARRAY_SIZE = 3;
 // PLayer
 const float PLAYER_SIZE_X = 30.0f;
 const float PLAYER_SIZE_Y = 30.0f;

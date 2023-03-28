@@ -17,13 +17,13 @@ namespace LevelSelect {
 			levels[i] = new UIText[4]{};
 		}
 
-		float gapSize = 0.6f / (LEVEL_ARRAY_SIZE - 1.0f);
+		float gapSize = LEVEL_BUTTON_GAP * 2 / (LEVEL_ARRAY_SIZE - 1.0f);
 
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
 			for (int j = 0; j < LEVEL_ARRAY_SIZE; ++j) {
 				int levelcount = i * LEVEL_ARRAY_SIZE + j + 1;
 				//levels[i][j] = UIText(std::to_string(levelcount), { (j * 0.2f - 0.3f), (-i * 0.3f + 0.4f) }, { 1.f,1.f }, White, true, GreenTea);
-				levels[i][j] = UIText(std::to_string(levelcount), { (j * gapSize - 0.3f), (-i * 0.3f + 0.4f) }, { 1.f,1.f }, White, true, GreenTea);
+				levels[i][j] = UIText(std::to_string(levelcount), { (j * gapSize - LEVEL_BUTTON_GAP), (-i * 0.3f + 0.4f) }, { 1.f,1.f }, White, true, GreenTea);
 				levels[i][j].TextBoxActive = false;
 				levels[i][j].Active = false;
 			}
