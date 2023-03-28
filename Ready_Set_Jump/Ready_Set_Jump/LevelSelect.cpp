@@ -41,6 +41,7 @@ namespace LevelSelect {
 				if (levels[i][j].MouseCollision(mouse)) {
 					levelNumber = i * 4 + j + 1;
 					SetLevelSelectInActive();
+					e_uiState = STAGE;
 					StagingScreen(levelNumber);
 				}
 			}
@@ -107,9 +108,8 @@ namespace LevelSelect {
 		startButton->Active = false;
 	}
 	bool BackButtonBehaviour(mousePos mouse) {
-		if (backButton->MouseCollision(mouse)) {
-			SetLevelSelectInActive();
-			e_uiState = GS_MAINMENU;
+		if (backButton->MouseCollision(mouse)) 
+		{
 			return true;
 		}
 		return false;
