@@ -9,6 +9,8 @@ const float WINDOW_HEIGHT_OFFSET = WINDOW_HEIGHT * 0.5f;
 
 // Level
 //---------------------------
+// Level Array
+const int LEVEL_ARRAY_SIZE = 3;
 // PLayer
 const float PLAYER_SIZE_X = 30.0f;
 const float PLAYER_SIZE_Y = 30.0f;

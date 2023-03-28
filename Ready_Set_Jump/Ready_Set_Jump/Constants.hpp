@@ -10,6 +10,8 @@ extern const float WINDOW_HEIGHT_OFFSET;
 
 // Level
 //---------------------------
+// Level Array
+extern const int LEVEL_ARRAY_SIZE;
 // PLayer
 extern const float PLAYER_SIZE_X;
 extern const float PLAYER_SIZE_Y;
