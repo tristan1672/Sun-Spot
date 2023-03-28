@@ -22,6 +22,7 @@
 #include "PauseMenu.hpp"
 #include<string>
 #include "Tutorial.hpp"
+#include "SaveManager.hpp"
 
 // ---------------------------------------------------------------------------
 
@@ -51,6 +52,7 @@ int e_totalNumOfcollectible;
 int level_state;
 int level1_difficulty;
 bool e_scoreAnimation;
+int levelNumber;
 
 int gGameRunning = 1;
 bool flick = false;
@@ -311,9 +313,9 @@ void Level_Update()
 	Player.SnapToGrid();
 	ObjectiveCollision();
 
-
 	// code that allows the player to get affected by gravity
 	Player.PhysicsUpdate();
+
 
 	if (followMouseCheat) {
 		mousePos temp{};
@@ -398,7 +400,10 @@ void Level_Draw()
 // ----------------------------------------------------------------------------
 void Level_Free()
 {
-
+	if (level_state == WIN) {
+		Save::SetSaveValue(levelNumber, jump_counter, e_numOfcollectibleCollected, e_levelTime, true);
+		Save::WriteFile();
+	}
 }
 
 // ----------------------------------------------------------------------------

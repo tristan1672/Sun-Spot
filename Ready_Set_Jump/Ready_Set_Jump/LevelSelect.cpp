@@ -1,9 +1,15 @@
 #include "LevelSelect.hpp"
+#include "SaveManager.hpp"
 namespace LevelSelect {
 	UIText** levels{ nullptr };
 	UIText* backButton{ nullptr };
 	UIText* startButton{ nullptr };
 	GameObject* Stats;
+
+	int jump{}, collc{};
+	float time{};
+	bool attempt{};
+
 	void CreateLevelSelectUI() {
 		levels = new UIText * [4] {};
 		for (int i = 0; i < 4; ++i) {
@@ -32,6 +38,21 @@ namespace LevelSelect {
 		for (int i = 0; i < 4; ++i) {
 			for (int j = 0; j < 4; ++j) {
 				if (levels[i][j].MouseCollision(mouse)) {
+					levelNumber = i * 4 + j + 1;
+					StagingScreen(levelNumber);
+
+					fileToLoad = "Assets/Script/Level";
+					fileToLoad += std::to_string(levelNumber);
+					fileToLoad += ".txt";
+					Save::GetSaveValue(levelNumber, jump, collc, time, attempt);
+
+					std::cout << "Level:dsa " << levelNumber << std::endl;
+					std::cout << "Jumps: " << jump << std::endl;
+					std::cout << "Collectibles: " << collc << std::endl;
+					std::cout << "Time: " << time << std::endl;
+					std::cout << "Attempted: " << attempt << std::endl;
+
+					next = GS_LEVEL;
 					int levelcount = i * 4 + j + 1;
 					SetLevelSelectInActive();
 					StagingScreen(levelcount);
@@ -74,6 +95,7 @@ namespace LevelSelect {
 		}
 		delete[] levels;
 		delete backButton;
+		delete startButton;
 	}
 	void SetLevelSelectActive() {
 		for (int i = 0; i < 4; ++i) {

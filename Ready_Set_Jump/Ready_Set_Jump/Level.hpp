@@ -17,6 +17,7 @@ extern Platform** platform;
 extern GameObject jumpArrow;
 extern std::string fileToLoad;
 extern bool isTutorial;
+extern int levelNumber;
 
 void Level_Load();
 
