@@ -1,5 +1,6 @@
 #include "LevelSelect.hpp"
 #include "SaveManager.hpp"
+
 namespace LevelSelect {
 	UIText** levels{ nullptr };
 	UIText* backButton{ nullptr };
@@ -108,6 +109,7 @@ namespace LevelSelect {
 	bool BackButtonBehaviour(mousePos mouse) {
 		if (backButton->MouseCollision(mouse)) {
 			SetLevelSelectInActive();
+			e_uiState = GS_MAINMENU;
 			return true;
 		}
 		return false;

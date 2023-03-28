@@ -7,6 +7,8 @@ UIText* guideText;
 UIText* titleText[3];
 UIText* creditText;
 
+int e_uiState;
+
 
 
 void Menu_Load() {
@@ -26,6 +28,8 @@ void Menu_Initialize() {
 	quitText = new UIText {UIText("Quit", { -0.09f, -0.6f }, { 1.f,1.f }, White, true, GreenTea)};
 
 	LevelSelect::CreateLevelSelectUI();
+
+	e_uiState = GS_MAINMENU;
 }
 
 void Menu_Update() {

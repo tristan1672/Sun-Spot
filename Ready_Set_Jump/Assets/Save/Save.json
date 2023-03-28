@@ -2,7 +2,7 @@
  {"Level": 0,"Difficulty": 1,"Jumps": 0,"Collectibles": 0,"Time": 0,"TotalScore": 0,"Attempted": false},
  {"Level": 1,"Difficulty": 1,"Jumps": 0,"Collectibles": 0,"Time": 0,"TotalScore": 0,"Attempted": false},
  {"Level": 2,"Difficulty": 1,"Jumps": 0,"Collectibles": 0,"Time": 0,"TotalScore": 0,"Attempted": false},
- {"Level": 3,"Difficulty": 1,"Jumps": 0,"Collectibles": 0,"Time": 0,"TotalScore": 0,"Attempted": false},
+ {"Level": 3,"Difficulty": 1,"Jumps": 25,"Collectibles": 19,"Time": 29.383102416992188,"TotalScore": 0,"Attempted": true},
  {"Level": 4,"Difficulty": 1,"Jumps": 0,"Collectibles": 0,"Time": 0,"TotalScore": 0,"Attempted": false},
  {"Level": 5,"Difficulty": 1,"Jumps": 0,"Collectibles": 0,"Time": 0,"TotalScore": 0,"Attempted": false},
  {"Level": 6,"Difficulty": 1,"Jumps": 0,"Collectibles": 0,"Time": 0,"TotalScore": 0,"Attempted": false},
