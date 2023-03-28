@@ -133,7 +133,7 @@ namespace LevelSelect {
 		fileToLoad += std::to_string(levelcount);
 		fileToLoad += ".txt";
 
-		Save::GetSaveValue(levelNumber, jump, collc, time, attempt);
+		Save::GetSaveValue(levelNumber, difficulty, jump, collc, time, totalscore, attempt);
 
 		std::cout << "Level:dsa " << levelNumber << std::endl;
 		std::cout << "Jumps: " << jump << std::endl;
