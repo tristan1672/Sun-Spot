@@ -1,7 +1,9 @@
 #include "LevelSelect.hpp"
 namespace LevelSelect {
 	UIText** levels{ nullptr };
-	UIText* backButton{nullptr};
+	UIText* backButton{ nullptr };
+	UIText* startButton{ nullptr };
+	GameObject* Stats;
 	void CreateLevelSelectUI() {
 		levels = new UIText * [4] {};
 		for (int i = 0; i < 4; ++i) {
@@ -17,6 +19,11 @@ namespace LevelSelect {
 			}
 		}
 		backButton = new UIText{ UIText("Back", { -0.8f, -0.7f },{1.f,1.f},White, true, GreenTea) };
+		startButton = new UIText{ UIText("Start", { 0.6f, -0.7f },{1.f,1.f},White, true, GreenTea) };
+
+		startButton->TextBoxActive = false;
+		startButton->Active = false;
+
 		backButton->TextBoxActive = false;
 		backButton->Active = false;
 	}
@@ -26,10 +33,7 @@ namespace LevelSelect {
 			for (int j = 0; j < 4; ++j) {
 				if (levels[i][j].MouseCollision(mouse)) {
 					int levelcount = i * 4 + j + 1;
-					fileToLoad = "Assets/Script/Level";
-					fileToLoad += std::to_string(levelcount);
-					fileToLoad += ".txt";
-					next = GS_LEVEL;
+					StagingScreen(levelcount);
 				}
 			}
 		}
@@ -47,6 +51,11 @@ namespace LevelSelect {
 			backButton->TextBoxFadeIn();
 		}
 		else if (!backButton->MouseCollision({ mouse.ClickX ,mouse.ClickY })) backButton->TextBoxFadeOut();
+
+		if (startButton->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && startButton->GetTextBoxAlpha() < 1.f) {
+			startButton->TextBoxFadeIn();
+		}
+		else if (!startButton->MouseCollision({ mouse.ClickX ,mouse.ClickY })) startButton->TextBoxFadeOut();
 	}
 	void DrawLevelButton() {
 		for (int i = 0; i < 4; ++i) {
@@ -55,6 +64,7 @@ namespace LevelSelect {
 			}
 		}
 		backButton->DrawObj();
+		startButton->DrawObj();
 	}
 	void FreeLevelButton() {
 		for (int i = 0; i < 4; ++i) {
@@ -82,6 +92,9 @@ namespace LevelSelect {
 		}
 		backButton->TextBoxActive = false;
 		backButton->Active = false;
+
+		startButton->TextBoxActive = false;
+		startButton->Active = false;
 	}
 	bool BackButtonBehaviour(mousePos mouse) {
 		if (backButton->MouseCollision(mouse)) {
@@ -89,5 +102,24 @@ namespace LevelSelect {
 			return true;
 		}
 		return false;
+	}
+
+	bool StartButtonBehaviour(mousePos mouse)
+	{
+		if (startButton->MouseCollision(mouse))
+		{
+			return true;
+		}
+		return false;
+	}
+
+	void StagingScreen(int levelcount)
+	{
+		startButton->TextBoxActive = true;
+		startButton->Active = true;
+		fileToLoad = "Assets/Script/Level";
+		fileToLoad += std::to_string(levelcount);
+		fileToLoad += ".txt";
+		
 	}
 }

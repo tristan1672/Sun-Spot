@@ -31,7 +31,7 @@ void Menu_Update() {
 	// UI button checks
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 
-		if ( selectLevelText->MouseCollision(mouse)) {
+		if (selectLevelText->MouseCollision(mouse)) {
 			LevelSelect::SetLevelSelectActive();
 			selectLevelText->TextBoxActive = false; selectLevelText->Active = false;
 			quitText->TextBoxActive = false; quitText->Active = false;
@@ -43,6 +43,10 @@ void Menu_Update() {
 			quitText->TextBoxActive = true; quitText->Active = true;
 			guideText->TextBoxActive = true; guideText->Active = true;
 			creditText->TextBoxActive = true; creditText->Active = true;
+		}
+		if (LevelSelect::StartButtonBehaviour(mouse))
+		{
+			next = GS_LEVEL;
 		}
 		if (guideText->MouseCollision(mouse)) {
 			fileToLoad = "Assets/Script/LevelTutorial.txt";

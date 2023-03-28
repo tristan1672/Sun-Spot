@@ -10,4 +10,6 @@ namespace LevelSelect {
 	void DrawLevelButton();
 	void FreeLevelButton();
 	bool BackButtonBehaviour(mousePos mouse);
+	bool StartButtonBehaviour(mousePos mouse);
+	void StagingScreen(int levelcount);
 }
