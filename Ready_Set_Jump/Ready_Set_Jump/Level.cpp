@@ -301,7 +301,7 @@ void Level_Update()
 		}
 
 		// Mouse click to return to menu
-		if (e_scoreAnimation && AEInputCheckTriggered(AEVK_LBUTTON)) {
+		if (e_scoreAnimation) {
 			next = GS_MAINMENU;
 		}
 	}

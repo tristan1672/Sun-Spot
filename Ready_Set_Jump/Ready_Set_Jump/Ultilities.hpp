@@ -38,6 +38,9 @@ extern float currHoldTime, currHoldDistance;
 // Score animation
 extern bool e_scoreAnimation;
 
+// Score flag
+extern int e_skip;
+
 // Structs
 struct Vector2D {
 	f32 x;

@@ -5,6 +5,12 @@ namespace LevelSelect {
 	UIText** levels{ nullptr };
 	UIText* backButton{ nullptr };
 	UIText* startButton{ nullptr };
+	UIText* levelnumber;
+	
+	char jumpCount[25];
+	char timeCount[25];
+	char collectableCount[25];
+	char totalScore[25];
 
 	AEGfxTexture* timeTexture;
 	AEGfxTexture* frameTexture;
@@ -122,6 +128,9 @@ namespace LevelSelect {
 		{
 			Frame.SetTexture(nullptr);
 			Time.SetTexture(nullptr);
+
+			*timeCount = NULL;
+
 			return true;
 		}
 		return false;
@@ -151,6 +160,11 @@ namespace LevelSelect {
 
 		Save::GetSaveValue(levelNumber, difficulty, jump, collc, time, totalscore, attempt);
 
+		snprintf(jumpCount,			sizeof jumpCount,			"%d", jump);
+		snprintf(collectableCount,	sizeof collectableCount,	"%d", collc);
+		snprintf(timeCount,			sizeof timeCount,			"%.2f", time);
+		snprintf(totalScore,		sizeof totalScore,			"%d", totalscore);
+
 		std::cout << "Level:dsa " << levelNumber << std::endl;
 		std::cout << "Jumps: " << jump << std::endl;
 		std::cout << "Collectibles: " << collc << std::endl;
@@ -162,7 +176,9 @@ namespace LevelSelect {
 	void InitLSTexture()
 	{
 		Frame = GameObject({ 0.0f, 0.0f }, { 700.0f, 400.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
-		Time = GameObject({ -220.f, -100.f }, { 70.0f, 80.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
+		Time  = GameObject({ -220.f, -100.f }, { 70.0f, 80.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
+
+		*timeCount = NULL;
 	}
 
 	void LoadLSTexture()
@@ -181,5 +197,6 @@ namespace LevelSelect {
 	{
 		Frame.DrawObj();
 		Time.DrawObj();
+		AEGfxPrint(e_fontID, timeCount, -0.1f, -0.3f, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 }

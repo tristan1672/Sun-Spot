@@ -18,6 +18,7 @@ void Menu_Load() {
 void Menu_Initialize() {
 	isTutorial = false;
 	e_uiState = MAIN;
+	e_skip = 0;
 
 	titleText[0] = new UIText{UIText("Ready?", {-0.5f, 0.65f}, {1.4f,1.f}, Red)};
 	titleText[1] = new UIText{UIText("Set.", {-0.07f, 0.65f}, {1.4f,1.f}, Yellow)};
@@ -31,8 +32,6 @@ void Menu_Initialize() {
 	
 	LevelSelect::InitLSTexture();
 	LevelSelect::CreateLevelSelectUI();
-
-	
 }
 
 void Menu_Update() {
@@ -112,8 +111,6 @@ void Menu_Update() {
 	if (creditText->MouseCollision(mouse) && creditText->GetTextBoxAlpha() < 1.f) {
 		creditText->TextBoxFadeIn();
 	}else if (!(creditText->MouseCollision(mouse))) creditText->TextBoxFadeOut();
-
-
 
 }
 
