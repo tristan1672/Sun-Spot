@@ -74,7 +74,7 @@ bool UIText::MouseCollision(mousePos mousePos) {
 	float ymax = TextBox.position.y + (TextBox.GetScale().y / 2);
 	float ymin = TextBox.position.y - (TextBox.GetScale().y / 2);
 
-	Vector2D mouseClickQuadPos = { static_cast<float>(mousePos.ClickX) - WINDOW_WIDTH / 2.f , -(static_cast<float>(mousePos.ClickY) - WINDOW_HEIGHT / 2.f) };
+	Vector2D mouseClickQuadPos = { static_cast<float>(mousePos.ClickX) - HALVE_WINDOW_WIDTH , -(static_cast<float>(mousePos.ClickY) - HALVE_WINDOW_HEIGHT) };
 	//test if click x and click y is within the max and min coordinates of the rectangle
 	if ((mouseClickQuadPos.x <= xmax && mouseClickQuadPos.x >= xmin) && (mouseClickQuadPos.y <= ymax && mouseClickQuadPos.y >= ymin)) {
 		return true;

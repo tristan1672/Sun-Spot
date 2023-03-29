@@ -154,7 +154,7 @@ void Level_Initialize()
 			{
 			case NORMAL_BLOCK:
 				platform[i][j] = Platform(
-					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(normalBlockTexture);
@@ -162,7 +162,7 @@ void Level_Initialize()
 
 			case ICE_BLOCK:
 				platform[i][j] = Platform(
-					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(iceBlockTexture);
@@ -170,7 +170,7 @@ void Level_Initialize()
 
 			case STICKY_BLOCK:
 				platform[i][j] = Platform(
-					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(stickyBlockTexture);
@@ -178,7 +178,7 @@ void Level_Initialize()
 
 			case SLIME_BLOCK:
 				platform[i][j] = Platform(
-					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
@@ -196,7 +196,7 @@ void Level_Initialize()
 
 			case COLLECTIBLES:
 				platform[i][j] = Platform(
-					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ collectible_SIZE_X, collectible_SIZE_Y }, White, 0, AE_GFX_RM_COLOR, circleMesh);
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(collectibleTexture);
@@ -204,7 +204,7 @@ void Level_Initialize()
 
 			case CHECKPOINT:
 				platform[i][j] = Platform(
-					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y });
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(checkPointTexture2);
@@ -212,13 +212,13 @@ void Level_Initialize()
 
 			case GOAL:
 				platform[i][j] = Platform(
-					{ GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE },
+					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y });
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(goalTexture[0]);
 				break;
 			case PLAYER_SPAWN:
-				playerSpawnPoint = { GRID_WIDTH_SIZE / 2.0f - (WINDOW_WIDTH / 2.0f) + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + (WINDOW_HEIGHT / 2.0f) - i * GRID_HEIGHT_SIZE };
+				playerSpawnPoint = { GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE };
 				platform[i][j].SetPlatformType(0);
 				break;
 
@@ -248,6 +248,7 @@ void Level_Initialize()
 	shake = false;
 
 	Cam(airCheck);
+
 }
 
 // ----------------------------------------------------------------------------
@@ -257,18 +258,31 @@ void Level_Initialize()
 void Level_Update()
 {
 	// Background particle effect
-	//AEVec2 particalPosition = { static_cast<float>(e_binaryMapWidth*GRID_WIDTH_SIZE + 20), static_cast<float>(rand() % WINDOW_HEIGHT - WINDOW_HEIGHT_OFFSET) };
-	AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x + WINDOW_WIDTH), static_cast<float>(rand() % WINDOW_HEIGHT - WINDOW_HEIGHT_OFFSET)};
+	/*AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x + WINDOW_WIDTH),
+		static_cast<float>(rand() % static_cast<int>(e_binaryMapHeight * GRID_HEIGHT_SIZE) - static_cast<float>(e_binaryMapHeight * GRID_HEIGHT_SIZE) + HALVE_WINDOW_HEIGHT)};
 
-
-	int randScale = rand() % 10 + 2;
+	int randScale = rand() % 8 + 2;
 	AEVec2 particalScale = { static_cast<float>(randScale), static_cast<float>(randScale) };
 	
-	int randLifeTime = rand() % 70 + e_binaryMapWidth;
-	AEVec2 particleVelocity = { -static_cast<float>(rand() % 8 + 5) , 0.0f};
+	int randLifeTime = rand() % 70 + 1.5 * e_binaryMapWidth;
+	AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f};
 
 	*(particleList + (frameCounter % MAX_PARTICLE_NUMBER)) = GameObject({ particalPosition.x, particalPosition.y }, { particalScale.x, particalScale.y }, { 255.f, 255.f, 255.f, 255.f },
-					static_cast<float>(randLifeTime), AE_GFX_RM_COLOR, pMesh, { particleVelocity.x , particleVelocity.y });
+					static_cast<float>(randLifeTime), AE_GFX_RM_COLOR, pMesh, { particleVelocity.x , particleVelocity.y });*/
+
+	if (frameCounter % 2) {
+		AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x + WINDOW_WIDTH), static_cast<float>(rand() % static_cast<int>(e_binaryMapHeight * GRID_HEIGHT_SIZE) - static_cast<float>(e_binaryMapHeight * GRID_HEIGHT_SIZE) + HALVE_WINDOW_HEIGHT) };
+
+
+		int randScale = rand() % 8 + 2;
+		AEVec2 particalScale = { static_cast<float>(randScale), static_cast<float>(randScale) };
+
+		int randLifeTime = rand() % 70 + 1.5 * e_binaryMapWidth;
+		AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
+
+		*(particleList + (static_cast<int>(frameCounter*0.5) % MAX_PARTICLE_NUMBER)) = GameObject({ particalPosition.x, particalPosition.y }, { particalScale.x, particalScale.y }, { 255.f, 255.f, 255.f, 255.f },
+			static_cast<float>(randLifeTime), AE_GFX_RM_COLOR, pMesh, { particleVelocity.x , particleVelocity.y });
+	}
 
 
 	/*
@@ -339,7 +353,7 @@ void Level_Update()
 	if (followMouseCheat) {
 		mousePos temp{};
 		AEInputGetCursorPosition(&temp.ClickX, &temp.ClickY);
-		Vector2D mouseQuadPos = { static_cast<float>(temp.ClickX) - WINDOW_WIDTH / 2.f + cam.X, -(static_cast<float>(temp.ClickY) - WINDOW_HEIGHT / 2.f) + cam.Y };
+		Vector2D mouseQuadPos = { static_cast<float>(temp.ClickX) - HALVE_WINDOW_WIDTH + cam.X, -(static_cast<float>(temp.ClickY) - HALVE_WINDOW_HEIGHT) + cam.Y };
 		Player.position = mouseQuadPos;
 	}
 

@@ -4,8 +4,8 @@
 //---------------------------
 const int WINDOW_WIDTH   = 1270;
 const int WINDOW_HEIGHT  = 720;
-const float WINDOW_WIDTH_OFFSET = WINDOW_WIDTH * 0.5f;
-const float WINDOW_HEIGHT_OFFSET = WINDOW_HEIGHT * 0.5f;
+const float HALVE_WINDOW_WIDTH = WINDOW_WIDTH * 0.5f;
+const float HALVE_WINDOW_HEIGHT = WINDOW_HEIGHT * 0.5f;
 
 // Level Select Menu
 //---------------------------
