@@ -101,6 +101,8 @@ namespace LevelSelect {
 		}
 		backButton->TextBoxActive = true;
 		backButton->Active = true;
+		startButton->TextBoxActive = false;
+		startButton->Active = false;
 	}
 	void SetLevelSelectInActive() {
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
