@@ -257,13 +257,15 @@ void Level_Initialize()
 void Level_Update()
 {
 	// Background particle effect
-	AEVec2 particalPosition = { static_cast<float>(e_binaryMapWidth*GRID_WIDTH_SIZE + 20), static_cast<float>(rand() % WINDOW_HEIGHT - WINDOW_HEIGHT_OFFSET) };
+	//AEVec2 particalPosition = { static_cast<float>(e_binaryMapWidth*GRID_WIDTH_SIZE + 20), static_cast<float>(rand() % WINDOW_HEIGHT - WINDOW_HEIGHT_OFFSET) };
+	AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x + WINDOW_WIDTH), static_cast<float>(rand() % WINDOW_HEIGHT - WINDOW_HEIGHT_OFFSET)};
 
-	int randScale = rand() % 10 + 5;
+
+	int randScale = rand() % 10 + 2;
 	AEVec2 particalScale = { static_cast<float>(randScale), static_cast<float>(randScale) };
 	
 	int randLifeTime = rand() % 70 + e_binaryMapWidth;
-	AEVec2 particleVelocity = { -static_cast<float>(rand() % 30 + 10) , 0.0f};
+	AEVec2 particleVelocity = { -static_cast<float>(rand() % 8 + 5) , 0.0f};
 
 	*(particleList + (frameCounter % MAX_PARTICLE_NUMBER)) = GameObject({ particalPosition.x, particalPosition.y }, { particalScale.x, particalScale.y }, { 255.f, 255.f, 255.f, 255.f },
 					static_cast<float>(randLifeTime), AE_GFX_RM_COLOR, pMesh, { particleVelocity.x , particleVelocity.y });
