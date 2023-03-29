@@ -465,9 +465,7 @@ void Level_Unload()
 	}
 	delete[] platform;
 
-	for (unsigned int i{}; i < MAX_PARTICLE_NUMBER; ++i) {
-		delete[] particleList;
-	}
+	delete[] particleList;
 
 	PauseMenu::FreePauseMenu();
 
