@@ -270,9 +270,8 @@ void Level_Update()
 	*(particleList + (frameCounter % MAX_PARTICLE_NUMBER)) = GameObject({ particalPosition.x, particalPosition.y }, { particalScale.x, particalScale.y }, { 255.f, 255.f, 255.f, 255.f },
 					static_cast<float>(randLifeTime), AE_GFX_RM_COLOR, pMesh, { particleVelocity.x , particleVelocity.y });*/
 
-	if (frameCounter % 3) {
+	if (frameCounter % 4) {
 		AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x + WINDOW_WIDTH), static_cast<float>(rand() % static_cast<int>(e_binaryMapHeight * GRID_HEIGHT_SIZE) - static_cast<float>(e_binaryMapHeight * GRID_HEIGHT_SIZE) + HALVE_WINDOW_HEIGHT) };
-
 
 		int randScale = rand() % 8 + 2;
 		AEVec2 particalScale = { static_cast<float>(randScale), static_cast<float>(randScale) };
@@ -281,7 +280,7 @@ void Level_Update()
 		int randLifeTime = rand() % 70 + 10000;
 		AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
 
-		*(particleList + (static_cast<int>(frameCounter*0.33) % MAX_PARTICLE_NUMBER)) = GameObject({ particalPosition.x, particalPosition.y }, { particalScale.x, particalScale.y }, { 1.f, 1.f, 1.f, 1.f },
+		*(particleList + (static_cast<int>(frameCounter*0.25) % MAX_PARTICLE_NUMBER)) = GameObject({ particalPosition.x, particalPosition.y }, { particalScale.x, particalScale.y }, { 1.f, 1.f, 1.f, 1.f },
 			static_cast<float>(randLifeTime), AE_GFX_RM_COLOR, pMesh, { particleVelocity.x , particleVelocity.y });
 	}
 
@@ -376,6 +375,11 @@ void Level_Update()
 			pInst->SetRotation(pInst->GetRotation() - 1.0f);
 		}
 
+		// If off screen, "kills" it
+		if (pInst->GetPosition().x < -HALVE_WINDOW_WIDTH - 5)
+			pInst->SetRotation(0.f);
+		
+
 	}
 
 	++frameCounter;
@@ -404,10 +408,6 @@ void Level_Draw()
 		// Rotation is resued as lifetime
 		if (pInst->GetRotation() > 0) {
 			pInst->DrawObj();
-
-			//std::cout << "Partical " << i << "\n";
-			//std::cout << "Particle Drawn, Lifetime: " << pInst->GetRotation() << "\n";
-			//std::cout << "Particle Velocity X " << pInst->GetDirection().x << "\n";
 		}
 
 	}
