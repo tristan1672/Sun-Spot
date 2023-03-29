@@ -1,6 +1,6 @@
 #include "Credits.hpp"
 
-UIText* creditInfo[100];
+UIText* creditInfo[38];
 static float creditTimer;
 
 void Credits_Load() {
