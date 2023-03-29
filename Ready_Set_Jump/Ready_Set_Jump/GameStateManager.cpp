@@ -10,6 +10,7 @@
 #include "MainMenu.hpp"
 #include "SaveManager.hpp"
 #include "SplashScreen.hpp"
+#include "Credits.hpp"
 // ---------------------------------------------------------------------------
 
 
@@ -56,6 +57,14 @@ void GSM_Update()
 		e_fpDraw = Menu_Draw;
 		e_fpFree = Menu_Free;
 		e_fpUnload = Menu_Unload;
+		break;
+	case GS_CREDITS:
+		e_fpLoad = Credits_Load;
+		e_fpInitialize = Credits_Initialize;
+		e_fpUpdate = Credits_Update;
+		e_fpDraw = Credits_Draw;
+		e_fpFree = Credits_Free;
+		e_fpUnload = Credits_Unload;
 		break;
 	case GS_LEVEL:
 		e_fpLoad = Level_Load;

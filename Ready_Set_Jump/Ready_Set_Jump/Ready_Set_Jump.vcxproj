@@ -109,6 +109,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClCompile Include="Cam.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="Constants.cpp" />
+    <ClCompile Include="Credits.cpp" />
     <ClCompile Include="GameObjClasses.cpp" />
     <ClCompile Include="LevelSelect.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -131,6 +132,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClInclude Include="Cam.hpp" />
     <ClInclude Include="Collision.hpp" />
     <ClInclude Include="Constants.hpp" />
+    <ClInclude Include="Credits.hpp" />
     <ClInclude Include="GameObjClasses.hpp" />
     <ClInclude Include="GameStateManager.hpp" />
     <ClInclude Include="GameStateList.hpp" />
