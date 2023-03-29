@@ -102,6 +102,12 @@ void GameObject::SetTexture(AEGfxTexture* texturePointer) {
 void GameObject::SetRenderMode(AEGfxRenderMode render) {
 	renderMode = render;
 }
+Vector2D GameObject::GetDirection() {
+	return direction;
+}
+void GameObject::SetDirection(Vector2D Direction) {
+	direction = Direction;
+}
 #pragma endregion
 //the draw function for created object, can be changed when inherited
 void GameObject::DrawObj() {

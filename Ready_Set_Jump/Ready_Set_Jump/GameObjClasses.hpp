@@ -46,6 +46,8 @@ public:
 	void SetRotation(f32 Rotation);
 	void SetTexture(AEGfxTexture* texturePointer);
 	void SetRenderMode(AEGfxRenderMode render);
+	Vector2D GetDirection();
+	void SetDirection(Vector2D direction);
 #pragma endregion
 
 };

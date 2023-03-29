@@ -53,7 +53,11 @@ extern const float MIN_HOLD_DISTANCE;
 
 // Collision
 //---------------------------
-extern const int COLLISION_LEFT;
-extern const int COLLISION_RIGHT;
-extern const int COLLISION_TOP;
-extern const int COLLISION_BOTTOM;
+extern const unsigned int COLLISION_LEFT;
+extern const unsigned int COLLISION_RIGHT;
+extern const unsigned int COLLISION_TOP;
+extern const unsigned int COLLISION_BOTTOM;
+
+// Particle
+//---------------------------
+extern const unsigned int MAX_PARTICLE_NUMBER;

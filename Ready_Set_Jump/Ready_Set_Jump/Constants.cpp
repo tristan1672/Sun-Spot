@@ -52,7 +52,11 @@ const float MIN_HOLD_DISTANCE = 10.f;
 
 // Collision
 //---------------------------
-const int COLLISION_LEFT   = 0x00000001;	//0001
-const int COLLISION_RIGHT  = 0x00000002;	//0010
-const int COLLISION_TOP    = 0x00000004;	//0100
-const int COLLISION_BOTTOM = 0x00000008;	//1000
+const unsigned int COLLISION_LEFT   = 0x00000001;	//0001
+const unsigned int COLLISION_RIGHT  = 0x00000002;	//0010
+const unsigned int COLLISION_TOP    = 0x00000004;	//0100
+const unsigned int COLLISION_BOTTOM = 0x00000008;	//1000
+
+// Particle
+//---------------------------
+const unsigned int MAX_PARTICLE_NUMBER = 2048;

@@ -79,6 +79,8 @@ AEGfxTexture* checkPointTexture1{ nullptr };
 AEGfxTexture* checkPointTexture2{ nullptr };
 AEGfxTexture* goalTexture[20]{nullptr};
 
+GameObject *particleList;
+
 
 int ImportMapDataFromFile(const char* FileName);
 
@@ -112,7 +114,6 @@ void Level_Load()
 		goalTexture[i] = AEGfxTextureLoad(location.c_str());
 	}
 
-
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
 
@@ -121,6 +122,9 @@ void Level_Load()
 	}
 	PauseMenu::CreatePauseMenu();
 	if (isTutorial) Tutorial::MakeTutorialText();
+
+	particleList = new GameObject[MAX_PARTICLE_NUMBER];
+
 
 }
 // ----------------------------------------------------------------------------
@@ -252,6 +256,19 @@ void Level_Initialize()
 // ----------------------------------------------------------------------------
 void Level_Update()
 {
+	// Background particle effect
+	AEVec2 particalPosition = { static_cast<float>(e_binaryMapWidth*GRID_WIDTH_SIZE + 20), static_cast<float>(rand() % WINDOW_HEIGHT - WINDOW_HEIGHT_OFFSET) };
+
+	int randScale = rand() % 10 + 5;
+	AEVec2 particalScale = { static_cast<float>(randScale), static_cast<float>(randScale) };
+	
+	int randLifeTime = rand() % 70 + e_binaryMapWidth;
+	AEVec2 particleVelocity = { -static_cast<float>(rand() % 30 + 10) , 0.0f};
+
+	*(particleList + (frameCounter % MAX_PARTICLE_NUMBER)) = GameObject({ particalPosition.x, particalPosition.y }, { particalScale.x, particalScale.y }, { 255.f, 255.f, 255.f, 255.f },
+					static_cast<float>(randLifeTime), AE_GFX_RM_COLOR, pMesh, { particleVelocity.x , particleVelocity.y });
+
+
 	/*
 	* this part is to prevent the player from moving due to input from previous scene
 	*/
@@ -329,6 +346,19 @@ void Level_Update()
 
 	// Update total time taken for level
 	LevelTime();
+	}	
+
+	// Update particle effect for background
+	for (unsigned int i{}; i < MAX_PARTICLE_NUMBER; ++i) {
+
+		GameObject* pInst = particleList + i;
+
+		// Rotation is resued as lifetime
+		if (pInst->GetRotation() > 0) {
+			pInst->SetPosition( {pInst->GetPosition().x + pInst->GetDirection().x, pInst->GetPosition().y + pInst->GetDirection().y} );
+			pInst->SetRotation(pInst->GetRotation() - 1.0f);
+		}
+
 	}
 
 	++frameCounter;
@@ -349,6 +379,21 @@ void Level_Draw()
 
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+
+	for (unsigned int i{}; i < MAX_PARTICLE_NUMBER; ++i) {
+
+		GameObject* pInst = particleList + i;
+
+		// Rotation is resued as lifetime
+		if (pInst->GetRotation() > 0) {
+			pInst->DrawObj();
+
+			//std::cout << "Partical " << i << "\n";
+			//std::cout << "Particle Drawn, Lifetime: " << pInst->GetRotation() << "\n";
+			//std::cout << "Particle Velocity X " << pInst->GetDirection().x << "\n";
+		}
+
+	}
 
 
 
