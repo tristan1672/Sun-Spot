@@ -81,7 +81,7 @@ void DynamicObj::PhysicsUpdate() {
 			case SLIME_BLOCK:
 				if (velocity.x) {
 					velocity.x = -velocity.x;
-					velocity.y = static_cast<float>(e_jumpForce * direction.y);
+					velocity.y = static_cast<float>((e_jumpForce / 0.8) * direction.y);
 				}
 				break;
 			default:
@@ -101,7 +101,7 @@ void DynamicObj::PhysicsUpdate() {
 			case SLIME_BLOCK:
 				if (velocity.x) {
 					velocity.x = -velocity.x;
-					velocity.y = static_cast<float>(e_jumpForce * direction.y);
+					velocity.y = static_cast<float>((e_jumpForce / 0.8) * direction.y);
 				}
 				break;
 			default:
@@ -124,7 +124,7 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
-					velocity.y = static_cast<float>(e_jumpForce * direction.y);
+					velocity.y = static_cast<float>((e_jumpForce/0.8) * direction.y);
 					velocity.x = -velocity.x;
 				}
 				break;
@@ -144,7 +144,7 @@ void DynamicObj::PhysicsUpdate() {
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
-					velocity.y = static_cast<float>(e_jumpForce * direction.y);
+					velocity.y = static_cast<float>((e_jumpForce / 0.8) * direction.y);
 					velocity.x = -velocity.x;
 				}
 				break;

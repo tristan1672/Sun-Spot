@@ -1,7 +1,30 @@
 #include "SaveManager.hpp"
+#include <sstream>
 namespace Save {
 		nlohmann::json save;
 		size_t maxlevel{ 17 };
+#pragma region Default Save
+		std::string Template = "["
+			"{ \"Level\": 0,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false},"
+			"{ \"Level\": 1,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 2,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 3,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 4,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 5,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 6,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 7,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 8,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 9,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 10,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 11,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 12,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 13,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 14,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 15,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 16,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false }"
+			"]";
+
+#pragma endregion
 
 	void ReadFile() {
 		std::fstream saveFile("Assets/Save/Save.json");
@@ -10,12 +33,14 @@ namespace Save {
 		}
 		else
 		{
-			std::fstream defualtSave("Assets/Save/DefaultSave.json");
-			if (defualtSave.is_open()) {
-				save = nlohmann::json::parse(defualtSave);
-				WriteFile();
-			}
-			defualtSave.close();
+			std::istringstream temp{ Template };
+			save = nlohmann::json::parse(temp);
+			//std::fstream defualtSave("Assets/Save/DefaultSave.json");
+			//if (defualtSave.is_open()) {
+			//	save = Template;
+			WriteFile();
+			//}
+			//defualtSave.close();
 		}
 		saveFile.close();
 	}
