@@ -1,5 +1,6 @@
 #include "MainMenu.hpp"
 #include "SaveManager.hpp"
+#include "Credits.hpp"
 
 UIText* selectLevelText;
 UIText* quitText;
@@ -27,12 +28,9 @@ void Menu_Initialize() {
 	guideText = new UIText{ UIText("How To Play", { -0.23f, -0.0f }, { 1.f,1.f }, White, true, GreenTea) };
 	creditText = new UIText{ UIText("Credits", { -0.15f, -0.3f }, { 1.f,1.f }, White, true, GreenTea) };
 	quitText = new UIText {UIText("Quit", { -0.09f, -0.6f }, { 1.f,1.f }, White, true, GreenTea)};
-
 	
 	LevelSelect::InitLSTexture();
 	LevelSelect::CreateLevelSelectUI();
-
-	
 }
 
 void Menu_Update() {
@@ -40,6 +38,21 @@ void Menu_Update() {
 	AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 	// UI button checks
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
+
+		if (creditText->MouseCollision(mouse)) {
+			for (unsigned int i{}; i < 3; ++i) {
+				titleText[i]->Active = false;
+			}
+			selectLevelText->TextBoxActive = false; selectLevelText->Active = false;
+			quitText->TextBoxActive = false; quitText->Active = false;
+			guideText->TextBoxActive = false; guideText->Active = false;
+			creditText->TextBoxActive = false; creditText->Active = false;
+			next = GS_CREDITS;
+		}
+
+
+
+
 
 		if (selectLevelText->MouseCollision(mouse)) 
 		{
@@ -79,6 +92,7 @@ void Menu_Update() {
 			isTutorial = true;
 			next = GS_LEVEL;
 		}
+		
 
 		LevelSelect::ButtonSelectBehaviour(mouse);
 
@@ -126,7 +140,6 @@ void Menu_Draw() {
 	creditText->DrawObj();
 	for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) titleText[i]->DrawObj();
 	LevelSelect::DrawLevelButton();
-	
 }
 
 void Menu_Free() {
