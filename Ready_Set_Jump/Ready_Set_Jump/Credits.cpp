@@ -1,6 +1,23 @@
-#include "Credits.hpp"
+/*
+  *  \file Credits.cpp
+  *  \author      : Peh Zong Lin Adrian
+  *  \par DP Email: p.zonglinadrian\@digipen.edu
+  *  \par Course  : csd1451
+  *
+  *  \brief
+  *  Credits component.
+  *  - Initialize text to be printed
+  *  - Initialize text position, scale, color, font
+  *
+*/
 
-UIText* creditInfo[100];
+// ---------------------------------------------------------------------------
+// Includes
+#include "Credits.hpp"
+// --------------------------------------------------------------------------- // End of includes
+
+// Global Variables
+UIText* creditInfo[44];
 static float creditTimer;
 
 void Credits_Load() {
@@ -11,8 +28,8 @@ void Credits_Initialize() {
 
 	creditTimer = 0.f;
 
-	AEVec2 titleSize{ 1.3f, 1.3f };
-	AEVec2 textSize{ 1.f, 1.f };
+	AEVec2 titleSize{ 0.65f, 0.65f };
+	AEVec2 textSize{ 0.5f, 0.5f };
 
 	// Team
 	// Set 0
@@ -57,42 +74,45 @@ void Credits_Initialize() {
 	creditInfo[21] = new UIText{ UIText("SAMIR ABOU SAMRA", {0.f, -0.45f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
 	// Set 6
-	creditInfo[22] = new UIText{ UIText("PROVOST AND ACTING DEPARTMENT CHAIR OF COMPUTER SCIENCE, SINGAPORE CAMPUS", {0.f, 0.3f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
-	creditInfo[23] = new UIText{ UIText("PRASANNA GHALI", {0.f, 0.15f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[22] = new UIText{ UIText("PROVOST AND ACTING DEPARTMENT CHAIR OF COMPUTER SCIENCE,", {0.f, 0.35f}, {titleSize.x - 0.05f, titleSize.y - 0.05f}, White, false, White, e_creditFontID) };
+	creditInfo[23] = new UIText{ UIText("SINGAPORE CAMPUS", {0.f, 0.25f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[24] = new UIText{ UIText("PRASANNA GHALI", {0.f, 0.15f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
-	creditInfo[24] = new UIText{ UIText("SENIOR ADVISOR", {0.f, -0.1f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
-	creditInfo[25] = new UIText{ UIText("JOHN BAUER", {0.f, -0.25f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[25] = new UIText{ UIText("SENIOR ADVISOR", {0.f, -0.15f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[26] = new UIText{ UIText("JOHN BAUER", {0.f, -0.25f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
 	// Set 7
-	creditInfo[26] = new UIText{ UIText("DEAN OF FACULTY, REDMOND CAMPUS", {0.f, 0.4f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
-	creditInfo[27] = new UIText{ UIText("DR. ERIK MOHRMANN", {0.f, 0.3f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[27] = new UIText{ UIText("DEAN OF FACULTY, REDMOND CAMPUS", {0.f, 0.4f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[28] = new UIText{ UIText("DR. ERIK MOHRMANN", {0.f, 0.3f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
-	creditInfo[28] = new UIText{ UIText("SENIOR VICE PRESIDENT OF FACILITIES MANAGEMENT", {0.f, 0.025f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
-	creditInfo[29] = new UIText{ UIText("MELVIN GONSALVEZ", {0.f, -0.075f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[29] = new UIText{ UIText("SENIOR VICE PRESIDENT OF FACILITIES MANAGEMENT", {0.f, 0.025f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[30] = new UIText{ UIText("MELVIN GONSALVEZ", {0.f, -0.075f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
-	creditInfo[30] = new UIText{ UIText("EVP ADMINISTRATION AND OPERATIONS", {0.f, -0.35f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
-	creditInfo[31] = new UIText{ UIText("ANGELA KUGLER", {0.f, -0.45f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[31] = new UIText{ UIText("EVP ADMINISTRATION AND OPERATIONS", {0.f, -0.35f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[32] = new UIText{ UIText("ANGELA KUGLER", {0.f, -0.45f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
 	// Set 8
-	creditInfo[32] = new UIText{ UIText("VICE PRESIDENT OF INSTITUTION ADVANCEMENT AND STRATEGIC INITIATIVES", {0.f, 0.4f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
-	creditInfo[33] = new UIText{ UIText("DR. CHARLES DUBA", {0.f, 0.3f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[33] = new UIText{ UIText("VICE PRESIDENT", {0.f, 0.5f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
+	creditInfo[34] = new UIText{ UIText("OF INSTITUTION ADVANCEMENT AND STRATEGIC INITIATIVES", {0.f, 0.4f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
+	creditInfo[35] = new UIText{ UIText("DR. CHARLES DUBA", {0.f, 0.3f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
-	creditInfo[34] = new UIText{ UIText("VICE PRESIDENT OF SOFTWARE PRODUCTION", {0.f, 0.025f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
-	creditInfo[35] = new UIText{ UIText("BEN ELLINGER", {0.f, -0.075f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[36] = new UIText{ UIText("VICE PRESIDENT OF SOFTWARE PRODUCTION", {0.f, 0.025f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[37] = new UIText{ UIText("BEN ELLINGER", {0.f, -0.075f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
-	creditInfo[36] = new UIText{ UIText("VICE PRESIDENT OF INFORMATION TECHNOLOGY AND COMPUTER SYSTEMS", {0.f, -0.35f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
-	creditInfo[37] = new UIText{ UIText("JOHNNY DEEK", {0.f, -0.45f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[38] = new UIText{ UIText("VICE PRESIDENT", {0.f, -0.35f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
+	creditInfo[39] = new UIText{ UIText("OF INFORMATION TECHNOLOGY AND COMPUTER SYSTEMS", {0.f, -0.45f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
+	creditInfo[40] = new UIText{ UIText("JOHNNY DEEK", {0.f, -0.55f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
 	// Copyright
 	// Set 9
-	creditInfo[38] = new UIText{ UIText("All content (C) 2023 Digipen Institute of Technology Singapore. All Rights Reserved", {0.f, 0.f}, {0.8f, 0.8f}, White, false, White, e_creditFontID) };
+	creditInfo[41] = new UIText{ UIText("All content (C) 2023 Digipen Institute of Technology Singapore. All Rights Reserved", {0.f, 0.f}, {0.8f, 0.8f}, White, false, White, e_creditFontID) };
 
 	// Special Credits
 	// Set 10
-	creditInfo[39] = new UIText{ UIText("Additional Third Party Library:", {0.f, 0.075f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
-	creditInfo[40] = new UIText{ UIText("nlohmann/json", {0.f, -0.025f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[42] = new UIText{ UIText("Additional Third Party Library:", {0.f, 0.075f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[43] = new UIText{ UIText("nlohmann/json", {0.f, -0.025f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
-	for (unsigned int i{}; i < 41; ++i) {
+	for (unsigned int i{}; i < 44; ++i) {
 		AEVec2 size{};
 		AEGfxGetPrintSize(e_creditFontID, creditInfo[i]->GetText(), creditInfo[i]->GetScale().x, size.x, size.y);
 		creditInfo[i]->SetPosition({ -0.5f * size.x, creditInfo[i]->GetPosition().y });
@@ -115,7 +135,6 @@ void Credits_Draw() {
 
 	float time = 3.0f;
 	int set = static_cast<int>(creditTimer / time);
-	//int set = 4;
 
 	switch (set)
 	{
@@ -149,26 +168,26 @@ void Credits_Draw() {
 		break;
 
 	case 6:
-		for (unsigned int i{ 22 }; i < 26; ++i)
+		for (unsigned int i{ 22 }; i < 27; ++i)
 			creditInfo[i]->DrawObj();
 		break;
 
 	case 7:
-		for (unsigned int i{ 26 }; i < 32; ++i)
+		for (unsigned int i{ 27 }; i < 33; ++i)
 			creditInfo[i]->DrawObj();
 		break;
 
 	case 8:
-		for (unsigned int i{ 32 }; i < 38; ++i)
+		for (unsigned int i{ 33 }; i < 41; ++i)
 			creditInfo[i]->DrawObj();
 		break;
 
 	case 9:
-		creditInfo[38]->DrawObj();
+		creditInfo[41]->DrawObj();
 		break;
 
 	case 10:
-		for (unsigned int i{ 39 }; i < 41; ++i)
+		for (unsigned int i{ 42 }; i < 44; ++i)
 			creditInfo[i]->DrawObj();
 		break;
 

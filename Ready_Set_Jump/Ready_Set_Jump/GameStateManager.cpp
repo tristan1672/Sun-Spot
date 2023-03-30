@@ -28,7 +28,7 @@ void GSM_Initialize(int startingState)
 {
 	current = previous = next = startingState;
 	e_fontID = AEGfxCreateFont("Assets/Font/kongtext.ttf", FONT_SIZE);
-	e_creditFontID = AEGfxCreateFont("Assets/Font/Connection-arMJ.otf", FONT_SIZE);
+	e_creditFontID = AEGfxCreateFont("Assets/Font/Connection-arMJ.otf", CREDIT_FONT_SIZE);
 	std::cout << "GSM:Initialize\n";
 	Save::ReadFile();
 }

@@ -11,6 +11,7 @@ extern const float HALVE_WINDOW_HEIGHT;
 // Font
 //---------------------------
 extern const int FONT_SIZE;
+extern const int CREDIT_FONT_SIZE;
 
 // Level Select Menu
 //---------------------------

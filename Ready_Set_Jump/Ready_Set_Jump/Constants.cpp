@@ -10,6 +10,7 @@ const float HALVE_WINDOW_HEIGHT = WINDOW_HEIGHT * 0.5f;
 // Font
 //---------------------------
 const int FONT_SIZE = 30;
+const int CREDIT_FONT_SIZE = 60;
 
 // Level Select Menu
 //---------------------------
