@@ -26,7 +26,7 @@ namespace Tutorial {
 		//sets inidvidual tutorial text to their location and set their texture to each obj
 		SetTutorialObj(TutorialTextObj[0], {-450.f,115.f}, {300.f,260.f},     TurorialText[0], "Assets/Images/TutorialText/ControlIntro.png");
 		SetTutorialObj(TutorialTextObj[1], { 400.f,0.f }, { 360.f,120.f },    TurorialText[1], "Assets/Images/TutorialText/IceIntro.png");
-		SetTutorialObj(TutorialTextObj[2], { 785.f,300.f }, { 360.f,200.f },  TurorialText[2], "Assets/Images/TutorialText/CheckpointIntro.png");
+		SetTutorialObj(TutorialTextObj[2], { 780.f,265.f }, { 360.f,200.f },  TurorialText[2], "Assets/Images/TutorialText/CheckpointIntro.png");
 		SetTutorialObj(TutorialTextObj[3], { 1500.f,0.f }, { 360.f,200.f },   TurorialText[3], "Assets/Images/TutorialText/JumpGapText.png");
 		SetTutorialObj(TutorialTextObj[4], { 3200.f,150.f }, { 360.f,200.f }, TurorialText[4], "Assets/Images/TutorialText/JumpDown.png");
 		SetTutorialObj(TutorialTextObj[5], { 4900.f,-300.f }, { 360.f,200.f },TurorialText[5], "Assets/Images/TutorialText/SlimeIntro.png");
