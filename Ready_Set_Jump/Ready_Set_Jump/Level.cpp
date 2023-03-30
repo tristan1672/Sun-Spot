@@ -1,6 +1,6 @@
 /*
-  *  \file Level1.cpp (might need to change this file name later)
-  *  \author Xiao Jun Yu
+  *  \file Level.cpp 
+  *  \author Xiao Jun Yu, 
   *  \par DP Email: junyu.xiao\@digipen.edu
   *  \par Course: csd1451
   *
