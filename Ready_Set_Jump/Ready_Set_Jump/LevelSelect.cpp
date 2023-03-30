@@ -174,13 +174,19 @@ namespace LevelSelect {
 		fileToLoad += std::to_string(levelcount);
 		fileToLoad += ".txt";
 
-		Save::GetSaveValue(levelNumber, difficulty, jump, collc, totalcollectibles, time, totalscore, attempt);
-
-		snprintf(leveltext,			sizeof leveltext,			"Level %d", levelNumber);
+		Save::GetSaveValue(levelcount, difficulty, jump, collc, totalcollectibles, time, totalscore, attempt);
+		
+		snprintf(leveltext,			sizeof leveltext,			"Level %d", levelcount);
 		snprintf(jumpCount,			sizeof jumpCount,			"%d", jump);
-		snprintf(collectibleCount,	sizeof collectibleCount,	"%d / %d", collc, e_totalNumOfcollectible);
-		snprintf(timeCount,			sizeof timeCount,			"%.2f", time);
+		snprintf(collectibleCount,	sizeof collectibleCount,	"%d / %d", collc, totalcollectibles);
+		snprintf(timeCount,			sizeof timeCount,			"0%.2f", time);
 		snprintf(totalScore,		sizeof totalScore,			"%d", totalscore);
+
+		if (!attempt)
+		{
+			*jumpCount = '-';
+			*collectibleCount = '-';
+		}
 
 		std::cout << "Level:dsa " << levelNumber << std::endl;
 		std::cout << "Jumps: " << jump << std::endl;
@@ -226,6 +232,6 @@ namespace LevelSelect {
 		AEGfxPrint(e_fontID, leveltext,			 -0.15f,    0.6f, 1.0f, 1.0f, 1.0f, 1.0f);
 		AEGfxPrint(e_fontID, jumpCount,			 0.035f,    0.27f, 1.0f, 1.0f, 1.0f, 1.0f);
 		AEGfxPrint(e_fontID, collectibleCount,	 0.035f,    0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
-		AEGfxPrint(e_fontID, timeCount,			 0.035f,    -0.3f, 1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, timeCount,			 0.035f,   -0.3f, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 }
