@@ -31,21 +31,21 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     //Initialize the gamestate manager
     GSM_Initialize(GS_SPLASH);
 
-    while (current != GS_QUIT)
+    while (e_current_state != GS_QUIT)
     {
-        if (current != GS_RESTART) {
+        if (e_current_state != GS_RESTART) {
             GSM_Update(); //Initialize the gamestate function pointers
             e_fpLoad(); // Loads gamestate
         }
         else {
-            next = previous; // set next gamestate to previous gamestate
-            current = previous; // set current gamestate to previous gamestate
+            e_next_state = e_previous_state; // set next gamestate to previous gamestate
+            e_current_state = e_previous_state; // set current gamestate to previous gamestate
         }
 
         e_fpInitialize(); // Initialize gamestate
 
         //The game loop
-        while (next == current)
+        while (e_next_state == e_current_state)
         {   
             AESysFrameStart();
             AEInputUpdate();
@@ -57,17 +57,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
             AESysFrameEnd();
 
             if ((AESysDoesWindowExist() == false))
-                next = GS_QUIT;
+                e_next_state = GS_QUIT;
         }
 
         e_fpFree(); // Free current gamestate
 
-        if (next != GS_RESTART) {
+        if (e_next_state != GS_RESTART) {
             e_fpUnload(); //Unloads current gamestate
         }
 
-        previous = current;
-        current = next;
+        e_previous_state = e_current_state;
+        e_current_state = e_next_state;
 
     }
 

@@ -285,12 +285,12 @@ void Level_Update()
 	{
 		if (AEInputCheckTriggered(AEVK_ESCAPE))
 		{
-			next = GS_MAINMENU;
+			e_next_state = GS_MAINMENU;
 		}
 
 		// Mouse click to return to menu
 		if (e_scoreAnimation) {
-			next = GS_MAINMENU;
+			e_next_state = GS_MAINMENU;
 		}
 	}
 	if (AEInputCheckTriggered(AEVK_ESCAPE)) {

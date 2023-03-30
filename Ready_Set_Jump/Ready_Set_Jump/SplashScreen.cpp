@@ -33,7 +33,7 @@ void SplashScreen_Update() {
 	if (AEInputCheckTriggered(AEVK_LBUTTON) || AEInputCheckTriggered(AEVK_SPACE) || maxSplashScreenTime <=0.f) {/*
 		*  if left  mouse button or space is pressed the splash screen will skipped
 		*/
-		next = GS_MAINMENU;
+		e_next_state = GS_MAINMENU;
 	}
 	/*
 	 *  this section is responsible for fading the splash screen in and out

@@ -124,7 +124,7 @@ void Credits_Update() {
 	AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
-		next = GS_MAINMENU;
+		e_next_state = GS_MAINMENU;
 	}
 
 	creditTimer += e_deltaTime;
@@ -192,7 +192,7 @@ void Credits_Draw() {
 		break;
 
 	case 11:
-		next = GS_MAINMENU;
+		e_next_state = GS_MAINMENU;
 	}
 }
 

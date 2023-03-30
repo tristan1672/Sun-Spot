@@ -571,7 +571,7 @@ bool scoreAnimations()
 
 			if (total.scoreDisplay >= total.score && total.size >= 4.0f && AEInputCheckTriggered(AEVK_LBUTTON))
 			{
-				next = GS_MAINMENU;
+				e_next_state = GS_MAINMENU;
 			}
 
 			if (AEInputCheckCurr(AEVK_LBUTTON))

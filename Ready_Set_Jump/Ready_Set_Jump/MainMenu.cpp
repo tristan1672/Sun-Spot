@@ -48,7 +48,7 @@ void Menu_Update() {
 			quitText->TextBoxActive = false; quitText->Active = false;
 			guideText->TextBoxActive = false; guideText->Active = false;
 			creditText->TextBoxActive = false; creditText->Active = false;
-			next = GS_CREDITS;
+			e_next_state = GS_CREDITS;
 		}
 
 
@@ -99,7 +99,7 @@ void Menu_Update() {
 			fileToLoad = "Assets/Script/LevelTutorial.txt";
 			levelNumber = 0;
 			isTutorial = true;
-			next = GS_LEVEL;
+			e_next_state = GS_LEVEL;
 		}
 		
 
@@ -107,11 +107,11 @@ void Menu_Update() {
 
 		if (quitText->MouseCollision(mouse)) 
 		{
-			next = GS_QUIT;
+			e_next_state = GS_QUIT;
 		}
 		if (LevelSelect::StartButtonBehaviour(mouse))
 		{
-			next = GS_LEVEL;
+			e_next_state = GS_LEVEL;
 		}
 	}
 

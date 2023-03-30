@@ -19,8 +19,8 @@ namespace PauseMenu {
 		AEGfxSetCamPosition(0.f, 0.f);
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 			if (resumeText->MouseCollision(mouse)) level_state = PLAYING;
-			if (mainMenuText->MouseCollision(mouse)) next = GS_MAINMENU;
-			if (quitText->MouseCollision(mouse)) next = GS_QUIT;
+			if (mainMenuText->MouseCollision(mouse)) e_next_state = GS_MAINMENU;
+			if (quitText->MouseCollision(mouse)) e_next_state = GS_QUIT;
 		}
 
 		if (resumeText->MouseCollision(mouse) && resumeText->GetTextBoxAlpha() < 1.f) {
