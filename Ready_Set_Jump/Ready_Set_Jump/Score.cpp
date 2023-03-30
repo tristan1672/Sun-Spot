@@ -344,7 +344,7 @@ void calculateGrades()
 	}
 
 //Total score grade evaluation
-	float totalPercent = static_cast<float>(total.score) / total.maxScore;
+	float totalPercent = static_cast<float>(total.scoreDisplay) / total.maxScore;
 	if (totalPercent > 0.8f)
 	{
 		total.grade = 'S';
@@ -555,12 +555,7 @@ bool scoreAnimations()
 		{
 			if (total.scoreDisplay < total.score)
 			{
-				total.scoreDisplay += 1000 * e_deltaTime;
-			}
-
-			if (AEInputCheckCurr(AEVK_LBUTTON))
-			{
-				total.scoreDisplay = total.score;
+				total.scoreDisplay += 6000 * e_deltaTime;
 			}
 
 			if (total.mono < 1.0f)
@@ -568,21 +563,23 @@ bool scoreAnimations()
 				total.mono += 5 * e_deltaTime;
 			}
 
-			if (total.scoreDisplay >= total.score)
+			if (total.size < 4.0f)
 			{
-				if (total.size < 4.0f)
-				{
-					total.size += 2 * e_deltaTime;
-				}
-
-				if (total.size >= 4.0f)
-				{
-					if (AEInputCheckCurr(AEVK_LBUTTON))
-					{
-						next = GS_MAINMENU;
-					}
-				}
+				total.size += 2 * e_deltaTime;
 			}
+
+
+			if (total.scoreDisplay >= total.score && total.size >= 4.0f && AEInputCheckTriggered(AEVK_LBUTTON))
+			{
+				next = GS_MAINMENU;
+			}
+
+			if (AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				total.scoreDisplay = total.score;
+				total.size = 4.0f;
+			}
+
 		}
 	}
 	
