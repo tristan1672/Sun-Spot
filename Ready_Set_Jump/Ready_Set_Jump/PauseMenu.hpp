@@ -1,5 +1,5 @@
 #pragma once
-#include "Ultilities.hpp"
+#include "Utilities.hpp"
 namespace PauseMenu {
 	void CreatePauseMenu();
 	void PauseMenuBehaviour(mousePos mouse);

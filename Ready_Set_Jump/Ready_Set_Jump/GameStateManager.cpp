@@ -5,7 +5,7 @@
 #include "AEEngine.h"
 #include "PreCompiledHeader.hpp"
 #include "GameStateManager.hpp"
-#include "Ultilities.hpp"
+#include "Utilities.hpp"
 #include "Level.hpp"
 #include "MainMenu.hpp"
 #include "SaveManager.hpp"
@@ -18,7 +18,7 @@ int current = 0, previous = 0, next = 0;
 
 FP e_fpLoad = nullptr, e_fpInitialize = nullptr, e_fpUpdate = nullptr, e_fpDraw = nullptr, e_fpFree = nullptr, e_fpUnload = nullptr;
 
-s8 e_fontID;
+s8 e_fontID, e_creditFontID;
 
 // ----------------------------------------------------------------------------
 // This function initialize the gamestate manager
@@ -28,6 +28,7 @@ void GSM_Initialize(int startingState)
 {
 	current = previous = next = startingState;
 	e_fontID = AEGfxCreateFont("Assets/Font/kongtext.ttf", FONT_SIZE);
+	e_creditFontID = AEGfxCreateFont("Assets/Font/Connection-arMJ.otf", FONT_SIZE);
 	std::cout << "GSM:Initialize\n";
 	Save::ReadFile();
 }
@@ -81,6 +82,7 @@ void GSM_Update()
 	case GS_QUIT:
 		// Frees font before closing executable
 		AEGfxDestroyFont(e_fontID);
+		AEGfxDestroyFont(e_creditFontID);
 		break;
 
 	default:

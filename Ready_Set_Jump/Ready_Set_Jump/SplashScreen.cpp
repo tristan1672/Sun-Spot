@@ -1,7 +1,7 @@
 #include "AEEngine.h"
 #include "GameStateManager.hpp"
 #include "GameObjClasses.hpp"
-#include "Ultilities.hpp"
+#include "Utilities.hpp"
 
 GameObject SplashScreen;
 AEGfxTexture* SplashScreenTexture{ nullptr };
