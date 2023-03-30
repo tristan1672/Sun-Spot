@@ -8,6 +8,10 @@ extern const int WINDOW_HEIGHT;
 extern const float HALVE_WINDOW_WIDTH;
 extern const float HALVE_WINDOW_HEIGHT;
 
+// Font
+//---------------------------
+extern const int FONT_SIZE;
+
 // Level Select Menu
 //---------------------------
 extern const int LEVEL_ARRAY_SIZE;

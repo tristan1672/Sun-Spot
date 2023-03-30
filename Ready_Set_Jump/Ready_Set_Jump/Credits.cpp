@@ -22,7 +22,7 @@ void Credits_Initialize() {
 	creditInfo[3] = new UIText{ UIText("XIAO JUN YU", {0.f, -0.1f}, {textSize.x, textSize.y}, White) };
 
 	// Instructors
-	// Set 1
+	// Set 1ce 
 	creditInfo[4] = new UIText{ UIText("INSTRUCTORS", {0.f, 0.25f}, {titleSize.x, titleSize.y}, White) };
 	creditInfo[5] = new UIText{ UIText("CHENG DING XIANG", {0.f, 0.05f}, {textSize.x, textSize.y}, White) };
 	creditInfo[6] = new UIText{ UIText("GERALD WONG HAN FENG", {0.f, -0.05f}, {textSize.x, textSize.y}, White) };
@@ -30,7 +30,6 @@ void Credits_Initialize() {
 	// Created at DigiPen
 	// Set 2
 	creditInfo[7] = new UIText{ UIText("Created at DigiPen Institute of Technology Singapore", {0.f, 0.f}, {titleSize.x, titleSize.y}, White) };
-
 
 	// Executives
 	// Set 3
@@ -92,6 +91,15 @@ void Credits_Initialize() {
 	// Set 10
 	creditInfo[39] = new UIText{ UIText("Additional Third Party Library:", {0.f, 0.1f}, {textSize.x, textSize.y}, White) };
 	creditInfo[40] = new UIText{ UIText("nlohmann/json", {0.f, -0.05f}, {textSize.x, textSize.y}, White) };
+
+	for (unsigned int i{}; i < 41; ++i) {
+		AEVec2 test{};
+		AEGfxGetPrintSize(e_fontID, creditInfo[i]->GetText(), creditInfo[i]->GetScale().x, test.x, test.y);
+		creditInfo[i]->SetPosition({ -0.5f * test.x, creditInfo[i]->GetPosition().y });
+
+		std::cout << "Text " << i << " Size " << test.x << "\n";
+		std::cout << "Text " << i << " Position" << creditInfo[i]->GetPosition().x << "\n";
+	}
 }
 
 void Credits_Update() {

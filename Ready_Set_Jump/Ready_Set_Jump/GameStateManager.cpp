@@ -27,7 +27,7 @@ s8 e_fontID;
 void GSM_Initialize(int startingState)
 {
 	current = previous = next = startingState;
-	e_fontID = AEGfxCreateFont("Assets/Font/kongtext.ttf", 30);
+	e_fontID = AEGfxCreateFont("Assets/Font/kongtext.ttf", FONT_SIZE);
 	std::cout << "GSM:Initialize\n";
 	Save::ReadFile();
 }

@@ -30,6 +30,7 @@ public:
 	void TextBoxFadeOut();
 	void SetTextBoxAlpha(f32 newAlpha);
 	f32 GetTextBoxAlpha(); 
+	char* GetText();
 };
 
 #endif // UI_HPP

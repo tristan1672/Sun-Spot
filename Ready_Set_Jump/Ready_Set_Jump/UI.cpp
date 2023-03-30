@@ -101,3 +101,7 @@ void UIText::TextBoxFadeOut() {
 		SetTextBoxAlpha(TextBox.GetColour().alpha - 1.5f * e_deltaTime);
 	}
 }
+
+char* UIText::GetText() {
+	return text;
+}
