@@ -28,7 +28,7 @@ namespace LevelSelect {
 
 	GameObject Frame, Time, collectible;
 
-	int jump{}, collc{}, difficulty{},totalscore{};
+	int jump{}, collc{}, difficulty{}, totalscore{}, totalcollectibles{};
 	float time{};
 	bool attempt{};
 
@@ -172,7 +172,7 @@ namespace LevelSelect {
 		fileToLoad += std::to_string(levelcount);
 		fileToLoad += ".txt";
 
-		Save::GetSaveValue(levelNumber, difficulty, jump, collc, time, totalscore, attempt);
+		Save::GetSaveValue(levelNumber, difficulty, jump, collc, totalcollectibles, time, totalscore, attempt);
 
 		snprintf(jumpCount,			sizeof jumpCount,			"%d", jump);
 		snprintf(collectibleCount,	sizeof collectibleCount,	"%d", collc);
@@ -182,6 +182,7 @@ namespace LevelSelect {
 		std::cout << "Level:dsa " << levelNumber << std::endl;
 		std::cout << "Jumps: " << jump << std::endl;
 		std::cout << "Collectibles: " << collc << std::endl;
+		std::cout << "TotalCollectibles: " << totalcollectibles << std::endl;
 		std::cout << "Time: " << time << std::endl;
 		std::cout << "Attempted: " << attempt << std::endl;
 		

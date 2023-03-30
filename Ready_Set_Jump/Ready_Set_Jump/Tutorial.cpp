@@ -6,12 +6,14 @@ namespace Tutorial {
 	AEGfxTexture* TurorialText[10]{nullptr};
 
 	void SetTutorialObj(GameObject& Object,Vector2D pos, Vector2D size, AEGfxTexture*& texture,std::string imagePath) {
+		// function to set the objects and their textures
 		texture = AEGfxTextureLoad(imagePath.c_str());
 		Object = GameObject(pos, size, { 1.f,1.f,1.f,1.f }, 0.f, AE_GFX_RM_TEXTURE);
 		Object.SetTexture(texture);
 	}
 
 	void MakeTutorialText() {
+		//sets inidvidual tutorial text to their location and set their texture to each obj
 		SetTutorialObj(TutorialTextObj[0], {-450.f,115.f}, {300.f,260.f},     TurorialText[0], "Assets/Images/TutorialText/ControlIntro.png");
 		SetTutorialObj(TutorialTextObj[1], { 400.f,0.f }, { 360.f,120.f },    TurorialText[1], "Assets/Images/TutorialText/IceIntro.png");
 		SetTutorialObj(TutorialTextObj[2], { 785.f,300.f }, { 360.f,200.f },  TurorialText[2], "Assets/Images/TutorialText/CheckpointIntro.png");
@@ -25,10 +27,12 @@ namespace Tutorial {
 
 	}
 	void RenderTutorialText() {
+		// draws all the tutorial text obj
 		for (size_t i{}; i < sizeof(TutorialTextObj) / sizeof (TutorialTextObj[0]); ++i)TutorialTextObj[i].DrawObj();
 	}
 
 	void FreeTutorialtext() {
+		// frees the textures loaded
 		for (size_t i{}; i < sizeof(TutorialTextObj) / sizeof(TutorialTextObj[0]); ++i) {
 			if (TurorialText[i]) {
 				AEGfxTextureUnload(TurorialText[i]);
