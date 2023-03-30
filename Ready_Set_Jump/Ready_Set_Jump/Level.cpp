@@ -254,6 +254,25 @@ void Level_Initialize()
 
 	Cam(airCheck);
 
+	// Warm up time for particles
+	unsigned int waves = 20;
+	unsigned int numPerWave = 5;
+	float intervalWidth =  1.f / static_cast<float>(waves - 1) * static_cast<float>(WINDOW_WIDTH) * 2.f;
+
+	for (unsigned int i{}; i < waves; ++i) {
+
+		for (unsigned int j{}; j < numPerWave; ++j) {
+			AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x - 0.5f * WINDOW_WIDTH + i * intervalWidth), static_cast<float>(rand() % static_cast<int>(e_binaryMapHeight * GRID_HEIGHT_SIZE) - static_cast<float>(e_binaryMapHeight * GRID_HEIGHT_SIZE) + HALVE_WINDOW_HEIGHT) };
+			AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
+			int randScale = rand() % 8 + 2;
+
+			*(particleList + MAX_PARTICLE_NUMBER - 1 - (i * numPerWave + j)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
+
+#if DEBUG
+			std::cout << (i * numPerWave + j)  << " X pos " << particalPosition.x << "\n";
+#endif
+		}
+	}
 }
 
 // ----------------------------------------------------------------------------
