@@ -1,5 +1,14 @@
 #pragma once
-
+/*
+  *  \file SplashScreen.hpp
+  *  \author Xiao Jun Yu
+  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par Course: csd1451
+  *
+  *  \brief
+  *  Splash Screen Scene, declearation file
+  *
+*/
 void SplashScreen_Load();
 
 void SplashScreen_Initialize();

@@ -1,3 +1,13 @@
+/*
+  *  \file LevelSelect.cpp
+  *  \author Xiao Jun Yu,
+  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par Course: csd1451
+  *
+  *  \brief
+  *  Defination file for LevelSelect.hpp
+  *
+*/
 #include "LevelSelect.hpp"
 #include "SaveManager.hpp"
 
@@ -22,6 +32,7 @@ namespace LevelSelect {
 	bool attempt{};
 
 	void CreateLevelSelectUI() {
+		//creates the initial level UI
 		levels = new UIText * [LEVEL_ARRAY_SIZE] {};
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
 			levels[i] = new UIText[4]{};
@@ -29,17 +40,16 @@ namespace LevelSelect {
 
 		float gapSize = LEVEL_BUTTON_GAP * 2 / (LEVEL_ARRAY_SIZE - 1.0f);
 
-		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
+		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {// the level table
 			for (int j = 0; j < LEVEL_ARRAY_SIZE; ++j) {
 				int levelcount = i * LEVEL_ARRAY_SIZE + j + 1;
-				//levels[i][j] = UIText(std::to_string(levelcount), { (j * 0.2f - 0.3f), (-i * 0.3f + 0.4f) }, { 1.f,1.f }, White, true, GreenTea);
-				levels[i][j] = UIText(std::to_string(levelcount), { (j * gapSize - LEVEL_BUTTON_GAP), (-i * 0.3f + 0.4f) }, { 1.f,1.f }, White, true, GreenTea);
+				levels[i][j] = UIText(std::to_string(levelcount), { (j * gapSize - LEVEL_BUTTON_GAP), (-i * 0.3f + 0.4f) }, { 1.f,1.f }, White, true, GreenTea);// sets each button at their location
 				levels[i][j].TextBoxActive = false;
 				levels[i][j].Active = false;
 			}
 		}
-		backButton = new UIText{ UIText("Back", { -0.8f, -0.7f },{1.f,1.f},White, true, GreenTea) };
-		startButton = new UIText{ UIText("Start", { 0.6f, -0.7f },{1.f,1.f},White, true, GreenTea) };
+		backButton = new UIText{ UIText("Back", { -0.8f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the back button
+		startButton = new UIText{ UIText("Start", { 0.6f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the start button
 
 		startButton->TextBoxActive = false;
 		startButton->Active = false;
@@ -48,40 +58,39 @@ namespace LevelSelect {
 		backButton->Active = false;
 	}
 
-	void ButtonSelectBehaviour(mousePos mouse) {
+	void ButtonSelectBehaviour(mousePos mouse) {// what will happen when the level button was pressed
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
 			for (int j = 0; j < LEVEL_ARRAY_SIZE; ++j) {
 				if (levels[i][j].MouseCollision(mouse)) {
 					levelNumber = i * LEVEL_ARRAY_SIZE + j + 1;
-					SetLevelSelectInActive();
+					SetLevelSelectInActive();// sets the whole level grid to inactive
 					e_uiState = STAGE;
-					SetLevelSelectInActive();
-					StagingScreen(levelNumber);
+					StagingScreen(levelNumber);// shows the level info 
 				}
 			}
 		}
 	}
 
-	void LSButtonAnimation(mousePos mouse) {
+	void LSButtonAnimation(mousePos mouse) {// text box fade animation
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
 			for (int j = 0; j < LEVEL_ARRAY_SIZE; ++j) {
 				if (levels[i][j].MouseCollision({ mouse.ClickX ,mouse.ClickY }) && levels[i][j].GetTextBoxAlpha() < 1.f) {
-					levels[i][j].TextBoxFadeIn();
+					levels[i][j].TextBoxFadeIn();// for level grid
 				}
 				else if (!(levels[i][j].MouseCollision({ mouse.ClickX ,mouse.ClickY }))) levels[i][j].TextBoxFadeOut();
 			}
 		}
-		if (backButton->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && backButton->GetTextBoxAlpha() < 1.f) {
+		if (backButton->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && backButton->GetTextBoxAlpha() < 1.f) {// for back button
 			backButton->TextBoxFadeIn();
 		}
 		else if (!backButton->MouseCollision({ mouse.ClickX ,mouse.ClickY })) backButton->TextBoxFadeOut();
 
-		if (startButton->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && startButton->GetTextBoxAlpha() < 1.f) {
+		if (startButton->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && startButton->GetTextBoxAlpha() < 1.f) {// for start button
 			startButton->TextBoxFadeIn();
 		}
 		else if (!startButton->MouseCollision({ mouse.ClickX ,mouse.ClickY })) startButton->TextBoxFadeOut();
 	}
-	void DrawLevelButton() {
+	void DrawLevelButton() {// draws all level buttons
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
 			for (int j = 0; j < LEVEL_ARRAY_SIZE; ++j) {
 				levels[i][j].DrawObj();
@@ -90,7 +99,7 @@ namespace LevelSelect {
 		backButton->DrawObj();
 		startButton->DrawObj();
 	}
-	void FreeLevelButton() {
+	void FreeLevelButton() {// frees memory allocated for level grids
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
 			delete[] levels[i];
 		}
@@ -98,7 +107,7 @@ namespace LevelSelect {
 		delete backButton;
 		delete startButton;
 	}
-	void SetLevelSelectActive() {
+	void SetLevelSelectActive() {// sets all level select object to active
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
 			for (int j = 0; j < LEVEL_ARRAY_SIZE; ++j) {
 				LevelSelect::levels[i][j].TextBoxActive = true;
@@ -110,7 +119,7 @@ namespace LevelSelect {
 		startButton->TextBoxActive = false;
 		startButton->Active = false;
 	}
-	void SetLevelSelectInActive() {
+	void SetLevelSelectInActive() {// sets all level select object to inactive
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
 			for (int j = 0; j < LEVEL_ARRAY_SIZE; ++j) {
 				LevelSelect::levels[i][j].TextBoxActive = false;
