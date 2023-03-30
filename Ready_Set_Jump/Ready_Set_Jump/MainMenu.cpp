@@ -186,9 +186,9 @@ void Menu_Update() {
 void Menu_Draw() {// draws the UI buttons
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
+	LevelSelect::DrawLSTexture();
 	DrawParticle(menuParticleList);
 
-	LevelSelect::DrawLSTexture();
 	selectLevelText->DrawObj();
 	quitText->DrawObj();
 	guideText->DrawObj();
