@@ -20,12 +20,13 @@ namespace Save {
 		\brief use for printing the save data, for debug only
 		\param level which will get printed to console
 		*/;
-	void GetSaveValue(int level, int& difficulty, int& jumps, int& collectibles, float& time, int& totalScore, bool& haveAttempted)/*
+	void GetSaveValue(int level, int& difficulty, int& jumps, int& collectibles,int&totalCollectibles, float& time, int& totalScore, bool& haveAttempted)/*
 		\brief get the save file info
 		\param[in] level which level to get the info
 		\param[in] difficulty the difficulty of level
 		\param[out] jumps jumps made previously
 		\param[out] collectibles total collectibles collected previously
+		\param[out] totalCollectibles 
 		\param[out] time time took previously
 		\param[out] totalScore the total score got previously
 		\param[out] haveAttempted check if the level was attempted before

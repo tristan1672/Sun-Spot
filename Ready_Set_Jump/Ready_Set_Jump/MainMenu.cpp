@@ -1,3 +1,13 @@
+/**
+  *  \file MainMenu.cpp
+  *  \author Xiao Jun Yu
+  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par Course: csd1451
+  *
+  *  \brief
+  * Main Menu Scene
+  *
+*/
 #include "MainMenu.hpp"
 #include "SaveManager.hpp"
 #include "Credits.hpp"
@@ -10,7 +20,7 @@ UIText* creditText;
 
 int e_uiState;
 
-void Menu_Load() {
+void Menu_Load() {// loads in the mesh
 	MakeMesh();
 	AEGfxSetCamPosition(0.f, 0.f);
 	LevelSelect::LoadLSTexture();
@@ -20,27 +30,29 @@ void Menu_Initialize() {
 	isTutorial = false;
 	e_uiState = MAIN;
 	e_skip = 0;
-
+	// allocate memory for game title text
 	titleText[0] = new UIText{UIText("Ready?", {-0.5f, 0.65f}, {1.4f,1.f}, Red)};
 	titleText[1] = new UIText{UIText("Set.", {-0.07f, 0.65f}, {1.4f,1.f}, Yellow)};
 	titleText[2] = new UIText{UIText("Jump!", {0.2f, 0.65f}, {1.4f,1.f}, GreenTea)};
 
+	//allocate memory for button
 	selectLevelText = new UIText{ UIText("Select Level", { -0.26f, 0.3f },{1.f,1.f},White, true, GreenTea) };
 	guideText = new UIText{ UIText("How To Play", { -0.23f, -0.0f }, { 1.f,1.f }, White, true, GreenTea) };
 	creditText = new UIText{ UIText("Credits", { -0.15f, -0.3f }, { 1.f,1.f }, White, true, GreenTea) };
 	quitText = new UIText {UIText("Quit", { -0.09f, -0.6f }, { 1.f,1.f }, White, true, GreenTea)};
 	
+	//calls level select and allocate its memory
 	LevelSelect::InitLSTexture();
 	LevelSelect::CreateLevelSelectUI();
 }
 
 void Menu_Update() {
 	mousePos mouse{};
-	AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
+	AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);//get current mouse position
 	// UI button checks
-	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
+	if (AEInputCheckTriggered(AEVK_LBUTTON)) {// check if lmb is pressed
 
-		if (creditText->MouseCollision(mouse)) {
+		if (creditText->MouseCollision(mouse)) {// checks if credit button was clicked, loads the credit scene
 			for (unsigned int i{}; i < 3; ++i) {
 				titleText[i]->Active = false;
 			}
@@ -52,7 +64,10 @@ void Menu_Update() {
 		}
 
 
-		if (selectLevelText->MouseCollision(mouse)) 
+
+
+
+		if (selectLevelText->MouseCollision(mouse)) // checks if level select button was pressed, shows the level select menu
 		{
 			e_uiState = LS;
 			LevelSelect::SetLevelSelectActive();
@@ -67,7 +82,7 @@ void Menu_Update() {
 				titleText[i]->Active = false;
 			}
 		}
-		if (LevelSelect::BackButtonBehaviour(mouse)) 
+		if (LevelSelect::BackButtonBehaviour(mouse)) // back button behaviour
 		{
 			if (e_uiState == LS)
 			{
@@ -94,7 +109,7 @@ void Menu_Update() {
 			}
 			
 		}
-		if (guideText->MouseCollision(mouse)) 
+		if (guideText->MouseCollision(mouse))// if guide button was pressed, loads tutorial level
 		{
 			fileToLoad = "Assets/Script/LevelTutorial.txt";
 			levelNumber = 0;
@@ -105,18 +120,18 @@ void Menu_Update() {
 
 		LevelSelect::ButtonSelectBehaviour(mouse);
 
-		if (quitText->MouseCollision(mouse)) 
+		if (quitText->MouseCollision(mouse)) // quits the game if quit button is pressed
 		{
 			e_next_state = GS_QUIT;
 		}
-		if (LevelSelect::StartButtonBehaviour(mouse))
+		if (LevelSelect::StartButtonBehaviour(mouse))// goes to said level when level button is pressed
 		{
 			e_next_state = GS_LEVEL;
 		}
 	}
 
 	/*
-		Fade animation calls
+		Fade animation for text box on hover
 	*/
 	LevelSelect::LSButtonAnimation(mouse);
 
@@ -138,7 +153,7 @@ void Menu_Update() {
 
 }
 
-void Menu_Draw() {
+void Menu_Draw() {// draws the UI buttons
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 	LevelSelect::DrawLSTexture();
 	selectLevelText->DrawObj();
@@ -149,7 +164,7 @@ void Menu_Draw() {
 	LevelSelect::DrawLevelButton();
 }
 
-void Menu_Free() {
+void Menu_Free() {// frees allocated memory on free
 	LevelSelect::FreeLevelButton();
 	delete selectLevelText;
 	delete quitText;
@@ -158,7 +173,7 @@ void Menu_Free() {
 	for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) delete titleText[i];
 }
 
-void Menu_Unload() {
+void Menu_Unload() {// frees allocated memory on unload
 	
 	LevelSelect::UnloadLSTexture();
 	AEGfxMeshFree(pMesh);

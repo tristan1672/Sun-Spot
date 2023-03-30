@@ -1,9 +1,28 @@
+/*
+  *  \file Physics.cpp
+  *  \author Xiao Jun Yu
+  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par Course: csd1451
+  *
+  *  \brief
+  *  Defination file, for  DynamicObj::PhysicsUpdate() in GameObjClass.hpp
+  *
+*/
 #include "Physics.hpp"
 void DynamicObj::PhysicsUpdate() {
-	if (collisionFlag & COLLISION_TOP) {
-		velocity.y -= velocity.y;
+	/*
+	Description for each playform type
+
+	NORMAL_BLOCK: No special property, makes the player stop moving regardless of collision flag
+	ICE_BLOCK: Slides the player with minimal loss of energy
+	STICKY_BLOCK: Slows down player with bottom collision, slows down fall with left or right collision, player will be able to jump while on the sides
+	SLIME_BLOCK: bounces player, will redirect player up if player collides with sides
+	*/
+	if (collisionFlag & COLLISION_TOP) { // checks if the obj collides the top
+		velocity.y -= velocity.y; // inverts the y velocity
 	}
-	if (collisionFlag & COLLISION_BOTTOM) {
+	if (collisionFlag & COLLISION_BOTTOM) {// checks if the obj collides on the bottom
+		//checks if the the center of the player is closer to left or right
 		if (position.x < (platform[static_cast<int>(btmY)][static_cast<int>(X1)].position.x + (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetScale().x / 2.f))) { // checks which side of the grid the player is cooupying more
 
 			switch (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetPlatformType())
@@ -24,7 +43,7 @@ void DynamicObj::PhysicsUpdate() {
 				e_jumpForceMod = 0.7f;
 				shake = true;
 				break;
-			case SLIME_BLOCK:
+			case SLIME_BLOCK:// bouncy physics
 				if (abs(velocity.y) <= 2) velocity.y = 0;
 				velocity.y = -(velocity.y * 0.9f);
 				friction = SLIME_FRICTION;
@@ -55,7 +74,7 @@ void DynamicObj::PhysicsUpdate() {
 				friction = FULL_STOP_FRICTION;
 				e_jumpForceMod = 0.7f;
 				break;
-			case SLIME_BLOCK:
+			case SLIME_BLOCK:// bouncy physics
 				if (abs(velocity.y) <= 2) velocity.y = 0;
 				velocity.y = -(velocity.y * 0.7f);
 				friction = SLIME_FRICTION;
@@ -68,7 +87,7 @@ void DynamicObj::PhysicsUpdate() {
 			jumpReady = true;
 		}
 	}
-	if (collisionFlag & COLLISION_RIGHT) {
+	if (collisionFlag & COLLISION_RIGHT) {// checks if the obj collides on the right
 		if (position.y < (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].position.y + (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
 			position.y >(platform[static_cast<int>(Y1)][static_cast<int>(rightX)].position.y - (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetScale().y / 2.f))) {
 			switch (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetPlatformType())
@@ -111,7 +130,7 @@ void DynamicObj::PhysicsUpdate() {
 			}
 		}
 	}
-	if (collisionFlag & COLLISION_LEFT) {
+	if (collisionFlag & COLLISION_LEFT) {// checks if the obj collides on the left
 		if (position.y < (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].position.y + (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetScale().y / 2.f)) || // checks which side of the grid the player is cooupying more
 			position.y >(platform[static_cast<int>(Y1)][static_cast<int>(leftX)].position.y - (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetScale().y / 2.f))) {
 			switch (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetPlatformType())
@@ -155,27 +174,27 @@ void DynamicObj::PhysicsUpdate() {
 			}
 		}
 	}
-	if (!collisionFlag) {
+	if (!collisionFlag) {// for when they are not colliding with anything
 		dragCoeff = AIR_DRAG;
 		friction = 0.f;
 	}
-	float terminalVelocity{ 2.f * e_gravity / dragCoeff };
-	if (terminalVelocity < velocity.y) {
+	float terminalVelocity{ 1.5f * e_gravity / dragCoeff };// ternimal velcity
+	if (terminalVelocity < velocity.y) {// limits y velocity based on terminal velocity
 		velocity.y += static_cast<float>(vertMod * e_gravity * e_deltaTime);
 	}
-	if (velocity.y) {
+	if (velocity.y) {// reduce the velocity based on drag
 		velocity.y -= static_cast<float>(dragCoeff * velocity.y * e_deltaTime);
 	}
-	if (abs(velocity.x) < 2.f) {
+	if (abs(velocity.x) < 2.f) {// makes velocity x not need to take forevery to get to 0
 		velocity.x = 0;
 	}
-	if (velocity.x && friction != FULL_STOP_FRICTION) {
-		velocity.x -= static_cast<float>(friction * velocity.x * e_deltaTime);
+	if (velocity.x && friction != FULL_STOP_FRICTION) {// if the friction is not the fully stopping the player
+		velocity.x -= static_cast<float>(friction * velocity.x * e_deltaTime);//velocity x will be reduced based on friction
 	}
-	else if (velocity.x && friction == FULL_STOP_FRICTION) {
-		velocity.x -= static_cast<float>(velocity.x);
+	else if (velocity.x && friction == FULL_STOP_FRICTION) {// if the friction is fully stopping the player
+		velocity.x -= static_cast<float>(velocity.x);// stops the player fully on the x axis
 	}
-
+	// increase the player position 
 	position.y += static_cast<float>(velocity.y * e_deltaTime);
 	position.x += static_cast<float>(velocity.x * e_deltaTime);
 }

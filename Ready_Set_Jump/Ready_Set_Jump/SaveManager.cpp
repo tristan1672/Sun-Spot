@@ -18,23 +18,23 @@ namespace Save {
 /* This is the template save file, only used if there is no save file already*/
 #pragma region Default Save
 		std::string Template = "["
-			"{ \"Level\": 0,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false},"
-			"{ \"Level\": 1,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 2,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 3,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 4,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 5,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 6,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 7,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 8,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 9,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 10,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 11,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 12,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 13,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 14,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 15,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
-			"{ \"Level\": 16,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false }"
+			"{ \"Level\":  0,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false},"
+			"{ \"Level\":  1,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\":  2,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\":  3,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\":  4,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\":  5,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\":  6,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\":  7,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\":  8,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\":  9,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 10,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 11,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 12,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 13,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 14,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 15,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\": 16,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false }"
 			"]";
 
 #pragma endregion
@@ -59,16 +59,18 @@ namespace Save {
 		std::cout<< "Difficulty: "<< save[level]["Difficulty"] << std::endl;
 		std::cout<< "Jumps: "<< save[level]["Jumps"] << std::endl;
 		std::cout<< "Collectibles: "<< save[level]["Collectibles"] << std::endl;
+		std::cout<< "TotalCollectibles: "<< save[level]["TotalCollectibles"] << std::endl;
 		std::cout<< "Time: "<< save[level]["Time"] << std::endl;
 		std::cout<< "TotalScore: "<< save[level]["TotalScore"] << std::endl;
 		std::cout<< "Attempted: "<< save[level]["Attempted"] << std::endl;
 	}
 
-	void GetSaveValue(int level, int& difficulty, int& jumps, int& collectibles, float& time,int& totalScore, bool& haveAttempted) {
+	void GetSaveValue(int level, int& difficulty, int& jumps, int& collectibles, int& totalCollectibles, float& time, int& totalScore, bool& haveAttempted) {
 		//gets the values from save file
 		jumps = save[level]["Jumps"];
 		difficulty = save[level]["Difficulty"];
 		collectibles = save[level]["Collectibles"];
+		totalCollectibles = save[level]["TotalCollectibles"];
 		time = save[level]["Time"];
 		totalScore = save[level]["TotalScore"];
 		haveAttempted = save[level]["Attempted"];
@@ -93,6 +95,7 @@ namespace Save {
 				saveFile << "\"Difficulty\": "<<save[i]["Difficulty"] << ',';
 				saveFile << "\"Jumps\": "<<save[i]["Jumps"] << ',';
 				saveFile << "\"Collectibles\": "<<save[i]["Collectibles"] << ',';
+				saveFile << "\"TotalCollectibles\": "<<save[i]["TotalCollectibles"] << ',';
 				saveFile << "\"Time\": "<<save[i]["Time"]<<',';
 				saveFile << "\"TotalScore\": "<<save[i]["TotalScore"]<<',';
 				saveFile << "\"Attempted\": "<<save[i]["Attempted"];

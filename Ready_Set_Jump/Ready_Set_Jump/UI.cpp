@@ -16,11 +16,11 @@
 // Button collisions
 
 UIText::UIText(std::string Text, Vector2D Position, Vector2D Scale,
-	ColourValue Colour, bool ActiveTextBox, ColourValue TextBoxColour , s8 Font) {
+	ColourValue Colour, bool ActiveTextBox, ColourValue TextBoxColour , s8 Font) {// constructor for UIText class
 	position = Position; scale = Scale; colour = Colour; TextBoxActive = ActiveTextBox;
 	charcount = Text.size() + 1;
-	text = new char[GetCharCount()];
-	snprintf(text, charcount, Text.c_str());
+	text = new char[GetCharCount()];// sets a new char array
+	snprintf(text, charcount, Text.c_str());// puts string into text member data
 	float w{};
 	float h{};
 	font = Font;
