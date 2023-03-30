@@ -81,7 +81,7 @@ AEGfxTexture* goalTexture[20]{nullptr};
 
 AEGfxTexture* arrowTexture{ nullptr };
 
-GameObject *particleList;
+GameObject *levelParticleList;
 
 
 int ImportMapDataFromFile(const char* FileName);
@@ -127,9 +127,7 @@ void Level_Load()
 	PauseMenu::CreatePauseMenu();
 	if (isTutorial) Tutorial::MakeTutorialText();
 
-	particleList = new GameObject[MAX_PARTICLE_NUMBER];
-
-
+	levelParticleList = new GameObject[MAX_PARTICLE_NUMBER];
 }
 // ----------------------------------------------------------------------------
 // This function initialize game object instances
@@ -266,11 +264,7 @@ void Level_Initialize()
 			AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
 			int randScale = rand() % 8 + 2;
 
-			*(particleList + MAX_PARTICLE_NUMBER - 1 - (i * numPerWave + j)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
-
-#if DEBUG
-			std::cout << (i * numPerWave + j)  << " X pos " << particalPosition.x << "\n";
-#endif
+			*(levelParticleList + MAX_PARTICLE_NUMBER - 1 - (i * numPerWave + j)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
 		}
 	}
 }
@@ -289,7 +283,7 @@ void Level_Update()
 		AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
 		int randScale = rand() % 8 + 2;
 
-		* (particleList + (static_cast<int>(frameCounter * 0.25) % MAX_PARTICLE_NUMBER)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
+		* (levelParticleList + (static_cast<int>(frameCounter * 0.25) % MAX_PARTICLE_NUMBER)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
 	}
 
 
@@ -373,22 +367,7 @@ void Level_Update()
 	}	
 
 	// Update particle effect for background
-	for (unsigned int i{}; i < MAX_PARTICLE_NUMBER; ++i) {
-
-		GameObject* pInst = particleList + i;
-
-		// Rotation is resued as lifetime
-		if (pInst->GetRotation() > 0) {
-			pInst->SetPosition( {pInst->GetPosition().x + pInst->GetDirection().x, pInst->GetPosition().y + pInst->GetDirection().y} );
-			pInst->SetRotation(pInst->GetRotation() - 1.0f);
-		}
-
-		// If off screen, "kills" it
-		if (pInst->GetPosition().x < -HALVE_WINDOW_WIDTH - 5)
-			pInst->SetRotation(0.f);
-		
-
-	}
+	UpdateParticle(levelParticleList);
 
 	++frameCounter;
 
@@ -409,18 +388,7 @@ void Level_Draw()
 	// Set the background to black.
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
-	for (unsigned int i{}; i < MAX_PARTICLE_NUMBER; ++i) {
-
-		GameObject* pInst = particleList + i;
-
-		// Rotation is resued as lifetime
-		if (pInst->GetRotation() > 0) {
-			pInst->DrawObj();
-		}
-
-	}
-
-
+	DrawParticle(levelParticleList);
 
 	if(level_state == PLAYING)
 	PlatformAnimationUpdate();
@@ -490,7 +458,7 @@ void Level_Unload()
 	}
 	delete[] platform;
 
-	delete[] particleList;
+	delete[] levelParticleList;
 
 	PauseMenu::FreePauseMenu();
 

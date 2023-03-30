@@ -9,8 +9,6 @@
   *
 */
 #include "MainMenu.hpp"
-#include "SaveManager.hpp"
-#include "Credits.hpp"
 
 UIText* selectLevelText;
 UIText* quitText;
@@ -20,10 +18,15 @@ UIText* creditText;
 
 int e_uiState;
 
+static int frameCounter;
+GameObject* menuParticleList;
+
 void Menu_Load() {// loads in the mesh
 	MakeMesh();
 	AEGfxSetCamPosition(0.f, 0.f);
 	LevelSelect::LoadLSTexture();
+
+	menuParticleList = new GameObject[MAX_PARTICLE_NUMBER];
 }
 
 void Menu_Initialize() {
@@ -45,9 +48,35 @@ void Menu_Initialize() {
 	//calls level select and allocate its memory
 	LevelSelect::InitLSTexture();
 	LevelSelect::CreateLevelSelectUI();
+
+	unsigned int waves = 20;
+	unsigned int numPerWave = 5;
+	float intervalWidth = 1.f / static_cast<float>(waves - 1) * static_cast<float>(WINDOW_WIDTH) * 2.f;
+
+	for (unsigned int i{}; i < waves; ++i) {
+
+		for (unsigned int j{}; j < numPerWave; ++j) {
+			AEVec2 particalPosition = { static_cast<float>( - 0.5f * WINDOW_WIDTH + i * intervalWidth), static_cast<float>(rand() % WINDOW_HEIGHT - HALVE_WINDOW_HEIGHT) };
+			AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
+			int randScale = rand() % 8 + 2;
+
+			*(menuParticleList + MAX_PARTICLE_NUMBER - 1 - (i * numPerWave + j)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
+		}
+	}
 }
 
 void Menu_Update() {
+
+	// No check for dead elements as it takes 136.5 sec for the entire array to be cycled through. By then the 1st particle would have been killed.
+	if (frameCounter % 4) {
+
+		AEVec2 particalPosition = { static_cast<float>(WINDOW_WIDTH), static_cast<float>(rand() % WINDOW_HEIGHT - HALVE_WINDOW_HEIGHT) };
+		AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
+		int randScale = rand() % 8 + 2;
+
+		*(menuParticleList + (static_cast<int>(frameCounter * 0.25) % MAX_PARTICLE_NUMBER)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
+	}
+
 	mousePos mouse{};
 	AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);//get current mouse position
 	// UI button checks
@@ -148,10 +177,17 @@ void Menu_Update() {
 		creditText->TextBoxFadeIn();
 	}else if (!(creditText->MouseCollision(mouse))) creditText->TextBoxFadeOut();
 
+	// Update particle effect for background
+	UpdateParticle(menuParticleList);
+
+	++frameCounter;
 }
 
 void Menu_Draw() {// draws the UI buttons
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
+
+	DrawParticle(menuParticleList);
+
 	LevelSelect::DrawLSTexture();
 	selectLevelText->DrawObj();
 	quitText->DrawObj();
@@ -163,6 +199,7 @@ void Menu_Draw() {// draws the UI buttons
 
 void Menu_Free() {// frees allocated memory on free
 	LevelSelect::FreeLevelButton();
+	delete[] menuParticleList;
 	delete selectLevelText;
 	delete quitText;
 	delete guideText;
