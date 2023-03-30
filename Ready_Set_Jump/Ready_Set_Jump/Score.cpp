@@ -344,7 +344,7 @@ void calculateGrades()
 	}
 
 //Total score grade evaluation
-	float totalPercent = static_cast<float>(total.score) / total.maxScore;
+	float totalPercent = static_cast<float>(total.scoreDisplay) / total.maxScore;
 	if (totalPercent > 0.8f)
 	{
 		total.grade = 'S';
@@ -406,7 +406,7 @@ bool scoreAnimations()
 	{
 		if (timer.scoreDisplay < timer.score) //Timer Score Counting Animation
 		{
-			timer.scoreDisplay += 3000 * e_deltaTime;
+			timer.scoreDisplay += static_cast<int>(3000 * e_deltaTime);
 		}
 
 		if (jump.scoreDisplay < jump.score) //Jump Score Counting Animation
@@ -473,6 +473,14 @@ bool scoreAnimations()
 			collectible.count_pos.x += e_deltaTime;
 		}
 
+		if (timer.scoreDisplay >= timer.score && jump.scoreDisplay >= jump.score && jump.countDisplay >= jump.count && collectible.scoreDisplay >= collectible.score && AEInputCheckTriggered(AEVK_LBUTTON)) {
+
+		
+			e_skip = 1;
+				
+			
+		}
+
 		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip all Animations
 		{
 			timer.scoreDisplay = timer.score;
@@ -491,15 +499,10 @@ bool scoreAnimations()
 			collectible.grade_pos.x = 0.4f;
 			collectible.count_pos.x = -0.4f;
 		}
-		
-		//After first animation, left click to activate 2nd phase
-		if (timer.scoreDisplay >= timer.score && jump.scoreDisplay >= jump.score && jump.countDisplay >= jump.count && collectible.scoreDisplay >= collectible.score) {
 
-			if (AEInputCheckCurr(AEVK_LBUTTON)) 
-			{
-				e_skip = 1;
-			}
-		}
+
+		//After first animation, left click to activate 2nd phase
+		
 	}
 	else if (e_skip == 1)
 	{
@@ -552,12 +555,7 @@ bool scoreAnimations()
 		{
 			if (total.scoreDisplay < total.score)
 			{
-				total.scoreDisplay += 1000 * e_deltaTime;
-			}
-
-			if (AEInputCheckCurr(AEVK_LBUTTON))
-			{
-				total.scoreDisplay = total.score;
+				total.scoreDisplay += 6000 * e_deltaTime;
 			}
 
 			if (total.mono < 1.0f)
@@ -565,21 +563,23 @@ bool scoreAnimations()
 				total.mono += 5 * e_deltaTime;
 			}
 
-			if (total.scoreDisplay >= total.score)
+			if (total.size < 4.0f)
 			{
-				if (total.size < 4.0f)
-				{
-					total.size += 2 * e_deltaTime;
-				}
-
-				if (total.size >= 4.0f)
-				{
-					if (AEInputCheckCurr(AEVK_LBUTTON))
-					{
-						next = GS_MAINMENU;
-					}
-				}
+				total.size += 2 * e_deltaTime;
 			}
+
+
+			if (total.scoreDisplay >= total.score && total.size >= 4.0f && AEInputCheckTriggered(AEVK_LBUTTON))
+			{
+				next = GS_MAINMENU;
+			}
+
+			if (AEInputCheckCurr(AEVK_LBUTTON))
+			{
+				total.scoreDisplay = total.score;
+				total.size = 4.0f;
+			}
+
 		}
 	}
 	
