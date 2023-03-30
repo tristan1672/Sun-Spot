@@ -10,7 +10,7 @@ bool fadingIn = true;
 void SplashScreen_Load() {
 	MakeMesh();
 	SplashScreenTexture = AEGfxTextureLoad("Assets/Images/DigiPen_BLACK.png");
-	SplashScreen = GameObject({ 0.0f, 0.0f }, { 1120.f,400.f }, {1.0f, 1.0f, 1.0f, 0.0f}, 0.f, AE_GFX_RM_TEXTURE);
+	SplashScreen = GameObject({ 0.0f, 0.0f }, { 1270.f,720.f }, {1.0f, 1.0f, 1.0f, 0.0f}, 0.f, AE_GFX_RM_TEXTURE);
 	SplashScreen.SetTexture(SplashScreenTexture);
 
 }
