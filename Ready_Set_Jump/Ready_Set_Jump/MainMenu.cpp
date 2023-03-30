@@ -52,17 +52,20 @@ void Menu_Update() {
 		}
 
 
-
-
-
 		if (selectLevelText->MouseCollision(mouse)) 
 		{
 			e_uiState = LS;
 			LevelSelect::SetLevelSelectActive();
+
 			selectLevelText->TextBoxActive = false; selectLevelText->Active = false;
 			quitText->TextBoxActive = false; quitText->Active = false;
 			guideText->TextBoxActive = false; guideText->Active = false;
 			creditText->TextBoxActive = false; creditText->Active = false;
+
+			for (unsigned int i{}; i < 3; ++i) 
+			{
+				titleText[i]->Active = false;
+			}
 		}
 		if (LevelSelect::BackButtonBehaviour(mouse)) 
 		{
@@ -74,6 +77,11 @@ void Menu_Update() {
 				quitText->TextBoxActive = true; quitText->Active = true;
 				guideText->TextBoxActive = true; guideText->Active = true;
 				creditText->TextBoxActive = true; creditText->Active = true;
+
+				for (unsigned int i{}; i < 3; ++i) 
+				{
+					titleText[i]->Active = true;
+				}
 			}
 			if (e_uiState == STAGE)
 			{

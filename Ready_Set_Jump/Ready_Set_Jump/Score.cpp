@@ -406,7 +406,7 @@ bool scoreAnimations()
 	{
 		if (timer.scoreDisplay < timer.score) //Timer Score Counting Animation
 		{
-			timer.scoreDisplay += 3000 * e_deltaTime;
+			timer.scoreDisplay += static_cast<int>(3000 * e_deltaTime);
 		}
 
 		if (jump.scoreDisplay < jump.score) //Jump Score Counting Animation
@@ -473,6 +473,14 @@ bool scoreAnimations()
 			collectible.count_pos.x += e_deltaTime;
 		}
 
+		if (timer.scoreDisplay >= timer.score && jump.scoreDisplay >= jump.score && jump.countDisplay >= jump.count && collectible.scoreDisplay >= collectible.score && AEInputCheckTriggered(AEVK_LBUTTON)) {
+
+		
+			e_skip = 1;
+				
+			
+		}
+
 		if (AEInputCheckCurr(AEVK_LBUTTON)) //Left click to skip all Animations
 		{
 			timer.scoreDisplay = timer.score;
@@ -491,15 +499,10 @@ bool scoreAnimations()
 			collectible.grade_pos.x = 0.4f;
 			collectible.count_pos.x = -0.4f;
 		}
-		
-		//After first animation, left click to activate 2nd phase
-		if (timer.scoreDisplay >= timer.score && jump.scoreDisplay >= jump.score && jump.countDisplay >= jump.count && collectible.scoreDisplay >= collectible.score) {
 
-			if (AEInputCheckCurr(AEVK_LBUTTON)) 
-			{
-				e_skip = 1;
-			}
-		}
+
+		//After first animation, left click to activate 2nd phase
+		
 	}
 	else if (e_skip == 1)
 	{

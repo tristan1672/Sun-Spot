@@ -9,13 +9,14 @@ namespace LevelSelect {
 	
 	char jumpCount[25];
 	char timeCount[25];
-	char collectableCount[25];
+	char collectibleCount[25];
 	char totalScore[25];
 
 	AEGfxTexture* timeTexture;
 	AEGfxTexture* frameTexture;
+	AEGfxTexture* collectibleTexture;
 
-	GameObject Frame, Time;
+	GameObject Frame, Time, collectible;
 
 	int jump{}, collc{}, difficulty{},totalscore{};
 	float time{};
@@ -128,7 +129,10 @@ namespace LevelSelect {
 		{
 			Frame.SetTexture(nullptr);
 			Time.SetTexture(nullptr);
+			collectible.SetTexture(nullptr);
 
+			*jumpCount = NULL;
+			*collectibleCount = NULL;
 			*timeCount = NULL;
 
 			return true;
@@ -153,6 +157,7 @@ namespace LevelSelect {
 		backButton->Active = true;
 		Frame.SetTexture(frameTexture);
 		Time.SetTexture(timeTexture);
+		collectible.SetTexture(collectibleTexture);
 
 		fileToLoad = "Assets/Script/Level";
 		fileToLoad += std::to_string(levelcount);
@@ -161,7 +166,7 @@ namespace LevelSelect {
 		Save::GetSaveValue(levelNumber, difficulty, jump, collc, time, totalscore, attempt);
 
 		snprintf(jumpCount,			sizeof jumpCount,			"%d", jump);
-		snprintf(collectableCount,	sizeof collectableCount,	"%d", collc);
+		snprintf(collectibleCount,	sizeof collectibleCount,	"%d", collc);
 		snprintf(timeCount,			sizeof timeCount,			"%.2f", time);
 		snprintf(totalScore,		sizeof totalScore,			"%d", totalscore);
 
@@ -175,9 +180,12 @@ namespace LevelSelect {
 
 	void InitLSTexture()
 	{
-		Frame = GameObject({ 0.0f, 0.0f }, { 700.0f, 400.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
-		Time  = GameObject({ -220.f, -100.f }, { 70.0f, 80.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
+		Frame = GameObject({ 25.f, 0.0f }, { 700.0f, 400.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
+		Time  = GameObject({ -180.f, -100.f }, { 70.0f, 80.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
+		collectible  = GameObject({ -180.0f, 5.0f }, { 60.0f, 70.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 
+		*jumpCount = NULL;
+		*collectibleCount = NULL;
 		*timeCount = NULL;
 	}
 
@@ -185,18 +193,24 @@ namespace LevelSelect {
 	{
 		timeTexture = AEGfxTextureLoad("Assets/Images/Time.png");
 		frameTexture = AEGfxTextureLoad("Assets/Images/ScoreFrame.png");
+		collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
 	}
 
 	void UnloadLSTexture()
 	{
 		AEGfxTextureUnload(timeTexture);
 		AEGfxTextureUnload(frameTexture);
+		AEGfxTextureUnload(collectibleTexture);
 	}
 
 	void DrawLSTexture()
 	{
 		Frame.DrawObj();
 		Time.DrawObj();
-		AEGfxPrint(e_fontID, timeCount, -0.1f, -0.3f, 1.0f, 1.0f, 1.0f, 1.0f);
+		collectible.DrawObj();
+
+		AEGfxPrint(e_fontID, jumpCount,			 0.035f,    0.3f, 1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, collectibleCount,	 0.035f,    0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, timeCount,			 0.035f,    -0.3f, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
 }
