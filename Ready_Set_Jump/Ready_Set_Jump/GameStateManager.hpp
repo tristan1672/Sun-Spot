@@ -1,9 +1,12 @@
-
-typedef void(*FP)(void);
-
-extern int e_current_state, e_previous_state, e_next_state;
-
-extern FP e_fpLoad, e_fpInitialize, e_fpUpdate, e_fpDraw, e_fpFree, e_fpUnload;
+#include <iostream>
+#include "AEEngine.h"
+#include "PreCompiledHeader.hpp"
+#include "Utilities.hpp"
+#include "Level.hpp"
+#include "MainMenu.hpp"
+#include "SaveManager.hpp"
+#include "SplashScreen.hpp"
+#include "Credits.hpp"
 
 void GSM_Initialize(int startingState);
 

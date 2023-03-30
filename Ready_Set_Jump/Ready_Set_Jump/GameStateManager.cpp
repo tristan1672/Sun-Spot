@@ -16,16 +16,7 @@
 
 // ---------------------------------------------------------------------------
 // includes
-#include <iostream>
-#include "AEEngine.h"
-#include "PreCompiledHeader.hpp"
 #include "GameStateManager.hpp"
-#include "Utilities.hpp"
-#include "Level.hpp"
-#include "MainMenu.hpp"
-#include "SaveManager.hpp"
-#include "SplashScreen.hpp"
-#include "Credits.hpp"
 // --------------------------------------------------------------------------- // End of includes
 
 

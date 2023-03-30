@@ -23,6 +23,14 @@ enum { MAIN, LS, STAGE};
 
 // ---------------------------------------------------------------------------
 // External Variables
+
+// Different States 
+extern int e_current_state, e_previous_state, e_next_state;
+
+// Function Pointers
+typedef void(*FP)(void);
+extern FP e_fpLoad, e_fpInitialize, e_fpUpdate, e_fpDraw, e_fpFree, e_fpUnload;
+
 // Font
 extern s8 e_fontID;
 extern s8 e_creditFontID;
