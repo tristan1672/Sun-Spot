@@ -5,10 +5,8 @@
   *  \par Course  : csd1451
   *
   *  \brief
-  *  Timer component.
-  *  - Get and returns delta time
-  *  - Updates and return level time
-  *  - Display time on screen
+  *  Game State Manager
+  *  - Fuction Pointers to differnt scene fuctions
   *
 */
 
@@ -24,17 +22,15 @@ int e_current_state = 0, e_previous_state = 0, e_next_state = 0;
 
 FP e_fpLoad = nullptr, e_fpInitialize = nullptr, e_fpUpdate = nullptr, e_fpDraw = nullptr, e_fpFree = nullptr, e_fpUnload = nullptr;
 
-s8 e_fontID, e_creditFontID;
-
 // ----------------------------------------------------------------------------
 // This function initialize the gamestate manager
 // It is called once at the before the start of the game loop 
 // ----------------------------------------------------------------------------
 void GSM_Initialize(int startingState)
 {
+	std::cout << "GSM:Initialize\n";
+
 	e_current_state = e_previous_state = e_next_state = startingState;
-	e_fontID = AEGfxCreateFont("Assets/Font/kongtext.ttf", FONT_SIZE);
-	e_creditFontID = AEGfxCreateFont("Assets/Font/Connection-arMJ.otf", CREDIT_FONT_SIZE);
 	Save::ReadFile();
 }
 
@@ -44,6 +40,8 @@ void GSM_Initialize(int startingState)
 // ----------------------------------------------------------------------------
 void GSM_Update()
 {
+	std::cout << "GSM:Update\n";
+
 	switch (e_next_state)
 	{
 	case GS_SPLASH:

@@ -1,4 +1,3 @@
-#include "GameObjClasses.hpp"
 /**
   *  \file GameObjectClass.cpp
   *  \author Xiao Jun Yu
@@ -10,6 +9,7 @@
   *		to create mesh
   *
 */
+#include "GameObjClasses.hpp"
 // Pointer to Mesh
 AEGfxVertexList* pMesh = nullptr;
 AEGfxVertexList* arrMesh = nullptr;
@@ -158,28 +158,28 @@ void DynamicObj::SetVelocity(Vector2D Velocity) {//set object velocity
 	velocity = Velocity;
 }
 
-void DynamicObj::SetColFlag(int colFlag) {
+void DynamicObj::SetColFlag(int colFlag) {// sets collision flag
 	collisionFlag = colFlag;
 }
-int  DynamicObj::GetColFlag() {
+int  DynamicObj::GetColFlag() {// get collsion flag
 	return collisionFlag;
 }
 #pragma endregion
 #pragma endregion
 
 #pragma region Platform Object Class
-Platform::Platform(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh) {
+Platform::Platform(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh) {// defualt constructor for platform obj
 	position = Position; scale = Scale; colour = Colour; rotation = Rotation, renderMode = RenderMode, objMesh = ObjectMesh;
 }
 
-int Platform::GetPlatformType() {
+int Platform::GetPlatformType() {// gets the platform, type
 	return platformType;
 }
 
-void Platform::SetPlatformType(int Type) {
+void Platform::SetPlatformType(int Type) {// sets the platform type
 	platformType = Type;
 }
-Platform& Platform::operator=(const Platform& p) {
+Platform& Platform::operator=(const Platform& p) {// operator overload for operator =
 	position = p.position; scale = p.scale; colour = p.colour; rotation = p.rotation;
 	return *this;
 

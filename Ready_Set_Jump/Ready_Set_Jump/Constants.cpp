@@ -45,9 +45,9 @@ const float NORMAL_DRAG = 2.f;
 const float AIR_DRAG = 0.f; 
 const float STICK_DRAG = 10.f;
 // Friction
-const float NORMAL_FRICTION = 10.f;
+const float NORMAL_FRICTION = 25.f;
 const float ICE_FRICTION = 1.5f;
-const float SLIME_FRICTION = 25.f;
+const float SLIME_FRICTION = 5.f;
 const float FULL_STOP_FRICTION = 1 / e_deltaTime;
 
 // Jump Arrow
