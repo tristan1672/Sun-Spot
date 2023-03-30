@@ -266,7 +266,11 @@ void Level_Update()
 	// No check for dead elements as it takes 136.5 sec for the entire array to be cycled through. By then the 1st particle would have been killed.
 	if (frameCounter % 4) {
 		
-		* (particleList + (static_cast<int>(frameCounter * 0.25) % MAX_PARTICLE_NUMBER)) = CreateParticle(Player.GetPosition().x);
+		AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x + WINDOW_WIDTH), static_cast<float>(rand() % static_cast<int>(e_binaryMapHeight * GRID_HEIGHT_SIZE) - static_cast<float>(e_binaryMapHeight * GRID_HEIGHT_SIZE) + HALVE_WINDOW_HEIGHT) };
+		AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
+		int randScale = rand() % 8 + 2;
+
+		* (particleList + (static_cast<int>(frameCounter * 0.25) % MAX_PARTICLE_NUMBER)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
 	}
 
 
