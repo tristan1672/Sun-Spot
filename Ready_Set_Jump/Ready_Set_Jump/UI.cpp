@@ -25,9 +25,9 @@ UIText::UIText(std::string Text, Vector2D Position, Vector2D Scale,
 	float h{};
 	font = Font;
 	AEGfxGetPrintSize(font, text, 1.f, w, h);
-	TextBox = GameObject({ (position.x + w/2.f)* 640.f,(position.y + h/2.f)*360.f }, { w * 750.f,h * 600.f }, TextBoxColour);
+	TextBox = GameObject({ (position.x + w/2.f)* 640.f,(position.y + h/2.f)*360.f }, { w * 750.f,h * 600.f }, TextBoxColour);// makes textbox
 }
-UIText::UIText(UIText const& toCopy) {
+UIText::UIText(UIText const& toCopy) {// copy constructor
 	position = toCopy.position; scale = toCopy.scale; colour = toCopy.colour; TextBoxActive = toCopy.TextBoxActive;
 	charcount = toCopy.charcount;
 	text = new char[charcount];
@@ -35,7 +35,7 @@ UIText::UIText(UIText const& toCopy) {
 	TextBox = toCopy.TextBox;
 
 }
-UIText& UIText::operator=(UIText const& toCopy) {
+UIText& UIText::operator=(UIText const& toCopy) {// copy assignment
 	position = toCopy.position; scale = toCopy.scale; colour = toCopy.colour; TextBoxActive = toCopy.TextBoxActive;
 	charcount = toCopy.charcount;
 	delete[] text;
@@ -48,11 +48,11 @@ UIText::~UIText() {
 	delete[] text;
 }
 
-void UIText::DrawObj() {
-	if (TextBoxActive) {
+void UIText::DrawObj() {// draws the ui text obj
+	if (TextBoxActive) {//if textbox is active, draw text box
 		TextBox.DrawObj();
 	}
-	if (Active) {
+	if (Active) {//if text is active, draw text
 		AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 		AEGfxPrint(font, text, position.x, position.y, scale.x, colour.red, colour.green, colour.blue);
 	}
@@ -92,13 +92,13 @@ void UIText::SetTextBoxAlpha(f32 newAlpha) {
 f32 UIText::GetTextBoxAlpha() {
 	return TextBox.GetColour().alpha;
 }
-void UIText::TextBoxFadeIn() {
+void UIText::TextBoxFadeIn() {// text box fades in
 	if (TextBox.GetColour().alpha <= 1.f) {
 		SetTextBoxAlpha(TextBox.GetColour().alpha + 2.f*e_deltaTime);
 	}
 }
 void UIText::TextBoxFadeOut() {
-	if (TextBox.GetColour().alpha > 0.f) {
+	if (TextBox.GetColour().alpha > 0.f) {// text box fades out
 		SetTextBoxAlpha(TextBox.GetColour().alpha - 1.5f * e_deltaTime);
 	}
 }

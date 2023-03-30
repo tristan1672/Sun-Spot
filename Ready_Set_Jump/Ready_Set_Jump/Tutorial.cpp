@@ -1,3 +1,13 @@
+/**
+  *  \file Tutorial.cpp
+  *  \author Xiao Jun Yu
+  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par Course: csd1451
+  *
+  *  \brief
+  * Sets tutorial objects
+  *
+*/
 #include "Tutorial.hpp"
 #include "AEEngine.h"
 #include "UI.hpp"
