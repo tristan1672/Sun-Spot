@@ -29,6 +29,7 @@ void Menu_Load() {// loads in the mesh
 void Menu_Initialize() {
 	isTutorial = false;
 	e_uiState = MAIN;
+	e_move = 0;
 	e_skip = 0;
 	// allocate memory for game title text
 	titleText[0] = new UIText{UIText("Ready?", {-0.5f, 0.65f}, {1.4f,1.f}, Red)};
@@ -62,10 +63,6 @@ void Menu_Update() {
 			creditText->TextBoxActive = false; creditText->Active = false;
 			e_next_state = GS_CREDITS;
 		}
-
-
-
-
 
 		if (selectLevelText->MouseCollision(mouse)) // checks if level select button was pressed, shows the level select menu
 		{

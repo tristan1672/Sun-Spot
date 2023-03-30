@@ -24,7 +24,7 @@ struct Score collectible;
 struct Score total;
 /***********************************************************************************************************************/
 int    e_skip;
-int	   move;
+int	   e_move;
 /*!****************************************************************************
 
 	\brief
@@ -44,8 +44,8 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	char timerscore[25];
 	char timergrade[2];
 	char timercount[15];
-	char jumpscore[25];
 	char jumpgrade[2];
+	char jumpscore[25];
 	char jumpcount[10];
 	char collectableScore[25];
 	char collectiblegrade[2];
@@ -115,7 +115,7 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	
 	//Grade Calculation
 	calculateGrades();
-
+	
 	//Setting Animation 
 	e_scoreAnimation = scoreAnimations();
 
@@ -129,7 +129,7 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	snprintf(jumpgrade ,	   sizeof timergrade,		"%c",						jump.grade);
 	snprintf(jumpscore ,	   sizeof jumpscore,		"jump score: %d",			jump.scoreDisplay);
 	snprintf(jumpcount ,	   sizeof jumpcount,		"jumps: %d",				jump.countDisplay);
-	snprintf(totalscore,	   sizeof totalscore,		"Total score: %d",          total.scoreDisplay);
+	snprintf(totalscore,	   sizeof totalscore,		"Total score: %d",			total.scoreDisplay);
 	snprintf(totalgrade,	   sizeof totalgrade,		"%c",						total.grade);
 
 	//Print string buffer 
@@ -405,7 +405,7 @@ bool scoreAnimations()
 	 //flag
 	if (e_skip == 0)
 	{
-		if (move == 0)
+		if (e_move == 0)
 		{
 			if (timer.scoreDisplay < timer.score) //Timer Score Counting Animation
 			{
@@ -503,7 +503,7 @@ bool scoreAnimations()
 			collectible.grade_pos.x = 0.4f;
 			collectible.count_pos.x = -0.4f;
 
-			move = 1;
+			e_move = 1;
 		}
 
 
@@ -556,6 +556,7 @@ bool scoreAnimations()
 		{
 			collectible.count_pos.x += 2 * e_deltaTime;
 		}
+
 
 		if (timer.grade_pos.x >= 1.0f && timer.score_pos.x >= 1.0f && timer.count_pos.x >= 1.0f && jump.grade_pos.x >= 1.0f && jump.score_pos.x >= 1.0f && jump.count_pos.x >= 1.0f && collectible.score_pos.x >= 1.0f && collectible.grade_pos.x >= 1.0f && collectible.count_pos.x >= 1.0f)
 		{

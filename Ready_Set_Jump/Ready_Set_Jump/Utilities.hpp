@@ -49,6 +49,7 @@ extern bool e_scoreAnimation;
 
 // Score flag
 extern int e_skip;
+extern int e_move;
 
 // Structs
 struct Vector2D {
