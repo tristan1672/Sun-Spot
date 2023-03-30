@@ -17,6 +17,7 @@ namespace LevelSelect {
 	UIText* startButton{ nullptr };
 	UIText* levelnumber;
 	
+	char leveltext[25];
 	char jumpCount[25];
 	char timeCount[25];
 	char collectibleCount[25];
@@ -140,6 +141,7 @@ namespace LevelSelect {
 			Time.SetTexture(nullptr);
 			collectible.SetTexture(nullptr);
 
+			*leveltext = NULL;
 			*jumpCount = NULL;
 			*collectibleCount = NULL;
 			*timeCount = NULL;
@@ -174,8 +176,9 @@ namespace LevelSelect {
 
 		Save::GetSaveValue(levelNumber, difficulty, jump, collc, time, totalscore, attempt);
 
+		snprintf(leveltext,			sizeof leveltext,			"Level %d", levelNumber);
 		snprintf(jumpCount,			sizeof jumpCount,			"%d", jump);
-		snprintf(collectibleCount,	sizeof collectibleCount,	"%d", collc);
+		snprintf(collectibleCount,	sizeof collectibleCount,	"%d / %d", collc, e_totalNumOfcollectible);
 		snprintf(timeCount,			sizeof timeCount,			"%.2f", time);
 		snprintf(totalScore,		sizeof totalScore,			"%d", totalscore);
 
@@ -193,6 +196,7 @@ namespace LevelSelect {
 		Time  = GameObject({ -180.f, -100.f }, { 70.0f, 80.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 		collectible  = GameObject({ -180.0f, 5.0f }, { 60.0f, 70.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 
+		*leveltext = NULL;
 		*jumpCount = NULL;
 		*collectibleCount = NULL;
 		*timeCount = NULL;
@@ -218,7 +222,8 @@ namespace LevelSelect {
 		Time.DrawObj();
 		collectible.DrawObj();
 
-		AEGfxPrint(e_fontID, jumpCount,			 0.035f,    0.3f, 1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, leveltext,			 -0.15f,    0.6f, 1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, jumpCount,			 0.035f,    0.27f, 1.0f, 1.0f, 1.0f, 1.0f);
 		AEGfxPrint(e_fontID, collectibleCount,	 0.035f,    0.0f, 1.0f, 1.0f, 1.0f, 1.0f);
 		AEGfxPrint(e_fontID, timeCount,			 0.035f,    -0.3f, 1.0f, 1.0f, 1.0f, 1.0f);
 	}
