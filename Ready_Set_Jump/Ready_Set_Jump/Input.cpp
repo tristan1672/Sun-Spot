@@ -15,7 +15,7 @@
 
 #include "AEEngine.h"
 #include "PreCompiledHeader.hpp"
-#include "Ultilities.hpp"
+#include "Utilities.hpp"
 #include "Input.hpp"
 #include "Cam.hpp"
 #include "GameObjClasses.hpp"

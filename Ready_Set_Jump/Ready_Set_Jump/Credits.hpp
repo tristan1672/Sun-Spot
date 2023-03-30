@@ -1,5 +1,6 @@
 #pragma once
 #include "UI.hpp"
+#include "Utilities.hpp"
 #include "GameStateManager.hpp"
 
 void Credits_Load();

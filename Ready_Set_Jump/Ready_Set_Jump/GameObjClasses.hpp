@@ -1,6 +1,6 @@
 #pragma once
 #include "AEEngine.h"
-#include "Ultilities.hpp"
+#include "Utilities.hpp"
 #include "Constants.hpp"
 /*
 this file contains gameobject class, a dynamic object class and function to make mesh on initialize all of wich are declearations;

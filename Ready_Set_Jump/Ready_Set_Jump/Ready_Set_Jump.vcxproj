@@ -126,7 +126,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClCompile Include="System.cpp" />
     <ClCompile Include="Tutorial.cpp" />
     <ClCompile Include="UI.cpp" />
-    <ClCompile Include="Ultilities.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cam.hpp" />
@@ -146,7 +146,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="Tutorial.hpp" />
     <ClInclude Include="UI.hpp" />
-    <ClInclude Include="Ultilities.hpp" />
+    <ClInclude Include="Utilities.hpp" />
     <ClInclude Include="Level.hpp" />
     <ClInclude Include="PreCompiledHeader.hpp" />
     <ClInclude Include="System.hpp" />

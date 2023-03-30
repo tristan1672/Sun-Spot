@@ -7,6 +7,10 @@ const int WINDOW_HEIGHT  = 720;
 const float HALVE_WINDOW_WIDTH = WINDOW_WIDTH * 0.5f;
 const float HALVE_WINDOW_HEIGHT = WINDOW_HEIGHT * 0.5f;
 
+// Font
+//---------------------------
+const int FONT_SIZE = 30;
+
 // Level Select Menu
 //---------------------------
 const int LEVEL_ARRAY_SIZE = 3;

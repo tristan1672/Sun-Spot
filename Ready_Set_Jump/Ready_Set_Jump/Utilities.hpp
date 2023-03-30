@@ -25,6 +25,7 @@ enum { MAIN, LS, STAGE};
 // External Variables
 // Font
 extern s8 e_fontID;
+extern s8 e_creditFontID;
 
 // Physics
 extern float e_gravity;

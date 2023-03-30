@@ -1,5 +1,5 @@
 #pragma once
-#include "Ultilities.hpp"
+#include "Utilities.hpp"
 
 // Get and sets delta time(Called in main)
 void GetTime();

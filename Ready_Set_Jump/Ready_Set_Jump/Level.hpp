@@ -8,7 +8,7 @@
 #include "AEEngine.h"
 #include "GameObjClasses.hpp"
 #include "PreCompiledHeader.hpp"
-#include "Ultilities.hpp"
+#include "Utilities.hpp"
 #include "UI.hpp"
 #include "GameStateManager.hpp"
 

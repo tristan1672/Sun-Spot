@@ -1,4 +1,4 @@
-#include "Ultilities.hpp"
+#include "Utilities.hpp"
 
 float e_gravity = -600.f;
 
