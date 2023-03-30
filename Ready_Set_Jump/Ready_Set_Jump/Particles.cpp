@@ -1,7 +1,8 @@
 #include "Particles.hpp"
 
-GameObject CreateParticle(float posX, float posY, float velX, float velY, float scale, float lifetime) {
+// Repurpose GameObject to make things clearer when trying to create particle
+GameObject CreateParticle(float posX, float posY, float velX, float velY, float scale, float lifetime , ColourValue color , AEGfxRenderMode mode) {
 
-	return GameObject({ posX, posY }, { scale, scale }, { 1.f, 1.f, 1.f, 1.f },
-		lifetime, AE_GFX_RM_COLOR, pMesh, { velX , velY });
+	return GameObject({ posX, posY }, { scale, scale }, { color.red, color.green, color.blue, color.alpha },
+		lifetime, mode, pMesh, { velX , velY });
 }
