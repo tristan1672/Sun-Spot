@@ -44,14 +44,22 @@ void Input_Handle_HoldCheck()
 		currHoldTime += e_deltaTime;
 	}
 	AEInputGetCursorPosition(&mouse.ReleaseX, &mouse.ReleaseY);
+	// converts mouse position to world space
 	Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - HALVE_WINDOW_WIDTH + cam.X, -(static_cast<float>(mouse.ReleaseY) - HALVE_WINDOW_HEIGHT) + cam.Y };
+	//normalize direction between player and mouse
 	Vector2D nDirection = normalDirection(mouse.ClickX, mouse.ClickY, mouse.ReleaseX, mouse.ReleaseY);
+	// sets the angle of arrow
 	float angle = atan2f(-nDirection.x, nDirection.y);
-	if (currHoldTime >= MAX_HOLD_TIME) {
+	if (currHoldTime >= MAX_HOLD_TIME) {// shows arrow if hold time is more than MAX_HOLD_TIME
+		//sets arrow pos to player
 		jumpArrow.position = { Player.position.x,Player.position.y };
+		// sets the direction based on player pos and mouse pos
 		nDirection = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+		// sets the angle of arrow
 		angle = atan2f(-nDirection.x, nDirection.y);
+		// gets the distance between player and mouse
 		currHoldDistance = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+		// clamps the jumpforce
 		if (currHoldDistance > MAX_HOLD_DISTANCE) {
 			currHoldDistance = MAX_HOLD_DISTANCE;
 		}
@@ -71,18 +79,25 @@ void Input_Handle_HoldCheck()
 void Input_Handle_Jump() {
 	
 	if (currHoldTime >= MAX_HOLD_TIME) {
+		// converts mouse position to world space
 		Vector2D mouseClickQuadPos = { static_cast<float>(mouse.ReleaseX) - HALVE_WINDOW_WIDTH + cam.X, -(static_cast<float>(mouse.ReleaseY) - HALVE_WINDOW_HEIGHT) + cam.Y };
+		// normalize direction between player and mouse
 		Player.direction = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
+		// scale the player's jump force base on how far the player drag their mouse away from player charatcer
 		Player.e_jumpForce = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y) * 2;
+		// clamps the jumpforce
 		if (Player.e_jumpForce > MAX_JUMP_FORCE) {
 			Player.e_jumpForce = MAX_JUMP_FORCE;
 		}
 		if (Player.e_jumpForce < MIN_JUMP_FORCE) {
 			Player.e_jumpForce = MIN_JUMP_FORCE;
 		}
+		// scales player jump force based on its modification
 		Player.e_jumpForce *= Player.e_jumpForceMod;
+
 		Player.velocity.y += static_cast<float>(Player.e_jumpForce * Player.direction.y);
 		Player.velocity.x += static_cast<float>(Player.e_jumpForce * Player.direction.x);
+		// makes sure the player will not be able to jump towrds the wall
 		if (Player.GetColFlag() & COLLISION_RIGHT && Player.velocity.x > 0) {
 			Player.velocity.y -= static_cast<float>(Player.e_jumpForce * Player.direction.y);
 		}
@@ -92,17 +107,22 @@ void Input_Handle_Jump() {
 	}
 	else
 	{
+		// normalize direction between mouse click and mouse release
 		Player.direction = normalDirection(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY);
+		// scale the player's jump force base on how far the player drag their mouse away from player charatcer
 		Player.e_jumpForce = Distance(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY) * 2;
+		// clamps the jumpforce
 		if (Player.e_jumpForce > MAX_JUMP_FORCE) {
 			Player.e_jumpForce = MAX_JUMP_FORCE;
 		}
 		if (Player.e_jumpForce < MIN_JUMP_FORCE) {
 			Player.e_jumpForce = MIN_JUMP_FORCE;
 		}
+		// scales player jump force based on its modification
 		Player.e_jumpForce *= Player.e_jumpForceMod;
 		Player.velocity.y += static_cast<float>(Player.e_jumpForce * Player.direction.y);
 		Player.velocity.x += static_cast<float>(Player.e_jumpForce * Player.direction.x);
+		// makes sure the player will not be able to jump towrds the wall
 		if (Player.GetColFlag() & COLLISION_RIGHT && Player.velocity.x > 0) {
 			Player.velocity.y -= static_cast<float>(Player.e_jumpForce * Player.direction.y);
 		}
@@ -112,7 +132,7 @@ void Input_Handle_Jump() {
 	}
 	Player.position.y += static_cast<float>(Player.velocity.y * e_deltaTime);
 	Player.position.x += static_cast<float>(Player.velocity.x * e_deltaTime);
-	Player.jumpReady = false;
+	Player.jumpReady = false;// makes sure players dont jump again mid air
 	currHoldTime = 0.f;
 	Player.e_jumpForceMod = ORIGINAL_JUMP_FORCE_MOD;
 #if DEBUG
