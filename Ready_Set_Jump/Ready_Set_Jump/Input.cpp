@@ -84,7 +84,7 @@ void Input_Handle_Jump() {
 		// normalize direction between player and mouse
 		Player.direction = normalDirection(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y);
 		// scale the player's jump force base on how far the player drag their mouse away from player charatcer
-		Player.e_jumpForce = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y) * 2;
+		Player.e_jumpForce = Distance(Player.position.x, Player.position.y, mouseClickQuadPos.x, mouseClickQuadPos.y) * 3;
 		// clamps the jumpforce
 		if (Player.e_jumpForce > MAX_JUMP_FORCE) {
 			Player.e_jumpForce = MAX_JUMP_FORCE;
@@ -110,7 +110,7 @@ void Input_Handle_Jump() {
 		// normalize direction between mouse click and mouse release
 		Player.direction = normalDirection(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY);
 		// scale the player's jump force base on how far the player drag their mouse away from player charatcer
-		Player.e_jumpForce = Distance(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY) * 2;
+		Player.e_jumpForce = Distance(mouse.ClickX,- mouse.ClickY, mouse.ReleaseX,- mouse.ReleaseY) * 3;
 		// clamps the jumpforce
 		if (Player.e_jumpForce > MAX_JUMP_FORCE) {
 			Player.e_jumpForce = MAX_JUMP_FORCE;

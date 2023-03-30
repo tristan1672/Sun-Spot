@@ -79,6 +79,8 @@ AEGfxTexture* checkPointTexture1{ nullptr };
 AEGfxTexture* checkPointTexture2{ nullptr };
 AEGfxTexture* goalTexture[20]{nullptr};
 
+AEGfxTexture* arrowTexture{ nullptr };
+
 GameObject *particleList;
 
 
@@ -103,6 +105,8 @@ void Level_Load()
 	slimeBlockTextureFlipped1 = AEGfxTextureLoad("Assets/Images/Slime_Platform_1(Flipped).png");
 	slimeBlockTextureFlipped2 = AEGfxTextureLoad("Assets/Images/Slime_Platform_2(Flipped).png");
 	slimeBlockTextureFlipped3 = AEGfxTextureLoad("Assets/Images/Slime_Platform_3(Flipped).png");
+
+	arrowTexture = AEGfxTextureLoad("Assets/Images/Arrow.png");
 
 	checkPointTexture1 = AEGfxTextureLoad("Assets/Images/Flag_Down.png");
 	checkPointTexture2 = AEGfxTextureLoad("Assets/Images/Flag_Up.png");
@@ -237,9 +241,10 @@ void Level_Initialize()
 #pragma endregion
 	//sets the ui indicator for where the character is about to jump
 	jumpArrow = GameObject({ 0.f,0.f }, { 10.f,100.f },
-		{ 0.f,1.f,0.f,0.5f }, 0.f, AE_GFX_RM_COLOR, arrMesh);
-	jumpArrow.SetScale({ 10.f,100.f });
-	jumpArrow.SetColour({ 0.f,1.f,0.f,0.5f });
+		{ 0.f,1.f,0.f,0.5f }, 0.f, AE_GFX_RM_TEXTURE, arrMesh);
+	jumpArrow.SetTexture(arrowTexture);
+	jumpArrow.SetScale({ 40.f,100.f });
+	jumpArrow.SetColour({ 1.f,1.f,1.f,1.f });
 	mouse.ClickX = 0;
 	mouse.ClickY = 0;
 	mouse.ReleaseX = 0;
@@ -480,6 +485,8 @@ void Level_Unload()
 	AEGfxTextureUnload(collectibleTexture);
 	AEGfxTextureUnload(checkPointTexture1);
 	AEGfxTextureUnload(checkPointTexture2);
+
+	AEGfxTextureUnload(arrowTexture);
 
 	for (int i{}; i < sizeof(goalTexture) / sizeof(goalTexture[0]); ++i) {
 		if(goalTexture[i])
