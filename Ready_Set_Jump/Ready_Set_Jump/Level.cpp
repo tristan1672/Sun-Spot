@@ -209,7 +209,7 @@ void Level_Initialize()
 					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y });
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-				platform[i][j].SetTexture(checkPointTexture2);
+				platform[i][j].SetTexture(checkPointTexture1);
 				break;
 
 			case GOAL:
@@ -368,6 +368,17 @@ void Level_Update()
 		}
 		else if (e_collidedObjectType == CHECKPOINT) {
 			playerSpawnPoint = platform[e_collidedObjectXPosY][e_collidedObjectXPosX].GetPosition();
+			
+			// Update Checkpoints to now display active
+			for (int i = 0; i < e_binaryMapHeight; i++) {
+				for (int j = 0; j < e_binaryMapWidth; j++) {
+					if (platform[i][j].GetPlatformType() == CHECKPOINT) {
+						platform[i][j].SetTexture(checkPointTexture1);
+					}
+				}
+			}
+
+			platform[e_collidedObjectXPosY][e_collidedObjectXPosX].SetTexture(checkPointTexture2);
 			e_collidedObjectType = 0;
 		}
 		else if (e_collidedObjectType == COLLECTIBLES) {
