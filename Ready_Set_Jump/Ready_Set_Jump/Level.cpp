@@ -47,7 +47,7 @@ Vector2D playerSpawnPoint;
 int** e_levelGrid;
 int e_binaryMapWidth;
 int e_binaryMapHeight;
-int e_totalNumOfcollectible;
+unsigned int e_totalNumOfcollectible;
 
 int level_state;
 int level1_difficulty;
@@ -320,15 +320,6 @@ void Level_Update()
 
 	if (level_state == PLAYING)
 	{
-		// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
-		if (e_outOfMap) {
-			Player.velocity.x = 0.0f;
-			Player.velocity.y = 0.0f;
-			Player.jumpReady = false;
-			Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
-			e_outOfMap = false;
-
-		}
 
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
@@ -358,6 +349,33 @@ void Level_Update()
 		Player.LevelCollision();
 		Player.SnapToGrid();
 		ObjectCollision();
+
+		// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
+		if (e_outOfMap) {
+			Player.velocity.x = 0.0f;
+			Player.velocity.y = 0.0f;
+			Player.jumpReady = false;
+			Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
+			e_outOfMap = false;
+
+		}
+
+		if (e_collidedObjectType == GOAL) {
+			level_state = WIN;
+			Player.velocity.x = 0.0f;
+			Player.velocity.y = 0.0f;
+			e_collidedObjectType = 0;
+		}
+		else if (e_collidedObjectType == CHECKPOINT) {
+			playerSpawnPoint = platform[e_collidedObjectXPosY][e_collidedObjectXPosX].GetPosition();
+			e_collidedObjectType = 0;
+		}
+		else if (e_collidedObjectType == COLLECTIBLES) {
+			platform[e_collidedObjectXPosY][e_collidedObjectXPosX].SetPlatformType(EMPTY_SPACE);
+			++e_numOfcollectibleCollected;
+			e_collidedObjectType = 0;
+		}
+		
 
 		// Cam shake effect
 		if (Player.velocity.y < -240.0f)

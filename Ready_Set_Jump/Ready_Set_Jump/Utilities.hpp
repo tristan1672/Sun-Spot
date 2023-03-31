@@ -67,9 +67,12 @@ extern Vector2D playerSpawnPoint;
 extern int level_state;
 extern int** e_levelGrid;
 extern int e_binaryMapWidth, e_binaryMapHeight;
-extern int e_totalNumOfcollectible, e_numOfcollectibleCollected;
 extern int e_uiState;
+
+// Collision
+extern unsigned int e_totalNumOfcollectible, e_numOfcollectibleCollected;
 extern bool e_outOfMap;
+extern unsigned int e_collidedObjectType, e_collidedObjectXPosX, e_collidedObjectXPosY;
 
 // Camera
 extern short e_shakeStrength;

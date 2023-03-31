@@ -25,8 +25,8 @@
 
 // ---------------------------------------------------------------------------
 // External Variables
-int e_numOfcollectibleCollected;
 bool e_outOfMap;
+unsigned int e_collidedObjectType, e_numOfcollectibleCollected, e_collidedObjectXPosX, e_collidedObjectXPosY;
 // --------------------------------------------------------------------------- // End of external variables
 
 // ----------------------------------------------------------------------------
@@ -118,7 +118,7 @@ void DynamicObj::LevelCollision(){
 
 
 // ----------------------------------------------------------------------------
-// Spapping
+// Snapping
 // ----------------------------------------------------------------------------
 void DynamicObj::SnapToGrid() {
 
@@ -181,16 +181,17 @@ void ObjectCollision() {
 				if (playerHsY1 > objectBtmY && playerTopY < objectTopY || playerHsY2 > objectBtmY && playerBtmY < objectTopY) {
 
 					if (platform[i][j].GetPlatformType() == GOAL) {
-						level_state = WIN;
-						Player.velocity.x = 0.0f;
-						Player.velocity.y = 0.0f;
+						e_collidedObjectType = GOAL;
 					}
 					else if (platform[i][j].GetPlatformType() == CHECKPOINT) {
-						playerSpawnPoint = platform[i][j].GetPosition();
+						e_collidedObjectType = CHECKPOINT;
+						e_collidedObjectXPosX = j;
+						e_collidedObjectXPosY = i;
 					}
 					else if (platform[i][j].GetPlatformType() == COLLECTIBLES) {
-						platform[i][j].SetPlatformType(EMPTY_SPACE);
-						++e_numOfcollectibleCollected;
+						e_collidedObjectType = COLLECTIBLES;
+						e_collidedObjectXPosX = j;
+						e_collidedObjectXPosY = i;
 #if DEBUG
 						std::cout << "Collision with a collectible \n";
 						std::cout << "collectible Left: " << e_totalNumOfcollectible - e_numOfcollectibleCollected << "\n";
