@@ -102,14 +102,14 @@ void Level_Load()
 	slimeBlockTexture1 = AEGfxTextureLoad("Assets/Images/Slime_Platform_1.png");
 	slimeBlockTexture2 = AEGfxTextureLoad("Assets/Images/Slime_Platform_2.png");
 	slimeBlockTexture3 = AEGfxTextureLoad("Assets/Images/Slime_Platform_3.png");
-	slimeBlockTextureFlipped1 = AEGfxTextureLoad("Assets/Images/Slime_Platform_1(Flipped).png");
-	slimeBlockTextureFlipped2 = AEGfxTextureLoad("Assets/Images/Slime_Platform_2(Flipped).png");
-	slimeBlockTextureFlipped3 = AEGfxTextureLoad("Assets/Images/Slime_Platform_3(Flipped).png");
+	slimeBlockTextureFlipped1 = AEGfxTextureLoad("Assets/Images/Flipped_Slime_Platform_1.png");
+	slimeBlockTextureFlipped2 = AEGfxTextureLoad("Assets/Images/Flipped_Slime_Platform_2.png");
+	slimeBlockTextureFlipped3 = AEGfxTextureLoad("Assets/Images/Flipped_Slime_Platform_3.png");
 
 	arrowTexture = AEGfxTextureLoad("Assets/Images/Arrow.png");
 
-	checkPointTexture1 = AEGfxTextureLoad("Assets/Images/Flag_Down.png");
-	checkPointTexture2 = AEGfxTextureLoad("Assets/Images/Flag_Up.png");
+	checkPointTexture1 = AEGfxTextureLoad("Assets/Images/Checkpoint_Off.png");
+	checkPointTexture2 = AEGfxTextureLoad("Assets/Images/Checkpoint_On.png");
 
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
 	for (int i{}; i < sizeof(goalTexture)/sizeof(goalTexture[0]); ++i) {
@@ -622,7 +622,7 @@ void PlatformAnimationUpdate(void) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 
 			if (platform[i][j].GetPlatformType() == SLIME_BLOCK) {
-				int frame = frameCounter % 30;
+				int frame = frameCounter % 50;
 				switch (frame) {
 				case 0:
 					if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK && platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) {
@@ -636,15 +636,15 @@ void PlatformAnimationUpdate(void) {
 					}
 					break;
 
-				case 15:
+				case 25:
 					if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK && platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) {
 						platform[i][j].SetTexture(slimeBlockTextureFlipped2);
 					}
 					else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
-						platform[i][j].SetTexture(slimeBlockTextureFlipped3);
+						platform[i][j].SetTexture(slimeBlockTextureFlipped1);
 					}
 					else {
-						platform[i][j].SetTexture(slimeBlockTextureFlipped1);
+						platform[i][j].SetTexture(slimeBlockTextureFlipped3);
 					}
 					break;
 				}
