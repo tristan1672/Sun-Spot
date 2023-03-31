@@ -357,7 +357,17 @@ void Level_Update()
 		// Collision function
 		Player.LevelCollision();
 		Player.SnapToGrid();
-		ObjectiveCollision();
+		ObjectCollision();
+
+		// Cam shake effect
+		if (Player.velocity.y < -240.0f)
+		{
+			e_shakeStrength = HEAVY_SHAKE;
+		}
+		else if (Player.velocity.y < -90.0f)
+		{
+			e_shakeStrength = MEDIUM_SHAKE;
+		}
 
 		// code that allows the player to get affected by gravity
 		Player.PhysicsUpdate();

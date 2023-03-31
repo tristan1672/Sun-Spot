@@ -8,7 +8,9 @@
   *  Collision component.
   *  - LevelCollision
   *		 Checks for player collision against level and snap accordingly.
-  *  - ObjectiveCollision
+  *  - SnapToGrid
+  *		 Snapping to position
+  *  - ObjectCollision
   *		 Checks for player collision against objects that dont require have seperate width and height.
   *
 */
@@ -32,6 +34,7 @@ bool e_outOfMap;
 // ----------------------------------------------------------------------------
 void DynamicObj::LevelCollision(){
 	collisionFlag = 0;
+
 	// Hotspots
 	topY = (HALVE_WINDOW_HEIGHT - position.y - GetScale().y / 2.0f) / GRID_HEIGHT_SIZE; // Top bound
 	btmY = (HALVE_WINDOW_HEIGHT - position.y + GetScale().y / 2.0f) / GRID_HEIGHT_SIZE; // Btm bound
@@ -111,18 +114,12 @@ void DynamicObj::LevelCollision(){
 #endif
 		}
 	}
-
-	// Cam shake effect
-	if (Player.velocity.y < -240.0f)
-	{
-		e_shakeStrength = HEAVY_SHAKE;
-	}
-	else if (Player.velocity.y < -90.0f)
-	{
-		e_shakeStrength = MEDIUM_SHAKE;
-	}
 }
 
+
+// ----------------------------------------------------------------------------
+// Spapping
+// ----------------------------------------------------------------------------
 void DynamicObj::SnapToGrid() {
 
 	if (collisionFlag & COLLISION_TOP) {
@@ -131,11 +128,10 @@ void DynamicObj::SnapToGrid() {
 
 	if (collisionFlag & COLLISION_BOTTOM) {
 		position.y = HALVE_WINDOW_HEIGHT - static_cast<int>(btmY) * GRID_HEIGHT_SIZE + (PLAYER_SIZE_Y / 2.0f);
-		//std::cout << "Y Pos = " << position.y << "\n";
 	}
 
 	if (collisionFlag & COLLISION_LEFT) {
-		position.x = -HALVE_WINDOW_WIDTH + (static_cast<int>(leftX) + 0.9999) * GRID_WIDTH_SIZE + PLAYER_SIZE_X / 2.0f;
+		position.x = -HALVE_WINDOW_WIDTH + (static_cast<int>(leftX) + 1) * GRID_WIDTH_SIZE + PLAYER_SIZE_X / 2.0f;
 	}
 
 	if (collisionFlag & COLLISION_RIGHT) {
@@ -144,10 +140,9 @@ void DynamicObj::SnapToGrid() {
 }
 
 // ----------------------------------------------------------------------------
-// Checks for player collision against objects that dont require have seperate width and height,
-// such as COLLECTIBLES and goal(exit point)
+// Checks for player collision against objects that is not a platform
 // ----------------------------------------------------------------------------
-void ObjectiveCollision() {
+void ObjectCollision() {
 	// Player hotspots
 	int playerTopY = Player.position.y - Player.GetScale().y / 2.0f; // Top bound
 	int playerBtmY = Player.position.y + Player.GetScale().y / 2.0f; // Btm bound
@@ -159,65 +154,52 @@ void ObjectiveCollision() {
 	int playerHsY1 = Player.position.y - Player.GetScale().y / 4.0f; // 25% Y
 	int playerHsY2 = Player.position.y + Player.GetScale().y / 4.0f; // 75% Y
 
+	float objectTopY = 0.f, objectBtmY = 0.f, objectLeftX = 0.f, objectRightX = 0.f;
+	float scaleY = 0.f, scaleX = 0.f;
+
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 
 			if (platform[i][j].GetPlatformType() == GOAL) {
-				float goalTopY = HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - GOAL_SIZE_Y * 0.7f) / 2.0f;
-				float goalBtmY = HALVE_WINDOW_HEIGHT - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - GOAL_SIZE_Y * 0.7f) / 2.0f;
-				float goalLeftX = -HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - GOAL_SIZE_X * 0.6f ) * 0.5f;
-				float goalRightX = -HALVE_WINDOW_WIDTH + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - GOAL_SIZE_X * 0.6f) / 2.0f;
+				scaleX = 0.6f;
+				scaleY = 0.7f;
+			}
+			else {
+				scaleX = 1.f;
+				scaleY = 1.f;
+			}
+			
+			objectTopY = HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - platform[i][j].GetScale().y * scaleY) / 2.0f;
+			objectBtmY = HALVE_WINDOW_HEIGHT - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - platform[i][j].GetScale().y * scaleY) / 2.0f;
+			objectLeftX = -HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - platform[i][j].GetScale().x * scaleX) / 2;
+			objectRightX = -HALVE_WINDOW_WIDTH + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - platform[i][j].GetScale().x * scaleX) / 2.0f;
+			
 
-				// If player x position is within the goal
-				if (playerHsX1 > goalLeftX && playerLeftX < goalRightX || playerHsX2 < goalRightX && playerRightX > goalLeftX) {
-					// If player y position is within the goal
-					if (playerHsY1 > goalBtmY && playerTopY < goalTopY || playerHsY2 > goalBtmY && playerBtmY < goalTopY) {
+			// If player x position is within the object
+			if (playerHsX1 > objectLeftX && playerLeftX < objectRightX || playerHsX2 < objectRightX && playerRightX > objectLeftX) {
+				// If player y position is within the object
+				if (playerHsY1 > objectBtmY && playerTopY < objectTopY || playerHsY2 > objectBtmY && playerBtmY < objectTopY) {
+
+					if (platform[i][j].GetPlatformType() == GOAL) {
 						level_state = WIN;
 						Player.velocity.x = 0.0f;
 						Player.velocity.y = 0.0f;
 					}
-				}
-			}
-			if (platform[i][j].GetPlatformType() == CHECKPOINT) {
-				float checkPointTopY = HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - GOAL_SIZE_Y) / 2.0f;
-				float checkPointBtmY = HALVE_WINDOW_HEIGHT - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - GOAL_SIZE_Y) / 2.0f;
-				float checkPointLeftX = -HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - GOAL_SIZE_X) / 2;
-				float checkPointRightX = -HALVE_WINDOW_WIDTH + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - GOAL_SIZE_X) / 2.0f;
-
-				// If player x position is within the goal
-				if (playerHsX1 > checkPointLeftX && playerLeftX < checkPointRightX || playerHsX2 < checkPointRightX && playerRightX > checkPointLeftX) {
-					// If player y position is within the goal
-					if (playerHsY1 > checkPointBtmY && playerTopY < checkPointTopY || playerHsY2 > checkPointBtmY && playerBtmY < checkPointTopY) {
+					else if (platform[i][j].GetPlatformType() == CHECKPOINT) {
 						playerSpawnPoint = platform[i][j].GetPosition();
-						//platform[i][j].SetPlatformType(EMPTY_SPACE);
 					}
-				}
-			}
-
-			if (platform[i][j].GetPlatformType() == COLLECTIBLES) {
-				float collectibleTopY = HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE - (GRID_HEIGHT_SIZE - collectible_SIZE_Y) / 2.0f;
-				float collectibleBtmY = HALVE_WINDOW_HEIGHT - (i + 1) * GRID_HEIGHT_SIZE + (GRID_HEIGHT_SIZE - collectible_SIZE_Y) / 2.0f;
-				float collectibleLeftX = -HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE + (GRID_WIDTH_SIZE - collectible_SIZE_X) / 2;
-				float collectibleRightX = -HALVE_WINDOW_WIDTH + (j + 1) * GRID_WIDTH_SIZE - (GRID_WIDTH_SIZE - collectible_SIZE_X) / 2.0f;
-
-				// If player x position is within the collectible
-				if (playerHsX1 > collectibleLeftX && playerLeftX < collectibleRightX || playerHsX2 < collectibleRightX && playerRightX > collectibleLeftX) {
-					// If player y position is within the collectible
-					if (playerHsY1 > collectibleBtmY && playerTopY < collectibleTopY || playerHsY2 > collectibleBtmY && playerBtmY < collectibleTopY) {
+					else if (platform[i][j].GetPlatformType() == COLLECTIBLES) {
 						platform[i][j].SetPlatformType(EMPTY_SPACE);
-
 						++e_numOfcollectibleCollected;
-
-
 #if DEBUG
 						std::cout << "Collision with a collectible \n";
 						std::cout << "collectible Left: " << e_totalNumOfcollectible - e_numOfcollectibleCollected << "\n";
-						
+
 #endif
 					}
 				}
 			}
-		}
-	}
 
+		} // End of width looping
+	} // End of height looping
 }

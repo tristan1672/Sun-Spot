@@ -7,4 +7,4 @@
 #include "Level.hpp"
 
 
-void ObjectiveCollision();
+void ObjectCollision();
