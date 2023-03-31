@@ -69,6 +69,7 @@ extern int** e_levelGrid;
 extern int e_binaryMapWidth, e_binaryMapHeight;
 extern int e_totalNumOfcollectible, e_numOfcollectibleCollected;
 extern int e_uiState;
+extern bool e_outOfMap;
 
 // Camera
 extern short e_shakeStrength;

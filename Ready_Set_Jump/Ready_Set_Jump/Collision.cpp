@@ -24,6 +24,7 @@
 // ---------------------------------------------------------------------------
 // External Variables
 int e_numOfcollectibleCollected;
+bool e_outOfMap;
 // --------------------------------------------------------------------------- // End of external variables
 
 // ----------------------------------------------------------------------------
@@ -41,24 +42,9 @@ void DynamicObj::LevelCollision(){
 	Y1 = (HALVE_WINDOW_HEIGHT - position.y - GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 25% Y
 	Y2 = (HALVE_WINDOW_HEIGHT - position.y + GetScale().y / 4.0f) / GRID_HEIGHT_SIZE; // 75% Y
 
-	// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
+	// If out of play area
 	if (leftX < 0 || rightX > e_binaryMapWidth || topY < 0 || btmY > e_binaryMapHeight) {
-		
-#if DEBUG
-		std::cout << "==================== Reset =====================\n";
-		std::cout << "  [" << (X1) << "," << (topY) << "] " << "[" << (X2) << "," << (topY) << "]\n";
-		std::cout << "[" << (leftX) << "," << (Y1) << "]     " << "[" << (rightX) << "," << (Y1) << "]\n";
-		std::cout << "        +\n";
-		std::cout << "[" << (leftX) << "," << (Y2) << "]     " << "[" << (rightX) << "," << (Y2) << "]\n";
-		std::cout << "  [" << (X1) << "," << (btmY) << "] " << "[" << (X2) << "," << (btmY) << "]\n\n";
-#endif
-
-
-		velocity.x = 0.0f;
-		velocity.y = 0.0f;
-		jumpReady = false;
-		position = { playerSpawnPoint.x,playerSpawnPoint.y };
-
+		e_outOfMap = true;
 	}
 	else {
 		// Top collided

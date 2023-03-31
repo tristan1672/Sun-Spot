@@ -315,10 +315,21 @@ void Level_Update()
 	}
 	if (level_state == PAUSED) { 
 		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
-		PauseMenu::PauseMenuBehaviour(mouse); }
+		PauseMenu::PauseMenuBehaviour(mouse); 
+	}
 
 	if (level_state == PLAYING)
 	{
+		// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
+		if (e_outOfMap) {
+			Player.velocity.x = 0.0f;
+			Player.velocity.y = 0.0f;
+			Player.jumpReady = false;
+			Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
+			e_outOfMap = false;
+
+		}
+
 		// Checks the current pos of the mouse when initially clicked
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 			AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
@@ -340,30 +351,30 @@ void Level_Update()
 		}
 
 
-	// Prev collesion flag check
-	airCheck = Player.GetColFlag();
+		// Prev collesion flag check
+		airCheck = Player.GetColFlag();
 
-	// Collision function
-	Player.LevelCollision();
-	Player.SnapToGrid();
-	ObjectiveCollision();
+		// Collision function
+		Player.LevelCollision();
+		Player.SnapToGrid();
+		ObjectiveCollision();
 
-	// code that allows the player to get affected by gravity
-	Player.PhysicsUpdate();
+		// code that allows the player to get affected by gravity
+		Player.PhysicsUpdate();
 
 
-	if (followMouseCheat) {
-		mousePos temp{};
-		AEInputGetCursorPosition(&temp.ClickX, &temp.ClickY);
-		Vector2D mouseQuadPos = { static_cast<float>(temp.ClickX) - HALVE_WINDOW_WIDTH + cam.X, -(static_cast<float>(temp.ClickY) - HALVE_WINDOW_HEIGHT) + cam.Y };
-		Player.position = mouseQuadPos;
-	}
+		if (followMouseCheat) {
+			mousePos temp{};
+			AEInputGetCursorPosition(&temp.ClickX, &temp.ClickY);
+			Vector2D mouseQuadPos = { static_cast<float>(temp.ClickX) - HALVE_WINDOW_WIDTH + cam.X, -(static_cast<float>(temp.ClickY) - HALVE_WINDOW_HEIGHT) + cam.Y };
+			Player.position = mouseQuadPos;
+		}
 
-	// Cam shake
-	Cam(airCheck);
+		// Cam shake
+		Cam(airCheck);
 
-	// Update total time taken for level
-	LevelTime();
+		// Update total time taken for level
+		LevelTime();
 	}	
 
 	// Update particle effect for background
