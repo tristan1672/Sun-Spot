@@ -42,14 +42,14 @@ void SplashScreen_Update() {
 		maxSplashScreenTime -= e_deltaTime;
 		if (fadingIn) {// when the splash screen fades in, increases the alpha, scaled with delta_time
 			ColourValue temp = SplashScreen.GetColour();
-			temp.alpha += e_deltaTime;
+			temp.alpha += e_deltaTime/2.f;
 			SplashScreen.SetColour(temp);
 			if (SplashScreen.GetColour().alpha >= 1.f) fadingIn = false;
 		}
 		else // when the splash screen fades out, decrease the alpha, scaled with delta_time
 		{
 			ColourValue temp = SplashScreen.GetColour();
-			temp.alpha -= e_deltaTime;
+			temp.alpha -= e_deltaTime/2.f;
 			SplashScreen.SetColour(temp);
 			if (SplashScreen.GetColour().alpha <= 0.f) fadingIn = true;
 		}
