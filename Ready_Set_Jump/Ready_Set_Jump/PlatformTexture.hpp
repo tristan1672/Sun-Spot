@@ -15,8 +15,14 @@ void MiddleLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type);
 
 void BtmLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type);
 
+void VerticleTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type);
+
 void TextureSetNonEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
 
 void TextureSetTopEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
 
 void TextureSetBtmEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
+
+void TextureSetLeftEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
+
+void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
