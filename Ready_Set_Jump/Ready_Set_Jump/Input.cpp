@@ -8,6 +8,7 @@
   *  This is the input action that the player need to take to move the character in game, the main movment is to use flicking of mosue to sling shot 
   * player characters to their destinations
   *
+  *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 // ---------------------------------------------------------------------------
 // includes

@@ -8,6 +8,7 @@
   *	 Contains functions for creating Camera elements:
   *  Cam			-Function to execute Camera tracking and effects
   *   
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
   */
 
 #include "Cam.hpp"

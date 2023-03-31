@@ -7,7 +7,8 @@
   *  \brief
   *  Game State Manager
   *  - Fuction Pointers to differnt scene fuctions
-  *
+  * 
+  *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 
 // ---------------------------------------------------------------------------

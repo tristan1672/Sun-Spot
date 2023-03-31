@@ -9,6 +9,7 @@
   *  - Initialize text to be printed
   *  - Initialize text position, scale, color, font
   *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 
 // ---------------------------------------------------------------------------

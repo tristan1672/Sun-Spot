@@ -6,7 +6,8 @@
   *
   *  \brief
   *  Defination file, Splash Screen Scene,  mainly how the image should fade in and out
-  *
+  * 
+  *	 All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 #include "AEEngine.h"
 #include "GameStateManager.hpp"

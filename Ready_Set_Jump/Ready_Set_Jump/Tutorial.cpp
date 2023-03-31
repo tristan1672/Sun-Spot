@@ -6,7 +6,7 @@
   *
   *  \brief
   * Sets tutorial objects
-  *
+  * All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 #include "Tutorial.hpp"
 #include "AEEngine.h"

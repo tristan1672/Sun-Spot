@@ -5,8 +5,9 @@
   *  \par Course: csd1451
   *
   *  \brief
-  * Defination of functions that will make the pause menu draw
-  *
+  *  Defination of functions that will make the pause menu draw
+  * 
+  *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 #include "PauseMenu.hpp"
 #include "UI.hpp"

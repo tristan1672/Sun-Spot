@@ -7,7 +7,8 @@
   *
   *  \brief
   *  Splash Screen Scene, declearation file
-  *
+  *  
+  * All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 void SplashScreen_Load();
 

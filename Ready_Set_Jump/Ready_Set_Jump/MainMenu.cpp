@@ -6,7 +6,7 @@
   *
   *  \brief
   * Main Menu Scene
-  *
+  * All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 #include "MainMenu.hpp"
 

@@ -7,6 +7,7 @@
   *  \brief
   *  Defination file, for  DynamicObj::PhysicsUpdate() in GameObjClass.hpp
   *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 #include "Physics.hpp"
 void DynamicObj::PhysicsUpdate() {

@@ -8,6 +8,7 @@
   *  This file contains gameobject classes that will be used for making the stage and also a child class that is used for making player character there is also a function used here
   *		to create mesh
   *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 #include "GameObjClasses.hpp"
 // Pointer to Mesh
