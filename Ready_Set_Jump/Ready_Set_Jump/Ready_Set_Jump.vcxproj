@@ -120,6 +120,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClCompile Include="Particles.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Physics.cpp" />
+    <ClCompile Include="PlatformTexture.cpp" />
     <ClCompile Include="SaveManager.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="SplashScreen.cpp" />
@@ -142,6 +143,7 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClInclude Include="Particles.hpp" />
     <ClInclude Include="PauseMenu.hpp" />
     <ClInclude Include="Physics.hpp" />
+    <ClInclude Include="PlatformTexture.hpp" />
     <ClInclude Include="SaveManager.hpp" />
     <ClInclude Include="Score.hpp" />
     <ClInclude Include="SplashScreen.hpp" />

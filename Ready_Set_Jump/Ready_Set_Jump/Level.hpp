@@ -11,6 +11,7 @@
 #include "Utilities.hpp"
 #include "UI.hpp"
 #include "GameStateManager.hpp"
+#include "PlatformTexture.hpp"
 #include "Particles.hpp"
 
 extern DynamicObj Player;
@@ -35,9 +36,3 @@ void Level_Unload();
 int ImportMapDataFromFile(char* FileName);
 
 void PlatformAnimationUpdate(void);
-
-void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string Str);
-
-void MultiTextureUnload(AEGfxTexture** TextureArr, unsigned int Size);
-
-void TextureSetNonEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
