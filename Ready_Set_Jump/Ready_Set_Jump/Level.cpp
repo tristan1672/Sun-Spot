@@ -82,6 +82,7 @@ GameObject *levelParticleList;
 int ImportMapDataFromFile(const char* FileName);
 void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string Str);
 void MultiTextureUnload(AEGfxTexture** TextureArr, unsigned int Size);
+void TextureSetNonEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
 
 // ----------------------------------------------------------------------------
 // This function loads necessary data(resource and asset) and initialize it
@@ -180,75 +181,9 @@ void Level_Initialize()
 				}
 				else {
 					
-					if (platform[i - 1][j].GetPlatformType() != SLIME_BLOCK) { // If above is not
-						
-						if (platform[i + 1][j].GetPlatformType() != SLIME_BLOCK) { // Above not, below not = single layer
-							// Single layer
-							if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK) { // Left is
-
-								if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK)
-									platform[i][j].SetTexture(slimeTexture[1]); // Left is, right is = single layer center block
-								else 
-									platform[i][j].SetTexture(slimeTexture[2]); // Left is, right not = Right most block of single layer
-							}
-							else {
-								if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
-									platform[i][j].SetTexture(slimeTexture[0]); // Left not, right is = Left most block of single layer
-								else 
-									platform[i][j].SetTexture(slimeTexture[15]); // Single block
-							}
-						}
-						else { // Above not, btm is
-							// Top Layer
-							if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK) { // Left is
-							
-								if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
-									platform[i][j].SetTexture(slimeTexture[7]); // Left is, right is = Top center block
-								else
-									platform[i][j].SetTexture(slimeTexture[8]);  // Left is, right not = Top right block
-							}
-							else { // Left not
-								if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
-									platform[i][j].SetTexture(slimeTexture[6]); // Left not, right is = Top left block
-								else // Verticle Row
-									platform[i][j].SetTexture(slimeTexture[3]); // Left not, right not = Vetical top
-							}
-						}
-					}
-					else if (platform[i + 1][j].GetPlatformType() != SLIME_BLOCK) { // Above is , below not = btm layer
-						// Btm layer
-						if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK) { // Left is
-
-							if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
-								platform[i][j].SetTexture(slimeTexture[13]); // Left is, right is = btm layer center block
-							else 
-								platform[i][j].SetTexture(slimeTexture[14]); // Left is, right not = Right most block of btm layer
-						}
-						else { // Left not
-							if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK)
-								platform[i][j].SetTexture(slimeTexture[12]); // Left not, right is = Btm left block
-							else // Verticle Row
-								platform[i][j].SetTexture(slimeTexture[5]); // Left not, right not = Vetical btm
-						}
+					TextureSetNonEdge(i, j, slimeTexture, SLIME_BLOCK);
 					
-					}
-					else {
-						// Middle layer
-						if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK) { // Left is
-
-							if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
-								platform[i][j].SetTexture(slimeTexture[10]); // Left is, right is = middle layer center block
-							else 
-								platform[i][j].SetTexture(slimeTexture[11]); // Left is, right not = Right most block of middle layer
-						}
-						else { // Left not
-							if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK)
-								platform[i][j].SetTexture(slimeTexture[9]); // Left not, right is = Middle left block
-							else // Verticle Row
-								platform[i][j].SetTexture(slimeTexture[4]); // Left not, right not = Vetical middle
-						}
-					}
-				}
+				} // end of else for texture setting
 
 			
 
@@ -689,4 +624,77 @@ void MultiTextureUnload(AEGfxTexture** TextureArr, unsigned int Size) {
 	for (int i{}; i < Size; ++i) {
 		AEGfxTextureUnload(TextureArr[i]);
 	}
+}
+
+void TextureSetNonEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
+
+	if (platform[i - 1][j].GetPlatformType() != Type) { // If above is not
+						
+		if (platform[i + 1][j].GetPlatformType() != Type) { // Above not, below not = single layer
+			// Single layer
+			if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
+
+				if (platform[i][j + 1].GetPlatformType() == Type)
+					platform[i][j].SetTexture(TextureArr[1]); // Left is, right is = single layer center block
+				else 
+					platform[i][j].SetTexture(TextureArr[2]); // Left is, right not = Right most block of single layer
+			}
+			else {
+				if (platform[i][j + 1].GetPlatformType() == Type)
+					platform[i][j].SetTexture(TextureArr[0]); // Left not, right is = Left most block of single layer
+				else 
+					platform[i][j].SetTexture(TextureArr[15]); // Single block
+			}
+		}
+		else { // Above not, btm is
+			// Top Layer
+			if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
+							
+				if (platform[i][j + 1].GetPlatformType() == Type)
+					platform[i][j].SetTexture(TextureArr[7]); // Left is, right is = Top center block
+				else
+					platform[i][j].SetTexture(TextureArr[8]);  // Left is, right not = Top right block
+			}
+			else { // Left not
+				if (platform[i][j + 1].GetPlatformType() == Type)
+					platform[i][j].SetTexture(TextureArr[6]); // Left not, right is = Top left block
+				else // Verticle Row
+					platform[i][j].SetTexture(TextureArr[3]); // Left not, right not = Vetical top
+			}
+		}
+	}
+	else if (platform[i + 1][j].GetPlatformType() != Type) { // Above is , below not = btm layer
+		// Btm layer
+		if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
+
+			if (platform[i][j + 1].GetPlatformType() == Type)
+				platform[i][j].SetTexture(TextureArr[13]); // Left is, right is = btm layer center block
+			else 
+				platform[i][j].SetTexture(TextureArr[14]); // Left is, right not = Right most block of btm layer
+		}
+		else { // Left not
+			if (platform[i][j + 1].GetPlatformType() == Type)
+				platform[i][j].SetTexture(TextureArr[12]); // Left not, right is = Btm left block
+			else // Verticle Row
+				platform[i][j].SetTexture(TextureArr[5]); // Left not, right not = Vetical btm
+		}
+					
+	}
+	else {
+		// Middle layer
+		if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
+
+			if (platform[i][j + 1].GetPlatformType() == Type)
+				platform[i][j].SetTexture(TextureArr[10]); // Left is, right is = middle layer center block
+			else 
+				platform[i][j].SetTexture(TextureArr[11]); // Left is, right not = Right most block of middle layer
+		}
+		else { // Left not
+			if (platform[i][j + 1].GetPlatformType() == Type)
+				platform[i][j].SetTexture(TextureArr[9]); // Left not, right is = Middle left block
+			else // Verticle Row
+				platform[i][j].SetTexture(TextureArr[4]); // Left not, right not = Vetical middle
+		}
+	}
+
 }

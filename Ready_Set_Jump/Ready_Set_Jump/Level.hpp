@@ -39,3 +39,5 @@ void PlatformAnimationUpdate(void);
 void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string Str);
 
 void MultiTextureUnload(AEGfxTexture** TextureArr, unsigned int Size);
+
+void TextureSetNonEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
