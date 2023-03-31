@@ -35,3 +35,7 @@ void Level_Unload();
 int ImportMapDataFromFile(char* FileName);
 
 void PlatformAnimationUpdate(void);
+
+void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string Str);
+
+void MultiTextureUnload(AEGfxTexture** TextureArr, unsigned int Size);

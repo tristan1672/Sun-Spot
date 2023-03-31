@@ -41,3 +41,7 @@ void DrawParticle(GameObject* list) {
 
 	}
 }
+
+void UnloadPArticle(GameObject* list) {
+	delete[] list;
+}

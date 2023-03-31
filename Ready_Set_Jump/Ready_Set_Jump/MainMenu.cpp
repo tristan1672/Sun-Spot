@@ -199,7 +199,7 @@ void Menu_Draw() {// draws the UI buttons
 
 void Menu_Free() {// frees allocated memory on free
 	LevelSelect::FreeLevelButton();
-	delete[] menuParticleList;
+	UnloadPArticle(menuParticleList);
 	delete selectLevelText;
 	delete quitText;
 	delete guideText;

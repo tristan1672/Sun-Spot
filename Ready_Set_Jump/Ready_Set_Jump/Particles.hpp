@@ -7,3 +7,5 @@ GameObject CreateParticle(float posX, float posY, float velX, float velY, float 
 void UpdateParticle(GameObject* list);
 
 void DrawParticle(GameObject* list);
+
+void UnloadPArticle(GameObject* list);

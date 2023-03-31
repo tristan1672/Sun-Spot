@@ -145,15 +145,15 @@ void DynamicObj::SnapToGrid() {
 // ----------------------------------------------------------------------------
 void ObjectCollision() {
 	// Player hotspots
-	int playerTopY = Player.position.y - Player.GetScale().y / 2.0f; // Top bound
-	int playerBtmY = Player.position.y + Player.GetScale().y / 2.0f; // Btm bound
-	int playerLeftX = Player.position.x - Player.GetScale().x / 2.0f; // Left bound
-	int playerRightX = Player.position.x + Player.GetScale().x / 2.0f; // Right bound
+	int playerTopY = static_cast<int>(Player.position.y - Player.GetScale().y / 2.0f); // Top bound
+	int playerBtmY = static_cast<int>(Player.position.y + Player.GetScale().y / 2.0f); // Btm bound
+	int playerLeftX = static_cast<int>(Player.position.x - Player.GetScale().x / 2.0f); // Left bound
+	int playerRightX = static_cast<int>(Player.position.x + Player.GetScale().x / 2.0f); // Right bound
 
-	int playerHsX1 = Player.position.x - Player.GetScale().x / 4.0f; // 25% X
-	int playerHsX2 = Player.position.x + Player.GetScale().x / 4.0f; // 75% X
-	int playerHsY1 = Player.position.y - Player.GetScale().y / 4.0f; // 25% Y
-	int playerHsY2 = Player.position.y + Player.GetScale().y / 4.0f; // 75% Y
+	int playerHsX1 = static_cast<int>(Player.position.x - Player.GetScale().x / 4.0f); // 25% X
+	int playerHsX2 = static_cast<int>(Player.position.x + Player.GetScale().x / 4.0f); // 75% X
+	int playerHsY1 = static_cast<int>(Player.position.y - Player.GetScale().y / 4.0f); // 25% Y
+	int playerHsY2 = static_cast<int>(Player.position.y + Player.GetScale().y / 4.0f); // 75% Y
 
 	float objectTopY = 0.f, objectBtmY = 0.f, objectLeftX = 0.f, objectRightX = 0.f;
 	float scaleY = 0.f, scaleX = 0.f;

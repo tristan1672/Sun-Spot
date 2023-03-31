@@ -67,12 +67,7 @@ AEGfxTexture* ptex{ nullptr };
 AEGfxTexture* normalBlockTexture{ nullptr };
 AEGfxTexture* iceBlockTexture{ nullptr };
 AEGfxTexture* stickyBlockTexture{ nullptr };
-AEGfxTexture* slimeBlockTexture1{ nullptr };
-AEGfxTexture* slimeBlockTexture2{ nullptr };
-AEGfxTexture* slimeBlockTexture3{ nullptr };
-AEGfxTexture* slimeBlockTextureFlipped1{ nullptr };
-AEGfxTexture* slimeBlockTextureFlipped2{ nullptr };
-AEGfxTexture* slimeBlockTextureFlipped3{ nullptr };
+AEGfxTexture* slimeTexture[16]{ nullptr };
 
 AEGfxTexture* collectibleTexture{ nullptr };
 AEGfxTexture* checkPointTexture1{ nullptr };
@@ -85,6 +80,8 @@ GameObject *levelParticleList;
 
 
 int ImportMapDataFromFile(const char* FileName);
+void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string Str);
+void MultiTextureUnload(AEGfxTexture** TextureArr, unsigned int Size);
 
 // ----------------------------------------------------------------------------
 // This function loads necessary data(resource and asset) and initialize it
@@ -99,12 +96,6 @@ void Level_Load()
 	normalBlockTexture = AEGfxTextureLoad("Assets/Images/Basic_Platform.png");
 	iceBlockTexture = AEGfxTextureLoad("Assets/Images/Ice_Platform.png");
 	stickyBlockTexture = AEGfxTextureLoad("Assets/Images/Sticky_Platform.png");
-	slimeBlockTexture1 = AEGfxTextureLoad("Assets/Images/Slime_Platform_1.png");
-	slimeBlockTexture2 = AEGfxTextureLoad("Assets/Images/Slime_Platform_2.png");
-	slimeBlockTexture3 = AEGfxTextureLoad("Assets/Images/Slime_Platform_3.png");
-	slimeBlockTextureFlipped1 = AEGfxTextureLoad("Assets/Images/Flipped_Slime_Platform_1.png");
-	slimeBlockTextureFlipped2 = AEGfxTextureLoad("Assets/Images/Flipped_Slime_Platform_2.png");
-	slimeBlockTextureFlipped3 = AEGfxTextureLoad("Assets/Images/Flipped_Slime_Platform_3.png");
 
 	arrowTexture = AEGfxTextureLoad("Assets/Images/Arrow.png");
 
@@ -112,11 +103,9 @@ void Level_Load()
 	checkPointTexture2 = AEGfxTextureLoad("Assets/Images/Checkpoint_On.png");
 
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
-	for (int i{}; i < sizeof(goalTexture)/sizeof(goalTexture[0]); ++i) {
-		std::string location{"Assets/Images/Portal_"};
-		location += std::to_string(i + 1)+".png" ;
-		goalTexture[i] = AEGfxTextureLoad(location.c_str());
-	}
+
+	MultiTextureLoad(slimeTexture, sizeof(slimeTexture) / sizeof(slimeTexture[0]), "Assets/Images/Slime_Platform_");
+	MultiTextureLoad(goalTexture, sizeof(goalTexture) / sizeof(goalTexture[0]), "Assets/Images/Portal_");
 
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
@@ -152,6 +141,7 @@ void Level_Initialize()
 
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
+
 			switch (platform[i][j].GetPlatformType())
 			{
 			case NORMAL_BLOCK:
@@ -184,15 +174,83 @@ void Level_Initialize()
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-				if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK && platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) {
-					platform[i][j].SetTexture(slimeBlockTexture2);
-				}
-				else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
-					platform[i][j].SetTexture(slimeBlockTexture1);
+
+				if (i == 0 || i == e_binaryMapHeight || j == 0 || j == e_binaryMapWidth) {
+				
 				}
 				else {
-					platform[i][j].SetTexture(slimeBlockTexture3);
+					
+					if (platform[i - 1][j].GetPlatformType() != SLIME_BLOCK) { // If above is not
+						
+						if (platform[i + 1][j].GetPlatformType() != SLIME_BLOCK) { // Above not, below not = single layer
+							// Single layer
+							if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK) { // Left is
+
+								if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK)
+									platform[i][j].SetTexture(slimeTexture[1]); // Left is, right is = single layer center block
+								else 
+									platform[i][j].SetTexture(slimeTexture[2]); // Left is, right not = Right most block of single layer
+							}
+							else {
+								if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
+									platform[i][j].SetTexture(slimeTexture[0]); // Left not, right is = Left most block of single layer
+								else 
+									platform[i][j].SetTexture(slimeTexture[15]); // Single block
+							}
+						}
+						else { // Above not, btm is
+							// Top Layer
+							if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK) { // Left is
+							
+								if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
+									platform[i][j].SetTexture(slimeTexture[7]); // Left is, right is = Top center block
+								else
+									platform[i][j].SetTexture(slimeTexture[8]);  // Left is, right not = Top right block
+							}
+							else { // Left not
+								if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
+									platform[i][j].SetTexture(slimeTexture[6]); // Left not, right is = Top left block
+								else // Verticle Row
+									platform[i][j].SetTexture(slimeTexture[3]); // Left not, right not = Vetical top
+							}
+						}
+					}
+					else if (platform[i + 1][j].GetPlatformType() != SLIME_BLOCK) { // Above is , below not = btm layer
+						// Btm layer
+						if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK) { // Left is
+
+							if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
+								platform[i][j].SetTexture(slimeTexture[13]); // Left is, right is = btm layer center block
+							else 
+								platform[i][j].SetTexture(slimeTexture[14]); // Left is, right not = Right most block of btm layer
+						}
+						else { // Left not
+							if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK)
+								platform[i][j].SetTexture(slimeTexture[12]); // Left not, right is = Btm left block
+							else // Verticle Row
+								platform[i][j].SetTexture(slimeTexture[5]); // Left not, right not = Vetical btm
+						}
+					
+					}
+					else {
+						// Middle layer
+						if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK) { // Left is
+
+							if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) 
+								platform[i][j].SetTexture(slimeTexture[10]); // Left is, right is = middle layer center block
+							else 
+								platform[i][j].SetTexture(slimeTexture[11]); // Left is, right not = Right most block of middle layer
+						}
+						else { // Left not
+							if (platform[i][j + 1].GetPlatformType() == SLIME_BLOCK)
+								platform[i][j].SetTexture(slimeTexture[9]); // Left not, right is = Middle left block
+							else // Verticle Row
+								platform[i][j].SetTexture(slimeTexture[4]); // Left not, right not = Vetical middle
+						}
+					}
 				}
+
+			
 
 				break;
 
@@ -508,7 +566,7 @@ void Level_Unload()
 	}
 	delete[] platform;
 
-	delete[] levelParticleList;
+	UnloadPArticle(levelParticleList);
 
 	PauseMenu::FreePauseMenu();
 
@@ -516,25 +574,15 @@ void Level_Unload()
 	AEGfxTextureUnload(normalBlockTexture);
 	AEGfxTextureUnload(iceBlockTexture);
 	AEGfxTextureUnload(stickyBlockTexture);
-	AEGfxTextureUnload(slimeBlockTexture1);
-	AEGfxTextureUnload(slimeBlockTexture2);
-	AEGfxTextureUnload(slimeBlockTexture3);
-	AEGfxTextureUnload(slimeBlockTextureFlipped1);
-	AEGfxTextureUnload(slimeBlockTextureFlipped2);
-	AEGfxTextureUnload(slimeBlockTextureFlipped3);
+
+	MultiTextureUnload(slimeTexture, sizeof(slimeTexture) / sizeof(slimeTexture[0]));
+	MultiTextureUnload(goalTexture, sizeof(goalTexture) / sizeof(goalTexture[0]));
 
 	AEGfxTextureUnload(collectibleTexture);
 	AEGfxTextureUnload(checkPointTexture1);
 	AEGfxTextureUnload(checkPointTexture2);
 
 	AEGfxTextureUnload(arrowTexture);
-
-	for (int i{}; i < sizeof(goalTexture) / sizeof(goalTexture[0]); ++i) {
-		if(goalTexture[i])
-		AEGfxTextureUnload(goalTexture[i]);
-	}
-
-
 
 	AEGfxMeshFree(pMesh);
 	AEGfxMeshFree(arrMesh);
@@ -621,39 +669,24 @@ void PlatformAnimationUpdate(void) {
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 
-			if (platform[i][j].GetPlatformType() == SLIME_BLOCK) {
-				int frame = frameCounter % 50;
-				switch (frame) {
-				case 0:
-					if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK && platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) {
-						platform[i][j].SetTexture(slimeBlockTexture2);
-					}
-					else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
-						platform[i][j].SetTexture(slimeBlockTexture1);
-					}
-					else {
-						platform[i][j].SetTexture(slimeBlockTexture3);
-					}
-					break;
-
-				case 25:
-					if (platform[i][j - 1].GetPlatformType() == SLIME_BLOCK && platform[i][j + 1].GetPlatformType() == SLIME_BLOCK) {
-						platform[i][j].SetTexture(slimeBlockTextureFlipped2);
-					}
-					else if (platform[i][j - 1].GetPlatformType() != SLIME_BLOCK) {
-						platform[i][j].SetTexture(slimeBlockTextureFlipped1);
-					}
-					else {
-						platform[i][j].SetTexture(slimeBlockTextureFlipped3);
-					}
-					break;
-				}
-			}
-
 			if (platform[i][j].GetPlatformType() == GOAL) {
 				int frame = frameCounter % 20;
 				platform[i][j].SetTexture(goalTexture[frame]);
 			}
 		}
+	}
+}
+
+void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size , std::string Str) {
+	for (int i{}; i < Size; ++i) {
+		std::string location{};
+		location += Str + std::to_string(i + 1) + ".png";
+		TextureArr[i] = AEGfxTextureLoad(location.c_str());
+	}
+}
+
+void MultiTextureUnload(AEGfxTexture** TextureArr, unsigned int Size) {
+	for (int i{}; i < Size; ++i) {
+		AEGfxTextureUnload(TextureArr[i]);
 	}
 }
