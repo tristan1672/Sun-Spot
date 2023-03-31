@@ -7,7 +7,8 @@
   *  \brief
   *	 Contains functions for creating UI elements:
   *   IsAreaClicked			-Function to check for button collision with player clicks
-  *   
+  * 
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
   */
 
 #include "UI.hpp"

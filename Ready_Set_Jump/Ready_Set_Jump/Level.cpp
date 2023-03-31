@@ -6,7 +6,7 @@
   *
   *  \brief
   *  the basic logics to our levels and the game states, loops for our game
-  *
+  *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 
 // ---------------------------------------------------------------------------

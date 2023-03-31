@@ -12,6 +12,7 @@
   *	  calculateGrade		-Function for evaluating grade based on extracted variable count 
   *	  scoreAnimations		-Function for setting animation algorithm
   * 
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
   */
 
 #include "Score.hpp"

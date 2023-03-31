@@ -13,6 +13,7 @@
   *  - ObjectCollision
   *		 Checks for player collision against objects that dont require have seperate width and height.
   *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 
 // ---------------------------------------------------------------------------

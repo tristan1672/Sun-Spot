@@ -6,7 +6,7 @@
   *
   *  \brief
   *  Defination file for SaveManager.cpp, use for managing save files
-  *
+  *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 #include "SaveManager.hpp"
 #include <sstream>

@@ -9,7 +9,8 @@
   *  - Get and returns delta time
   *  - Updates and return level time
   *  - Display time on screen
-  *
+  * 
+  *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 
 // ---------------------------------------------------------------------------
