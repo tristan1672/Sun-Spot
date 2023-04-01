@@ -87,7 +87,7 @@ void VerticleTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 	else {
 		if (platform[i + 1][j].GetPlatformType() == Type) // Btm is
-			platform[i][j].SetTexture(TextureArr[4]); // Verticle top
+			platform[i][j].SetTexture(TextureArr[3]); // Verticle top
 		else
 			platform[i][j].SetTexture(TextureArr[15]); // Single block
 	}
@@ -222,7 +222,7 @@ void TextureSetLeftEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			else
 				platform[i][j].SetTexture(TextureArr[15]); // Top not, right not = Single block
 		}
-		else
+		else 
 			VerticleTextureSet(i, j, TextureArr, Type);
 	}
 }
