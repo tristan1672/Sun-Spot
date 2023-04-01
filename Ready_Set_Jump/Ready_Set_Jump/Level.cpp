@@ -639,4 +639,11 @@ void AnimationUpdate(void) {
 				Player.SetTexture(playerTexture[5]); // Face left
 		}
 	}
+	if (Player.velocity.y != 0) {
+		if (Player.GetColFlag() & COLLISION_LEFT) 
+			Player.SetTexture(playerTexture[4]);
+		else if(Player.GetColFlag() & COLLISION_RIGHT)
+			Player.SetTexture(playerTexture[9]);
+	
+	}
 }
