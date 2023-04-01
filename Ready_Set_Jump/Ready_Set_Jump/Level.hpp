@@ -35,4 +35,4 @@ void Level_Unload();
 
 int ImportMapDataFromFile(char* FileName);
 
-void PlatformAnimationUpdate(void);
+void AnimationUpdate(void);

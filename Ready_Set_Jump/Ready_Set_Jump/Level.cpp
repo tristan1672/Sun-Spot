@@ -64,15 +64,18 @@ bool followMouseCheat;
 float sceneSwitchBufferTimer = 0.1f;
 
 AEGfxTexture* ptex{ nullptr };
-AEGfxTexture* normalBlockTexture{ nullptr };
-AEGfxTexture* iceBlockTexture{ nullptr };
-AEGfxTexture* stickyBlockTexture{ nullptr };
-AEGfxTexture* slimeTexture[16]{ nullptr };
+
+AEGfxTexture* playerTexture[8]{ nullptr };
+AEGfxTexture* normalBlockTexture[16]{ nullptr };
+AEGfxTexture* iceBlockTexture[16]{ nullptr };
+AEGfxTexture* stickyBlockTexture[16]{ nullptr };
+AEGfxTexture* slimeBlockTexture[16]{ nullptr };
+AEGfxTexture* goalTexture[20]{ nullptr };
 
 AEGfxTexture* collectibleTexture{ nullptr };
 AEGfxTexture* checkPointTexture1{ nullptr };
 AEGfxTexture* checkPointTexture2{ nullptr };
-AEGfxTexture* goalTexture[20]{nullptr};
+
 
 AEGfxTexture* arrowTexture{ nullptr };
 
@@ -91,9 +94,6 @@ void Level_Load()
 	MakeArrowMesh();
 
 	ptex = AEGfxTextureLoad("Assets/Images/Cleared.png");
-	normalBlockTexture = AEGfxTextureLoad("Assets/Images/Basic_Platform.png");
-	iceBlockTexture = AEGfxTextureLoad("Assets/Images/Ice_Platform.png");
-	stickyBlockTexture = AEGfxTextureLoad("Assets/Images/Sticky_Platform.png");
 
 	arrowTexture = AEGfxTextureLoad("Assets/Images/Arrow.png");
 
@@ -101,8 +101,12 @@ void Level_Load()
 	checkPointTexture2 = AEGfxTextureLoad("Assets/Images/Checkpoint_On.png");
 
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
-
-	MultiTextureLoad(slimeTexture, sizeof(slimeTexture) / sizeof(slimeTexture[0]), "Assets/Images/Slime_Platform_");
+	
+	MultiTextureLoad(playerTexture, sizeof(playerTexture) / sizeof(playerTexture[0]), "Assets/Images/Player_");
+	MultiTextureLoad(normalBlockTexture, sizeof(normalBlockTexture) / sizeof(normalBlockTexture[0]), "Assets/Images/Basic_Platform_");
+	MultiTextureLoad(iceBlockTexture, sizeof(iceBlockTexture) / sizeof(iceBlockTexture[0]), "Assets/Images/Ice_Platform_");
+	MultiTextureLoad(stickyBlockTexture, sizeof(stickyBlockTexture) / sizeof(stickyBlockTexture[0]), "Assets/Images/Sticky_Platform_");
+	MultiTextureLoad(slimeBlockTexture, sizeof(slimeBlockTexture) / sizeof(slimeBlockTexture[0]), "Assets/Images/Slime_Platform_");
 	MultiTextureLoad(goalTexture, sizeof(goalTexture) / sizeof(goalTexture[0]), "Assets/Images/Portal_");
 
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
@@ -146,24 +150,27 @@ void Level_Initialize()
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-				platform[i][j].SetTexture(normalBlockTexture);
+				TextureSetAll(i, j, normalBlockTexture, NORMAL_BLOCK);
 				break;
 
 			case ICE_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-				platform[i][j].SetTexture(iceBlockTexture);
+				TextureSetAll(i, j, iceBlockTexture, ICE_BLOCK);
 				break;
 
 			case STICKY_BLOCK:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-				platform[i][j].SetTexture(stickyBlockTexture);
+				TextureSetAll(i, j, stickyBlockTexture, STICKY_BLOCK);
 				break;
 
 			case SLIME_BLOCK:
@@ -172,14 +179,7 @@ void Level_Initialize()
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-
-				if (i == 0 || i == e_binaryMapHeight || j == 0 || j == e_binaryMapWidth) {
-				
-				}
-				else {
-					TextureSetNonEdge(i, j, slimeTexture, SLIME_BLOCK);
-				}
-
+				TextureSetAll(i, j, slimeBlockTexture, SLIME_BLOCK);
 				break;
 
 			case COLLECTIBLES:
@@ -218,7 +218,9 @@ void Level_Initialize()
 
 	Player = DynamicObj();
 	Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
-	Player.SetColour({ 0.f,1.f,1.f,1.f });
+	//Player.SetColour({ 0.f,1.f,1.f,1.f });
+	Player.SetRenderMode(AE_GFX_RM_TEXTURE);
+	Player.SetTexture(playerTexture[0]);
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 	Player.jumpReady = false;
 	jump_counter = 0;
@@ -427,7 +429,7 @@ void Level_Draw()
 	DrawParticle(levelParticleList);
 
 	if(level_state == PLAYING)
-	PlatformAnimationUpdate();
+	AnimationUpdate();
 
 	// Draws the platform
 	for (int i = 0; i < e_binaryMapHeight; i++) {
@@ -499,11 +501,12 @@ void Level_Unload()
 	PauseMenu::FreePauseMenu();
 
 	AEGfxTextureUnload(ptex);
-	AEGfxTextureUnload(normalBlockTexture);
-	AEGfxTextureUnload(iceBlockTexture);
-	AEGfxTextureUnload(stickyBlockTexture);
 
-	MultiTextureUnload(slimeTexture, sizeof(slimeTexture) / sizeof(slimeTexture[0]));
+	MultiTextureUnload(playerTexture, sizeof(playerTexture) / sizeof(playerTexture[0]));
+	MultiTextureUnload(normalBlockTexture, sizeof(normalBlockTexture) / sizeof(normalBlockTexture[0]));
+	MultiTextureUnload(iceBlockTexture, sizeof(iceBlockTexture) / sizeof(iceBlockTexture[0]));
+	MultiTextureUnload(stickyBlockTexture, sizeof(stickyBlockTexture) / sizeof(stickyBlockTexture[0]));
+	MultiTextureUnload(slimeBlockTexture, sizeof(slimeBlockTexture) / sizeof(slimeBlockTexture[0]));
 	MultiTextureUnload(goalTexture, sizeof(goalTexture) / sizeof(goalTexture[0]));
 
 	AEGfxTextureUnload(collectibleTexture);
@@ -593,7 +596,7 @@ int ImportMapDataFromFile(const char* FileName) {
 	return 1;
 }
 
-void PlatformAnimationUpdate(void) {
+void AnimationUpdate(void) {
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 
@@ -601,6 +604,38 @@ void PlatformAnimationUpdate(void) {
 				int frame = frameCounter % 20;
 				platform[i][j].SetTexture(goalTexture[frame]);
 			}
+		}
+	}
+
+	s32 cursorX, cursorY;
+	AEInputGetCursorPosition(&cursorX, &cursorY);
+
+	if (Player.jumpReady != true) {
+		if (Player.velocity.x >= 0) { // Moving left
+			if(Player.velocity.y >= 0) 
+				Player.SetTexture(playerTexture[2]); // Upwards
+			else 
+				Player.SetTexture(playerTexture[3]); // Downwards
+		}
+		else { // Moving right
+			if (Player.velocity.y >= 0)
+				Player.SetTexture(playerTexture[6]); // Upwards
+			else
+				Player.SetTexture(playerTexture[7]); // Downwards
+		}
+	}
+	else  {
+		if (AEInputCheckCurr(AEVK_LBUTTON)) {
+			if (Player.GetPosition().x < cursorX)
+				Player.SetTexture(playerTexture[1]); // Face right
+			else
+				Player.SetTexture(playerTexture[5]); // Face left
+		}
+		else {
+			if (Player.GetPosition().x < cursorX)
+				Player.SetTexture(playerTexture[0]); // Face right
+			else
+				Player.SetTexture(playerTexture[4]); // Face left
 		}
 	}
 }

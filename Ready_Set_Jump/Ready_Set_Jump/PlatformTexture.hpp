@@ -26,3 +26,5 @@ void TextureSetBtmEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
 void TextureSetLeftEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
 
 void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
+
+void TextureSetAll(int i, int j, AEGfxTexture** TextureArr, int Type);
