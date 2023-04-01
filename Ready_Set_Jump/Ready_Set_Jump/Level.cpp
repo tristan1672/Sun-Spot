@@ -625,10 +625,17 @@ void PlatformAnimationUpdate(void) {
 		}
 	}
 	else  {
-		if (Player.GetPosition().x < cursorX) {
-			Player.SetTexture(playerTexture[0]); // Face right
+		if (AEInputCheckCurr(AEVK_LBUTTON)) {
+			if (Player.GetPosition().x < cursorX)
+				Player.SetTexture(playerTexture[1]); // Face right
+			else
+				Player.SetTexture(playerTexture[5]); // Face left
 		}
-		else
-			Player.SetTexture(playerTexture[4]); // Face left
+		else {
+			if (Player.GetPosition().x < cursorX)
+				Player.SetTexture(playerTexture[0]); // Face right
+			else
+				Player.SetTexture(playerTexture[4]); // Face left
+		}
 	}
 }
