@@ -1,3 +1,25 @@
+/*****************************************************************
+  *  \file Particles.hpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
+  *  
+  *  \brief
+  *  Particles component.
+  *  - CreateParticle
+  *		Creates particles objects
+  *
+  *  - UpdateParticle
+  *		Updates particle position with its velocity
+  *
+  *  - DrawParticle
+  *		Draws particles
+  *
+  *  - UnloadPArticle
+  *		Unloads array
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
+
 #pragma once
 #include "GameObjClasses.hpp"
 #include "Utilities.hpp"
