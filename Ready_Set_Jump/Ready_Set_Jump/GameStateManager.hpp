@@ -1,3 +1,21 @@
+/*****************************************************************
+  *  \file GameStateManager.hpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
+  *
+  *  \brief
+  *  File containing functions used by gamestate manager
+  * - GSM_Initialize
+  *		This function initialize the gamestate manager
+  *     It is called once at the before the start of the game loop 
+  * 
+  *  - GSM_Update
+  *		This function initialize gamestate function pointers
+  *      It is called once at the start of the game loop
+  * 
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
+
 #include <iostream>
 #include "AEEngine.h"
 #include "PreCompiledHeader.hpp"

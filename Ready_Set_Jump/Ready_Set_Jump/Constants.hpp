@@ -1,3 +1,16 @@
+/*****************************************************************
+  *  \file Constants.hpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian) (33%)
+  *				   : Tristan Tham (t.tham)                 (33%)
+  *                : Xiao Jun Yu (junyu.xiao)              (33%)
+  *
+  *  \brief
+  *  File containing constant variables used throughout project.
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
+
 #include "AEEngine.h"
 #include "Utilities.hpp"
 

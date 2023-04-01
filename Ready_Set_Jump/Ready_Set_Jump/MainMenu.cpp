@@ -1,7 +1,7 @@
 /**
   *  \file MainMenu.cpp
   *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par DP Email: junyu.xiao\\digipen.edu
   *  \par Course: csd1451
   *
   *  \brief

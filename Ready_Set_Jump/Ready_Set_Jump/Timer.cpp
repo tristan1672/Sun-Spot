@@ -1,7 +1,7 @@
 /*
   *  \file Timer.cpp
   *  \author      : Peh Zong Lin Adrian
-  *  \par DP Email: p.zonglinadrian\@digipen.edu
+  *  \par DP Email: p.zonglinadrian\\digipen.edu
   *  \par Course  : csd1451
   *
   *  \brief

@@ -137,7 +137,6 @@ xcopy "$(SolutionDir)Extern\AlphaEngine_V3.09\lib\fmod.dll" "$(OutDir)" /s /r /y
     <ClInclude Include="Credits.hpp" />
     <ClInclude Include="GameObjClasses.hpp" />
     <ClInclude Include="GameStateManager.hpp" />
-    <ClInclude Include="GameStateList.hpp" />
     <ClInclude Include="LevelSelect.hpp" />
     <ClInclude Include="MainMenu.hpp" />
     <ClInclude Include="Particles.hpp" />

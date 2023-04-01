@@ -23,34 +23,34 @@
 #include "Particles.hpp"
 
 /*****************************************************************
- * @brief 
+ * \brief 
  *		Creates a particle GameObject with the given properties.
  *
- * @param posX 
+ * \param posX 
  *		The x-coordinate of the particle's starting position.
  * 
- * @param posY 
+ * \param posY 
  *		The y-coordinate of the particle's starting position.
  * 
- * @param velX 
+ * \param velX 
  *		The x-component of the particle's initial velocity.
  * 
- * @param velY 
+ * \param velY 
  *		The y-component of the particle's initial velocity.
  * 
- * @param scale 
+ * \param scale 
  *		The scale of the particle.
  * 
- * @param lifetime 
+ * \param lifetime 
  *		The lifetime of the particle in seconds.
  * 
- * @param color 
+ * \param color 
  *		The color of the particle.
  * 
- * @param mode 
+ * \param mode 
  *		The render mode of the particle.
  *
- * @return 
+ * \return 
  *		The newly created particle GameObject.
  ****************************************************************/
 GameObject CreateParticle(float posX, float posY, float velX, float velY, float scale, float lifetime , ColourValue color , AEGfxRenderMode mode) {
@@ -60,10 +60,10 @@ GameObject CreateParticle(float posX, float posY, float velX, float velY, float 
 }
 
 /*****************************************************************
- * @brief 
+ * \brief 
  *		Updates the properties of all particles in the given list.
  *
- * @param list 
+ * \param list 
  *		The list of particle GameObjects to update.
  ****************************************************************/
 void UpdateParticle(GameObject *list) {
@@ -86,10 +86,10 @@ void UpdateParticle(GameObject *list) {
 }
 
 /*****************************************************************
- * @brief 
+ * \brief 
  *		Renders all particles in the given list.
  *
- * @param list 
+ * \param list 
  *		The list of particle GameObjects to render.
  ****************************************************************/
 void DrawParticle(GameObject* list) {
@@ -106,10 +106,10 @@ void DrawParticle(GameObject* list) {
 }
 
 /*****************************************************************
- * @brief 
+ * \brief 
  *		Unloads all resources associated with the given list of particles.
  *
- * @param list 
+ * \param list 
  *		The list of particle GameObjects to unload.
  ****************************************************************/
 void UnloadPArticle(GameObject* list) {
