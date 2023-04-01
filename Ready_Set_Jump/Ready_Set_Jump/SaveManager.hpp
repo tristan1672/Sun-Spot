@@ -59,7 +59,6 @@ namespace Save {
 			\param [in] level which level to get the info
 			\param [in] the data to write to
 			\param [in] the value to write into the data
-
 		*/
 		save[level][data] = value;
 	}
