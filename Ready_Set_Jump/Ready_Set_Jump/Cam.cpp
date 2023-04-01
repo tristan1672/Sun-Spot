@@ -28,51 +28,17 @@ short	e_shakeStrength;
 void Cam(bool airCheck)
 {
 	float distance = cam.Y - Player.position.y;
-	if ((airCheck == true) && (Player.GetColFlag() == 0)) //Reset flag, Checks previous frame collision flag and current collision flag
+
+	//Reset flag, Checks previous frame collision flag and current collision flag
+	if ((airCheck == true) && (Player.GetColFlag() == 0)) 
 	{
 		shake = false;
 		shaketime = 0.0f;
 		shakespeed = 0.0f;
 		e_shakeStrength = NO_SHAKE;
 	}
-	
-	/* Jitter shake
-	if (shake == true && (Player.jumpReady) && (shaketime < 0.2f))
-	{
-		shakespeed = 1.0f;
-		shaketime += e_deltaTime;
-		float distance = cam.Y - Player.position.y;
-		if (shakespeed >= 0)
-		{
-			if (e_shakeStrength == HEAVY_SHAKE)
-			{
-				shakespeed = 500.0f;
-			}
-			else if (e_shakeStrength == MEDIUM_SHAKE)
-			{
-				shakespeed = 100.0f;
-			}
-			else
-			{
-				shakespeed = 0.0f;
-			}
 
-			if (distance > shakedistance)
-			{
-				shakespeed *= -1.0f;
-			}
-		}
-		else
-		{
-			if (distance < -shakedistance)
-			{
-				shakespeed *= -1.0f;
-			}
-		}
-
-	}*/
-
-	//Camera Dip
+	//Camera Dip Algo
 	if ((shake == true) && (shaketime < 0.2f) && (e_shakeStrength > 0)) //Conditions
 	{
 		shaketime += e_deltaTime; //Counter
@@ -95,39 +61,13 @@ void Cam(bool airCheck)
 		shakespeed += 30.0f; //Increase
 	}
 	
+	//Apply shaking parameters to camera position
 	cam.X = Player.position.x;
 	cam.Y = Player.position.y + (shakespeed * e_deltaTime * e_shakeStrength);
 	
-	/*Cam Bounding TEMP
-	if (cam.X > (GRID_WIDTH_SIZE * e_binaryMapWidth * 0.5)) //Right Bound
-	{
-		cam.X = 100.0f;
-	}
-
-	if (cam.X < -100.0f) //Left Bound
-	{
-		cam.X = -100.0f;
-	}
-
-	if (cam.Y > 300.0f) //Top Bound
-	{
-		cam.Y = 300.0f;
-	}
-
-	if (cam.Y < -200.0f) //Bottom Bound
-	{
-		cam.Y = -200.0f;
-	}
-	*/
-	//cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE  * (VIEWPORT_WIDTH / 2.0f))    + (0.5f * screenWidth) , (GRID_WIDTH_SIZE  * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * screenWidth));
-	//cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * ((e_binaryMapHeight+1) * 0.5f)) + (0.5f * screenHeight),  GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f));
-
+	//Apply Cam Bounding
 	cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE * (VIEWPORT_WIDTH / 2.0f)) + (0.5f * screenWidth), (GRID_WIDTH_SIZE * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * screenWidth));
-	//cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (VIEWPORT_HEIGHT / 2.0f)) + (0.5f * screenHeight), (GRID_HEIGHT_SIZE * (e_binaryMapHeight - (VIEWPORT_HEIGHT / 2.0f))) - (0.5f * screenHeight));
-	//cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f)) + (0.5f * screenHeight), GRID_HEIGHT_SIZE * (e_binaryMapHeight / 2.0f));
 	cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (e_binaryMapHeight - (VIEWPORT_HEIGHT / 2.0f))) + (0.5f * screenHeight), (GRID_HEIGHT_SIZE * (VIEWPORT_HEIGHT / 2.0f) - (0.5f * screenHeight)));
-	
-
 	
 	//std::cout << "e_shakeStrength: " << e_shakeStrength << std::endl;
 	//std::cout << "distance: " << distance << std::endl;
@@ -136,5 +76,6 @@ void Cam(bool airCheck)
 	//std::cout << "player x:" << Player.position.x << " player y:" << Player.position.y << std::endl;
 	//std::cout << cam.X << ',' << cam.Y << std::endl;
 
-	AEGfxSetCamPosition(cam.X, cam.Y); // Set camera to follow player
+	//Apply calculations to camera
+	AEGfxSetCamPosition(cam.X, cam.Y);
 }
