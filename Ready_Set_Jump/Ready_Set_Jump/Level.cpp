@@ -65,6 +65,7 @@ float sceneSwitchBufferTimer = 0.1f;
 
 AEGfxTexture* ptex{ nullptr };
 
+AEGfxTexture* playerTexture[8]{ nullptr };
 AEGfxTexture* normalBlockTexture[16]{ nullptr };
 AEGfxTexture* iceBlockTexture[16]{ nullptr };
 AEGfxTexture* stickyBlockTexture[16]{ nullptr };
@@ -100,7 +101,8 @@ void Level_Load()
 	checkPointTexture2 = AEGfxTextureLoad("Assets/Images/Checkpoint_On.png");
 
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
-
+	
+	MultiTextureLoad(playerTexture, sizeof(playerTexture) / sizeof(playerTexture[0]), "Assets/Images/Player_");
 	MultiTextureLoad(normalBlockTexture, sizeof(normalBlockTexture) / sizeof(normalBlockTexture[0]), "Assets/Images/Basic_Platform_");
 	MultiTextureLoad(iceBlockTexture, sizeof(iceBlockTexture) / sizeof(iceBlockTexture[0]), "Assets/Images/Ice_Platform_");
 	MultiTextureLoad(stickyBlockTexture, sizeof(stickyBlockTexture) / sizeof(stickyBlockTexture[0]), "Assets/Images/Sticky_Platform_");
@@ -216,7 +218,9 @@ void Level_Initialize()
 
 	Player = DynamicObj();
 	Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
-	Player.SetColour({ 0.f,1.f,1.f,1.f });
+	//Player.SetColour({ 0.f,1.f,1.f,1.f });
+	Player.SetRenderMode(AE_GFX_RM_TEXTURE);
+	Player.SetTexture(playerTexture[0]);
 	Player.SetScale({ PLAYER_SIZE_X , PLAYER_SIZE_Y });
 	Player.jumpReady = false;
 	jump_counter = 0;
@@ -498,6 +502,7 @@ void Level_Unload()
 
 	AEGfxTextureUnload(ptex);
 
+	MultiTextureUnload(playerTexture, sizeof(playerTexture) / sizeof(playerTexture[0]));
 	MultiTextureUnload(normalBlockTexture, sizeof(normalBlockTexture) / sizeof(normalBlockTexture[0]));
 	MultiTextureUnload(iceBlockTexture, sizeof(iceBlockTexture) / sizeof(iceBlockTexture[0]));
 	MultiTextureUnload(stickyBlockTexture, sizeof(stickyBlockTexture) / sizeof(stickyBlockTexture[0]));
@@ -600,5 +605,30 @@ void PlatformAnimationUpdate(void) {
 				platform[i][j].SetTexture(goalTexture[frame]);
 			}
 		}
+	}
+
+	s32 cursorX, cursorY;
+	AEInputGetCursorPosition(&cursorX, &cursorY);
+
+	if (Player.jumpReady != true) {
+		if (Player.velocity.x >= 0) { // Moving left
+			if(Player.velocity.y >= 0) 
+				Player.SetTexture(playerTexture[2]); // Upwards
+			else 
+				Player.SetTexture(playerTexture[3]); // Downwards
+		}
+		else { // Moving right
+			if (Player.velocity.y >= 0)
+				Player.SetTexture(playerTexture[6]); // Upwards
+			else
+				Player.SetTexture(playerTexture[7]); // Downwards
+		}
+	}
+	else  {
+		if (Player.GetPosition().x < cursorX) {
+			Player.SetTexture(playerTexture[0]); // Face right
+		}
+		else
+			Player.SetTexture(playerTexture[4]); // Face left
 	}
 }
