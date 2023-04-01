@@ -111,41 +111,134 @@ void TextureSetNonEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 }
 
 void TextureSetTopEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
-	if (platform[i + 1][j].GetPlatformType() == Type) // Btm is
-		TopLayerTextureSet(i, j, TextureArr, Type); // Top layer
-	else // Btm not
-		SingleLayerTextureSet(i, j, TextureArr, Type); // Single layer
+	if (platform[i + 1][j].GetPlatformType() == Type) { // Btm is
+		if (j == 0) { // Top left
+			if (platform[i][j + 1].GetPlatformType() == Type) // Right is
+				platform[i][j].SetTexture(TextureArr[6]); // Btm is, right is = Top layer left block
+			else
+				platform[i][j].SetTexture(TextureArr[3]); // Btm is, right not = Verticle row top block
+		}
+		else if (j == e_binaryMapWidth) { // Top right
+			if (platform[i][j - 1].GetPlatformType() == Type) // Left is
+				platform[i][j].SetTexture(TextureArr[8]); // Btm is, left is = Top layer right block
+			else
+				platform[i][j].SetTexture(TextureArr[3]); // Btm is, left not = Verticle row top block
+		}
+		else 
+			TopLayerTextureSet(i, j, TextureArr, Type); // Top layer
+	}
+	else {// Btm not (Single layer / vertial row)
+		if (j == 0) { // Top left 
+			if (platform[i][j + 1].GetPlatformType() == Type) // Right is
+				platform[i][j].SetTexture(TextureArr[0]); // Btm not, right is = Single layer left block
+			else
+				platform[i][j].SetTexture(TextureArr[15]); // Btm not, right not = Single block
+		}
+		else if (j == e_binaryMapWidth) { // Top right
+			if (platform[i][j - 1].GetPlatformType() == Type) // Left is
+				platform[i][j].SetTexture(TextureArr[2]); // Btm not, left is = Single layer right block
+			else
+				platform[i][j].SetTexture(TextureArr[15]); // Btm not, left not = Single block
+		}
+		else
+			SingleLayerTextureSet(i, j, TextureArr, Type); // Single layer
+	}
 }
 
 void TextureSetBtmEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
-	if (platform[i - 1][j].GetPlatformType() == Type) // Above is
-		BtmLayerTextureSet(i, j, TextureArr, Type); // Btm layer
-	else // Above not
-		SingleLayerTextureSet(i, j, TextureArr, Type); // Single layer
+	if (platform[i - 1][j].GetPlatformType() == Type) {// Above is
+		if (j == 0) { // Btm left
+			if (platform[i][j + 1].GetPlatformType() == Type) // Right is
+				platform[i][j].SetTexture(TextureArr[12]); // Top is, right is = Btm layer left block
+			else
+				platform[i][j].SetTexture(TextureArr[5]); // Btm is, right not = Verticle row btm block
+		}
+		else if (j == e_binaryMapWidth) { // Btm right
+			if (platform[i][j - 1].GetPlatformType() == Type) // Left is
+				platform[i][j].SetTexture(TextureArr[14]); // Btm is, left is = Btm layer right block
+			else
+				platform[i][j].SetTexture(TextureArr[5]); // Btm is, left not = Verticle row btm block
+		}
+		else
+			BtmLayerTextureSet(i, j, TextureArr, Type); // Btm layer
+	}
+	else {// Above not (Single layer / vertial row)
+		if (j == 0) { // Btm left 
+			if (platform[i][j + 1].GetPlatformType() == Type) // Right is
+				platform[i][j].SetTexture(TextureArr[0]); // Top not, right is = Single layer left block
+			else
+				platform[i][j].SetTexture(TextureArr[15]); // Top not, right not = Single block
+		}
+		else if (j == e_binaryMapWidth) { // Btm right
+			if (platform[i][j - 1].GetPlatformType() == Type) // Left is
+				platform[i][j].SetTexture(TextureArr[2]); // Top not, left is = Single layer right block
+			else
+				platform[i][j].SetTexture(TextureArr[15]); // Top not, left not = Single block
+		}
+		else
+			SingleLayerTextureSet(i, j, TextureArr, Type); // Single layer
+	}
 }
 
 void TextureSetLeftEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
+
 	if (platform[i][j + 1].GetPlatformType() == Type) { // Right is
 		// Left block
-		if (platform[i - 1][j].GetPlatformType() == Type) { // Top is
+		if (i == 0) { // Top left corner
 			if (platform[i + 1][j].GetPlatformType() == Type) // Btm is
-				platform[i][j].SetTexture(TextureArr[9]); // Top is, btm is = Middle layer
+				platform[i][j].SetTexture(TextureArr[6]); // Btm is, right is = Top layer left block
 			else
-				platform[i][j].SetTexture(TextureArr[12]); // Top is, btm not = Btm layer
+				platform[i][j].SetTexture(TextureArr[0]); // Btm not, right is = Single row left block
+		}
+		else if (i == e_binaryMapHeight) { // Btm left corner
+			if (platform[i - 1][j].GetPlatformType() == Type) // Top is
+				platform[i][j].SetTexture(TextureArr[12]); // Top is, right is = Btm layer left block
+			else
+				platform[i][j].SetTexture(TextureArr[0]); // Top not, right is = Single row left block
+		}
+		else if (platform[i - 1][j].GetPlatformType() == Type) { // Top is
+			if (platform[i + 1][j].GetPlatformType() == Type) // Btm is
+				platform[i][j].SetTexture(TextureArr[9]); // Top is, btm is = Middle layer left block
+			else
+				platform[i][j].SetTexture(TextureArr[12]); // Top is, btm not = Btm layer left block
 		}
 		else
 			platform[i][j].SetTexture(TextureArr[6]); // Top layer
 	}
-	else {
-		// Verticle Row
-		VerticleTextureSet(i, j, TextureArr, Type);
+	else { // Right not = Verticle Row
+		if (i == 0) { // Top left
+			if (platform[i + 1][j].GetPlatformType() == Type) // Btm is
+				platform[i][j].SetTexture(TextureArr[3]); // Btm is, right not = Verticle top block
+			else 
+				platform[i][j].SetTexture(TextureArr[15]); // Btm not, right not = Single block
+		}
+		else if (i == e_binaryMapHeight) { // Btm left
+			if (platform[i - 1][j].GetPlatformType() == Type) // Top is
+				platform[i][j].SetTexture(TextureArr[5]); // Top is, right not = Verticle btm block
+			else
+				platform[i][j].SetTexture(TextureArr[15]); // Top not, right not = Single block
+		}
+		else
+			VerticleTextureSet(i, j, TextureArr, Type);
 	}
 }
 
 void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
 		// Right block
-		if (platform[i - 1][j].GetPlatformType() == Type) { // Top is
+		if (i == 0) { // Btm right corner
+			if (platform[i + 1][j].GetPlatformType() == Type) // Btm is
+				platform[i][j].SetTexture(TextureArr[10]); // Btm is, left is = Top layer right block
+			else
+				platform[i][j].SetTexture(TextureArr[2]); // Btm not, left is = Single row right block
+		}
+		else if (i == e_binaryMapHeight) { // Btm right corner
+			if (platform[i - 1][j].GetPlatformType() == Type) // Top is
+				platform[i][j].SetTexture(TextureArr[14]); // Top is, left is = Btm layer right block
+			else
+				platform[i][j].SetTexture(TextureArr[2]); // Top not, left is = Single row right block
+		}
+		else if (platform[i - 1][j].GetPlatformType() == Type) { // Top is
 			if (platform[i + 1][j].GetPlatformType() == Type) // Btm is
 				platform[i][j].SetTexture(TextureArr[11]); // Top is, btm is = Middle layer
 			else
@@ -154,8 +247,20 @@ void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 		else
 			platform[i][j].SetTexture(TextureArr[8]); // Top layer
 	}
-	else {
-		// Verticle Row
-		VerticleTextureSet(i, j, TextureArr, Type);
+	else { // Left not = Verticle row
+		if (i == 0) { // Top right
+			if (platform[i + 1][j].GetPlatformType() == Type) // Btm is
+				platform[i][j].SetTexture(TextureArr[3]); // Btm is, left not = Verticle top block
+			else
+				platform[i][j].SetTexture(TextureArr[15]); // Btm not, left not = Single block
+		}
+		else if (i == e_binaryMapHeight) { // Btm right
+			if (platform[i - 1][j].GetPlatformType() == Type) // Top is
+				platform[i][j].SetTexture(TextureArr[5]); // Top is, left not = Verticle btm block
+			else
+				platform[i][j].SetTexture(TextureArr[15]); // Top not, left not = Single block
+		}
+		else
+			VerticleTextureSet(i, j, TextureArr, Type);
 	}
 }

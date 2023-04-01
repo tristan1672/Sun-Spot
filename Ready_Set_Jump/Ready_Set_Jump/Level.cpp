@@ -173,8 +173,17 @@ void Level_Initialize()
 
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 
-				if (i == 0 || i == e_binaryMapHeight || j == 0 || j == e_binaryMapWidth) {
-				
+				if (i == 0) {
+					TextureSetTopEdge(i, j, slimeTexture, SLIME_BLOCK);
+				}
+				else if (i == e_binaryMapHeight) {
+					TextureSetBtmEdge(i, j, slimeTexture, SLIME_BLOCK);
+				}
+				else if (j == 0) {
+					TextureSetLeftEdge(i, j, slimeTexture, SLIME_BLOCK);
+				}
+				else if (j == e_binaryMapWidth) {
+					TextureSetRightEdge(i, j, slimeTexture, SLIME_BLOCK);
 				}
 				else {
 					TextureSetNonEdge(i, j, slimeTexture, SLIME_BLOCK);
