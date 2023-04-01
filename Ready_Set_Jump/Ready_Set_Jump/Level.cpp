@@ -610,8 +610,7 @@ void AnimationUpdate(void) {
 	s32 cursorX, cursorY;
 	AEInputGetCursorPosition(&cursorX, &cursorY);
 	Vector2D mouseClickQuadPos = { static_cast<float>(cursorX) - HALVE_WINDOW_WIDTH + cam.X, -(static_cast<float>(cursorY) - HALVE_WINDOW_HEIGHT) + cam.Y };
-
-	if (Player.velocity.x != 0 && Player.velocity.y != 0) {
+	if (/*Player.velocity.x != 0 && */abs(Player.velocity.y) > 12.f) {
 		if (Player.velocity.x >= 0) { // Moving left
 			if(Player.velocity.y >= 0) 
 				Player.SetTexture(playerTexture[2]); // Upwards
@@ -632,7 +631,7 @@ void AnimationUpdate(void) {
 			else
 				Player.SetTexture(playerTexture[6]); // Face left
 		}
-		else {
+		else if(Player.GetColFlag() & COLLISION_BOTTOM) {
 			if (Player.GetPosition().x < mouseClickQuadPos.x)
 				Player.SetTexture(playerTexture[0]); // Face right
 			else
