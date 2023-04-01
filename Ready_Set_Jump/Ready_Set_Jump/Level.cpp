@@ -43,6 +43,7 @@ float e_levelTime;
 static int frameCounter;
 
 Vector2D playerSpawnPoint;
+Vector2D goalPos;
 
 int** e_levelGrid;
 int e_binaryMapWidth;
@@ -202,6 +203,7 @@ void Level_Initialize()
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GOAL_SIZE_X, GOAL_SIZE_Y });
+				goalPos = { GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE };
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(goalTexture[0]);
 				break;
@@ -238,7 +240,7 @@ void Level_Initialize()
 	airCheck = false;
 	shake = false;
 
-	Cam(airCheck);
+	Cam(airCheck, {0.0f,0.0f});
 
 	// Warm up time for particles
 	unsigned int waves = 20;
@@ -377,14 +379,7 @@ void Level_Update()
 		
 
 		// Cam shake effect
-		if (Player.velocity.y < -240.0f)
-		{
-			e_shakeStrength = HEAVY_SHAKE;
-		}
-		else if (Player.velocity.y < -90.0f)
-		{
-			e_shakeStrength = MEDIUM_SHAKE;
-		}
+		
 
 		// code that allows the player to get affected by gravity
 		Player.PhysicsUpdate();
@@ -398,7 +393,7 @@ void Level_Update()
 		}
 
 		//Cam effects
-		Cam(airCheck);
+		Cam(airCheck, goalPos);
 
 		// Update total time taken for level
 		LevelTime();
