@@ -429,7 +429,7 @@ void Level_Draw()
 	DrawParticle(levelParticleList);
 
 	if(level_state == PLAYING)
-	PlatformAnimationUpdate();
+	AnimationUpdate();
 
 	// Draws the platform
 	for (int i = 0; i < e_binaryMapHeight; i++) {
@@ -596,7 +596,7 @@ int ImportMapDataFromFile(const char* FileName) {
 	return 1;
 }
 
-void PlatformAnimationUpdate(void) {
+void AnimationUpdate(void) {
 	for (int i = 0; i < e_binaryMapHeight; i++) {
 		for (int j = 0; j < e_binaryMapWidth; j++) {
 
