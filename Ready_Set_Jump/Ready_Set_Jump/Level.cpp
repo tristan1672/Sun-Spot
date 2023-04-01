@@ -336,6 +336,7 @@ void Level_Update()
 		airCheck = Player.GetColFlag();
 
 		// Collision function
+		Player.SetColFlag(0);
 		Player.LevelCollision();
 		Player.SnapToGrid();
 		ObjectCollision();
@@ -383,6 +384,7 @@ void Level_Update()
 
 		// code that allows the player to get affected by gravity
 		Player.PhysicsUpdate();
+
 
 
 		if (followMouseCheat) {

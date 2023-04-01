@@ -1,31 +1,53 @@
-/*
+/*****************************************************************
   *  \file Credits.cpp
-  *  \author      : Peh Zong Lin Adrian
-  *  \par DP Email: p.zonglinadrian\@digipen.edu
-  *  \par Course  : csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
   *
   *  \brief
   *  Credits component.
-  *  - Initialize text to be printed
-  *  - Initialize text position, scale, color, font
+  *  - Credits_Load
+  *		Nil (Requred for GSM to function correctly)
+  * 
+  *  - Credits_Initialize
+  *		Resets cam position to center
+  *		Initalize text,position,size,color
+  * 
+  *  - Credits_Update
+  *		Increments timer used for animation
+  * 
+  *  - Credits_Draw
+  *		Draws text
+  * 
+  *  - Credits_Free
+  *		Nil (Requred for GSM to function correctly)
+  * 
+  *  - Credits_Unload
+  *		Unloads array
   *
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+ ****************************************************************/
 
-// ---------------------------------------------------------------------------
 // Includes
 #include "Credits.hpp"
-// --------------------------------------------------------------------------- // End of includes
 
-// Global Variables
+// Global Static Variables
 UIText* creditInfo[44];
 static float creditTimer;
 
-void Credits_Load() {
-	AEGfxSetCamPosition(0.f, 0.f);
-}
+/*****************************************************************
+ * @brief
+ *		This function loads necessary data(resource and asset) and initialize it
+ *		It is called once at the start of the state 
+ ****************************************************************/
+void Credits_Load() {}
 
+/*****************************************************************
+ * @brief
+ *		This function initialize game object instances
+ *		It is called once at the start of the state
+ ****************************************************************/
 void Credits_Initialize() {
+	AEGfxSetCamPosition(0.f, 0.f);
 
 	creditTimer = 0.f;
 
@@ -93,15 +115,15 @@ void Credits_Initialize() {
 	creditInfo[32] = new UIText{ UIText("ANGELA KUGLER", {0.f, -0.45f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
 	// Set 8
-	creditInfo[33] = new UIText{ UIText("VICE PRESIDENT", {0.f, 0.5f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
-	creditInfo[34] = new UIText{ UIText("OF INSTITUTION ADVANCEMENT AND STRATEGIC INITIATIVES", {0.f, 0.4f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
+	creditInfo[33] = new UIText{ UIText("VICE PRESIDENT", {0.f, 0.5f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[34] = new UIText{ UIText("OF INSTITUTION ADVANCEMENT AND STRATEGIC INITIATIVES", {0.f, 0.4f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
 	creditInfo[35] = new UIText{ UIText("DR. CHARLES DUBA", {0.f, 0.3f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
 	creditInfo[36] = new UIText{ UIText("VICE PRESIDENT OF SOFTWARE PRODUCTION", {0.f, 0.025f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
 	creditInfo[37] = new UIText{ UIText("BEN ELLINGER", {0.f, -0.075f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
-	creditInfo[38] = new UIText{ UIText("VICE PRESIDENT", {0.f, -0.35f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
-	creditInfo[39] = new UIText{ UIText("OF INFORMATION TECHNOLOGY AND COMPUTER SYSTEMS", {0.f, -0.45f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) }; // too long
+	creditInfo[38] = new UIText{ UIText("VICE PRESIDENT", {0.f, -0.35f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[39] = new UIText{ UIText("OF INFORMATION TECHNOLOGY AND COMPUTER SYSTEMS", {0.f, -0.45f}, {titleSize.x, titleSize.y}, White, false, White, e_creditFontID) };
 	creditInfo[40] = new UIText{ UIText("JOHNNY DEEK", {0.f, -0.55f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
 	// Copyright
@@ -113,6 +135,7 @@ void Credits_Initialize() {
 	creditInfo[42] = new UIText{ UIText("Additional Third Party Library:", {0.f, 0.075f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 	creditInfo[43] = new UIText{ UIText("nlohmann/json", {0.f, -0.025f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
+	// Centering Text
 	for (unsigned int i{}; i < 44; ++i) {
 		AEVec2 size{};
 		AEGfxGetPrintSize(e_creditFontID, creditInfo[i]->GetText(), creditInfo[i]->GetScale().x, size.x, size.y);
@@ -120,6 +143,11 @@ void Credits_Initialize() {
 	}
 }
 
+/*****************************************************************
+ * @brief
+ *		This function updates the state data
+ *		It is called whenever there is a need to update the state's data
+****************************************************************/
 void Credits_Update() {
 	mousePos mouse{};
 	AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
@@ -131,6 +159,11 @@ void Credits_Update() {
 	creditTimer += e_deltaTime;
 }
 
+/*****************************************************************
+ * @brief
+ *		This function sends data that needs to be drawn to the graphic engine
+ *		It is called after update to show animation/movement
+****************************************************************/
 void Credits_Draw() {
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
@@ -197,10 +230,18 @@ void Credits_Draw() {
 	}
 }
 
-void Credits_Free() {
-	
-}
+/*****************************************************************
+ * @brief
+ *		This function frees objects instances
+ *		It is called after to prepare the state to be unloaded or initialized again
+****************************************************************/
+void Credits_Free() {}
 
+/*****************************************************************
+ * @brief
+ *		This function dumps all loaded during Level1_Load()
+ *		It is called when the state should be terminated
+****************************************************************/
 void Credits_Unload() {
 	for (size_t i{}; i < sizeof creditInfo / sizeof creditInfo[0]; ++i)
 		delete creditInfo[i];
