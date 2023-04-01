@@ -2,8 +2,8 @@
 
 // Window
 //---------------------------
-const int WINDOW_WIDTH   = 1270;
-const int WINDOW_HEIGHT  = 720;
+const int WINDOW_WIDTH   = 1600;
+const int WINDOW_HEIGHT  = 900;
 const float HALVE_WINDOW_WIDTH = WINDOW_WIDTH * 0.5f;
 const float HALVE_WINDOW_HEIGHT = WINDOW_HEIGHT * 0.5f;
 

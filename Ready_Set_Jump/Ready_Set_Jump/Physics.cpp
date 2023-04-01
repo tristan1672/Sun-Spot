@@ -141,6 +141,7 @@ void DynamicObj::PhysicsUpdate() {
 				dragCoeff = STICK_DRAG;
 				friction = FULL_STOP_FRICTION;
 				jumpReady = true;
+				std::cout << "sticky coll\n";
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
@@ -161,6 +162,7 @@ void DynamicObj::PhysicsUpdate() {
 				friction = FULL_STOP_FRICTION;
 				dragCoeff = STICK_DRAG;
 				jumpReady = true;
+				std::cout << "sticky coll\n";
 				break;
 			case SLIME_BLOCK:
 				if (velocity.x) {
