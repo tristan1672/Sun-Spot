@@ -397,7 +397,7 @@ void Level_Update()
 			Player.position = mouseQuadPos;
 		}
 
-		// Cam shake
+		//Cam effects
 		Cam(airCheck);
 
 		// Update total time taken for level
