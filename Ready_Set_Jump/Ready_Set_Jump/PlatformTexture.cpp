@@ -1,5 +1,68 @@
+/*****************************************************************
+  *  \file PlatformTexture.cpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
+  *
+  *  \brief
+  *  Platform texture component.
+  *  - MultiTextureLoad
+  *		Loads multiple textures from file paths and stores them in the TextureArr array.
+  *
+  *  - MultiTextureUnload
+  *		Unloads multiple textures stored in the TextureArr array.
+  *
+  *  - SingleLayerTextureSet
+  *		Sets a single layer texture for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - TopLayerTextureSet
+  *		Sets the top layer texture for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - MiddleLayerTextureSet
+  *		Sets the middle layer texture for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - BtmLayerTextureSet
+  *		Sets the bottom layer texture for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - VerticleTextureSet
+  *		Sets the vertical texture for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - TextureSetNonEdge
+  *		Sets the given texture to a non-edge tile for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - TextureSetTopEdge
+  *		Sets the given texture to the top edge tile for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - TextureSetBtmEdge
+  *		Sets the given texture to the bottom tile for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - TextureSetLeftEdge
+  *		Sets the given texture to the left edge tile for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - TextureSetRightEdge
+  *		Sets the given texture to the right edge tile for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - TextureSetAll
+  *		Sets the given texture to all tiles at position (i,j) using the TextureArr array.
+  *
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+****************************************************************/
+
 #include "PlatformTexture.hpp"
 
+/*****************************************************************
+ * \brief
+ *		Loads multiple textures from file paths and stores them in the TextureArr array.
+ * 
+ * \param TextureArr 
+ *		Pointer to an array of AEGfxTexture pointers to be filled with loaded textures.
+ * 
+ * \param Size 
+ *		The number of textures to be loaded.
+ * 
+ * \param Str 
+ *		The file path and name prefix for each texture file to be loaded.
+****************************************************************/
 void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string Str) {
 	for (int i{}; i < Size; ++i) {
 		std::string location{};
@@ -8,12 +71,38 @@ void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string 
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Unloads multiple textures stored in the TextureArr array.
+ *
+ * \param TextureArr 
+ *		Pointer to an array of AEGfxTexture pointers to be unloaded.
+ *
+ * \param Size
+ *		The number of textures to be unloaded.
+****************************************************************/
 void MultiTextureUnload(AEGfxTexture** TextureArr, unsigned int Size) {
 	for (int i{}; i < Size; ++i) {
 		AEGfxTextureUnload(TextureArr[i]);
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets a single layer texture for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture 
+ * 
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void SingleLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
 
@@ -30,6 +119,22 @@ void SingleLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the top layer texture for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void TopLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
 
@@ -46,6 +151,22 @@ void TopLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the middle layer texture for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void MiddleLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
 
@@ -62,6 +183,22 @@ void MiddleLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the bottom layer texture for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void BtmLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
 
@@ -78,6 +215,22 @@ void BtmLayerTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the vertical texture for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void VerticleTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i - 1][j].GetPlatformType() == Type) { // Top is
 		if (platform[i + 1][j].GetPlatformType() == Type) // Btm is
@@ -93,6 +246,22 @@ void VerticleTextureSet(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the given texture to a non-edge tile for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void TextureSetNonEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i - 1][j].GetPlatformType() != Type) { // If above is not			
 		if (platform[i + 1][j].GetPlatformType() != Type) // Above not, below not = single layer
@@ -110,6 +279,22 @@ void TextureSetNonEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the given texture to the top edge tile for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void TextureSetTopEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i + 1][j].GetPlatformType() == Type) { // Btm is
 		if (j == 0) { // Top left
@@ -145,6 +330,22 @@ void TextureSetTopEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the given texture to the bottom tile for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void TextureSetBtmEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i - 1][j].GetPlatformType() == Type) {// Above is
 		if (j == 0) { // Btm left
@@ -180,6 +381,22 @@ void TextureSetBtmEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the given texture to the left edge tile for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void TextureSetLeftEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 
 	if (platform[i][j + 1].GetPlatformType() == Type) { // Right is
@@ -227,6 +444,22 @@ void TextureSetLeftEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the given texture to the right edge tile for a specified cell (i, j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (platform[i][j - 1].GetPlatformType() == Type) { // Left is
 		// Right block
@@ -273,6 +506,22 @@ void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	}
 }
 
+/*****************************************************************
+ * \brief
+ *		Sets the given texture to all tiles at position (i,j) using the TextureArr array.
+ *
+ * \param i
+ *		The row index of the cell to set the texture for.
+ *
+ * \param j
+ *		The column index of the cell to set the texture for.
+ *
+ * \param TextureArr
+ *		Pointer to an array of AEGfxTexture pointers to choose the texture
+ *
+ * \param Type
+ *		The index of the texture to set for the cell.
+****************************************************************/
 void TextureSetAll(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (i == 0) {
 		TextureSetTopEdge(i, j, TextureArr, Type);
