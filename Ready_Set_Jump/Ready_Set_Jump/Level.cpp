@@ -65,7 +65,7 @@ float sceneSwitchBufferTimer = 0.1f;
 
 AEGfxTexture* ptex{ nullptr };
 
-AEGfxTexture* playerTexture[8]{ nullptr };
+AEGfxTexture* playerTexture[10]{ nullptr };
 AEGfxTexture* normalBlockTexture[16]{ nullptr };
 AEGfxTexture* iceBlockTexture[16]{ nullptr };
 AEGfxTexture* stickyBlockTexture[16]{ nullptr };
@@ -620,9 +620,9 @@ void AnimationUpdate(void) {
 		}
 		else { // Moving right
 			if (Player.velocity.y >= 0)
-				Player.SetTexture(playerTexture[6]); // Upwards
+				Player.SetTexture(playerTexture[7]); // Upwards
 			else
-				Player.SetTexture(playerTexture[7]); // Downwards
+				Player.SetTexture(playerTexture[8]); // Downwards
 		}
 	}
 	else  {
@@ -630,13 +630,13 @@ void AnimationUpdate(void) {
 			if (Player.GetPosition().x < mouseClickQuadPos.x)
 				Player.SetTexture(playerTexture[1]); // Face right
 			else
-				Player.SetTexture(playerTexture[5]); // Face left
+				Player.SetTexture(playerTexture[6]); // Face left
 		}
 		else {
 			if (Player.GetPosition().x < mouseClickQuadPos.x)
 				Player.SetTexture(playerTexture[0]); // Face right
 			else
-				Player.SetTexture(playerTexture[4]); // Face left
+				Player.SetTexture(playerTexture[5]); // Face left
 		}
 	}
 }
