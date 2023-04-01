@@ -65,5 +65,5 @@ void DisplayTime(float pos_x, float pos_y) {
 
 	// Prints miliseconds in a smaller font size
 	snprintf(tempStr, sizeof tempStr, ".%02.0f", miliseconds);
-	AEGfxPrint(e_fontID, tempStr, pos_x + 0.24f, pos_y, 0.7f, 1.0f, 1.0f, 1.0f);
+	AEGfxPrint(e_fontID, tempStr, pos_x + 0.2f, pos_y, 0.7f, 1.0f, 1.0f, 1.0f);
 }

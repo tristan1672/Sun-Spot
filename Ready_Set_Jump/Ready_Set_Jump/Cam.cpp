@@ -22,7 +22,8 @@ float   shakedistance			= 0.5f;
 f64		shaketime;
 bool	shake;
 short	e_shakeStrength;
-
+Vector2D guide;
+int		guiding;
 
 
 void Cam(bool airCheck, Vector2D goalPos)
@@ -47,6 +48,7 @@ void Cam(bool airCheck, Vector2D goalPos)
 		e_shakeStrength = MEDIUM_SHAKE;
 	}
 
+	Guide(goalPos);
 	Shake(distance);
 	
 	//Apply Cam Bounding
@@ -56,8 +58,8 @@ void Cam(bool airCheck, Vector2D goalPos)
 	//DEBUG
 	std::cout << "e_shakeStrength: " << e_shakeStrength << std::endl;
 	std::cout << "distance: " << distance << std::endl;
-	std::cout << "cam.Y: " << cam.Y << std::endl;
 	std::cout << "shakespeed: " << shakespeed << std::endl; 
+	std::cout << "guiding: " << guiding << std::endl;
 	std::cout << "player x:" << Player.position.x << " player y:" << Player.position.y << std::endl;
 	std::cout << cam.X << ',' << cam.Y << std::endl;
 
@@ -81,7 +83,7 @@ void Shake(float distance)
 
 			if (e_shakeStrength == HEAVY_SHAKE)
 			{
-				shakespeed += -100.0f; //Heavy Decrease
+				shakespeed += -70.0f; //Heavy Decrease
 			}
 		}
 	}
@@ -91,6 +93,52 @@ void Shake(float distance)
 	}
 
 	//Apply shaking parameters to camera position
-	cam.X = Player.position.x;
-	cam.Y = Player.position.y + (shakespeed * e_deltaTime * e_shakeStrength);
+	/*
+	if (guiding == 0)
+	{
+		cam.X = Player.position.x;
+		cam.Y = Player.position.y + (shakespeed * e_deltaTime * e_shakeStrength);
+	}
+	*/
+	cam.Y += (shakespeed * e_deltaTime * e_shakeStrength);
+	
+}
+
+void Guide(Vector2D goalPos)
+{
+	if (AEInputCheckCurr(AEVK_Q))
+	{
+		guiding = 1;
+		guide.x = goalPos.x - Player.position.x;
+		guide.y = goalPos.y - Player.position.y;
+
+		if (cam.X != goalPos.x)
+		{
+			cam.X += guide.x * e_deltaTime;
+		}
+		if (cam.Y != goalPos.y)
+		{
+			cam.Y = goalPos.y;
+		}
+		
+	}
+
+	if (!AEInputCheckCurr(AEVK_Q))
+	{
+		if (cam.X != Player.position.x)
+		{
+			guide.x = cam.X - Player.position.x;
+			cam.X -= guide.x * e_deltaTime * 10.f;
+		}
+		if (cam.Y != Player.position.y)
+		{
+			guide.y = cam.Y - Player.position.y;
+			cam.Y -= guide.y * e_deltaTime * 5.f;
+		}
+
+		if ((int)cam.X == (int)Player.position.x && (int)cam.Y == (int)Player.position.y)
+		{
+			guiding = 0;
+		}
+	}
 }
