@@ -13,6 +13,7 @@
 #include<fstream>
 #include<iostream>
 namespace Save {
+	extern nlohmann::json save;// the save file
 	void ReadFile()/*
 		\brief run once when the game starts, checks if the save file already exists, if not uses the template and create a save file
 		*/;
@@ -41,6 +42,28 @@ namespace Save {
 		\param[in] totalScore the total score got previously
 		\param[in] haveAttempted check if the level was attempted before
 		*/;
+
+	template <typename T>
+	T GetSpecificSaveValue(int level, std::string data) {/*
+			\brief get the value for a specific data
+			\param [in] level which level to get the info
+			\param [in] the data to access
+			\return the value of the data
+		*/
+		return save[level][data];
+	}
+
+	template <typename T>
+	void SetSpecificSaveValue(int level, std::string data, T value) {/*
+			\brief set the value for a specific data
+			\param [in] level which level to get the info
+			\param [in] the data to write to
+			\param [in] the value to write into the data
+
+		*/
+		save[level][data] = value;
+	}
+
 	void WriteFile()/*
 		\brief writes the save file
 		*/;
