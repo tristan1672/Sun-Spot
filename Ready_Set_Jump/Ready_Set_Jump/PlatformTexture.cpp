@@ -264,3 +264,21 @@ void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			VerticleTextureSet(i, j, TextureArr, Type);
 	}
 }
+
+void TextureSetAll(int i, int j, AEGfxTexture** TextureArr, int Type) {
+	if (i == 0) {
+		TextureSetTopEdge(i, j, TextureArr, Type);
+	}
+	else if (i == e_binaryMapHeight) {
+		TextureSetBtmEdge(i, j, TextureArr, Type);
+	}
+	else if (j == 0) {
+		TextureSetLeftEdge(i, j, TextureArr, Type);
+	}
+	else if (j == e_binaryMapWidth) {
+		TextureSetRightEdge(i, j, TextureArr, Type);
+	}
+	else {
+		TextureSetNonEdge(i, j, TextureArr, Type);
+	}
+}

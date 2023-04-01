@@ -65,14 +65,16 @@ float sceneSwitchBufferTimer = 0.1f;
 
 AEGfxTexture* ptex{ nullptr };
 AEGfxTexture* normalBlockTexture{ nullptr };
-AEGfxTexture* iceBlockTexture{ nullptr };
 AEGfxTexture* stickyBlockTexture{ nullptr };
-AEGfxTexture* slimeTexture[16]{ nullptr };
+
+AEGfxTexture* iceBlockTexture[16]{ nullptr };
+AEGfxTexture* slimeBlockTexture[16]{ nullptr };
+AEGfxTexture* goalTexture[20]{ nullptr };
 
 AEGfxTexture* collectibleTexture{ nullptr };
 AEGfxTexture* checkPointTexture1{ nullptr };
 AEGfxTexture* checkPointTexture2{ nullptr };
-AEGfxTexture* goalTexture[20]{nullptr};
+
 
 AEGfxTexture* arrowTexture{ nullptr };
 
@@ -92,7 +94,6 @@ void Level_Load()
 
 	ptex = AEGfxTextureLoad("Assets/Images/Cleared.png");
 	normalBlockTexture = AEGfxTextureLoad("Assets/Images/Basic_Platform.png");
-	iceBlockTexture = AEGfxTextureLoad("Assets/Images/Ice_Platform.png");
 	stickyBlockTexture = AEGfxTextureLoad("Assets/Images/Sticky_Platform.png");
 
 	arrowTexture = AEGfxTextureLoad("Assets/Images/Arrow.png");
@@ -102,7 +103,8 @@ void Level_Load()
 
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
 
-	MultiTextureLoad(slimeTexture, sizeof(slimeTexture) / sizeof(slimeTexture[0]), "Assets/Images/Slime_Platform_");
+	MultiTextureLoad(iceBlockTexture, sizeof(iceBlockTexture) / sizeof(iceBlockTexture[0]), "Assets/Images/Ice_Platform_");
+	MultiTextureLoad(slimeBlockTexture, sizeof(slimeBlockTexture) / sizeof(slimeBlockTexture[0]), "Assets/Images/Slime_Platform_");
 	MultiTextureLoad(goalTexture, sizeof(goalTexture) / sizeof(goalTexture[0]), "Assets/Images/Portal_");
 
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
@@ -154,8 +156,9 @@ void Level_Initialize()
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-				platform[i][j].SetTexture(iceBlockTexture);
+				TextureSetAll(i, j, iceBlockTexture, ICE_BLOCK);
 				break;
 
 			case STICKY_BLOCK:
@@ -172,23 +175,7 @@ void Level_Initialize()
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
 
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-
-				if (i == 0) {
-					TextureSetTopEdge(i, j, slimeTexture, SLIME_BLOCK);
-				}
-				else if (i == e_binaryMapHeight) {
-					TextureSetBtmEdge(i, j, slimeTexture, SLIME_BLOCK);
-				}
-				else if (j == 0) {
-					TextureSetLeftEdge(i, j, slimeTexture, SLIME_BLOCK);
-				}
-				else if (j == e_binaryMapWidth) {
-					TextureSetRightEdge(i, j, slimeTexture, SLIME_BLOCK);
-				}
-				else {
-					TextureSetNonEdge(i, j, slimeTexture, SLIME_BLOCK);
-				}
-
+				TextureSetAll(i, j, slimeBlockTexture, SLIME_BLOCK);
 				break;
 
 			case COLLECTIBLES:
@@ -509,10 +496,10 @@ void Level_Unload()
 
 	AEGfxTextureUnload(ptex);
 	AEGfxTextureUnload(normalBlockTexture);
-	AEGfxTextureUnload(iceBlockTexture);
 	AEGfxTextureUnload(stickyBlockTexture);
 
-	MultiTextureUnload(slimeTexture, sizeof(slimeTexture) / sizeof(slimeTexture[0]));
+	MultiTextureUnload(iceBlockTexture, sizeof(iceBlockTexture) / sizeof(iceBlockTexture[0]));
+	MultiTextureUnload(slimeBlockTexture, sizeof(slimeBlockTexture) / sizeof(slimeBlockTexture[0]));
 	MultiTextureUnload(goalTexture, sizeof(goalTexture) / sizeof(goalTexture[0]));
 
 	AEGfxTextureUnload(collectibleTexture);
