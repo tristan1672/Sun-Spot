@@ -1,44 +1,52 @@
-/*
+/*****************************************************************
   *  \file Timer.cpp
-  *  \author      : Peh Zong Lin Adrian
-  *  \par DP Email: p.zonglinadrian\\digipen.edu
-  *  \par Course  : csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
   *
   *  \brief
-  *  Timer component.
-  *  - Get and returns delta time
-  *  - Updates and return level time
-  *  - Display time on screen
-  * 
-  *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+  *  System component.
+  *  - GetTime
+  *		Get and sets delta time(Called in main)
+  *
+  *  - LevelTime
+  *		Updates and return level time
+  *
+  *  - DisplayTime
+  *		Display time on screen
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
 
-// ---------------------------------------------------------------------------
-// Includes
 #include "Timer.hpp"
-#include <string>
-// --------------------------------------------------------------------------- // End of includes
 
-// ----------------------------------------------------------------------------
-// Get and sets delta time (Called in main)
-// ----------------------------------------------------------------------------
+ /*****************************************************************
+  * \brief
+  *		Get and sets delta time(Called in main)
+ ****************************************************************/
 void GetTime() {
 	e_deltaTime = AEFrameRateControllerGetFrameTime();
 	if(e_deltaTime > 0.01667f)
 		e_deltaTime = 0.01667f;
 }
 
-// ----------------------------------------------------------------------------
-// Updates and return level time
-// ----------------------------------------------------------------------------
-float LevelTime() {
+/*****************************************************************
+ * \brief
+ *		Updates level time
+****************************************************************/
+void LevelTime() {
 	e_levelTime += e_deltaTime;
-	return e_levelTime;
 }
 
-// ----------------------------------------------------------------------------
-// Display time on screen
-// ----------------------------------------------------------------------------
+/*****************************************************************
+ * \brief
+ *		Display time on screen
+ * 
+ * \param pos_x
+ *		X position of where time to be printed
+ * 
+ * \param pos_y
+ *		Y position of where time to be printed
+****************************************************************/
 void DisplayTime(float pos_x, float pos_y) {
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 

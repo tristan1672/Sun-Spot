@@ -100,7 +100,6 @@ void Shake(float distance)
 		cam.Y = Player.position.y + (shakespeed * e_deltaTime * e_shakeStrength);
 	}
 	*/
-	cam.Y += (shakespeed * e_deltaTime * e_shakeStrength);
 	
 }
 
