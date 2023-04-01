@@ -230,7 +230,7 @@ void Level_Initialize()
 		{ 0.f,1.f,0.f,0.5f }, 0.f, AE_GFX_RM_TEXTURE, arrMesh);
 	jumpArrow.SetTexture(arrowTexture);
 	jumpArrow.SetScale({ 40.f,100.f });
-	jumpArrow.SetColour({ 1.f,1.f,1.f,1.f });
+	jumpArrow.SetColour({ 1.f,1.f,1.f,0.8f });
 	mouse.ClickX = 0;
 	mouse.ClickY = 0;
 	mouse.ReleaseX = 0;
@@ -609,8 +609,9 @@ void AnimationUpdate(void) {
 
 	s32 cursorX, cursorY;
 	AEInputGetCursorPosition(&cursorX, &cursorY);
+	Vector2D mouseClickQuadPos = { static_cast<float>(cursorX) - HALVE_WINDOW_WIDTH + cam.X, -(static_cast<float>(cursorY) - HALVE_WINDOW_HEIGHT) + cam.Y };
 
-	if (Player.jumpReady != true) {
+	if (Player.velocity.x != 0 && Player.velocity.y != 0) {
 		if (Player.velocity.x >= 0) { // Moving left
 			if(Player.velocity.y >= 0) 
 				Player.SetTexture(playerTexture[2]); // Upwards
@@ -626,13 +627,13 @@ void AnimationUpdate(void) {
 	}
 	else  {
 		if (AEInputCheckCurr(AEVK_LBUTTON)) {
-			if (Player.GetPosition().x < cursorX)
+			if (Player.GetPosition().x < mouseClickQuadPos.x)
 				Player.SetTexture(playerTexture[1]); // Face right
 			else
 				Player.SetTexture(playerTexture[5]); // Face left
 		}
 		else {
-			if (Player.GetPosition().x < cursorX)
+			if (Player.GetPosition().x < mouseClickQuadPos.x)
 				Player.SetTexture(playerTexture[0]); // Face right
 			else
 				Player.SetTexture(playerTexture[4]); // Face left
