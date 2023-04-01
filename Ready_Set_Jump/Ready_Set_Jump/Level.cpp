@@ -64,8 +64,8 @@ bool followMouseCheat;
 float sceneSwitchBufferTimer = 0.1f;
 
 AEGfxTexture* ptex{ nullptr };
-AEGfxTexture* normalBlockTexture{ nullptr };
 
+AEGfxTexture* normalBlockTexture[16]{ nullptr };
 AEGfxTexture* iceBlockTexture[16]{ nullptr };
 AEGfxTexture* stickyBlockTexture[16]{ nullptr };
 AEGfxTexture* slimeBlockTexture[16]{ nullptr };
@@ -93,7 +93,6 @@ void Level_Load()
 	MakeArrowMesh();
 
 	ptex = AEGfxTextureLoad("Assets/Images/Cleared.png");
-	normalBlockTexture = AEGfxTextureLoad("Assets/Images/Basic_Platform.png");
 
 	arrowTexture = AEGfxTextureLoad("Assets/Images/Arrow.png");
 
@@ -102,6 +101,7 @@ void Level_Load()
 
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
 
+	MultiTextureLoad(normalBlockTexture, sizeof(normalBlockTexture) / sizeof(normalBlockTexture[0]), "Assets/Images/Basic_Platform_");
 	MultiTextureLoad(iceBlockTexture, sizeof(iceBlockTexture) / sizeof(iceBlockTexture[0]), "Assets/Images/Ice_Platform_");
 	MultiTextureLoad(stickyBlockTexture, sizeof(stickyBlockTexture) / sizeof(stickyBlockTexture[0]), "Assets/Images/Sticky_Platform_");
 	MultiTextureLoad(slimeBlockTexture, sizeof(slimeBlockTexture) / sizeof(slimeBlockTexture[0]), "Assets/Images/Slime_Platform_");
@@ -148,8 +148,9 @@ void Level_Initialize()
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
 					{ GRID_WIDTH_SIZE, GRID_HEIGHT_SIZE });
+
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
-				platform[i][j].SetTexture(normalBlockTexture);
+				TextureSetAll(i, j, normalBlockTexture, NORMAL_BLOCK);
 				break;
 
 			case ICE_BLOCK:
@@ -496,8 +497,8 @@ void Level_Unload()
 	PauseMenu::FreePauseMenu();
 
 	AEGfxTextureUnload(ptex);
-	AEGfxTextureUnload(normalBlockTexture);
 
+	MultiTextureUnload(normalBlockTexture, sizeof(normalBlockTexture) / sizeof(normalBlockTexture[0]));
 	MultiTextureUnload(iceBlockTexture, sizeof(iceBlockTexture) / sizeof(iceBlockTexture[0]));
 	MultiTextureUnload(stickyBlockTexture, sizeof(stickyBlockTexture) / sizeof(stickyBlockTexture[0]));
 	MultiTextureUnload(slimeBlockTexture, sizeof(slimeBlockTexture) / sizeof(slimeBlockTexture[0]));
