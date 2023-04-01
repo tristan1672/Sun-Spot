@@ -66,7 +66,7 @@ float sceneSwitchBufferTimer = 0.1f;
 
 AEGfxTexture* ptex{ nullptr };
 
-AEGfxTexture* playerTexture[8]{ nullptr };
+AEGfxTexture* playerTexture[10]{ nullptr };
 AEGfxTexture* normalBlockTexture[16]{ nullptr };
 AEGfxTexture* iceBlockTexture[16]{ nullptr };
 AEGfxTexture* stickyBlockTexture[16]{ nullptr };
@@ -232,7 +232,7 @@ void Level_Initialize()
 		{ 0.f,1.f,0.f,0.5f }, 0.f, AE_GFX_RM_TEXTURE, arrMesh);
 	jumpArrow.SetTexture(arrowTexture);
 	jumpArrow.SetScale({ 40.f,100.f });
-	jumpArrow.SetColour({ 1.f,1.f,1.f,1.f });
+	jumpArrow.SetColour({ 1.f,1.f,1.f,0.8f });
 	mouse.ClickX = 0;
 	mouse.ClickY = 0;
 	mouse.ReleaseX = 0;
@@ -604,8 +604,8 @@ void AnimationUpdate(void) {
 
 	s32 cursorX, cursorY;
 	AEInputGetCursorPosition(&cursorX, &cursorY);
-
-	if (Player.jumpReady != true) {
+	Vector2D mouseClickQuadPos = { static_cast<float>(cursorX) - HALVE_WINDOW_WIDTH + cam.X, -(static_cast<float>(cursorY) - HALVE_WINDOW_HEIGHT) + cam.Y };
+	if (/*Player.velocity.x != 0 && */abs(Player.velocity.y) > 12.f) {
 		if (Player.velocity.x >= 0) { // Moving left
 			if(Player.velocity.y >= 0) 
 				Player.SetTexture(playerTexture[2]); // Upwards
@@ -614,23 +614,30 @@ void AnimationUpdate(void) {
 		}
 		else { // Moving right
 			if (Player.velocity.y >= 0)
-				Player.SetTexture(playerTexture[6]); // Upwards
+				Player.SetTexture(playerTexture[7]); // Upwards
 			else
-				Player.SetTexture(playerTexture[7]); // Downwards
+				Player.SetTexture(playerTexture[8]); // Downwards
 		}
 	}
 	else  {
 		if (AEInputCheckCurr(AEVK_LBUTTON)) {
-			if (Player.GetPosition().x < cursorX)
+			if (Player.GetPosition().x < mouseClickQuadPos.x)
 				Player.SetTexture(playerTexture[1]); // Face right
+			else
+				Player.SetTexture(playerTexture[6]); // Face left
+		}
+		else if(Player.GetColFlag() & COLLISION_BOTTOM) {
+			if (Player.GetPosition().x < mouseClickQuadPos.x)
+				Player.SetTexture(playerTexture[0]); // Face right
 			else
 				Player.SetTexture(playerTexture[5]); // Face left
 		}
-		else {
-			if (Player.GetPosition().x < cursorX)
-				Player.SetTexture(playerTexture[0]); // Face right
-			else
-				Player.SetTexture(playerTexture[4]); // Face left
-		}
+	}
+	if (Player.velocity.y != 0) {
+		if (Player.GetColFlag() & COLLISION_LEFT) 
+			Player.SetTexture(playerTexture[4]);
+		else if(Player.GetColFlag() & COLLISION_RIGHT)
+			Player.SetTexture(playerTexture[9]);
+	
 	}
 }

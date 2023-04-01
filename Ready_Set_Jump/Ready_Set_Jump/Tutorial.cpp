@@ -26,14 +26,14 @@ namespace Tutorial {
 		//sets inidvidual tutorial text to their location and set their texture to each obj
 		SetTutorialObj(TutorialTextObj[0], {-450.f,115.f}, {300.f,260.f},     TurorialText[0], "Assets/Images/TutorialText/ControlIntro.png");
 		SetTutorialObj(TutorialTextObj[1], { 400.f,0.f }, { 360.f,120.f },    TurorialText[1], "Assets/Images/TutorialText/IceIntro.png");
-		SetTutorialObj(TutorialTextObj[2], { 780.f,265.f }, { 360.f,200.f },  TurorialText[2], "Assets/Images/TutorialText/CheckpointIntro.png");
+		SetTutorialObj(TutorialTextObj[2], { 987.f,320.f }, { 360.f,200.f },  TurorialText[2], "Assets/Images/TutorialText/CheckpointIntro.png");
 		SetTutorialObj(TutorialTextObj[3], { 1500.f,0.f }, { 360.f,200.f },   TurorialText[3], "Assets/Images/TutorialText/JumpGapText.png");
-		SetTutorialObj(TutorialTextObj[4], { 3200.f,150.f }, { 360.f,200.f }, TurorialText[4], "Assets/Images/TutorialText/JumpDown.png");
-		SetTutorialObj(TutorialTextObj[5], { 4900.f,-300.f }, { 360.f,200.f },TurorialText[5], "Assets/Images/TutorialText/SlimeIntro.png");
-		SetTutorialObj(TutorialTextObj[6], { 5695.f,200.f }, { 360.f,200.f }, TurorialText[6], "Assets/Images/TutorialText/CollectibleIntro.png");
-		SetTutorialObj(TutorialTextObj[7], { 5500.f,-75.f }, { 360.f,200.f }, TurorialText[7], "Assets/Images/TutorialText/StickyIntroPt1.png");
-		SetTutorialObj(TutorialTextObj[8], { 6300.f,-75.f }, { 360.f,200.f }, TurorialText[8], "Assets/Images/TutorialText/StickyIntroPt2.png");
-		SetTutorialObj(TutorialTextObj[9], { 7645.f,220.f }, { 360.f,200.f }, TurorialText[9], "Assets/Images/TutorialText/ExitIntro.png");
+		SetTutorialObj(TutorialTextObj[4], { 4000.f,220.f }, { 360.f,200.f }, TurorialText[4], "Assets/Images/TutorialText/JumpDown.png");
+		SetTutorialObj(TutorialTextObj[5], { 6100.f,-390.f }, { 360.f,200.f },TurorialText[5], "Assets/Images/TutorialText/SlimeIntro.png");
+		SetTutorialObj(TutorialTextObj[6], { 7020.f,250.f }, { 360.f,200.f }, TurorialText[6], "Assets/Images/TutorialText/CollectibleIntro.png");
+		SetTutorialObj(TutorialTextObj[7], { 6300.f,-75.f }, { 360.f,200.f }, TurorialText[7], "Assets/Images/TutorialText/StickyIntroPt1.png");
+		SetTutorialObj(TutorialTextObj[8], { 7300.f,-75.f }, { 360.f,200.f }, TurorialText[8], "Assets/Images/TutorialText/StickyIntroPt2.png");
+		SetTutorialObj(TutorialTextObj[9], { 9625.f,250.f }, { 360.f,200.f }, TurorialText[9], "Assets/Images/TutorialText/ExitIntro.png");
 
 	}
 	void RenderTutorialText() {

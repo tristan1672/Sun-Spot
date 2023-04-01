@@ -128,11 +128,11 @@ void DynamicObj::SnapToGrid() {
 	}
 
 	if (collisionFlag & COLLISION_BOTTOM) {
-		position.y = HALVE_WINDOW_HEIGHT - static_cast<int>(btmY) * GRID_HEIGHT_SIZE + (PLAYER_SIZE_Y / 2.0f);
+		position.y = HALVE_WINDOW_HEIGHT - (static_cast<int>(btmY))* GRID_HEIGHT_SIZE + (PLAYER_SIZE_Y / 2.0f);
 	}
 
 	if (collisionFlag & COLLISION_LEFT) {
-		position.x = -HALVE_WINDOW_WIDTH + (static_cast<int>(leftX) + 1) * GRID_WIDTH_SIZE + PLAYER_SIZE_X / 2.0f;
+		position.x = -HALVE_WINDOW_WIDTH + (static_cast<int>(leftX) + 0.99999) * GRID_WIDTH_SIZE + PLAYER_SIZE_X / 2.0f;
 	}
 
 	if (collisionFlag & COLLISION_RIGHT) {

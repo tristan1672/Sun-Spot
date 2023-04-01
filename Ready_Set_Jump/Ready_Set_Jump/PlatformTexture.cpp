@@ -118,7 +118,7 @@ void TextureSetTopEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			else
 				platform[i][j].SetTexture(TextureArr[3]); // Btm is, right not = Verticle row top block
 		}
-		else if (j == e_binaryMapWidth) { // Top right
+		else if (j == e_binaryMapWidth - 1) { // Top right
 			if (platform[i][j - 1].GetPlatformType() == Type) // Left is
 				platform[i][j].SetTexture(TextureArr[8]); // Btm is, left is = Top layer right block
 			else
@@ -134,7 +134,7 @@ void TextureSetTopEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			else
 				platform[i][j].SetTexture(TextureArr[15]); // Btm not, right not = Single block
 		}
-		else if (j == e_binaryMapWidth) { // Top right
+		else if (j == e_binaryMapWidth - 1) { // Top right
 			if (platform[i][j - 1].GetPlatformType() == Type) // Left is
 				platform[i][j].SetTexture(TextureArr[2]); // Btm not, left is = Single layer right block
 			else
@@ -153,7 +153,7 @@ void TextureSetBtmEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			else
 				platform[i][j].SetTexture(TextureArr[5]); // Btm is, right not = Verticle row btm block
 		}
-		else if (j == e_binaryMapWidth) { // Btm right
+		else if (j == e_binaryMapWidth - 1) { // Btm right
 			if (platform[i][j - 1].GetPlatformType() == Type) // Left is
 				platform[i][j].SetTexture(TextureArr[14]); // Btm is, left is = Btm layer right block
 			else
@@ -169,7 +169,7 @@ void TextureSetBtmEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			else
 				platform[i][j].SetTexture(TextureArr[15]); // Top not, right not = Single block
 		}
-		else if (j == e_binaryMapWidth) { // Btm right
+		else if (j == e_binaryMapWidth - 1) { // Btm right
 			if (platform[i][j - 1].GetPlatformType() == Type) // Left is
 				platform[i][j].SetTexture(TextureArr[2]); // Top not, left is = Single layer right block
 			else
@@ -190,7 +190,7 @@ void TextureSetLeftEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			else
 				platform[i][j].SetTexture(TextureArr[0]); // Btm not, right is = Single row left block
 		}
-		else if (i == e_binaryMapHeight) { // Btm left corner
+		else if (i == e_binaryMapHeight - 1) { // Btm left corner
 			if (platform[i - 1][j].GetPlatformType() == Type) // Top is
 				platform[i][j].SetTexture(TextureArr[12]); // Top is, right is = Btm layer left block
 			else
@@ -216,7 +216,7 @@ void TextureSetLeftEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			else 
 				platform[i][j].SetTexture(TextureArr[15]); // Btm not, right not = Single block
 		}
-		else if (i == e_binaryMapHeight) { // Btm left
+		else if (i == e_binaryMapHeight - 1) { // Btm left
 			if (platform[i - 1][j].GetPlatformType() == Type) // Top is
 				platform[i][j].SetTexture(TextureArr[5]); // Top is, right not = Verticle btm block
 			else
@@ -236,7 +236,7 @@ void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			else
 				platform[i][j].SetTexture(TextureArr[2]); // Btm not, left is = Single row right block
 		}
-		else if (i == e_binaryMapHeight) { // Btm right corner
+		else if (i == e_binaryMapHeight - 1) { // Btm right corner
 			if (platform[i - 1][j].GetPlatformType() == Type) // Top is
 				platform[i][j].SetTexture(TextureArr[14]); // Top is, left is = Btm layer right block
 			else
@@ -262,7 +262,7 @@ void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type) {
 			else
 				platform[i][j].SetTexture(TextureArr[15]); // Btm not, left not = Single block
 		}
-		else if (i == e_binaryMapHeight) { // Btm right
+		else if (i == e_binaryMapHeight - 1) { // Btm right
 			if (platform[i - 1][j].GetPlatformType() == Type) // Top is
 				platform[i][j].SetTexture(TextureArr[5]); // Top is, left not = Verticle btm block
 			else
@@ -277,13 +277,13 @@ void TextureSetAll(int i, int j, AEGfxTexture** TextureArr, int Type) {
 	if (i == 0) {
 		TextureSetTopEdge(i, j, TextureArr, Type);
 	}
-	else if (i == e_binaryMapHeight) {
+	else if (i == e_binaryMapHeight - 1) {
 		TextureSetBtmEdge(i, j, TextureArr, Type);
 	}
 	else if (j == 0) {
 		TextureSetLeftEdge(i, j, TextureArr, Type);
 	}
-	else if (j == e_binaryMapWidth) {
+	else if (j == e_binaryMapWidth - 1) {
 		TextureSetRightEdge(i, j, TextureArr, Type);
 	}
 	else {
