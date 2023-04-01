@@ -19,7 +19,7 @@ namespace Save {
 #pragma region Default Save
 		std::string Template = "["
 			"{ \"Level\":  0,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 0,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false},"
-			"{ \"Level\":  1,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 6,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
+			"{ \"Level\":  1,\"Difficulty\" : 0,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 6,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
 			"{ \"Level\":  2,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 5,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
 			"{ \"Level\":  3,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 20,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"
 			"{ \"Level\":  4,\"Difficulty\" : 1,\"Jumps\" : 0,\"Collectibles\" : 0,\"TotalCollectibles\" : 4,\"Time\" : 0,\"TotalScore\" : 0,\"Attempted\" : false },"

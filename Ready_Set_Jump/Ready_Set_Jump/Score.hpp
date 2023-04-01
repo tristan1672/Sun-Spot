@@ -17,7 +17,7 @@ struct Score
 	char grade;
 };
 
-void PrintScore(int JUMP_COUNT, int DIFFICULTY);
+void PrintScore(int JUMP_COUNT);
 int	 calculateScore(float timer, float maxTime, float maxScore, bool inverse = false);
 void calculateGrades();
 bool scoreAnimations();

@@ -18,15 +18,18 @@
 #include "Score.hpp"
 
 //Structs
-/***********************************************************************************************************************/
-struct Score store;
 struct Score timer;
 struct Score jump;
 struct Score collectible;
 struct Score total;
-/***********************************************************************************************************************/
+
+//Int
 int    e_skip;
 int	   e_move;
+
+//Float
+float timergrade_x, timerscore_x, timercount_x, jumpgrade_x, jumpscore_x, jumpcount_x, collectiblegrade_x, collectiblescore_x, collectiblecount_x;
+
 /*!****************************************************************************
 
 	\brief
@@ -40,7 +43,7 @@ int	   e_move;
 	difficulty of current level, affects the evaluation conditions
 
 ******************************************************************************/
-void PrintScore(int JUMP_COUNT, int DIFFICULTY)
+void PrintScore(int JUMP_COUNT)
 {
 	AEGfxSetBlendMode(AE_GFX_BM_BLEND);
 	char timerscore[25];
@@ -56,6 +59,8 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	char totalgrade[2];
 	jump.count = JUMP_COUNT;
 
+	int DIFFICULTY = Save::GetSpecificSaveValue<int>(levelNumber, "Difficulty");
+	int prevScore  = Save::GetSpecificSaveValue<int>(levelNumber, "TotalScore");
 
 	//Conditions
 	switch (DIFFICULTY) //Set Score conditions based on level difficulty
@@ -150,15 +155,18 @@ void PrintScore(int JUMP_COUNT, int DIFFICULTY)
 	//Print Time Taken
 	if (e_levelTime > 60.0f)
 	{
-		DisplayTime(timer.count_pos.x + 0.35f, -0.05f); //Shift Right if include Minutes
+		DisplayTime(timer.count_pos.x + 0.3f, -0.05f); //Shift Right if include Minutes
 	}
 	else
 	{
-		DisplayTime(timer.count_pos.x + 0.25f, -0.05f);
+		DisplayTime(timer.count_pos.x + 0.2f, -0.05f);
 	}
 	
-	Save::SetSaveValue(levelNumber, jump.count, e_numOfcollectibleCollected, e_levelTime, total.score, true);
-
+	if (prevScore < total.score)
+	{
+		Save::SetSaveValue(levelNumber, jump.count, e_numOfcollectibleCollected, e_levelTime, total.score, true);
+	}
+	
 } 
 
 /*!************************************************************************
@@ -430,48 +438,49 @@ bool scoreAnimations()
 		//*******************************************************************************
 		//Lateral sliding Animations 
 		//*******************************************************************************
-
-		if (timer.grade_pos.x < -0.175f) //Timer Grade Sliding Animation
+		
+		//Slide in from left
+		if (timer.grade_pos.x < timergrade_x) //Timer Grade Sliding Animation
 		{
 			timer.grade_pos.x += e_deltaTime;
 		}
 
-		if (timer.score_pos.x < -0.9f) //Timer Score Sliding Animation
+		if (timer.score_pos.x < timerscore_x) //Timer Score Sliding Animation
 		{
 			timer.score_pos.x += e_deltaTime;
 		}
 
-		if (timer.count_pos.x < -0.9f) //Timer Score Sliding Animation
+		if (timer.count_pos.x < timercount_x) //Timer Score Sliding Animation
 		{
 			timer.count_pos.x += e_deltaTime;
 		}
 
-		if (jump.grade_pos.x < 0.725f) //Jump Grade Sliding Animation
+		if (jump.grade_pos.x < jumpgrade_x) //Jump Grade Sliding Animation
 		{
 			jump.grade_pos.x += 2 * e_deltaTime;
 		}
 
-		if (jump.score_pos.x < 0.125f) //Jump Score Sliding Animation
+		if (jump.score_pos.x < jumpscore_x) //Jump Score Sliding Animation
 		{
 			jump.score_pos.x += e_deltaTime;
 		}
 
-		if (jump.count_pos.x < 0.12f) //Jump Count Sliding Animation
+		if (jump.count_pos.x < jumpcount_x) //Jump Count Sliding Animation
 		{
 			jump.count_pos.x += 2 * e_deltaTime;
 		}
 
-		if (collectible.score_pos.x < -0.4f) //collectible Score Sliding Animation
+		if (collectible.score_pos.x < collectiblescore_x) //collectible Score Sliding Animation
 		{
 			collectible.score_pos.x += e_deltaTime;
 		}
 
-		if (collectible.grade_pos.x < 0.4f) //collectible Grade Sliding Animation
+		if (collectible.grade_pos.x < collectiblegrade_x) //collectible Grade Sliding Animation
 		{
 			collectible.grade_pos.x += 2 * e_deltaTime;
 		}
 
-		if (collectible.count_pos.x < -0.4f) //collectible Count Sliding Animation
+		if (collectible.count_pos.x < collectiblecount_x) //collectible Count Sliding Animation
 		{
 			collectible.count_pos.x += e_deltaTime;
 		}
@@ -482,53 +491,55 @@ bool scoreAnimations()
 			e_skip = 1;
 		}
 
-		if (AEInputCheckCurr(AEVK_LBUTTON) && (timer.scoreDisplay < timer.score || jump.scoreDisplay < jump.score || jump.countDisplay < jump.count || collectible.scoreDisplay < collectible.score)) //Left click to skip all Animations
+		if (AEInputCheckCurr(AEVK_LBUTTON) && (timer.scoreDisplay < timer.score || jump.scoreDisplay < jump.score || jump.countDisplay < jump.count || collectible.scoreDisplay < collectible.score)) //Check if animations are done
 		{
-			if (timer.grade_pos.x < -0.175f)
+			//Skip sliding animations if they are not done
+			if (timer.grade_pos.x < timergrade_x)
 			{
-				timer.grade_pos.x = -0.175f;
+				timer.grade_pos.x = timergrade_x;
 			}
 			
-			if (timer.score_pos.x < -0.9f)
+			if (timer.score_pos.x < timerscore_x)
 			{
-				timer.score_pos.x = -0.9f;
+				timer.score_pos.x = timerscore_x;
 			}
 			
-			if (timer.count_pos.x < -0.9f)
+			if (timer.count_pos.x < timercount_x)
 			{
-				timer.count_pos.x = -0.9f;
+				timer.count_pos.x = timercount_x;
 			}
 
-			if (jump.grade_pos.x < 0.725f)
+			if (jump.grade_pos.x < jumpgrade_x)
 			{
-				jump.grade_pos.x = 0.725f;
+				jump.grade_pos.x = jumpgrade_x;
 			}
 
-			if (jump.score_pos.x < 0.125f)
+			if (jump.score_pos.x < jumpscore_x)
 			{
-				jump.score_pos.x = 0.125f;
+				jump.score_pos.x = jumpscore_x;
 			}
 
-			if (jump.count_pos.x < 0.12f)
+			if (jump.count_pos.x < jumpcount_x)
 			{
-				jump.count_pos.x = 0.12f;
+				jump.count_pos.x = jumpcount_x;
 			}
 
-			if (collectible.score_pos.x < -0.4f)
+			if (collectible.score_pos.x < collectiblescore_x)
 			{
-				collectible.score_pos.x = -0.4f;
+				collectible.score_pos.x = collectiblescore_x;
 			}
 
-			if (collectible.grade_pos.x < 0.4f)
+			if (collectible.grade_pos.x < collectiblegrade_x)
 			{
-				collectible.grade_pos.x = 0.4f;
+				collectible.grade_pos.x = collectiblegrade_x;
 			}
 			
-			if (collectible.count_pos.x < -0.4f)
+			if (collectible.count_pos.x < collectiblecount_x)
 			{
-				collectible.count_pos.x = -0.4f;
+				collectible.count_pos.x = collectiblecount_x;
 			}
 
+			//Skip counting animations
 			timer.scoreDisplay			= timer.score;
 			jump.scoreDisplay			= jump.score;
 			collectible.scoreDisplay	= collectible.score;
@@ -536,6 +547,11 @@ bool scoreAnimations()
 	}
 	else if (e_skip == 1) //2nd Phase
 	{
+		//*******************************************************************************
+		//Lateral sliding Animations 
+		//*******************************************************************************
+
+		//Slide out to right
 		if (timer.grade_pos.x < 1.0f) //Timer Grade Sliding Animation
 		{
 			timer.grade_pos.x += 2 * e_deltaTime;
@@ -583,27 +599,28 @@ bool scoreAnimations()
 
 		if (timer.grade_pos.x >= 1.0f && timer.score_pos.x >= 1.0f && timer.count_pos.x >= 1.0f && jump.grade_pos.x >= 1.0f && jump.score_pos.x >= 1.0f && jump.count_pos.x >= 1.0f && collectible.score_pos.x >= 1.0f && collectible.grade_pos.x >= 1.0f && collectible.count_pos.x >= 1.0f)
 		{
-			if (total.scoreDisplay < total.score)
+
+			if (total.scoreDisplay < total.score) //Total score counting animation
 			{
 				total.scoreDisplay += 6000 * e_deltaTime;
 			}
-
-			if (total.mono < 1.0f)
+			
+			if (total.mono < 1.0f) //Fading in effect for total score
 			{
 				total.mono += 5 * e_deltaTime;
 			}
 
-			if (total.size < 4.0f)
+			if (total.size < 4.0f) //Size increase effect for total grade
 			{
 				total.size += 2 * e_deltaTime;
 			}
 
-			if (total.scoreDisplay >= total.score && total.size >= 4.0f && AEInputCheckTriggered(AEVK_LBUTTON))
+			if (total.scoreDisplay >= total.score && total.size >= 4.0f && AEInputCheckTriggered(AEVK_LBUTTON)) //Check if animations are done
 			{
-				e_next_state = GS_MAINMENU;
+				e_next_state = GS_MAINMENU; //Return to mainmenu after animations
 			}
 
-			if (AEInputCheckCurr(AEVK_LBUTTON))
+			if (AEInputCheckCurr(AEVK_LBUTTON)) //Skip Animations
 			{
 				total.scoreDisplay = total.score;
 				total.size = 4.0f;
@@ -640,8 +657,20 @@ void scoreInitialize()
 						 0, 0, 0, 0, 
 						'0' };
 
-	total			= {  0.0f,	0.0f , -0.08f,  -0.5f, -0.4f,  0.0f,
+	total			= {  0.0f,	0.0f , -0.08f, -0.5f, -0.3f,  0.0f,
 						 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 						 0,	0, 0, 0, 
 						'0' };
+
+	timergrade_x = -0.175f;
+	timerscore_x = -0.8f;
+	timercount_x = -0.8f;
+
+	jumpgrade_x = 0.625f;
+	jumpscore_x = 0.125f;
+	jumpcount_x = 0.125f;
+
+	collectiblegrade_x = 0.3f;
+	collectiblescore_x = -0.4f;
+	collectiblecount_x = -0.4f;
 }

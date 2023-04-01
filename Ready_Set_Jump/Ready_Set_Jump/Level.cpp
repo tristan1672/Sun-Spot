@@ -449,13 +449,13 @@ void Level_Draw()
 
 		WinScreen = GameObject();
 		WinScreen.position = { cam.X, cam.Y };
-		WinScreen.SetScale({ 1270.f, 720.f });
+		WinScreen.SetScale({static_cast<float>(WINDOW_WIDTH), static_cast<float>(WINDOW_HEIGHT)});
 		WinScreen.SetColour({ 0.f,0.0f,0.f,0.9f });
 		WinScreen.DrawObj();
 
 		Cleared.SetPosition({ cam.X , cam.Y + 100.0f });
 		Cleared.DrawObj();
-		PrintScore(jump_counter, level1_difficulty);
+		PrintScore(jump_counter);
 
 	}
 	else {
@@ -475,7 +475,7 @@ void Level_Free()
 {
 	int temp{}; // this is a temp variable that should not be used once total score have been implemented
 	if (level_state == WIN) {
-		Save::SetSaveValue(levelNumber, jump_counter, e_numOfcollectibleCollected, e_levelTime, temp,true);
+		//Save::SetSaveValue(levelNumber, jump_counter, e_numOfcollectibleCollected, e_levelTime, temp,true);
 		Save::WriteFile();
 	}
 }

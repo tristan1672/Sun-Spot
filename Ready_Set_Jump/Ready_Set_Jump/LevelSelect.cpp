@@ -225,13 +225,13 @@ namespace LevelSelect {
 		jumpPos				= {-(HALVE_WINDOW_WIDTH * 0.3f),   (HALVE_WINDOW_HEIGHT * 0.3f)};
 		collectiblePos		= {-(HALVE_WINDOW_WIDTH * 0.3f),   (0.0f) };
 		timePos				= {-(HALVE_WINDOW_WIDTH * 0.3f),  -(HALVE_WINDOW_HEIGHT * 0.3f)};
-		titlePos			= {-(HALVE_WINDOW_WIDTH * 0.15f),  (HALVE_WINDOW_HEIGHT * 0.6f)};
+		titlePos			= {-0.15f, 0.55f};
 
 		//Normalized Coordinates
-		backPos				= { -(HALVE_WINDOW_WIDTH * 0.9f)  / HALVE_WINDOW_WIDTH, -(HALVE_WINDOW_HEIGHT * 0.8f) / HALVE_WINDOW_HEIGHT};
-		startPos			= {  (HALVE_WINDOW_WIDTH * 0.65f) / HALVE_WINDOW_WIDTH, -(HALVE_WINDOW_HEIGHT * 0.8f) / HALVE_WINDOW_HEIGHT};
+		backPos				= { - 0.9f,  -0.8f};
+		startPos			= {  0.65f,  -0.8f};
 
-		Frame				= GameObject(framePos,		{ 700.0f, 400.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
+		Frame				= GameObject(framePos,		{ HALVE_WINDOW_WIDTH, HALVE_WINDOW_HEIGHT }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 		Jumps				= GameObject(jumpPos,		{ 80.0f, 70.0f },	{ 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 		Collectible			= GameObject(collectiblePos,{ 60.0f, 70.0f },	{ 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 		Time				= GameObject(timePos,		{ 70.0f, 80.0f },	{ 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
@@ -266,10 +266,10 @@ namespace LevelSelect {
 		Collectible.DrawObj();
 		Jumps.DrawObj();
 
-		AEGfxPrint(e_fontID, leveltext,			 (titlePos.x) / HALVE_WINDOW_WIDTH,											(titlePos.y) / HALVE_WINDOW_HEIGHT,											1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, leveltext,			 (titlePos.x),																(titlePos.y),																1.0f, 1.0f, 1.0f, 1.0f);
 		AEGfxPrint(e_fontID, jumpCount,			 (jumpPos.x			+ HALVE_WINDOW_WIDTH * 0.325f) / HALVE_WINDOW_WIDTH,	(jumpPos.y		  - HALVE_WINDOW_HEIGHT * 0.025f) / HALVE_WINDOW_HEIGHT,	1.0f, 1.0f, 1.0f, 1.0f);
 		AEGfxPrint(e_fontID, collectibleCount,	 (collectiblePos.x	+ HALVE_WINDOW_WIDTH * 0.3f)   / HALVE_WINDOW_WIDTH,	(collectiblePos.y - HALVE_WINDOW_HEIGHT * 0.025f) / HALVE_WINDOW_HEIGHT,	1.0f, 1.0f, 1.0f, 1.0f);
-		AEGfxPrint(e_fontID, minCount,			 (timePos.x			+ HALVE_WINDOW_WIDTH * 0.3f)   / HALVE_WINDOW_HEIGHT,	(timePos.y)  / HALVE_WINDOW_HEIGHT,											1.0f, 1.0f, 1.0f, 1.0f);
-		AEGfxPrint(e_fontID, secCount,			 (timePos.x			+ HALVE_WINDOW_WIDTH * 0.35f)  / HALVE_WINDOW_HEIGHT,	(timePos.y)  / HALVE_WINDOW_HEIGHT,											1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, minCount,			 (timePos.x			+ HALVE_WINDOW_WIDTH * 0.275f)   / HALVE_WINDOW_WIDTH,	(timePos.y)  / HALVE_WINDOW_HEIGHT,											1.0f, 1.0f, 1.0f, 1.0f);
+		AEGfxPrint(e_fontID, secCount,			 (timePos.x			+ HALVE_WINDOW_WIDTH * 0.35f)  / HALVE_WINDOW_WIDTH,	(timePos.y)  / HALVE_WINDOW_HEIGHT,											1.0f, 1.0f, 1.0f, 1.0f);
 	}
 }

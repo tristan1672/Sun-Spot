@@ -17,4 +17,5 @@ struct CameraPos
 
 void Cam(bool airCheck, Vector2D goalPos);
 void Shake(float distance);
+void Guide(Vector2D goalPos);
 #endif // Cam_HPP
