@@ -84,6 +84,7 @@ namespace Save {
 		save[level]["TotalScore"] = totalScore;
 		save[level]["Attempted"] = haveAttempted;
 	}
+
 	void WriteFile() {
 		// writes save file from the save variable
 		std::fstream saveFile("Assets/Save/Save.json",std::fstream::out);
