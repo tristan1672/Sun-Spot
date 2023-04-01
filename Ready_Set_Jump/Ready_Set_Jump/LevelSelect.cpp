@@ -13,8 +13,7 @@
 
 namespace LevelSelect {
 	UIText** levels{ nullptr };
-	UIText* backButton{ nullptr };
-	UIText* startButton{ nullptr };
+	UIText* button[2]{nullptr};
 	UIText* levelnumber;
 	
 	char leveltext[25];
@@ -48,16 +47,29 @@ namespace LevelSelect {
 				levels[i][j] = UIText(std::to_string(levelcount), { (j * gapSize - LEVEL_BUTTON_GAP), (-i * 0.3f + 0.4f) }, { 1.f,1.f }, White, true, GreenTea);// sets each button at their location
 				levels[i][j].TextBoxActive = false;
 				levels[i][j].Active = false;
+
+				AEVec2 size{};
+				AEGfxGetPrintSize(e_fontID, levels[i][j].GetText(), levels[i][j].GetScale().x, size.x, size.y);
+				levels[i][j].SetPosition({ -0.5f * size.x + levels[i][j].GetPosition().x, levels[i][j].GetPosition().y });
 			}
 		}
-		backButton = new UIText{ UIText("Back", { -0.8f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the back button
-		startButton = new UIText{ UIText("Start", { 0.6f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the start button
+		//backButton = new UIText{ UIText("Back", { -0.8f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the back button
+		//startButton = new UIText{ UIText("Start", { 0.6f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the start button
 
-		startButton->TextBoxActive = false;
-		startButton->Active = false;
+		button[0] = new UIText{ UIText("Back", { -0.8f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the back button
+		button[1] = new UIText{ UIText("Start", { 0.6f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the start button
 
-		backButton->TextBoxActive = false;
-		backButton->Active = false;
+		for (unsigned int i{}; i < 2; ++i) {
+			AEVec2 size{};
+			AEGfxGetPrintSize(e_fontID, button[i]->GetText(), button[i]->GetScale().x, size.x, size.y);
+			button[i]->SetPosition({ -0.5f * size.x + button[i]->GetPosition().x, button[i]->GetPosition().y});
+		}
+
+		button[1]->TextBoxActive = false;
+		button[1]->Active = false;
+
+		button[0]->TextBoxActive = false;
+		button[0]->Active = false;
 	}
 
 	void ButtonSelectBehaviour(mousePos mouse) {// what will happen when the level button was pressed
@@ -82,15 +94,15 @@ namespace LevelSelect {
 				else if (!(levels[i][j].MouseCollision({ mouse.ClickX ,mouse.ClickY }))) levels[i][j].TextBoxFadeOut();
 			}
 		}
-		if (backButton->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && backButton->GetTextBoxAlpha() < 1.f) {// for back button
-			backButton->TextBoxFadeIn();
+		if (button[0]->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && button[0]->GetTextBoxAlpha() < 1.f) {// for back button
+			button[0]->TextBoxFadeIn();
 		}
-		else if (!backButton->MouseCollision({ mouse.ClickX ,mouse.ClickY })) backButton->TextBoxFadeOut();
+		else if (!button[0]->MouseCollision({ mouse.ClickX ,mouse.ClickY })) button[0]->TextBoxFadeOut();
 
-		if (startButton->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && startButton->GetTextBoxAlpha() < 1.f) {// for start button
-			startButton->TextBoxFadeIn();
+		if (button[1]->MouseCollision({ mouse.ClickX ,mouse.ClickY }) && button[1]->GetTextBoxAlpha() < 1.f) {// for start button
+			button[1]->TextBoxFadeIn();
 		}
-		else if (!startButton->MouseCollision({ mouse.ClickX ,mouse.ClickY })) startButton->TextBoxFadeOut();
+		else if (!button[1]->MouseCollision({ mouse.ClickX ,mouse.ClickY })) button[1]->TextBoxFadeOut();
 	}
 	void DrawLevelButton() {// draws all level buttons
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
@@ -98,16 +110,16 @@ namespace LevelSelect {
 				levels[i][j].DrawObj();
 			}
 		}
-		backButton->DrawObj();
-		startButton->DrawObj();
+		button[0]->DrawObj();
+		button[1]->DrawObj();
 	}
 	void FreeLevelButton() {// frees memory allocated for level grids
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
 			delete[] levels[i];
 		}
 		delete[] levels;
-		delete backButton;
-		delete startButton;
+		delete button[0];
+		delete button[1];
 	}
 	void SetLevelSelectActive() {// sets all level select object to active
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
@@ -116,10 +128,10 @@ namespace LevelSelect {
 				LevelSelect::levels[i][j].Active = true;
 			}
 		}
-		backButton->TextBoxActive = true;
-		backButton->Active = true;
-		startButton->TextBoxActive = false;
-		startButton->Active = false;
+		button[0]->TextBoxActive = true;
+		button[0]->Active = true;
+		button[1]->TextBoxActive = false;
+		button[1]->Active = false;
 	}
 	void SetLevelSelectInActive() {// sets all level select object to inactive
 		for (int i = 0; i < LEVEL_ARRAY_SIZE; ++i) {
@@ -128,14 +140,14 @@ namespace LevelSelect {
 				LevelSelect::levels[i][j].Active = false;
 			}
 		}
-		backButton->TextBoxActive = false;
-		backButton->Active = false;
+		button[0]->TextBoxActive = false;
+		button[0]->Active = false;
 
-		startButton->TextBoxActive = false;
-		startButton->Active = false;
+		button[1]->TextBoxActive = false;
+		button[1]->Active = false;
 	}
 	bool BackButtonBehaviour(mousePos mouse) {
-		if (backButton->MouseCollision(mouse)) 
+		if (button[0]->MouseCollision(mouse))
 		{
 			Frame.SetTexture(nullptr);
 			Time.SetTexture(nullptr);
@@ -153,7 +165,7 @@ namespace LevelSelect {
 
 	bool StartButtonBehaviour(mousePos mouse)
 	{
-		if (startButton->MouseCollision(mouse))
+		if (button[1]->MouseCollision(mouse))
 		{
 			return true;
 		}
@@ -162,10 +174,10 @@ namespace LevelSelect {
 
 	void StagingScreen(int levelcount)
 	{
-		startButton->TextBoxActive = true;
-		startButton->Active = true;
-		backButton->TextBoxActive = true;
-		backButton->Active = true;
+		button[1]->TextBoxActive = true;
+		button[1]->Active = true;
+		button[0]->TextBoxActive = true;
+		button[0]->Active = true;
 		Frame.SetTexture(frameTexture);
 		Time.SetTexture(timeTexture);
 		collectible.SetTexture(collectibleTexture);

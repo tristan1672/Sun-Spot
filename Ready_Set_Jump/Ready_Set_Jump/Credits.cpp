@@ -116,7 +116,7 @@ void Credits_Initialize() {
 	for (unsigned int i{}; i < 44; ++i) {
 		AEVec2 size{};
 		AEGfxGetPrintSize(e_creditFontID, creditInfo[i]->GetText(), creditInfo[i]->GetScale().x, size.x, size.y);
-		creditInfo[i]->SetPosition({ -0.5f * size.x, creditInfo[i]->GetPosition().y });
+		creditInfo[i]->SetPosition({ -0.5f * size.x + creditInfo[i]->GetPosition().x, creditInfo[i]->GetPosition().y });
 	}
 }
 
@@ -198,8 +198,10 @@ void Credits_Draw() {
 }
 
 void Credits_Free() {
+	
+}
+
+void Credits_Unload() {
 	for (size_t i{}; i < sizeof creditInfo / sizeof creditInfo[0]; ++i)
 		delete creditInfo[i];
 }
-
-void Credits_Unload() {}

@@ -26,7 +26,7 @@ UIText::UIText(std::string Text, Vector2D Position, Vector2D Scale,
 	float h{};
 	font = Font;
 	AEGfxGetPrintSize(font, text, 1.f, w, h);
-	TextBox = GameObject({ (position.x + w/2.f)* 800.f,(position.y + h/2.f)*450.f }, { w * 800.f,h * 700.f }, TextBoxColour);// makes textbox
+	TextBox = GameObject({ (position.x)* 800.f,(position.y + h/2.f)*450.f }, { w * 800.f,h * 700.f }, TextBoxColour);// makes textbox
 }
 UIText::UIText(UIText const& toCopy) {// copy constructor
 	position = toCopy.position; scale = toCopy.scale; colour = toCopy.colour; TextBoxActive = toCopy.TextBoxActive;
