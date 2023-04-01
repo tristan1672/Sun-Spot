@@ -56,7 +56,7 @@ namespace LevelSelect {
 		//backButton = new UIText{ UIText("Back", { -0.8f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the back button
 		//startButton = new UIText{ UIText("Start", { 0.6f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the start button
 
-		button[0] = new UIText{ UIText("Back", { -0.8f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the back button
+		button[0] = new UIText{ UIText("Back", { -0.7f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the back button
 		button[1] = new UIText{ UIText("Start", { 0.6f, -0.7f },{1.f,1.f},White, true, GreenTea) };// makes the start button
 
 		for (unsigned int i{}; i < 2; ++i) {
