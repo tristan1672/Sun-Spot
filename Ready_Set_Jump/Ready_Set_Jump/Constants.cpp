@@ -1,9 +1,9 @@
 /*****************************************************************
   *  \file Constants.cpp
   *  \project name : Ready?Set.Jump!
-  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
-  *				   : Tristan Tham (t.tham)
-  *                : Xiao Jun Yu (junyu.xiao)
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian) (33%)
+  *				   : Tristan Tham (t.tham)                 (33%)
+  *                : Xiao Jun Yu (junyu.xiao)              (33%)
   *
   *  \brief
   *  File containing constant variables used throughout project.
