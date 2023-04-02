@@ -16,6 +16,7 @@
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
  ****************************************************************/
 
+#pragma once
 #include <iostream>
 #include "AEEngine.h"
 #include "PreCompiledHeader.hpp"

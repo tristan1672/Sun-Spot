@@ -19,8 +19,8 @@
 #include "Level.hpp"
 #include <iostream>
 
-#ifndef Cam_HPP
-#define Cam_HPP
+#ifndef CAM_HPP
+#define CAM_HPP
 
 struct CameraPos
 {
@@ -31,4 +31,4 @@ struct CameraPos
 void Cam(bool airCheck, Vector2D goalPos);
 void Shake(float distance);
 void Guide(Vector2D goalPos);
-#endif // Cam_HPP
+#endif // CAM_HPP
