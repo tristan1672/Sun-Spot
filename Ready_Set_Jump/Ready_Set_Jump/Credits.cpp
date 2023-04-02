@@ -53,7 +53,7 @@ void Credits_Load() {
 void Credits_Initialize() {
 	AEGfxSetCamPosition(0.f, 0.f);
 
-	AEAudioPlay(backgroud, backgroundSoundGroup, 1,1,1);
+	AEAudioPlay(backgroud, backgroundSoundGroup, 0.2,1,1);
 
 	creditTimer = 0.f;
 

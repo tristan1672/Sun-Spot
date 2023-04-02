@@ -221,7 +221,6 @@ void Menu_Draw() {// draws the UI buttons
 void Menu_Free() {// frees allocated memory on free
 	LevelSelect::FreeLevelButton();
 	UnloadPArticle(menuParticleList);
-
 	for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) delete buttonText[i];
 	for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) delete titleText[i];
 }
