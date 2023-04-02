@@ -1,15 +1,24 @@
-/*
-  *  \file Level.cpp 
-  *  \author Xiao Jun Yu, 
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
-  *
-  *  \brief
-  *  the basic logics to our levels and the game states, loops for our game
-  *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
-
-// ---------------------------------------------------------------------------
+/*****************************************************************
+* \file Level.cpp
+* \project name : Ready ? Set.Jump!
+*\author(s) : Peh Zong Lin Adrian(p.zonglinadrian) (50%)
+*             - Bitmap reading and storing
+*			  - Texture setting for objects and platforms in bitmap
+*             - Reset player if out of play area
+*             - Collision check 
+*             - Object collision update
+*			  - Added particles
+*            : Xiao Jun Yu(junyu.xiao)             (30%)
+*			  - Loaded textures
+*             - Save file
+*             - Game physics
+*           : Tristan Tham (t.tham)                (20%)
+*             - Cam
+*             - Win scene
+*\brief
+* the basic logics to our levels and the game states, loops for our game
+* All content © 2023 DigiPen Institute of Technology Singapore.All rights reserved.
+* ***************************************************************/
 // includes
 #pragma once
 
