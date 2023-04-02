@@ -7,6 +7,12 @@
   *
   *  \brief
   *  File containing external variables and utility structs used throughout project.
+  * -normalDirection(f32 X1, f32 Y1, f32 X2, f32 Y2)
+  *		normaize direction of 2 points
+  * -Distance(f32 X1, f32 Y1, f32 X2, f32 Y2)
+  *		calculate the distance between 2 points
+  * -Vector2D::operator-()
+  *		overloads operator- so all values becomes negative;
   *
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
  ****************************************************************/

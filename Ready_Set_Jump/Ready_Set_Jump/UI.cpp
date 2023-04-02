@@ -1,13 +1,39 @@
 /*
   *  \file UI.cpp
-  *  \author      : Tristan Tham
-  *  \par DP Email: t.tham\digipen.edu
+  *  \author      : Xiao Jun Yu
+  *  \par DP Email: junyu.xiao\\digipen.edu
   *  \par Course  : csd1451
   *
   *  \brief
   *	 Contains functions for creating UI elements:
   *   IsAreaClicked			-Function to check for button collision with player clicks
   * 
+  * -UIText(std::string Text, Vector2D Position, Vector2D Scale,ColourValue Colour, bool ActiveTextBox, ColourValue TextBoxColour , s8 Font)
+  *		constructor for UIText Objects
+  * -UIText(UIText const& toCopy)
+  *		copy constructor for UIText Objects
+  * -UIText::operator=(UIText const& toCopy)
+  *		copy assignment operator overload to get value from another UIText Object
+  * -~UIText()
+  *		destructor for UIText, frees memeories allocated when constructing
+  * -DrawObj()
+  *		draws UIText Objects, checks if the text or the text boxes are active
+  * -GetCharCount()
+  *		get how many character the UI text holds
+  * -SetCharCount(size_t size)
+  *		set how many character the UI text holds
+  * -MouseCollision(mousePos mousePos)
+  *		checks if mouse is colliding with the text box
+  * -GetTextBoxAlpha()
+  *		gets the opacity of text box
+  * -SetTextBoxAlpha(f32 newAlpha)
+  *		sets the opacity of text box
+  * -TextBoxFadeIn()
+  *		make the text box fade in
+  * -TextBoxFadeOut()
+  *		make the text box fade out
+  * -GetText()
+  *		get the text stored in UIText
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
   */
 

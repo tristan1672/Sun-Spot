@@ -53,7 +53,6 @@ extern const f32 GRID_HEIGHT_SIZE;
 extern const float ORIGINAL_JUMP_FORCE_MOD;
 extern const float MAX_JUMP_FORCE;
 extern const float MIN_JUMP_FORCE;
-extern const float ORIGINAL_VERT_MOD; // Not used
 // Drag
 extern const float NORMAL_DRAG;
 extern const float AIR_DRAG;
