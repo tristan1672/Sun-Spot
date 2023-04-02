@@ -51,7 +51,7 @@ void PrintScore(int JUMP_COUNT)
 	char timercount[15];
 	char jumpgrade[2];
 	char jumpscore[25];
-	char jumpcount[10];
+	char jumpcount[15];
 	char collectableScore[25];
 	char collectiblegrade[2];
 	char collectiblecount[25];
