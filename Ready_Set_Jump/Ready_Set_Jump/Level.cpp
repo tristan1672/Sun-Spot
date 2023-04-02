@@ -3,6 +3,7 @@
 * \project name : Ready ? Set.Jump!
 *\author(s) : Peh Zong Lin Adrian(p.zonglinadrian) (50%)
 *             - Bitmap reading and storing
+*             - Made majority of the levels
 *			  - Texture setting for objects and platforms in bitmap
 *             - Reset player if out of play area
 *             - Collision check 
@@ -249,21 +250,24 @@ void Level_Initialize()
 	airCheck = false;
 	shake = false;
 
-	Cam(airCheck, {0.0f,0.0f});
+	Cam(airCheck, { 0.0f,0.0f });
 
 	// Warm up time for particles
 	unsigned int waves = 20;
 	unsigned int numPerWave = 5;
-	float intervalWidth =  1.f / static_cast<float>(waves - 1) * static_cast<float>(WINDOW_WIDTH) * 2.f;
+	float intervalWidth = 1.f / static_cast<float>(waves - 1) * static_cast<float>(WINDOW_WIDTH) * 2.f;
 
-	for (unsigned int i{}; i < waves; ++i) {
+	unsigned int setsOfWaves = static_cast<int>((e_binaryMapWidth * GRID_WIDTH_SIZE) / WINDOW_WIDTH) + 1;
 
-		for (unsigned int j{}; j < numPerWave; ++j) {
-			AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x - 0.5f * WINDOW_WIDTH + i * intervalWidth), static_cast<float>(rand() % static_cast<int>(e_binaryMapHeight * GRID_HEIGHT_SIZE) - static_cast<float>(e_binaryMapHeight * GRID_HEIGHT_SIZE) + HALVE_WINDOW_HEIGHT) };
-			AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
-			int randScale = rand() % 8 + 2;
+	for (unsigned int i{}; i < setsOfWaves; ++i) {
+		for (unsigned int j{}; j < waves; ++j) {
+			for (unsigned int k{}; k < numPerWave; ++k) {
+				AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x - HALVE_WINDOW_WIDTH + (i * WINDOW_WIDTH) + (j * intervalWidth)), static_cast<float>(rand() % static_cast<int>(e_binaryMapHeight * GRID_HEIGHT_SIZE) - static_cast<float>(e_binaryMapHeight * GRID_HEIGHT_SIZE) + HALVE_WINDOW_HEIGHT) };
+				AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
+				int randScale = rand() % 8 + 2;
 
-			*(levelParticleList + MAX_PARTICLE_NUMBER - 1 - (i * numPerWave + j)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
+				*(levelParticleList + MAX_PARTICLE_NUMBER - 1 - (j * numPerWave + k) - (i * waves * numPerWave)) = CreateParticle(particalPosition.x, particalPosition.y, particleVelocity.x, particleVelocity.y, static_cast<float>(randScale));
+			}
 		}
 	}
 }
@@ -278,7 +282,7 @@ void Level_Update()
 	// No check for dead elements as it takes 136.5 sec for the entire array to be cycled through. By then the 1st particle would have been killed.
 	if (frameCounter % 4) {
 		
-		AEVec2 particalPosition = { static_cast<float>(Player.GetPosition().x + WINDOW_WIDTH), static_cast<float>(rand() % static_cast<int>(e_binaryMapHeight * GRID_HEIGHT_SIZE) - static_cast<float>(e_binaryMapHeight * GRID_HEIGHT_SIZE) + HALVE_WINDOW_HEIGHT) };
+		AEVec2 particalPosition = { static_cast<float>(e_binaryMapWidth * GRID_WIDTH_SIZE), static_cast<float>(rand() % static_cast<int>(e_binaryMapHeight * GRID_HEIGHT_SIZE) - static_cast<float>(e_binaryMapHeight * GRID_HEIGHT_SIZE) + HALVE_WINDOW_HEIGHT) };
 		AEVec2 particleVelocity = { -static_cast<float>(rand() % 5 + 2) , 0.0f };
 		int randScale = rand() % 8 + 2;
 
