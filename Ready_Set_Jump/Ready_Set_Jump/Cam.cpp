@@ -57,14 +57,14 @@ void Cam(bool airCheck, Vector2D goalPos)
 	cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE * (VIEWPORT_WIDTH / 2.0f)) + (0.5f * screenWidth), (GRID_WIDTH_SIZE * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * screenWidth));
 	cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (e_binaryMapHeight - (VIEWPORT_HEIGHT / 2.0f))) + (0.5f * screenHeight), (GRID_HEIGHT_SIZE * (VIEWPORT_HEIGHT / 2.0f) - (0.5f * screenHeight)));
 	
-	//DEBUG
+#if DEBUG
 	std::cout << "e_shakeStrength: " << e_shakeStrength << std::endl;
 	std::cout << "distance: " << distance << std::endl;
 	std::cout << "shakespeed: " << shakespeed << std::endl; 
 	std::cout << "Player.velocity.y: " << Player.velocity.y << std::endl;
 	std::cout << "player x:" << Player.position.x << " player y:" << Player.position.y << std::endl;
 	std::cout << cam.X << ',' << cam.Y << std::endl;
-
+#endif
 	//Apply calculations to camera
 	AEGfxSetCamPosition(cam.X, cam.Y);
 }
