@@ -64,7 +64,7 @@
  *		The file path and name prefix for each texture file to be loaded.
 ****************************************************************/
 void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string Str) {
-	for (int i{}; i < Size; ++i) {
+	for (unsigned int i{}; i < Size; ++i) {
 		std::string location{};
 		location += Str + std::to_string(i + 1) + ".png";
 		TextureArr[i] = AEGfxTextureLoad(location.c_str());
@@ -82,7 +82,7 @@ void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string 
  *		The number of textures to be unloaded.
 ****************************************************************/
 void MultiTextureUnload(AEGfxTexture** TextureArr, unsigned int Size) {
-	for (int i{}; i < Size; ++i) {
+	for (unsigned int i{}; i < Size; ++i) {
 		AEGfxTextureUnload(TextureArr[i]);
 	}
 }

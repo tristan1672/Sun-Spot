@@ -24,7 +24,7 @@
   *		Get and sets delta time(Called in main)
  ****************************************************************/
 void GetTime() {
-	e_deltaTime = AEFrameRateControllerGetFrameTime();
+	e_deltaTime = static_cast<float>(AEFrameRateControllerGetFrameTime());
 	if(e_deltaTime > 0.01667f)
 		e_deltaTime = 0.01667f;
 }

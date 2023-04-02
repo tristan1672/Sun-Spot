@@ -115,9 +115,9 @@ void PrintScore(int JUMP_COUNT)
 	total.maxScore = collectible.maxScore + timer.maxScore + jump.maxScore;
 
 	//Score Calculation 
-	collectible.score	 = calculateScore(e_numOfcollectibleCollected, e_totalNumOfcollectible, collectible.maxScore);
+	collectible.score	 = calculateScore(static_cast<float>(e_numOfcollectibleCollected), static_cast<float>(e_totalNumOfcollectible), collectible.maxScore);
 	timer.score			 = calculateScore(e_levelTime, timer.F, timer.maxScore, true);
-	jump.score			 = calculateScore(jump.count , jump.F , jump.maxScore , true);
+	jump.score			 = calculateScore(static_cast<float>(jump.count) , jump.F , jump.maxScore , true);
 	total.score			 = collectible.score + timer.score + jump.score;
 	
 	//Grade Calculation
@@ -196,16 +196,16 @@ int calculateScore(float count, float max, float maxScore, bool inverse)
 	float maxScoreDecrement = maxScore / max;
 
 	float countLeft = max - count;
-	int score = maxScore - countLeft * maxScoreDecrement;
+	int score = static_cast<int>(maxScore - countLeft * maxScoreDecrement);
 
 	if (inverse == true)
 	{
-		score = maxScore - score;
+		score = static_cast<int>(maxScore - static_cast<float>(score));
 	}
 
-	if (score < minScore)
+	if (static_cast<float>(score) < minScore)
 	{
-		score = minScore;
+		score = static_cast<int>(minScore);
 	}
 
 	return score;
@@ -422,17 +422,17 @@ bool scoreAnimations()
 
 		if (jump.scoreDisplay < jump.score) //Jump Score Counting Animation
 		{
-			jump.scoreDisplay += 3000 * e_deltaTime;
+			jump.scoreDisplay += static_cast<int>(3000.f * e_deltaTime);
 		}
 
 		if (jump.countDisplay < jump.count) //Jump Count Counting Animation
 		{
-			jump.countDisplay += 100 * e_deltaTime;
+			jump.countDisplay += static_cast<int>(100.f * e_deltaTime);
 		}
 
 		if (collectible.scoreDisplay < collectible.score) //collectible Score Counting Animation
 		{
-			collectible.scoreDisplay += 3000 * e_deltaTime;
+			collectible.scoreDisplay += static_cast<int>(3000.f * e_deltaTime);
 		}
 
 		//*******************************************************************************
@@ -602,7 +602,7 @@ bool scoreAnimations()
 
 			if (total.scoreDisplay < total.score) //Total score counting animation
 			{
-				total.scoreDisplay += 6000 * e_deltaTime;
+				total.scoreDisplay += static_cast<int>(6000.f * e_deltaTime);
 			}
 			
 			if (total.mono < 1.0f) //Fading in effect for total score

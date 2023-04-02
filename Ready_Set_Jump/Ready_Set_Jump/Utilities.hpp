@@ -99,6 +99,8 @@ static const ColourValue Grey{ 0.5f,0.5f,0.5f,0.5f };
 
 Vector2D normalDirection(f32 X1, f32 Y1, f32 X2, f32 Y2);
 float Distance(f32 X1, f32 Y1, f32 X2, f32 Y2);
+Vector2D normalDirection(s32 X1, s32 Y1, s32 X2, s32 Y2);
+float Distance(s32 X1, s32 Y1, s32 X2, s32 Y2);
 
 struct mousePos {
 	s32 ClickX;
