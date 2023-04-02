@@ -22,8 +22,8 @@
 #include "AEEngine.h"
 #include "UI.hpp"
 namespace Tutorial {
-	GameObject TutorialTextObj[10]{};
-	AEGfxTexture* TurorialText[10]{nullptr};
+	GameObject TutorialTextObj[11]{};
+	AEGfxTexture* TurorialText[11]{nullptr};
 
 	void SetTutorialObj(GameObject& Object,Vector2D pos, Vector2D size, AEGfxTexture*& texture,std::string imagePath) {
 		// function to set the objects and their textures
@@ -44,6 +44,7 @@ namespace Tutorial {
 		SetTutorialObj(TutorialTextObj[7], { 6300.f,-75.f }, { 360.f,200.f }, TurorialText[7], "Assets/Images/TutorialText/StickyIntroPt1.png");
 		SetTutorialObj(TutorialTextObj[8], { 7300.f,-75.f }, { 360.f,200.f }, TurorialText[8], "Assets/Images/TutorialText/StickyIntroPt2.png");
 		SetTutorialObj(TutorialTextObj[9], { 9625.f,250.f }, { 360.f,200.f }, TurorialText[9], "Assets/Images/TutorialText/ExitIntro.png");
+		SetTutorialObj(TutorialTextObj[10], { 5000.f,-400.f }, { 360.f,160.f }, TurorialText[10], "Assets/Images/TutorialText/CheckGoal.png");
 
 	}
 	void RenderTutorialText() {
