@@ -1,17 +1,30 @@
-/*
+/*****************************************************************
   *  \file SaveManager.hpp
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
   *
   *  \brief
-  *  Declearation file for SaveManager.cpp, use for managing save files
+  *  Defination file for SaveManager.cpp, use for managing save files
+  *
+  *  -ReadFile()
+  *		reads the save file, if the save file exists, reads the file save stores read value into nlohmann::json save, otherwise, reads from default save
+  *		and makes a new save file
+  *  -PrintSaveValue(int level)
+  *		for debug use, prints save info to console
+  * -GetSaveValue(int level, int& difficulty, int& jumps, int& collectibles, int& totalCollectibles, float& time, int& totalScore, bool& haveAttempted)
+  *		gets all value from save
+  * -SetSaveValue(int level, int jumps, int collectibles, float time, int totalScore, bool haveAttempted)
+  *		sets all value to save
+  * -WriteFile()
+  *		writes the data into save.json
   *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+ ****************************************************************/
+
 #pragma once
 #include<nlohmann/json.hpp>
 #include<fstream>
 #include<iostream>
+
 namespace Save {
 	extern nlohmann::json save;// the save file
 	void ReadFile()/*

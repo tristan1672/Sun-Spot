@@ -1,17 +1,49 @@
-/*
+/*****************************************************************
   *  \file LevelSelect.hpp
-  *  \author Xiao Jun Yu,
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu, (junyu.xiao)
+  *					 -Main Author
+  *					 -CreateLevelSelectUI()
+  *						creates UI in level select
+  *					-ButtonSelectBehaviour(mousePos mouse)
+  *						when player pressed the level numbers in level select, players will bring up UI showing stats regarding that level
+  *					-LSButtonAnimation(mousePos mouse)
+  *						when player hovers over the numbers in level select, individual text box will fade in
+  *					-DrawLevelButton()
+  *						draws all buttons in level select
+  *					-FreeLevelButton()
+  *						frees memories allocated from CreateLevelSelectUI
+  *					-SetLevelSelectActive()
+  *						make all level select button to be active
+  *					-SetLevelSelectInActive()
+  *						make all level select button to be inactive
+  *					-BackButtonBehaviour(mousePos mouse)
+  *						when the back button is pressed, it will return player back to the main menu
+  *					-StartButtonBehaviour(mousePos mouse)
+  *						when the start button is pressed, it will bring the player to the actual level
+  *
+  *				   : Tristan Tham Rui Hong (t.tham)
+  *					-Sub Author
+  *					-StagingScreen(int levelcount)
+  *
+  *					-InitLSTexture()
+  *
+  *					-LoadLSTexture()
+  *						Loads texture in level select
+  *				    -UnloadLSTexture()
+  *						frees memories allocated from LoadLSTexture
+  *					-DrawLSTexture()
+  *						draws textures in level select
   *
   *  \brief
-  *  Declearation file for LevelSelect.cpp
-  * 
+  *  Defination file for LevelSelect.hpp
   *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+****************************************************************/
+
 #pragma once
 #include "UI.hpp"
 #include "Level.hpp"
+
 namespace LevelSelect {
 	void CreateLevelSelectUI()/*
 		\brief alloate memory for level select UI

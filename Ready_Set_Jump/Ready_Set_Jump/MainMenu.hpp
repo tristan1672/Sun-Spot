@@ -1,3 +1,13 @@
+/*****************************************************************
+  *  \file MainMenu.hpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
+  *
+  *  \brief
+  * Main Menu Scene
+  * All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+****************************************************************/
+
 #pragma once
 #include "AEEngine.h"
 #include "GameObjClasses.hpp"

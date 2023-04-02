@@ -1,15 +1,14 @@
-#pragma once
-/*
+/*****************************************************************
   *  \file SplashScreen.hpp
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
   *
   *  \brief
-  *  Splash Screen Scene, declearation file
-  *  
-  * All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+  *  Defination file, Splash Screen Scene,  mainly how the image should fade in and out
+  *
+  *	 All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
+
 void SplashScreen_Load();
 
 void SplashScreen_Initialize();
