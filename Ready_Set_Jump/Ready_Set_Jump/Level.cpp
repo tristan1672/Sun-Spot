@@ -74,23 +74,25 @@ bool followMouseCheat;
 
 float sceneSwitchBufferTimer = 0.1f;
 
+// Textures
 AEGfxTexture* ptex{ nullptr };
-
 AEGfxTexture* playerTexture[10]{ nullptr };
 AEGfxTexture* normalBlockTexture[16]{ nullptr };
 AEGfxTexture* iceBlockTexture[16]{ nullptr };
 AEGfxTexture* stickyBlockTexture[16]{ nullptr };
 AEGfxTexture* slimeBlockTexture[16]{ nullptr };
 AEGfxTexture* goalTexture[20]{ nullptr };
-
 AEGfxTexture* collectibleTexture{ nullptr };
 AEGfxTexture* checkPointTexture1{ nullptr };
 AEGfxTexture* checkPointTexture2{ nullptr };
-
-
 AEGfxTexture* arrowTexture{ nullptr };
 
+// Particles
 GameObject *levelParticleList;
+
+// Audio
+AEAudio gameBackgroud;
+AEAudioGroup gameBackgroundSoundGroup;
 
 
 int ImportMapDataFromFile(const char* FileName);
@@ -104,13 +106,11 @@ void Level_Load()
 	MakeMesh();
 	MakeArrowMesh();
 
+	// Texture
 	ptex = AEGfxTextureLoad("Assets/Images/Cleared.png");
-
 	arrowTexture = AEGfxTextureLoad("Assets/Images/Arrow.png");
-
 	checkPointTexture1 = AEGfxTextureLoad("Assets/Images/Checkpoint_Off.png");
 	checkPointTexture2 = AEGfxTextureLoad("Assets/Images/Checkpoint_On.png");
-
 	collectibleTexture = AEGfxTextureLoad("Assets/Images/Collectible.png");
 	
 	MultiTextureLoad(playerTexture, sizeof(playerTexture) / sizeof(playerTexture[0]), "Assets/Images/Player_");
@@ -123,13 +123,20 @@ void Level_Load()
 	Cleared = GameObject({ 0.0f, 0.0f }, { 500.0f, 500.0f }, { 1.0f, 1.0f, 1.0f, 1.0f }, 0.f, AE_GFX_RM_TEXTURE);
 	Cleared.SetTexture(ptex);
 
+	// File data storing
 	if (!ImportMapDataFromFile(fileToLoad.c_str())) {
 		std::cout << "Level File opened\n";
 	}
 	PauseMenu::CreatePauseMenu();
 	if (isTutorial) Tutorial::MakeTutorialText();
 
+
+	// Particle
 	levelParticleList = new GameObject[MAX_PARTICLE_NUMBER];
+
+	// Audio
+	gameBackgroud = AEAudioLoadMusic("Assets/Sound/GameBackground.mp3");
+	gameBackgroundSoundGroup = AEAudioCreateGroup();
 }
 // ----------------------------------------------------------------------------
 // This function initialize game object instances
@@ -137,6 +144,7 @@ void Level_Load()
 // ----------------------------------------------------------------------------
 void Level_Initialize()
 {
+	AEAudioPlay(gameBackgroud, gameBackgroundSoundGroup, 0.2, 1, -1);
 
 	level_state = SCENE_SWITCH_BUFFER;
 	level1_difficulty = EASY;
@@ -278,6 +286,7 @@ void Level_Initialize()
 // ----------------------------------------------------------------------------
 void Level_Update()
 {
+	AEAudioResumeGroup(gameBackgroundSoundGroup);
 
 	// No check for dead elements as it takes 136.5 sec for the entire array to be cycled through. By then the 1st particle would have been killed.
 	if (frameCounter % 4) {
@@ -299,6 +308,8 @@ void Level_Update()
 	}
 	if (level_state == WIN)
 	{
+		AEAudioPauseGroup(gameBackgroundSoundGroup);
+
 		if (AEInputCheckTriggered(AEVK_ESCAPE))
 		{
 			e_next_state = GS_MAINMENU;
@@ -319,6 +330,7 @@ void Level_Update()
 	if (level_state == PAUSED) { 
 		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 		PauseMenu::PauseMenuBehaviour(mouse); 
+		AEAudioPauseGroup(gameBackgroundSoundGroup);
 	}
 
 	if (level_state == PLAYING)

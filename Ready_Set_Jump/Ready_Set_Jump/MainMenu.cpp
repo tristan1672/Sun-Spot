@@ -34,7 +34,7 @@ void Menu_Load() {// loads in the mesh
 
 	menuParticleList = new GameObject[MAX_PARTICLE_NUMBER];
 
-	backgroud = AEAudioLoadMusic("Assets/Sound/MenuBackground.wav");
+	backgroud = AEAudioLoadMusic("Assets/Sound/MenuBackground.mp3");
 	backgroundSoundGroup = AEAudioCreateGroup();
 }
 
