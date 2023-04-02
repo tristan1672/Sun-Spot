@@ -6,7 +6,9 @@
   *
   *  \brief
   *	 Contains functions for creating Camera elements:
-  *  Cam			-Function to execute Camera tracking and effects
+  *  Cam			-Driver function to execute Camera tracking and effects
+  *  Shake			-Function to calculate and apply Shaking 
+  *  Guide          -Function to apply endpoint guide to camera
   *   
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
   */
@@ -39,18 +41,18 @@ void Cam(bool airCheck, Vector2D goalPos)
 		e_shakeStrength = NO_SHAKE;
 	}
 
-	if (Player.velocity.y < -240.0f)
+	if (Player.velocity.y < -480.0f)
 	{
 		e_shakeStrength = HEAVY_SHAKE;
 	}
-	else if (Player.velocity.y < -90.0f)
+	else if (Player.velocity.y < -300.0f)
 	{
 		e_shakeStrength = MEDIUM_SHAKE;
 	}
 
 	Guide(goalPos);
 	Shake(distance);
-	
+
 	//Apply Cam Bounding
 	cam.X = AEClamp(cam.X, -(GRID_WIDTH_SIZE * (VIEWPORT_WIDTH / 2.0f)) + (0.5f * screenWidth), (GRID_WIDTH_SIZE * (e_binaryMapWidth - (VIEWPORT_WIDTH / 2.0f))) - (0.5f * screenWidth));
 	cam.Y = AEClamp(cam.Y, -(GRID_HEIGHT_SIZE * (e_binaryMapHeight - (VIEWPORT_HEIGHT / 2.0f))) + (0.5f * screenHeight), (GRID_HEIGHT_SIZE * (VIEWPORT_HEIGHT / 2.0f) - (0.5f * screenHeight)));
@@ -59,7 +61,7 @@ void Cam(bool airCheck, Vector2D goalPos)
 	std::cout << "e_shakeStrength: " << e_shakeStrength << std::endl;
 	std::cout << "distance: " << distance << std::endl;
 	std::cout << "shakespeed: " << shakespeed << std::endl; 
-	std::cout << "guiding: " << guiding << std::endl;
+	std::cout << "Player.velocity.y: " << Player.velocity.y << std::endl;
 	std::cout << "player x:" << Player.position.x << " player y:" << Player.position.y << std::endl;
 	std::cout << cam.X << ',' << cam.Y << std::endl;
 
@@ -78,12 +80,12 @@ void Shake(float distance)
 		{
 			if (e_shakeStrength == MEDIUM_SHAKE)
 			{
-				shakespeed += -30.0f; //Decrease
+				shakespeed += -15.0f; //Decrease
 			}
 
 			if (e_shakeStrength == HEAVY_SHAKE)
 			{
-				shakespeed += -70.0f; //Heavy Decrease
+				shakespeed += -30.0f; //Heavy Decrease
 			}
 		}
 	}
@@ -92,16 +94,16 @@ void Shake(float distance)
 		shakespeed += 30.0f; //Increase
 	}
 
+	if((shaketime > 0.2f) && (distance > 39.0f))	
+	{
+		shakespeed = 0.0f;
+	}
+
 	//Apply shaking parameters to camera position
-	/*
 	if (guiding == 0)
 	{
-		cam.X = Player.position.x;
-		cam.Y = Player.position.y + (shakespeed * e_deltaTime * e_shakeStrength);
+		cam.Y += (shakespeed * e_deltaTime);
 	}
-	*/
-	cam.Y += (shakespeed * e_deltaTime * e_shakeStrength);
-	
 }
 
 void Guide(Vector2D goalPos)
@@ -114,13 +116,12 @@ void Guide(Vector2D goalPos)
 
 		if (cam.X != goalPos.x)
 		{
-			cam.X += guide.x * e_deltaTime;
+			cam.X += guide.x * e_deltaTime * 2.0f;
 		}
 		if (cam.Y != goalPos.y)
 		{
 			cam.Y = goalPos.y;
 		}
-		
 	}
 
 	if (!AEInputCheckCurr(AEVK_Q))
@@ -135,8 +136,7 @@ void Guide(Vector2D goalPos)
 			guide.y = cam.Y - Player.position.y;
 			cam.Y -= guide.y * e_deltaTime * 5.f;
 		}
-
-		if ((int)cam.X == (int)Player.position.x && (int)cam.Y == (int)Player.position.y)
+		if (cam.X < Player.position.x + HALVE_WINDOW_WIDTH)
 		{
 			guiding = 0;
 		}

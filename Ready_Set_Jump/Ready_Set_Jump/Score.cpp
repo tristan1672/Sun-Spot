@@ -625,7 +625,6 @@ bool scoreAnimations()
 				total.scoreDisplay = total.score;
 				total.size = 4.0f;
 			}
-
 		}
 	}
 	
@@ -657,11 +656,12 @@ void scoreInitialize()
 						 0, 0, 0, 0, 
 						'0' };
 
-	total			= {  0.0f,	0.0f , -0.08f, -0.5f, -0.3f,  0.0f,
+	total			= {  0.0f,	0.0f , -0.06f, -0.5f, -0.3f,   0.0f,
 						 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,
 						 0,	0, 0, 0, 
 						'0' };
 
+	//Set Position of elements
 	timergrade_x = -0.175f;
 	timerscore_x = -0.8f;
 	timercount_x = -0.8f;
