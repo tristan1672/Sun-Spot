@@ -14,6 +14,11 @@
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
  ****************************************************************/
 
+#ifndef SYSTEM_HPP
+#define SYSTEM_HPP
+
 void System_Initialize();
 
 void System_Exit();
+
+#endif // SYSTEM_HPP

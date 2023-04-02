@@ -32,6 +32,9 @@
 #include "Utilities.hpp"
 #include "GameStateManager.hpp"
 
+#ifndef CREDITS_HPP
+#define CREDITS_HPP
+
 void Credits_Load();
 
 void Credits_Initialize();
@@ -43,3 +46,5 @@ void Credits_Draw();
 void Credits_Free();
 
 void Credits_Unload();
+
+#endif // CREDITS_HPP

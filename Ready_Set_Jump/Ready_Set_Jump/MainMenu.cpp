@@ -40,7 +40,7 @@ void Menu_Load() {// loads in the mesh
 
 void Menu_Initialize() {
 
-	AEAudioPlay(backgroud, backgroundSoundGroup, 0.2, 1, -1);
+	AEAudioPlay(backgroud, backgroundSoundGroup, 0.2f, 1, -1);
 
 	isTutorial = false;
 	e_uiState = MAIN;

@@ -14,6 +14,9 @@
 #include "AEEngine.h"
 #include "Utilities.hpp"
 
+#ifndef CONSTANTS_HPP
+#define CONSTANTS_HPP
+
 // Window
 //---------------------------
 extern const int WINDOW_WIDTH;
@@ -78,3 +81,5 @@ extern const unsigned int COLLISION_BOTTOM;
 // Particle
 //---------------------------
 extern const unsigned int MAX_PARTICLE_NUMBER;
+
+#endif // CONSTANTS_HPP

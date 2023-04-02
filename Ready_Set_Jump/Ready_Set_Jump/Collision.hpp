@@ -24,4 +24,9 @@
 #include "Constants.hpp"
 #include "Level.hpp"
 
+#ifndef COLLISION_HPP
+#define COLLISION_HPP
+
 void ObjectCollision();
+
+#endif // COLLISION_HPP

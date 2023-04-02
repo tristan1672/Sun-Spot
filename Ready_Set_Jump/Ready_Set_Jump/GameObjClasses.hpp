@@ -71,7 +71,8 @@
 this file contains gameobject class, a dynamic object class and function to make mesh on initialize all of wich are declearations;
 */
 
-
+#ifndef GAME_OBJ_CLASSES_HPP
+#define GAME_OBJ_CLASSES_HPP
 
 extern AEGfxVertexList* pMesh;
 extern AEGfxVertexList* arrMesh;
@@ -153,3 +154,5 @@ public:
 	int GetPlatformType();
 	void SetPlatformType(int Type);
 };
+
+#endif // GAME_OBJ_CLASSES_HPP

@@ -36,6 +36,9 @@
 #include "PlatformTexture.hpp"
 #include "Particles.hpp"
 
+#ifndef LEVEL_HPP
+#define LEVEL_HPP
+
 extern DynamicObj Player;
 extern Platform** platform;
 extern GameObject jumpArrow;
@@ -58,3 +61,5 @@ void Level_Unload();
 int ImportMapDataFromFile(char* FileName);
 
 void AnimationUpdate(void);
+
+#endif // LEVEL_HPP

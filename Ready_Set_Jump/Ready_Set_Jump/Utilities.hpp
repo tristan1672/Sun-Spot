@@ -17,6 +17,9 @@
 #include "Constants.hpp"
 #include "AEEngine.h"
 
+#ifndef UTILITIES_HPP
+#define UTILITIES_HPP
+
 // Defines
 #define DEBUG false
 
@@ -28,7 +31,6 @@ enum { PAUSED, PLAYING , WIN ,SCENE_SWITCH_BUFFER};
 enum { EASY, MEDIUM, HARD};
 enum { MAIN, LS, STAGE};
 
-// ---------------------------------------------------------------------------
 // External Variables
 
 // Different States 
@@ -84,11 +86,8 @@ extern unsigned int e_collidedObjectType, e_collidedObjectXPosX, e_collidedObjec
 // Camera
 extern short e_shakeStrength;
 extern bool shake;
-// --------------------------------------------------------------------------- // End of external variables
 
-// ---------------------------------------------------------------------------
-
-
+// Color
 static const ColourValue GreenTea{ 0.33f,0.61f,0.19f,0.f };
 static const ColourValue Green{ 0.82f,0.94f,0.75f,1.f };
 static const ColourValue Red{ 0.73f,0.118f,0.063f,1.f };
@@ -109,5 +108,4 @@ struct mousePos {
 	s32 ReleaseY;
 };
 
-
-// --------------------------------------------------------------------------- // End of structs
+#endif // UTILITIES_HPP

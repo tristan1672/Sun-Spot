@@ -25,6 +25,9 @@
 #include<fstream>
 #include<iostream>
 
+#ifndef SAVE_MANAGER_HPP
+#define SAVE_MANAGER_HPP
+
 namespace Save {
 	extern nlohmann::json save;// the save file
 	void ReadFile()/*
@@ -80,3 +83,5 @@ namespace Save {
 		\brief writes the save file
 		*/;
 }
+
+#endif // SAVE_MANAGER_HPP

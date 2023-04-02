@@ -15,5 +15,10 @@
   *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
  ****************************************************************/
 
+#ifndef INPUT_HPP
+#define INPUT_HPP
+
 void Input_Handle_HoldCheck();
 void Input_Handle_Jump();
+
+#endif // INPUT_HPP

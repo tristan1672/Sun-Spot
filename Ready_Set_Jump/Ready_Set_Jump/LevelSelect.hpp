@@ -44,6 +44,9 @@
 #include "UI.hpp"
 #include "Level.hpp"
 
+#ifndef LEVEL_SELECT_HPP
+#define LEVEL_SELECT_HPP
+
 namespace LevelSelect {
 	void CreateLevelSelectUI()/*
 		\brief alloate memory for level select UI
@@ -76,3 +79,5 @@ namespace LevelSelect {
 	void UnloadLSTexture();
 	void DrawLSTexture();
 }
+
+#endif // LEVEL_SELECT_HPP

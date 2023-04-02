@@ -26,6 +26,11 @@
 #include "SplashScreen.hpp"
 #include "Credits.hpp"
 
+#ifndef GAME_STATE_MANAGER_HPP
+#define GAME_STATE_MANAGER_HPP
+
 void GSM_Initialize(int startingState);
 
 void GSM_Update();
+
+#endif // GAME_STATE_MANAGER_HPP

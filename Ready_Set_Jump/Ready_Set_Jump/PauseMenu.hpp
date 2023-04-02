@@ -22,9 +22,14 @@
 #pragma once
 #include "Utilities.hpp"
 
+#ifndef PAUSE_MENU_HPP
+#define PAUSE_MENU_HPP
+
 namespace PauseMenu {
 	void CreatePauseMenu();
 	void PauseMenuBehaviour(mousePos mouse);
 	void DrawPauseMenu();
 	void FreePauseMenu();
 }
+
+#endif // PAUSE_MENU_HPP

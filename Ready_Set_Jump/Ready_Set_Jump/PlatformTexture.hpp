@@ -49,9 +49,12 @@
 ****************************************************************/
 
 #pragma once
+#include <String>
 #include "GameObjClasses.hpp"
 #include "Level.hpp"
-#include <String>
+
+#ifndef PLATFORM_TEXTURE_HPP
+#define PLATFORM_TEXTURE_HPP
 
 void MultiTextureLoad(AEGfxTexture** TextureArr, unsigned int Size, std::string Str);
 
@@ -78,3 +81,5 @@ void TextureSetLeftEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
 void TextureSetRightEdge(int i, int j, AEGfxTexture** TextureArr, int Type);
 
 void TextureSetAll(int i, int j, AEGfxTexture** TextureArr, int Type);
+
+#endif // PLATFORM_TEXTURE_HPP

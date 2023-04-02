@@ -21,8 +21,13 @@
 #include "Utilities.hpp"
 #include <string>
 
+#ifndef TIMER_HPP
+#define TIMER_HPP
+
 void GetTime();
 
 void LevelTime();
 
 void DisplayTime(float pos_x, float pos_y);
+
+#endif // TIMER_HPP

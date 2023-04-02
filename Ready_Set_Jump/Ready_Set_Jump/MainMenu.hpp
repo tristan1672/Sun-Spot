@@ -20,6 +20,9 @@
 #include "Credits.hpp"
 #include "Particles.hpp"
 
+#ifndef MAIN_MENU_HPP
+#define MAIN_MENU_HPP
+
 void Menu_Load();
 
 void Menu_Initialize();
@@ -31,3 +34,5 @@ void Menu_Draw();
 void Menu_Free();
 
 void Menu_Unload();
+
+#endif // MAIN_MENU_HPP

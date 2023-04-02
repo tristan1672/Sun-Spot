@@ -140,7 +140,7 @@ void Level_Load()
 // ----------------------------------------------------------------------------
 void Level_Initialize()
 {
-	AEAudioPlay(gameBackgroud, gameBackgroundSoundGroup, 0.2, 1, -1);
+	AEAudioPlay(gameBackgroud, gameBackgroundSoundGroup, 0.2f, 1, -1);
 
 	level_state = SCENE_SWITCH_BUFFER;
 	level1_difficulty = EASY;

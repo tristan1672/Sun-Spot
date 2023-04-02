@@ -18,8 +18,13 @@
   * All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
  ****************************************************************/
 
+#ifndef TUTORIAL_HPP
+#define TUTORIAL_HPP
+
 namespace Tutorial {
 	void MakeTutorialText();
 	void RenderTutorialText();
 	void FreeTutorialtext();
 }
+
+#endif // TUTORIAL_HPP
