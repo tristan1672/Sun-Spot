@@ -45,26 +45,25 @@ GameObject Cleared;
 std::string fileToLoad;
 bool isTutorial;
 
+// Scene
 float e_deltaTime;
 float e_levelTime;
 static int frameCounter;
 
+// Level
 Vector2D playerSpawnPoint;
 Vector2D goalPos;
-
 int** e_levelGrid;
 int e_binaryMapWidth;
 int e_binaryMapHeight;
 unsigned int e_totalNumOfcollectible;
-
 int level_state;
 int level1_difficulty;
-bool e_scoreAnimation;
 int levelNumber;
-
 int gGameRunning = 1;
 bool flick = false;
 int jump_counter;
+bool e_scoreAnimation;
 
 bool airCheck;
 bool followMouseCheat;
