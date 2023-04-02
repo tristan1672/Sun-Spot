@@ -1,3 +1,53 @@
+/*****************************************************************
+  *  \file PlatformTexture.hpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
+  *
+  *  \brief
+  *  Platform texture component.
+  *  - MultiTextureLoad
+  *		Loads multiple textures from file paths and stores them in the TextureArr array.
+  *
+  *  - MultiTextureUnload
+  *		Unloads multiple textures stored in the TextureArr array.
+  *
+  *  - SingleLayerTextureSet
+  *		Sets a single layer texture for a specified cell (i, j) using the TextureArr array.
+  *
+  *  - TopLayerTextureSet
+  *		Sets the top layer texture for a specified cell (i, j) using the TextureArr array.
+  * 
+  *  - MiddleLayerTextureSet
+  *		Sets the middle layer texture for a specified cell (i, j) using the TextureArr array.
+  * 
+  *  - BtmLayerTextureSet
+  *		Sets the bottom layer texture for a specified cell (i, j) using the TextureArr array.
+  * 
+  *  - VerticleTextureSet
+  *		Sets the vertical texture for a specified cell (i, j) using the TextureArr array.
+  * 
+  *  - TextureSetNonEdge
+  *		Sets the given texture to a non-edge tile for a specified cell (i, j) using the TextureArr array.
+  * 
+  *  - TextureSetTopEdge
+  *		Sets the given texture to the top edge tile for a specified cell (i, j) using the TextureArr array.
+  * 
+  *  - TextureSetBtmEdge
+  *		Sets the given texture to the bottom tile for a specified cell (i, j) using the TextureArr array.
+  * 
+  *  - TextureSetLeftEdge
+  *		Sets the given texture to the left edge tile for a specified cell (i, j) using the TextureArr array.
+  * 
+  *  - TextureSetRightEdge
+  *		Sets the given texture to the right edge tile for a specified cell (i, j) using the TextureArr array.
+  * 
+  *  - TextureSetAll
+  *		Sets the given texture to all tiles at position (i,j) using the TextureArr array.
+  *
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+****************************************************************/
+
 #pragma once
 #include "GameObjClasses.hpp"
 #include "Level.hpp"

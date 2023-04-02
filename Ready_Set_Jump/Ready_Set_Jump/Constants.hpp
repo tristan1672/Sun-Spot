@@ -1,3 +1,16 @@
+/*****************************************************************
+  *  \file Constants.hpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian) (33%)
+  *				   : Tristan Tham (t.tham)                 (33%)
+  *                : Xiao Jun Yu (junyu.xiao)              (33%)
+  *
+  *  \brief
+  *  File containing constant variables used throughout project.
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
+
 #include "AEEngine.h"
 #include "Utilities.hpp"
 
@@ -40,7 +53,6 @@ extern const f32 GRID_HEIGHT_SIZE;
 extern const float ORIGINAL_JUMP_FORCE_MOD;
 extern const float MAX_JUMP_FORCE;
 extern const float MIN_JUMP_FORCE;
-extern const float ORIGINAL_VERT_MOD; // Not used
 // Drag
 extern const float NORMAL_DRAG;
 extern const float AIR_DRAG;

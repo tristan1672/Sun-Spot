@@ -1,11 +1,23 @@
 /*
   *  \file SaveManager.cpp
   *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par DP Email: junyu.xiao\\digipen.edu
   *  \par Course: csd1451
   *
   *  \brief
   *  Defination file for SaveManager.cpp, use for managing save files
+  * 
+  *  -ReadFile()
+  *		reads the save file, if the save file exists, reads the file save stores read value into nlohmann::json save, otherwise, reads from default save
+  *		and makes a new save file
+  *  -PrintSaveValue(int level)
+  *		for debug use, prints save info to console
+  * -GetSaveValue(int level, int& difficulty, int& jumps, int& collectibles, int& totalCollectibles, float& time, int& totalScore, bool& haveAttempted)
+  *		gets all value from save 
+  * -SetSaveValue(int level, int jumps, int collectibles, float time, int totalScore, bool haveAttempted) 
+  *		sets all value to save 
+  * -WriteFile()
+  *		writes the data into save.json
   *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 #include "SaveManager.hpp"

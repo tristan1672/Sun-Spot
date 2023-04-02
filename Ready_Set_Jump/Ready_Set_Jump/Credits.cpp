@@ -35,14 +35,14 @@ UIText* creditInfo[44];
 static float creditTimer;
 
 /*****************************************************************
- * @brief
+ * \brief
  *		This function loads necessary data(resource and asset) and initialize it
  *		It is called once at the start of the state 
  ****************************************************************/
 void Credits_Load() {}
 
 /*****************************************************************
- * @brief
+ * \brief
  *		This function initialize game object instances
  *		It is called once at the start of the state
  ****************************************************************/
@@ -144,7 +144,7 @@ void Credits_Initialize() {
 }
 
 /*****************************************************************
- * @brief
+ * \brief
  *		This function updates the state data
  *		It is called whenever there is a need to update the state's data
 ****************************************************************/
@@ -160,7 +160,7 @@ void Credits_Update() {
 }
 
 /*****************************************************************
- * @brief
+ * \brief
  *		This function sends data that needs to be drawn to the graphic engine
  *		It is called after update to show animation/movement
 ****************************************************************/
@@ -231,14 +231,14 @@ void Credits_Draw() {
 }
 
 /*****************************************************************
- * @brief
+ * \brief
  *		This function frees objects instances
  *		It is called after to prepare the state to be unloaded or initialized again
 ****************************************************************/
 void Credits_Free() {}
 
 /*****************************************************************
- * @brief
+ * \brief
  *		This function dumps all loaded during Level1_Load()
  *		It is called when the state should be terminated
 ****************************************************************/

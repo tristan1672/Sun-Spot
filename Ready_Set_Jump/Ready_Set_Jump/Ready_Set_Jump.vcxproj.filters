@@ -95,9 +95,6 @@
     <ClInclude Include="System.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameStateList.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PreCompiledHeader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>

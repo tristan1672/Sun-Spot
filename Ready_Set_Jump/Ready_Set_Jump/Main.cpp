@@ -1,14 +1,21 @@
-// ---------------------------------------------------------------------------
-// includes
-#include <iostream>
+/*****************************************************************
+  *  \file Timer.cpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
+  *
+  *  \brief
+  * Main function that runs the program.
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
 
+#include <iostream>
 #include "AEEngine.h"
 #include "PreCompiledHeader.hpp"
 #include "System.hpp"
 #include "GameStateManager.hpp"
 #include "Input.hpp"
 #include "Timer.hpp"
-// ---------------------------------------------------------------------------
 
 s8 e_fontID, e_creditFontID;
 
@@ -25,11 +32,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
     #endif
 
-    
-
     //Initialize the system
     // The param after WINDOW_HEIGHT to 0 if dw console
-    AESysInit(hInstance, nCmdShow, WINDOW_WIDTH, WINDOW_HEIGHT, 1, 60, true, NULL); // trynna shift into System_Initialize()
+    AESysInit(hInstance, nCmdShow, WINDOW_WIDTH, WINDOW_HEIGHT, 1, 60, true, NULL);
     System_Initialize(); 
     
     e_fontID = AEGfxCreateFont("Assets/Font/kongtext.ttf", FONT_SIZE);

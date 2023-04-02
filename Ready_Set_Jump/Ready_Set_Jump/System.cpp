@@ -1,20 +1,33 @@
-// ---------------------------------------------------------------------------
-// includes
-#include <iostream>
+/*****************************************************************
+  *  \file System.cpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
+  *
+  *  \brief
+  *  System component.
+  *  - System_Initialize
+  *		This function initialize the system
+  *
+  *  - System_Exit
+  *		This function exit the system
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
 
+#include <iostream>
 #include "AEEngine.h"
 #include "PreCompiledHeader.hpp"
 #include "System.hpp"
-// ---------------------------------------------------------------------------
 
-// ----------------------------------------------------------------------------
-// This function initialize the system
-// It should be called once before the start of the game loop
-// ----------------------------------------------------------------------------
+/*****************************************************************
+ * \brief
+ *		This function initialize the system
+****************************************************************/
 void System_Initialize()
 {
+#if DEBUG
 	std::cout << "System:Initialize\n";
-
+#endif
 	// Changing the window title
 	AESysSetWindowTitle("Ready?Set.Jump!");
 
@@ -22,12 +35,14 @@ void System_Initialize()
 	AESysReset();
 }
 
-// ----------------------------------------------------------------------------
-// This function initialize the system
-// It should be called once at the end of the programe
-// ----------------------------------------------------------------------------
+/*****************************************************************
+ * \brief
+ *		This function exit the system
+****************************************************************/
 void System_Exit()
 {
+#if DEBUG
 	std::cout << "System:Exit\n";
+#endif
 	AESysExit();
 }

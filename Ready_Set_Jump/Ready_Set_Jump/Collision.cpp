@@ -27,7 +27,7 @@ bool e_outOfMap;
 unsigned int e_collidedObjectType, e_numOfcollectibleCollected, e_collidedObjectXPosX, e_collidedObjectXPosY;
 
 /*****************************************************************
- * @brief
+ * \brief
  *		 Checks for player collision against level.
 ****************************************************************/
 void DynamicObj::LevelCollision(){
@@ -111,7 +111,7 @@ void DynamicObj::LevelCollision(){
 }
 
 /*****************************************************************
- * @brief
+ * \brief
  *		 Snaps to grid
 ****************************************************************/
 void DynamicObj::SnapToGrid() {
@@ -134,7 +134,7 @@ void DynamicObj::SnapToGrid() {
 }
 
 /*****************************************************************
- * @brief 
+ * \brief 
  *		 Checks for player collision against objects that is not a platform
 ****************************************************************/
 void ObjectCollision() {

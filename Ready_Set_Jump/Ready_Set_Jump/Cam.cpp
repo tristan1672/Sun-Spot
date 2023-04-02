@@ -1,7 +1,7 @@
 /*
   *  \file Cam.cpp
   *  \author      : Tristan Tham
-  *  \par DP Email: t.tham@digipen.edu
+  *  \par DP Email: t.tham\digipen.edu
   *  \par Course  : csd1451
   *
   *  \brief

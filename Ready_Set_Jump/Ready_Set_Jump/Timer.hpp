@@ -1,11 +1,28 @@
+/*****************************************************************
+  *  \file Timer.hpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
+  *
+  *  \brief
+  *  System component.
+  *  - GetTime
+  *		Get and sets delta time(Called in main)
+  *
+  *  - LevelTime
+  *		Updates level time
+  * 
+  *  - DisplayTime
+  *		Display time on screen
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
+
 #pragma once
 #include "Utilities.hpp"
+#include <string>
 
-// Get and sets delta time(Called in main)
 void GetTime();
 
-// Updates and return level time
-float LevelTime();
+void LevelTime();
 
-// Display time on screen
 void DisplayTime(float pos_x, float pos_y);

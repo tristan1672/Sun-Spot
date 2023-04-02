@@ -1,25 +1,32 @@
-// ---------------------------------------------------------------------------
-// Includes
+/*****************************************************************
+  *  \file Constants.hpp
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian) (33%)
+  *				   : Tristan Tham (t.tham)                 (33%)
+  *                : Xiao Jun Yu (junyu.xiao)              (33%)
+  *
+  *  \brief
+  *  File containing external variables and utility structs used throughout project.
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
+
 #pragma once
 #include <cmath>
 #include "PreCompiledHeader.hpp"
 #include "Constants.hpp"
 #include "AEEngine.h"
-// --------------------------------------------------------------------------- // End of includes
 
-// ---------------------------------------------------------------------------
 // Defines
 #define DEBUG false
-// --------------------------------------------------------------------------- // End of defines
 
-// ---------------------------------------------------------------------------
 // Enumerations
+enum GS_STATES { GS_LEVEL = 0, GS_SPLASH, GS_MAINMENU, GS_CREDITS,	GS_QUIT, GS_RESTART};
 enum { NO_SHAKE = 0, MEDIUM_SHAKE , HEAVY_SHAKE };
-enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, SLIME_BLOCK,PLAYER_SPAWN, GOAL = 7, CHECKPOINT ,COLLECTIBLES};
+enum { EMPTY_SPACE = 0, NORMAL_BLOCK, ICE_BLOCK, STICKY_BLOCK, SLIME_BLOCK, PLAYER_SPAWN, GOAL = 7, CHECKPOINT ,COLLECTIBLES};
 enum { PAUSED, PLAYING , WIN ,SCENE_SWITCH_BUFFER};
 enum { EASY, MEDIUM, HARD};
 enum { MAIN, LS, STAGE};
-// --------------------------------------------------------------------------- // End of enumerations
 
 // ---------------------------------------------------------------------------
 // External Variables
@@ -92,6 +99,8 @@ static const ColourValue Grey{ 0.5f,0.5f,0.5f,0.5f };
 
 Vector2D normalDirection(f32 X1, f32 Y1, f32 X2, f32 Y2);
 float Distance(f32 X1, f32 Y1, f32 X2, f32 Y2);
+Vector2D normalDirection(s32 X1, s32 Y1, s32 X2, s32 Y2);
+float Distance(s32 X1, s32 Y1, s32 X2, s32 Y2);
 
 struct mousePos {
 	s32 ClickX;

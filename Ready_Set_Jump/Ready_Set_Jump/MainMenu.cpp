@@ -1,13 +1,17 @@
-/**
+/*****************************************************************
   *  \file MainMenu.cpp
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\@digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)              (80%)
+  *				     - Main Author  
+  *                : Peh Zong Lin Adrian (p.zonglinadrian) (20%)
+  *                  - Sub Author
+  *					 - Added particles 
+  *                  - Automated text position and cleaned it up
   *
   *  \brief
   * Main Menu Scene
   * All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+****************************************************************/
 #include "MainMenu.hpp"
 
 UIText* titleText[3];

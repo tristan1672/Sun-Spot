@@ -1,47 +1,52 @@
-/*
+/*****************************************************************
   *  \file GameStateManager.cpp
-  *  \author      : Peh Zong Lin Adrian
-  *  \par DP Email: p.zonglinadrian\@digipen.edu
-  *  \par Course  : csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
   *
   *  \brief
-  *  Game State Manager
-  *  - Fuction Pointers to differnt scene fuctions
-  * 
-  *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+  *  File containing functions used by gamestate manager
+  * - GSM_Initialize
+  *		This function initialize the gamestate manager
+  *     It is called once at the before the start of the game loop
+  *
+  *  - UpdateParticle
+  *		This function initialize gamestate function pointers
+  *      It is called once at the start of the game loop
+  *
+  *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
+ ****************************************************************/
 
-// ---------------------------------------------------------------------------
-
-// ---------------------------------------------------------------------------
-// includes
 #include "GameStateManager.hpp"
-// --------------------------------------------------------------------------- // End of includes
-
 
 int e_current_state = 0, e_previous_state = 0, e_next_state = 0;
 
 FP e_fpLoad = nullptr, e_fpInitialize = nullptr, e_fpUpdate = nullptr, e_fpDraw = nullptr, e_fpFree = nullptr, e_fpUnload = nullptr;
 
-// ----------------------------------------------------------------------------
-// This function initialize the gamestate manager
-// It is called once at the before the start of the game loop 
-// ----------------------------------------------------------------------------
+/*****************************************************************
+ * \brief
+ *		This function initialize the gamestate manager
+ *		It is called once at the before the start of the game loop 
+ ****************************************************************/
 void GSM_Initialize(int startingState)
 {
+#if DEBUG
 	std::cout << "GSM:Initialize\n";
+#endif
 
 	e_current_state = e_previous_state = e_next_state = startingState;
 	Save::ReadFile();
 }
 
-// ----------------------------------------------------------------------------
-// This function initialize gamestate function pointers
-// It is called once at the start of the game loop
-// ----------------------------------------------------------------------------
+/*****************************************************************
+ * \brief
+ *		This function initialize gamestate function pointers
+ *		It is called once at the start of the game loop
+ ****************************************************************/
 void GSM_Update()
 {
+#if DEBUG
 	std::cout << "GSM:Update\n";
+#endif
 
 	switch (e_next_state)
 	{

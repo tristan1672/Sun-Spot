@@ -1,13 +1,67 @@
 /**
   *  \file GameObjectClass.cpp
+  *  \project name : Ready?Set.Jump!
   *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\@digipen.edu
+  *  \par DP Email: junyu.xiao\\digipen.edu
   *  \par Course: csd1451
   *
   *  \brief
   *  This file contains gameobject classes that will be used for making the stage and also a child class that is used for making player character there is also a function used here
-  *		to create mesh
-  *
+  *	 to create mesh
+  * 
+  * -MakeMesh()
+  *		Makes the default rectangle mesh
+  * -MakeArrowMesh()
+  *		Make rectangle mesh, with center at its bottom, used for aim mode arrow
+  * -MakeCircle()
+  *		Makes circle mesh
+  * -GameObject(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh, Vector2D Direction)
+  *		Default constructor for the class GameObject
+  * -GetPosition()
+  *		gets the position of gameobject class object
+  * -SetPosition(Vector2D Position)
+  *		sets the position of gameobject class object
+  * -GetScale()
+  *		gets the scale of gameobject class object
+  * -SetScale(Vector2D Scale)
+  *		sets the scale of gameobject class object
+  * -GetColour()
+  *		gets the colour of gameobject class object
+  * -SetColour(ColourValue Colour)
+  *		sets the colour of gameobject class object
+  * -GetRotation()
+  *		gets the rotation of gameobject class object
+  * -SetRotation(f32 Rotation)
+  *		sets the rotation of gameobject class object
+  * -SetTexture(AEGfxTexture* texturePointer)
+  *		sets the texture of gameobject class object
+  * -SetRenderMode(AEGfxRenderMode render)
+  *		sets the render mode of gameobject class object
+  * -GetDirection()
+  *		gets the direction of gameobject class object
+  * -SetDirection(Vector2D Direction)
+  *		sets the direction of gameobject class object
+  * -DrawObj()
+  *		draws Gameobject
+  * -DynamicObj(Vector2D Velocity, Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh)
+  *		default constructor of DynamicObj, inherits from GameObject
+  * -GetVelocity()
+  *		gets the velocity of DynamicObj class object
+  * -SetVelocity(Vector2D Velocity)
+  *		sets the velocity of DynamicObj class object
+  * -SetColFlag(int colFlag)
+  *		sets the collision flag of DynamicObj class object
+  * -GetColFlag()
+  *		gets the collision flag of DynamicObj class object
+  * -Platform(Vector2D Position, Vector2D Scale, ColourValue Colour, f32 Rotation, AEGfxRenderMode RenderMode, AEGfxVertexList* ObjectMesh)
+  *		default constructor for Platform object
+  * -GetPlatformType()
+  *		gets the platform type of Platform class object
+  * -SetPlatformType(int Type)
+  *		sets the platform type of Platform class object
+  * -Platform::operator=(const Platform& p)
+  *		operator overload for =, copies attributes of one platform to another
+  * 
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 #include "GameObjClasses.hpp"

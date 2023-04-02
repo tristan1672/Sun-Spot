@@ -59,7 +59,7 @@ public:
 	Vector2D velocity{};
 //physics modifiers
 	float e_jumpForce = 350.f, vertMod = 1.0f,dragCoeff = 1.f, friction = 1.f, e_jumpForceMod = 1.0;
-	bool jumpReady, collideTop, collideRight, collideLeft;
+	bool jumpReady;
 
 	//hot spot
 	float topY{}, btmY{}, leftX{}, rightX{}, X1{}, X2{}, Y1{}, Y2{};
