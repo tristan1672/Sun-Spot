@@ -1,12 +1,13 @@
 /*****************************************************************
   *  \file MainMenu.cpp
   *  \project name : Ready?Set.Jump!
-  *  \author(s)    : Xiao Jun Yu (junyu.xiao)              (80%)
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)              (75%)
   *				     - Main Author  
-  *                : Peh Zong Lin Adrian (p.zonglinadrian) (20%)
+  *                : Peh Zong Lin Adrian (p.zonglinadrian) (25%)
   *                  - Sub Author
   *					 - Added particles 
   *                  - Automated text position and cleaned it up
+  *					 - Added Audio
   *
   *  \brief
   * Main Menu Scene
@@ -23,15 +24,24 @@ int e_uiState;
 static int frameCounter;
 GameObject* menuParticleList;
 
+AEAudio backgroud;
+AEAudioGroup backgroundSoundGroup;
+
 void Menu_Load() {// loads in the mesh
 	MakeMesh();
 	AEGfxSetCamPosition(0.f, 0.f);
 	LevelSelect::LoadLSTexture();
 
 	menuParticleList = new GameObject[MAX_PARTICLE_NUMBER];
+
+	backgroud = AEAudioLoadMusic("Assets/Sound/MenuBackground.wav");
+	backgroundSoundGroup = AEAudioCreateGroup();
 }
 
 void Menu_Initialize() {
+
+	AEAudioPlay(backgroud, backgroundSoundGroup, 0.2, 1, -1);
+
 	isTutorial = false;
 	e_uiState = MAIN;
 	e_move = 0;
@@ -159,11 +169,12 @@ void Menu_Update() {
 			}
 			
 		}
-		if (buttonText[1]->MouseCollision(mouse))// if guide button was pressed, loads tutorial level
+		if (buttonText[1]->MouseCollision(mouse))// if tutorial button was pressed, loads tutorial level
 		{
 			fileToLoad = "Assets/Script/LevelTutorial.txt";
 			levelNumber = 0;
 			isTutorial = true;
+			AEAudioPauseGroup(backgroundSoundGroup);
 			e_next_state = GS_LEVEL;
 		}
 		
@@ -176,6 +187,7 @@ void Menu_Update() {
 		}
 		if (LevelSelect::StartButtonBehaviour(mouse))// goes to said level when level button is pressed
 		{
+			AEAudioPauseGroup(backgroundSoundGroup);
 			e_next_state = GS_LEVEL;
 		}
 	}

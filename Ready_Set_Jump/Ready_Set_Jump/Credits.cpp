@@ -33,17 +33,12 @@
 // Global Static Variables
 UIText* creditInfo[44];
 static float creditTimer;
-AEAudio backgroud;
-AEAudioGroup backgroundSoundGroup;
 /*****************************************************************
  * \brief
  *		This function loads necessary data(resource and asset) and initialize it
  *		It is called once at the start of the state 
  ****************************************************************/
-void Credits_Load() {
-	backgroud = AEAudioLoadMusic("Assets/Sound/MenuBackground.wav");
-	backgroundSoundGroup = AEAudioCreateGroup();
-}
+void Credits_Load() {}
 
 /*****************************************************************
  * \brief
@@ -52,8 +47,6 @@ void Credits_Load() {
  ****************************************************************/
 void Credits_Initialize() {
 	AEGfxSetCamPosition(0.f, 0.f);
-
-	AEAudioPlay(backgroud, backgroundSoundGroup, 1,1,1);
 
 	creditTimer = 0.f;
 
@@ -134,7 +127,7 @@ void Credits_Initialize() {
 
 	// Copyright
 	// Set 9
-	creditInfo[41] = new UIText{ UIText("All content (C) 2023 Digipen Institute of Technology Singapore. All Rights Reserved", {0.f, 0.f}, {0.8f, 0.8f}, White, false, White, e_creditFontID) };
+	creditInfo[41] = new UIText{ UIText("All content (C) 2023 Digipen Institute of Technology Singapore. All Rights Reserved", {0.f, 0.f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
 	// Special Credits
 	// Set 10
