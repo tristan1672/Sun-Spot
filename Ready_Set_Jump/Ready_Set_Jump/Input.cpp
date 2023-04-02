@@ -11,14 +11,13 @@
   * -Input_Handle_HoldCheck()
   *		Checks if left mouse button is held for a certain time frame, if past that time, a guide arrow will show up
   * -Input_Handle_Jump()
-  *		
+  *		checks if left mouse button was released, if relased, make the player jump
   *
   *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
 */
 // ---------------------------------------------------------------------------
 // includes
 #include <iostream>
-
 #include "AEEngine.h"
 #include "PreCompiledHeader.hpp"
 #include "Utilities.hpp"
