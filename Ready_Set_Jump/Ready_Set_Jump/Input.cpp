@@ -1,8 +1,7 @@
-/**
+/*****************************************************************
   *  \file Input.cpp
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
   *
   *  \brief
   *  This is the input action that the player need to take to move the character in game, the main movment is to use flicking of mosue to sling shot 
@@ -14,9 +13,8 @@
   *		checks if left mouse button was released, if relased, make the player jump
   *
   *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
-// ---------------------------------------------------------------------------
-// includes
+ ****************************************************************/
+
 #include <iostream>
 #include "AEEngine.h"
 #include "PreCompiledHeader.hpp"
@@ -24,8 +22,6 @@
 #include "Input.hpp"
 #include "Cam.hpp"
 #include "GameObjClasses.hpp"
-// ---------------------------------------------------------------------------
-
 
 extern mousePos mouse;
 extern DynamicObj Player;

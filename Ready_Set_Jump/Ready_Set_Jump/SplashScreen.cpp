@@ -1,14 +1,14 @@
-/*
+/*****************************************************************
   *  \file SplashScreen.cpp
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
   *
   *  \brief
   *  Defination file, Splash Screen Scene,  mainly how the image should fade in and out
   * 
   *	 All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+ ****************************************************************/
+
 #include "AEEngine.h"
 #include "GameStateManager.hpp"
 #include "GameObjClasses.hpp"
@@ -18,6 +18,7 @@ GameObject SplashScreen;
 AEGfxTexture* SplashScreenTexture{ nullptr };
 float maxSplashScreenTime = 4.f;
 bool fadingIn = true;
+
 void SplashScreen_Load() {
 	MakeMesh();// makes mesh for the shape of the image
 	SplashScreenTexture = AEGfxTextureLoad("Assets/Images/DigiPen_BLACK.png");//loads in the the texture from this path

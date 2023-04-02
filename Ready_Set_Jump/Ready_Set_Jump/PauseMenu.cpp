@@ -1,8 +1,11 @@
-/**
+/*****************************************************************
   *  \file PauseMenu.cpp
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)              (90%)
+  *					 - Main Author
+  *                : Peh Zong Lin Adrian (p.zonglinadrian) (10%)
+  *                  - Sub Author
+  *                  - Automated text position and cleaned it up
   *
   *  \brief
   *  Defination of functions that will make the pause menu draw
@@ -18,10 +21,12 @@
   *		frees memories allocated
   * 
   *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+ ****************************************************************/
+
 #include "PauseMenu.hpp"
 #include "UI.hpp"
 #include "GameStateManager.hpp"
+
 namespace PauseMenu {
 	UIText* buttonText[4];
 

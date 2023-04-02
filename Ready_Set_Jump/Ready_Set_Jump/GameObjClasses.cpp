@@ -1,9 +1,7 @@
-/**
+/*****************************************************************
   *  \file GameObjectClass.cpp
   *  \project name : Ready?Set.Jump!
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
   *
   *  \brief
   *  This file contains gameobject classes that will be used for making the stage and also a child class that is used for making player character there is also a function used here
@@ -63,12 +61,14 @@
   *		operator overload for =, copies attributes of one platform to another
   * 
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+ ****************************************************************/
 #include "GameObjClasses.hpp"
+
 // Pointer to Mesh
 AEGfxVertexList* pMesh = nullptr;
 AEGfxVertexList* arrMesh = nullptr;
 AEGfxVertexList* circleMesh = nullptr;
+
 //fucntion defination that used to make mesh
 void MakeMesh() {
 	// Informing the library that we're about to start adding triangles

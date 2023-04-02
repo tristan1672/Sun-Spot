@@ -1,6 +1,7 @@
-/*
+/*****************************************************************
   *  \file LevelSelect.cpp
-  *  \author(s) : Xiao Jun Yu, (junyu.xiao)
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu, (junyu.xiao)
   *					 -Main Author
   *					 -CreateLevelSelectUI()
   *						creates UI in level select
@@ -21,7 +22,7 @@
   *					-StartButtonBehaviour(mousePos mouse)
   *						when the start button is pressed, it will bring the player to the actual level
   * 
-  *				: Tristan Tham Rui Hong 
+  *				   : Tristan Tham Rui Hong (t.tham)
   *					-Sub Author
   *					-StagingScreen(int levelcount)
   *					 
@@ -34,10 +35,14 @@
   *					-DrawLSTexture()
   *						draws textures in level select
   * 
+  *                 : Peh Zong Lin Adrian (p.zonglinadrian) (10%)
+  *                  - Sub Author
+  *                  - Automated text position and cleaned it up
+  * 
   *  \brief
   *  Defination file for LevelSelect.hpp
   *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+****************************************************************/
 #include "LevelSelect.hpp"
 #include "SaveManager.hpp"
 

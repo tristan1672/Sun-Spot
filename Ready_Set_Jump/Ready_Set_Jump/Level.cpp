@@ -9,20 +9,20 @@
 *             - Collision check 
 *             - Object collision update
 *			  - Added particles
+*             - Audio
 *            : Xiao Jun Yu(junyu.xiao)             (30%)
 *			  - Loaded textures
 *             - Save file
 *             - Game physics
-*           : Tristan Tham (t.tham)                (20%)
+*           : Tristan Tham Rui Hong (t.tham)       (20%)
 *             - Cam
 *             - Win scene
 *\brief
 * the basic logics to our levels and the game states, loops for our game
 * All content © 2023 DigiPen Institute of Technology Singapore.All rights reserved.
 * ***************************************************************/
-// includes
-#pragma once
 
+#pragma once
 #include "Level.hpp"
 #include "Collision.hpp"
 #include "Timer.hpp"
@@ -33,9 +33,6 @@
 #include<string>
 #include "Tutorial.hpp"
 #include "SaveManager.hpp"
-
-// ---------------------------------------------------------------------------
-
 
 #define GROUND_LEVEL 20
 extern CameraPos cam;

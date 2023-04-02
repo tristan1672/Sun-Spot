@@ -2,7 +2,7 @@
   *  \file Constants.cpp
   *  \project name : Ready?Set.Jump!
   *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian) (33%)
-  *				   : Tristan Tham (t.tham)                 (33%)
+  *				   : Tristan Tham Rui Hong (t.tham)        (33%)
   *                : Xiao Jun Yu (junyu.xiao)              (33%)
   *
   *  \brief

@@ -1,8 +1,7 @@
-/*
+/*****************************************************************
   *  \file Physics.cpp
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
   *
   *  \brief
   *  Defination file, for  DynamicObj::PhysicsUpdate() in GameObjClass.hpp
@@ -10,8 +9,10 @@
   *  -PhysicsUpdate()
   *		Part of DynamicObj, updates the physics of DynamicObjs based on which platforms they are interacting with
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+ ****************************************************************/
+
 #include "Physics.hpp"
+
 void DynamicObj::PhysicsUpdate() {
 	/*
 	Description for each playform type

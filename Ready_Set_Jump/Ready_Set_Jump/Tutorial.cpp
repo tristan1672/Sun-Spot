@@ -1,8 +1,7 @@
-/**
+/*****************************************************************
   *  \file Tutorial.cpp
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
   *
   *  \brief
   *  Sets tutorial objects
@@ -17,10 +16,12 @@
   *		frees all memeories allocated
   * 
   * All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+ ****************************************************************/
+
 #include "Tutorial.hpp"
 #include "AEEngine.h"
 #include "UI.hpp"
+
 namespace Tutorial {
 	GameObject TutorialTextObj[11]{};
 	AEGfxTexture* TurorialText[11]{nullptr};

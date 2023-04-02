@@ -1,8 +1,7 @@
-/*
+/*****************************************************************
   *  \file Cam.cpp
-  *  \author      : Tristan Tham
-  *  \par DP Email: t.tham\digipen.edu
-  *  \par Course  : csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Tristan Tham Rui Hong (t.tham)
   *
   *  \brief
   *	 Contains functions for creating Camera elements:
@@ -11,7 +10,7 @@
   *  Guide          -Function to apply endpoint guide to camera
   *   
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-  */
+ ****************************************************************/
 
 #include "Cam.hpp"
 

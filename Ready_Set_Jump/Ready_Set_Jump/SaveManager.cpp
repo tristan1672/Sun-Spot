@@ -1,8 +1,7 @@
-/*
+/*****************************************************************
   *  \file SaveManager.cpp
-  *  \author Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course: csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
   *
   *  \brief
   *  Defination file for SaveManager.cpp, use for managing save files
@@ -19,7 +18,7 @@
   * -WriteFile()
   *		writes the data into save.json
   *  All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-*/
+ ****************************************************************/
 #include "SaveManager.hpp"
 #include <sstream>
 namespace Save {

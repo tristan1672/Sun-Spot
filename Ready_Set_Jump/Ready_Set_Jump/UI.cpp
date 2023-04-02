@@ -1,8 +1,7 @@
-/*
+/*****************************************************************
   *  \file UI.cpp
-  *  \author      : Xiao Jun Yu
-  *  \par DP Email: junyu.xiao\\digipen.edu
-  *  \par Course  : csd1451
+  *  \project name : Ready?Set.Jump!
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)
   *
   *  \brief
   *	 Contains functions for creating UI elements:
@@ -35,7 +34,7 @@
   * -GetText()
   *		get the text stored in UIText
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
-  */
+ ****************************************************************/
 
 #include "UI.hpp"
 #include <string>
