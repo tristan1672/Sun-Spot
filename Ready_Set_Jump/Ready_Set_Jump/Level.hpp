@@ -1,7 +1,7 @@
 /*****************************************************************
 * \file Level.hpp
 * \project name : Ready ? Set.Jump!
-*\author(s) : Peh Zong Lin Adrian(p.zonglinadrian) (50%)
+*\author(s) : Peh Zong Lin Adrian(p.zonglinadrian) (40%)
 *             - Bitmap reading and storing
 *             - Made majority of the levels
 *			  - Texture setting for objects and platforms in bitmap
@@ -9,14 +9,14 @@
 *             - Collision check
 *             - Object collision update
 *			  - Added particles
-*             - Audio
 *            : Xiao Jun Yu(junyu.xiao)             (30%)
 *			  - Loaded textures
 *             - Save file
 *             - Game physics
-*            : Tristan Tham Rui Hong (t.tham)       (20%)
+*            : Tristan Tham Rui Hong (t.tham)      (30%)
 *             - Cam
 *             - Win scene
+*             - Audio
 *\brief
 * the basic logics to our levels and the game states, loops for our game
 * All content © 2023 DigiPen Institute of Technology Singapore.All rights reserved.

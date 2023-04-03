@@ -1,5 +1,5 @@
 /*****************************************************************
-  *  \file PlatformSound.cpp
+  *  \file PlatformSound.hpp
   *  \project name : Ready?Set.Jump!
   *  \author(s)    : Tristan Tham Rui Hong (t.tham)
   *
