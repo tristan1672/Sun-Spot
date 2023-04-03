@@ -33,7 +33,7 @@
 #include "Credits.hpp"
 
 // Global Static Variables
-UIText* creditInfo[44];
+UIText* creditInfo[45];
 static float creditTimer;
 /*****************************************************************
  * \brief
@@ -135,11 +135,12 @@ void Credits_Initialize() {
 
 	// Special Credits
 	// Set 10
-	creditInfo[42] = new UIText{ UIText("Additional Third Party Library:", {0.f, 0.075f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[42] = new UIText{ UIText("Additional Third Party Library:", {0.f, 0.125f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 	creditInfo[43] = new UIText{ UIText("nlohmann/json", {0.f, -0.025f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
+	creditInfo[44] = new UIText{ UIText("(C) Soundly 2023", {0.f, -0.125f}, {textSize.x, textSize.y}, White, false, White, e_creditFontID) };
 
 	// Centering Text
-	for (unsigned int i{}; i < 44; ++i) {
+	for (unsigned int i{}; i < 45; ++i) {
 		AEVec2 size{};
 		AEGfxGetPrintSize(e_creditFontID, creditInfo[i]->GetText(), creditInfo[i]->GetScale().x, size.x, size.y);
 		creditInfo[i]->SetPosition({ -0.5f * size.x + creditInfo[i]->GetPosition().x, creditInfo[i]->GetPosition().y });
@@ -225,7 +226,7 @@ void Credits_Draw() {
 		break;
 
 	case 10:
-		for (unsigned int i{ 42 }; i < 44; ++i)
+		for (unsigned int i{ 42 }; i < 45; ++i)
 			creditInfo[i]->DrawObj();
 		break;
 
