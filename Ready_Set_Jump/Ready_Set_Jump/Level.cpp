@@ -88,10 +88,11 @@ GameObject *levelParticleList;
 
 // Audio
 AEAudio e_gameBackgroudAudio;
-AEAudioGroup e_gameBackgroundSoundGroup;
+AEAudioGroup e_gameBackgroundAudioGroup;
 
 AEAudio e_slimeAudio;
 AEAudio checkpointAudio;
+AEAudio collectibleAudio;
 AEAudioGroup e_platformAudioGroup;
 
 
@@ -135,15 +136,15 @@ void Level_Load()
 	levelParticleList = new GameObject[MAX_PARTICLE_NUMBER];
 
 	// Audio
-	AEAudioPauseGroup(e_backgroundSoundGroup);
+	AEAudioPauseGroup(e_backgroundAudioGroup);
 
-	e_gameBackgroundSoundGroup = AEAudioCreateGroup();
+	e_gameBackgroundAudioGroup = AEAudioCreateGroup();
 	e_gameBackgroudAudio = AEAudioLoadMusic("Assets/Sound/GameBackground.mp3");
 	
 	e_platformAudioGroup = AEAudioCreateGroup();
 	e_slimeAudio = AEAudioLoadMusic("Assets/Sound/Slime_Sound.mp3");
 	checkpointAudio = AEAudioLoadMusic("Assets/Sound/Checkpoint_Sound.mp3");
-
+	collectibleAudio = AEAudioLoadMusic("Assets/Sound/Collectible_Sound.mp3");
 	
 
 }
@@ -153,7 +154,7 @@ void Level_Load()
 // ----------------------------------------------------------------------------
 void Level_Initialize()
 {
-	AEAudioPlay(e_gameBackgroudAudio, e_gameBackgroundSoundGroup, 0.1f, 1, -1);
+	AEAudioPlay(e_gameBackgroudAudio, e_gameBackgroundAudioGroup, 0.1f, 1, -1);
 
 	level_state = SCENE_SWITCH_BUFFER;
 	level1_difficulty = EASY;
@@ -295,7 +296,7 @@ void Level_Initialize()
 // ----------------------------------------------------------------------------
 void Level_Update()
 {
-	AEAudioResumeGroup(e_gameBackgroundSoundGroup);
+	AEAudioResumeGroup(e_gameBackgroundAudioGroup);
 
 	// No check for dead elements as it takes 136.5 sec for the entire array to be cycled through. By then the 1st particle would have been killed.
 	if (frameCounter % 4) {
@@ -321,7 +322,7 @@ void Level_Update()
 		if (AEInputCheckTriggered(AEVK_ESCAPE))
 		{
 			e_next_state = GS_MAINMENU;
-			AEAudioPauseGroup(e_gameBackgroundSoundGroup);
+			AEAudioPauseGroup(e_gameBackgroundAudioGroup);
 		}
 
 	}
@@ -335,7 +336,7 @@ void Level_Update()
 	if (level_state == PAUSED) { 
 		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 		PauseMenu::PauseMenuBehaviour(mouse); 
-		AEAudioPauseGroup(e_gameBackgroundSoundGroup);
+		AEAudioPauseGroup(e_gameBackgroundAudioGroup);
 	}
 
 	if (level_state == PLAYING)
@@ -378,7 +379,6 @@ void Level_Update()
 			Player.jumpReady = false;
 			Player.position = { playerSpawnPoint.x,playerSpawnPoint.y };
 			e_outOfMap = false;
-
 		}
 
 		// Collision reaction with objects
@@ -406,12 +406,11 @@ void Level_Update()
 		}
 		else if (e_collidedObjectType == COLLECTIBLES) {
 			platform[e_collidedObjectXPosY][e_collidedObjectXPosX].SetPlatformType(EMPTY_SPACE);
+			AEAudioPlay(collectibleAudio, e_platformAudioGroup, 0.1f, 1, 0);
 			++e_numOfcollectibleCollected;
 			e_collidedObjectType = 0;
 		}
 		
-
-		// Cam shake effect
 		
 
 		// code that allows the player to get affected by gravity

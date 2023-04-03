@@ -46,10 +46,10 @@ extern s8 e_creditFontID;
 
 // Music
 extern AEAudio e_backgroudAudio;
-extern AEAudioGroup e_backgroundSoundGroup;
+extern AEAudioGroup e_backgroundAudioGroup;
 
 extern AEAudio e_gameBackgroudAudio;
-extern AEAudioGroup e_gameBackgroundSoundGroup;
+extern AEAudioGroup e_gameBackgroundAudioGroup;
 
 extern AEAudio e_slimeAudio;
 extern AEAudioGroup e_platformAudioGroup;

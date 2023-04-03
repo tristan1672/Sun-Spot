@@ -27,7 +27,9 @@ static int frameCounter;
 GameObject* menuParticleList;
 
 AEAudio e_backgroudAudio;
-AEAudioGroup e_backgroundSoundGroup;
+AEAudioGroup e_backgroundAudioGroup;
+
+AEAudio buttonAudio;
 
 void Menu_Load() {// loads in the mesh
 	MakeMesh();
@@ -37,14 +39,16 @@ void Menu_Load() {// loads in the mesh
 	menuParticleList = new GameObject[MAX_PARTICLE_NUMBER];
 
 	e_backgroudAudio = AEAudioLoadMusic("Assets/Sound/MenuBackground.mp3");
-	e_backgroundSoundGroup = AEAudioCreateGroup();
-	AEAudioPlay(e_backgroudAudio, e_backgroundSoundGroup, 0.2f, 1, -1);
-	AEAudioPauseGroup(e_backgroundSoundGroup);
+	e_backgroundAudioGroup = AEAudioCreateGroup();
+	AEAudioPlay(e_backgroudAudio, e_backgroundAudioGroup, 0.2f, 1, -1);
+	AEAudioPauseGroup(e_backgroundAudioGroup);
+
+	buttonAudio = AEAudioLoadMusic("Assets/Sound/Button_Hover.mp3");
 }
 
 void Menu_Initialize() {
 
-	AEAudioResumeGroup(e_backgroundSoundGroup);
+	AEAudioResumeGroup(e_backgroundAudioGroup);
 
 	isTutorial = false;
 	e_uiState = MAIN;
@@ -136,6 +140,8 @@ void Menu_Update() {
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {// check if lmb is pressed
 
 		if (buttonText[2]->MouseCollision(mouse)) {// checks if credit button was clicked, loads the credit scene
+			AEAudioPlay(buttonAudio, e_platformAudioGroup, 0.3f, 1, 0);
+
 			for (unsigned int i{}; i < 3; ++i) {
 				titleText[i]->Active = false;
 			}
@@ -144,12 +150,12 @@ void Menu_Update() {
 				buttonText[i]->TextBoxActive = false; 
 				buttonText[i]->Active = false;
 			}
-
 			e_next_state = GS_CREDITS;
 		}
 
 		if (buttonText[0]->MouseCollision(mouse)) // checks if level select button was pressed, shows the level select menu
 		{
+			AEAudioPlay(buttonAudio, e_platformAudioGroup, 0.3f, 1, 0);
 			e_uiState = LS;
 			LevelSelect::SetLevelSelectActive();
 
@@ -195,7 +201,6 @@ void Menu_Update() {
 			fileToLoad = "Assets/Script/LevelTutorial.txt";
 			levelNumber = 0;
 			isTutorial = true;
-			//AEAudioStopGroup(e_backgroundSoundGroup);
 			e_next_state = GS_LEVEL;
 		}
 		
@@ -239,7 +244,7 @@ void Menu_Update() {
 
 		if (LevelSelect::StartButtonBehaviour(mouse))// goes to said level when level button is pressed
 		{
-			//AEAudioStopGroup(e_backgroundSoundGroup);
+			//AEAudioStopGroup(e_backgroundAudioGroup);
 			e_next_state = GS_LEVEL;
 		}
 	}
@@ -283,7 +288,7 @@ void Menu_Free() {// frees allocated memory on free
 	for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) delete buttonText[i];
 	for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) delete titleText[i];
 	for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) delete exitConfirmation[i];
-	AEAudioPauseGroup(e_backgroundSoundGroup);
+	AEAudioPauseGroup(e_backgroundAudioGroup);
 }
 
 void Menu_Unload() {// frees allocated memory on unload

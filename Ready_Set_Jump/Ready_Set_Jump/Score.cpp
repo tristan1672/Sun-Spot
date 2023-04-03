@@ -616,7 +616,7 @@ void scoreAnimations()
 
 			if (total.scoreDisplay >= total.score && total.size >= 4.0f && AEInputCheckTriggered(AEVK_LBUTTON)) //Check if animations are done
 			{
-				AEAudioPauseGroup(e_gameBackgroundSoundGroup);
+				AEAudioPauseGroup(e_gameBackgroundAudioGroup);
 				e_next_state = GS_MAINMENU; //Return to mainmenu after animations
 			}
 

@@ -50,7 +50,7 @@ void Credits_Load() {}
 void Credits_Initialize() {
 	AEGfxSetCamPosition(0.f, 0.f);
 
-	AEAudioResumeGroup(e_backgroundSoundGroup);
+	AEAudioResumeGroup(e_backgroundAudioGroup);
 
 	creditTimer = 0.f;
 
@@ -157,7 +157,7 @@ void Credits_Update() {
 	AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
-		AEAudioPauseGroup(e_backgroundSoundGroup);
+		AEAudioPauseGroup(e_backgroundAudioGroup);
 		e_next_state = GS_MAINMENU;
 	}
 
@@ -231,7 +231,7 @@ void Credits_Draw() {
 		break;
 
 	case 11:
-		AEAudioPauseGroup(e_backgroundSoundGroup);
+		AEAudioPauseGroup(e_backgroundAudioGroup);
 		e_next_state = GS_MAINMENU;
 	}
 }
