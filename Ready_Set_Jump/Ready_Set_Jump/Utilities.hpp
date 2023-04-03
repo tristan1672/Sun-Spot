@@ -44,6 +44,10 @@ extern FP e_fpLoad, e_fpInitialize, e_fpUpdate, e_fpDraw, e_fpFree, e_fpUnload;
 extern s8 e_fontID;
 extern s8 e_creditFontID;
 
+// Music
+extern AEAudio e_backgroudAudio;
+extern AEAudioGroup e_backgroundSoundGroup;
+
 // Physics
 extern float e_gravity;
 

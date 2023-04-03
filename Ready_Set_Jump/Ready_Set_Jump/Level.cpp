@@ -133,6 +133,7 @@ void Level_Load()
 	// Audio
 	gameBackgroud = AEAudioLoadMusic("Assets/Sound/GameBackground.mp3");
 	gameBackgroundSoundGroup = AEAudioCreateGroup();
+	AEAudioPauseGroup(e_backgroundSoundGroup);
 }
 // ----------------------------------------------------------------------------
 // This function initialize game object instances

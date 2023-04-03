@@ -24,8 +24,8 @@ int e_uiState;
 static int frameCounter;
 GameObject* menuParticleList;
 
-AEAudio backgroud;
-AEAudioGroup backgroundSoundGroup;
+AEAudio e_backgroudAudio;
+AEAudioGroup e_backgroundSoundGroup;
 
 void Menu_Load() {// loads in the mesh
 	MakeMesh();
@@ -34,13 +34,15 @@ void Menu_Load() {// loads in the mesh
 
 	menuParticleList = new GameObject[MAX_PARTICLE_NUMBER];
 
-	backgroud = AEAudioLoadMusic("Assets/Sound/MenuBackground.mp3");
-	backgroundSoundGroup = AEAudioCreateGroup();
+	e_backgroudAudio = AEAudioLoadMusic("Assets/Sound/MenuBackground.mp3");
+	e_backgroundSoundGroup = AEAudioCreateGroup();
+	AEAudioPlay(e_backgroudAudio, e_backgroundSoundGroup, 0.2f, 1, -1);
+	AEAudioPauseGroup(e_backgroundSoundGroup);
 }
 
 void Menu_Initialize() {
 
-	AEAudioPlay(backgroud, backgroundSoundGroup, 0.2f, 1, -1);
+	AEAudioResumeGroup(e_backgroundSoundGroup);
 
 	isTutorial = false;
 	e_uiState = MAIN;
@@ -174,7 +176,7 @@ void Menu_Update() {
 			fileToLoad = "Assets/Script/LevelTutorial.txt";
 			levelNumber = 0;
 			isTutorial = true;
-			AEAudioPauseGroup(backgroundSoundGroup);
+			//AEAudioStopGroup(e_backgroundSoundGroup);
 			e_next_state = GS_LEVEL;
 		}
 		
@@ -187,7 +189,7 @@ void Menu_Update() {
 		}
 		if (LevelSelect::StartButtonBehaviour(mouse))// goes to said level when level button is pressed
 		{
-			AEAudioPauseGroup(backgroundSoundGroup);
+			//AEAudioStopGroup(e_backgroundSoundGroup);
 			e_next_state = GS_LEVEL;
 		}
 	}
@@ -235,6 +237,7 @@ void Menu_Free() {// frees allocated memory on free
 	UnloadPArticle(menuParticleList);
 	for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) delete buttonText[i];
 	for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) delete titleText[i];
+	AEAudioPauseGroup(e_backgroundSoundGroup);
 }
 
 void Menu_Unload() {// frees allocated memory on unload

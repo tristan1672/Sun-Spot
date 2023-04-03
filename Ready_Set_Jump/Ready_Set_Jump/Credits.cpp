@@ -11,9 +11,11 @@
   *  - Credits_Initialize
   *		Resets cam position to center
   *		Initalize text,position,size,color
+  *     Plays background music
   * 
   *  - Credits_Update
   *		Increments timer used for animation
+  *     Pauses background music if leaving scene
   * 
   *  - Credits_Draw
   *		Draws text
@@ -47,6 +49,8 @@ void Credits_Load() {}
  ****************************************************************/
 void Credits_Initialize() {
 	AEGfxSetCamPosition(0.f, 0.f);
+
+	AEAudioResumeGroup(e_backgroundSoundGroup);
 
 	creditTimer = 0.f;
 
@@ -152,6 +156,7 @@ void Credits_Update() {
 	AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 
 	if (AEInputCheckTriggered(AEVK_LBUTTON)) {
+		AEAudioPauseGroup(e_backgroundSoundGroup);
 		e_next_state = GS_MAINMENU;
 	}
 
@@ -225,6 +230,7 @@ void Credits_Draw() {
 		break;
 
 	case 11:
+		AEAudioPauseGroup(e_backgroundSoundGroup);
 		e_next_state = GS_MAINMENU;
 	}
 }
