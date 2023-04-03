@@ -90,6 +90,10 @@ GameObject *levelParticleList;
 AEAudio e_gameBackgroudAudio;
 AEAudioGroup e_gameBackgroundSoundGroup;
 
+AEAudio e_slimeAudio;
+AEAudio checkpointAudio;
+AEAudioGroup e_platformAudioGroup;
+
 
 int ImportMapDataFromFile(const char* FileName);
 
@@ -131,9 +135,17 @@ void Level_Load()
 	levelParticleList = new GameObject[MAX_PARTICLE_NUMBER];
 
 	// Audio
-	e_gameBackgroudAudio = AEAudioLoadMusic("Assets/Sound/GameBackground.mp3");
-	e_gameBackgroundSoundGroup = AEAudioCreateGroup();
 	AEAudioPauseGroup(e_backgroundSoundGroup);
+
+	e_gameBackgroundSoundGroup = AEAudioCreateGroup();
+	e_gameBackgroudAudio = AEAudioLoadMusic("Assets/Sound/GameBackground.mp3");
+	
+	e_platformAudioGroup = AEAudioCreateGroup();
+	e_slimeAudio = AEAudioLoadMusic("Assets/Sound/Slime_Sound.mp3");
+	checkpointAudio = AEAudioLoadMusic("Assets/Sound/Checkpoint_Sound.mp3");
+
+	
+
 }
 // ----------------------------------------------------------------------------
 // This function initialize game object instances
@@ -369,6 +381,7 @@ void Level_Update()
 
 		}
 
+		// Collision reaction with objects
 		if (e_collidedObjectType == GOAL) {
 			level_state = WIN;
 			Player.velocity.x = 0.0f;
@@ -377,6 +390,7 @@ void Level_Update()
 		}
 		else if (e_collidedObjectType == CHECKPOINT) {
 			playerSpawnPoint = platform[e_collidedObjectXPosY][e_collidedObjectXPosX].GetPosition();
+			AEAudioPlay(checkpointAudio, e_platformAudioGroup, 0.1f, 1, 0);
 			
 			// Update Checkpoints to now display active
 			for (int i = 0; i < e_binaryMapHeight; i++) {
