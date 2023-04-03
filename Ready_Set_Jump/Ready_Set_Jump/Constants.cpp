@@ -39,8 +39,8 @@ const float PLAYER_SIZE_Y = 30.0f;
 const float GOAL_SIZE_X = 30.0f;
 const float GOAL_SIZE_Y = 45.0f;
 // collectible
-const float collectible_SIZE_X = 30.0f;
-const float collectible_SIZE_Y = 30.0f;
+const float COLLECTIBLE_SIZE_X = 30.0f;
+const float COLLECTIBLE_SIZE_Y = 30.0f;
 // View Port
 const int VIEWPORT_WIDTH  = 30;
 const int VIEWPORT_HEIGHT = 25;

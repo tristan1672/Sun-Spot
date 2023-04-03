@@ -44,8 +44,8 @@ extern const float PLAYER_SIZE_Y;
 extern const float GOAL_SIZE_X;
 extern const float GOAL_SIZE_Y;
 // collectible
-extern const float collectible_SIZE_X;
-extern const float collectible_SIZE_Y;
+extern const float COLLECTIBLE_SIZE_X;
+extern const float COLLECTIBLE_SIZE_Y;
 // View Port
 extern const int VIEWPORT_WIDTH;
 extern const int VIEWPORT_HEIGHT;

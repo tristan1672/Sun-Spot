@@ -207,7 +207,7 @@ void Level_Initialize()
 			case COLLECTIBLES:
 				platform[i][j] = Platform(
 					{ GRID_WIDTH_SIZE / 2.0f - HALVE_WINDOW_WIDTH + j * GRID_WIDTH_SIZE, -GRID_HEIGHT_SIZE / 2.0f + HALVE_WINDOW_HEIGHT - i * GRID_HEIGHT_SIZE },
-					{ collectible_SIZE_X, collectible_SIZE_Y }, White, 0, AE_GFX_RM_COLOR, circleMesh);
+					{ COLLECTIBLE_SIZE_X, COLLECTIBLE_SIZE_Y }, White, 0, AE_GFX_RM_COLOR, circleMesh);
 				platform[i][j].SetRenderMode(AE_GFX_RM_TEXTURE);
 				platform[i][j].SetTexture(collectibleTexture);
 				break;
