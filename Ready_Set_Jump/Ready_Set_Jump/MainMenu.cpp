@@ -19,6 +19,8 @@ UIText* titleText[3];
 
 UIText* buttonText[4];
 
+UIText* exitConfirmation[3];
+
 int e_uiState;
 
 static int frameCounter;
@@ -72,6 +74,17 @@ void Menu_Initialize() {
 	buttonText[1] = new UIText{ UIText("How To Play", { 0.f, -0.0f }, { 1.f,1.f }, White, true, GreenTea) };
 	buttonText[2] = new UIText{ UIText("Credits", { 0.f, -0.3f }, { 1.f,1.f }, White, true, GreenTea) };
 	buttonText[3] = new UIText{ UIText("Quit", { 0.f, -0.6f }, { 1.f,1.f }, White, true, GreenTea) };
+
+	exitConfirmation[0] = new UIText{ UIText("Are You Sure?", { -0.2f, 0.3f }, { 1.f,1.f }, White) };
+	exitConfirmation[1] = new UIText{ UIText("Yes", {-0.2f, -0.2f }, { 1.f,1.f }, White, true, GreenTea) };
+	exitConfirmation[2] = new UIText{ UIText("No", { 0.2f, -0.2f }, { 1.f,1.f }, White, true, GreenTea) };
+
+
+	for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
+		exitConfirmation[i]->Active = false;
+		exitConfirmation[i]->TextBoxActive = false;
+	}
+
 
 	for (unsigned int i{}; i < 4; ++i) {
 		AEVec2 size{};
@@ -185,8 +198,39 @@ void Menu_Update() {
 
 		if (buttonText[3]->MouseCollision(mouse)) // quits the game if quit button is pressed
 		{
+			for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
+				exitConfirmation[i]->Active = true;
+				exitConfirmation[i]->TextBoxActive = true;
+			}
+			for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) {
+				buttonText[i]->Active = false;
+				buttonText[i]->TextBoxActive = false;
+			}
+			for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) {
+				titleText[i]->Active = false;
+			}
+
+			exitConfirmation[0]->TextBoxActive = false;
+		}
+
+		if (exitConfirmation[1]->MouseCollision(mouse)) {
 			e_next_state = GS_QUIT;
 		}
+
+		if (exitConfirmation[2]->MouseCollision(mouse)) {
+			for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
+				exitConfirmation[i]->Active = false;
+				exitConfirmation[i]->TextBoxActive = false;
+			}
+			for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) {
+				buttonText[i]->Active = true;
+				buttonText[i]->TextBoxActive = true;
+			}
+			for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) {
+				titleText[i]->Active = true;
+			}
+		}
+
 		if (LevelSelect::StartButtonBehaviour(mouse))// goes to said level when level button is pressed
 		{
 			//AEAudioStopGroup(e_backgroundSoundGroup);
@@ -198,22 +242,16 @@ void Menu_Update() {
 		Fade animation for text box on hover
 	*/
 	LevelSelect::LSButtonAnimation(mouse);
-
-	if (buttonText[0]->MouseCollision(mouse) && buttonText[0]->GetTextBoxAlpha() < 1.f) {
-		buttonText[0]->TextBoxFadeIn();
-	}else if(!(buttonText[0]->MouseCollision(mouse))) buttonText[0]->TextBoxFadeOut();
-
-	if (buttonText[3]->MouseCollision(mouse) && buttonText[3]->GetTextBoxAlpha() < 1.f) {
-		buttonText[3]->TextBoxFadeIn();
-	}else if(!(buttonText[3]->MouseCollision(mouse))) buttonText[3]->TextBoxFadeOut();
-
-	if (buttonText[1]->MouseCollision(mouse) && buttonText[1]->GetTextBoxAlpha() < 1.f) {
-		buttonText[1]->TextBoxFadeIn();
-	}else if(!(buttonText[1]->MouseCollision(mouse))) buttonText[1]->TextBoxFadeOut();
-
-	if (buttonText[2]->MouseCollision(mouse) && buttonText[2]->GetTextBoxAlpha() < 1.f) {
-		buttonText[2]->TextBoxFadeIn();
-	}else if (!(buttonText[2]->MouseCollision(mouse))) buttonText[2]->TextBoxFadeOut();
+	for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) {
+		if (buttonText[i]->MouseCollision(mouse) && buttonText[i]->GetTextBoxAlpha() < 1.f) {
+			buttonText[i]->TextBoxFadeIn();
+		}else if(!(buttonText[i]->MouseCollision(mouse))) buttonText[i]->TextBoxFadeOut();
+	}
+	for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
+		if (exitConfirmation[i]->MouseCollision(mouse) && exitConfirmation[i]->GetTextBoxAlpha() < 1.f) {
+			exitConfirmation[i]->TextBoxFadeIn();
+		}else if(!(exitConfirmation[i]->MouseCollision(mouse))) exitConfirmation[i]->TextBoxFadeOut();
+	}
 
 	// Update particle effect for background
 	UpdateParticle(menuParticleList);
@@ -230,6 +268,7 @@ void Menu_Draw() {// draws the UI buttons
 	for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) buttonText[i]->DrawObj();
 	for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) titleText[i]->DrawObj();
 	LevelSelect::DrawLevelButton();
+	for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) exitConfirmation[i]->DrawObj();
 }
 
 void Menu_Free() {// frees allocated memory on free
@@ -237,6 +276,7 @@ void Menu_Free() {// frees allocated memory on free
 	UnloadPArticle(menuParticleList);
 	for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) delete buttonText[i];
 	for (size_t i{}; i < sizeof titleText / sizeof titleText[0]; ++i) delete titleText[i];
+	for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) delete exitConfirmation[i];
 	AEAudioPauseGroup(e_backgroundSoundGroup);
 }
 
