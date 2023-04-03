@@ -141,7 +141,7 @@ void Level_Load()
 // ----------------------------------------------------------------------------
 void Level_Initialize()
 {
-	AEAudioPlay(gameBackgroud, gameBackgroundSoundGroup, 0.2f, 1, -1);
+	AEAudioPlay(gameBackgroud, gameBackgroundSoundGroup, 0.1f, 1, -1);
 
 	level_state = SCENE_SWITCH_BUFFER;
 	level1_difficulty = EASY;
@@ -305,16 +305,17 @@ void Level_Update()
 	}
 	if (level_state == WIN)
 	{
-		AEAudioPauseGroup(gameBackgroundSoundGroup);
 
 		if (AEInputCheckTriggered(AEVK_ESCAPE))
 		{
 			e_next_state = GS_MAINMENU;
+			AEAudioPauseGroup(gameBackgroundSoundGroup);
 		}
 
 		// Mouse click to return to menu
 		if (e_scoreAnimation) {
 			e_next_state = GS_MAINMENU;
+			AEAudioPauseGroup(gameBackgroundSoundGroup);
 		}
 	}
 	if (AEInputCheckTriggered(AEVK_ESCAPE)) {

@@ -1,10 +1,10 @@
 /*****************************************************************
   *  \file MainMenu.cpp
   *  \project name : Ready?Set.Jump!
-  *  \author(s)    : Xiao Jun Yu (junyu.xiao)              (75%)
+  *  \author(s)    : Xiao Jun Yu (junyu.xiao)              (50%)
   *				     - Main Author  
-  *                : Peh Zong Lin Adrian (p.zonglinadrian) (25%)
-  *                  - Sub Author
+  *                : Peh Zong Lin Adrian (p.zonglinadrian) (50%)
+  *                  - Main Author
   *					 - Added particles 
   *                  - Automated text position and cleaned it up
   *					 - Added Audio
