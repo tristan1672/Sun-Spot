@@ -16,6 +16,7 @@
 
 #include "PlatformSound.hpp"
 
+AEAudio normalAudio;
 AEAudio iceAudio;
 AEAudio stickyAudio;
 AEAudio slimeAudio;
@@ -30,6 +31,7 @@ AEAudioGroup e_platformAudioGroup;
  ****************************************************************/
 void PlatformSoundLoad() {
 	e_platformAudioGroup = AEAudioCreateGroup();
+	normalAudio = AEAudioLoadMusic("Assets/Sound/Jump.mp3");
 	iceAudio = AEAudioLoadMusic("Assets/Sound/Ice_Sound.mp3");
 	stickyAudio = AEAudioLoadMusic("Assets/Sound/Sticky_Sound.mp3");
 	slimeAudio = AEAudioLoadMusic("Assets/Sound/Slime_Sound.mp3");
@@ -46,6 +48,10 @@ void PlatformSoundLoad() {
  ****************************************************************/
 void PlatformSoundPlay(int Type) {
 	switch (Type) {
+	case NORMAL_BLOCK:
+		AEAudioPlay(normalAudio, e_platformAudioGroup, 0.2f, 1, 0);
+		break;
+
 	case ICE_BLOCK:
 		AEAudioPlay(iceAudio, e_platformAudioGroup, 0.2f, 1, 0);
 		break;
@@ -78,9 +84,12 @@ void DynamicObj::CollisionSound() {
 	if (collisionFlag & COLLISION_BOTTOM) {// checks if the obj collides on the bottom
 		// Checking when block is the player on 
 		if (position.x < (platform[static_cast<int>(btmY)][static_cast<int>(X1)].position.x + (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetScale().x / 2.f))) {
-
 			switch (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetPlatformType())
 			{
+			case NORMAL_BLOCK:
+				PlatformSoundPlay(NORMAL_BLOCK);
+				break;
+
 			case ICE_BLOCK:
 				PlatformSoundPlay(ICE_BLOCK);
 				break;
@@ -100,6 +109,10 @@ void DynamicObj::CollisionSound() {
 		else if (position.x > (platform[static_cast<int>(btmY)][static_cast<int>(X1)].position.x - (platform[static_cast<int>(btmY)][static_cast<int>(X1)].GetScale().x / 2.f))) {
 			switch (platform[static_cast<int>(btmY)][static_cast<int>(X2)].GetPlatformType())
 			{
+			case NORMAL_BLOCK:
+				PlatformSoundPlay(NORMAL_BLOCK);
+				break;
+
 			case ICE_BLOCK:
 				PlatformSoundPlay(ICE_BLOCK);
 				break;
@@ -122,6 +135,10 @@ void DynamicObj::CollisionSound() {
 			position.y >(platform[static_cast<int>(Y1)][static_cast<int>(rightX)].position.y - (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetScale().y / 2.f))) {
 			switch (platform[static_cast<int>(Y1)][static_cast<int>(rightX)].GetPlatformType())
 			{
+			case NORMAL_BLOCK:
+				PlatformSoundPlay(NORMAL_BLOCK);
+				break;
+
 			case ICE_BLOCK:
 				PlatformSoundPlay(ICE_BLOCK);
 				break;
@@ -141,6 +158,10 @@ void DynamicObj::CollisionSound() {
 		else if (platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType() < GOAL) {
 			switch (platform[static_cast<int>(Y2)][static_cast<int>(rightX)].GetPlatformType())
 			{
+			case NORMAL_BLOCK:
+				PlatformSoundPlay(NORMAL_BLOCK);
+
+				break;
 			case ICE_BLOCK:
 				PlatformSoundPlay(ICE_BLOCK);
 				break;
@@ -163,6 +184,10 @@ void DynamicObj::CollisionSound() {
 			position.y >(platform[static_cast<int>(Y1)][static_cast<int>(leftX)].position.y - (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetScale().y / 2.f))) {
 			switch (platform[static_cast<int>(Y1)][static_cast<int>(leftX)].GetPlatformType())
 			{
+			case NORMAL_BLOCK:
+				PlatformSoundPlay(NORMAL_BLOCK);
+				break;
+
 			case ICE_BLOCK:
 				PlatformSoundPlay(ICE_BLOCK);
 				break;
@@ -182,6 +207,10 @@ void DynamicObj::CollisionSound() {
 		else if (platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() > EMPTY_SPACE && platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType() < GOAL) {
 			switch (platform[static_cast<int>(Y2)][static_cast<int>(leftX)].GetPlatformType())
 			{
+			case NORMAL_BLOCK:
+				PlatformSoundPlay(NORMAL_BLOCK);
+
+				break;
 			case ICE_BLOCK:
 				PlatformSoundPlay(ICE_BLOCK);
 				break;
