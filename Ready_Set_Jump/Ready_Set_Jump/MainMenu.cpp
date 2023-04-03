@@ -43,7 +43,7 @@ void Menu_Load() {// loads in the mesh
 	AEAudioPlay(e_backgroudAudio, e_backgroundAudioGroup, 0.2f, 1, -1);
 	AEAudioPauseGroup(e_backgroundAudioGroup);
 
-	buttonAudio = AEAudioLoadMusic("Assets/Sound/Button_Hover.mp3");
+	buttonAudio = AEAudioLoadMusic("Assets/Sound/Button_Click.mp3");
 }
 
 void Menu_Initialize() {
