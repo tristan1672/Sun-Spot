@@ -87,8 +87,8 @@ AEGfxTexture* arrowTexture{ nullptr };
 GameObject *levelParticleList;
 
 // Audio
-AEAudio gameBackgroud;
-AEAudioGroup gameBackgroundSoundGroup;
+AEAudio e_gameBackgroudAudio;
+AEAudioGroup e_gameBackgroundSoundGroup;
 
 
 int ImportMapDataFromFile(const char* FileName);
@@ -131,8 +131,8 @@ void Level_Load()
 	levelParticleList = new GameObject[MAX_PARTICLE_NUMBER];
 
 	// Audio
-	gameBackgroud = AEAudioLoadMusic("Assets/Sound/GameBackground.mp3");
-	gameBackgroundSoundGroup = AEAudioCreateGroup();
+	e_gameBackgroudAudio = AEAudioLoadMusic("Assets/Sound/GameBackground.mp3");
+	e_gameBackgroundSoundGroup = AEAudioCreateGroup();
 	AEAudioPauseGroup(e_backgroundSoundGroup);
 }
 // ----------------------------------------------------------------------------
@@ -141,7 +141,7 @@ void Level_Load()
 // ----------------------------------------------------------------------------
 void Level_Initialize()
 {
-	AEAudioPlay(gameBackgroud, gameBackgroundSoundGroup, 0.1f, 1, -1);
+	AEAudioPlay(e_gameBackgroudAudio, e_gameBackgroundSoundGroup, 0.1f, 1, -1);
 
 	level_state = SCENE_SWITCH_BUFFER;
 	level1_difficulty = EASY;
@@ -283,7 +283,7 @@ void Level_Initialize()
 // ----------------------------------------------------------------------------
 void Level_Update()
 {
-	AEAudioResumeGroup(gameBackgroundSoundGroup);
+	AEAudioResumeGroup(e_gameBackgroundSoundGroup);
 
 	// No check for dead elements as it takes 136.5 sec for the entire array to be cycled through. By then the 1st particle would have been killed.
 	if (frameCounter % 4) {
@@ -309,14 +309,9 @@ void Level_Update()
 		if (AEInputCheckTriggered(AEVK_ESCAPE))
 		{
 			e_next_state = GS_MAINMENU;
-			AEAudioPauseGroup(gameBackgroundSoundGroup);
+			AEAudioPauseGroup(e_gameBackgroundSoundGroup);
 		}
 
-		// Mouse click to return to menu
-		if (e_scoreAnimation) {
-			e_next_state = GS_MAINMENU;
-			AEAudioPauseGroup(gameBackgroundSoundGroup);
-		}
 	}
 	if (AEInputCheckTriggered(AEVK_ESCAPE)) {
 		if (level_state != PAUSED)level_state = PAUSED;
@@ -328,7 +323,7 @@ void Level_Update()
 	if (level_state == PAUSED) { 
 		AEInputGetCursorPosition(&mouse.ClickX, &mouse.ClickY);
 		PauseMenu::PauseMenuBehaviour(mouse); 
-		AEAudioPauseGroup(gameBackgroundSoundGroup);
+		AEAudioPauseGroup(e_gameBackgroundSoundGroup);
 	}
 
 	if (level_state == PLAYING)

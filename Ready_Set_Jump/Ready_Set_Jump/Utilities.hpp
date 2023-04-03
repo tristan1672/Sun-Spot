@@ -48,6 +48,9 @@ extern s8 e_creditFontID;
 extern AEAudio e_backgroudAudio;
 extern AEAudioGroup e_backgroundSoundGroup;
 
+extern AEAudio e_gameBackgroudAudio;
+extern AEAudioGroup e_gameBackgroundSoundGroup;
+
 // Physics
 extern float e_gravity;
 
@@ -56,9 +59,6 @@ extern float e_deltaTime, e_levelTime;
 
 // Jump Arrow
 extern float currHoldTime, currHoldDistance;
-
-// Score animation
-extern bool e_scoreAnimation;
 
 // Score flag
 extern int e_skip;

@@ -123,7 +123,7 @@ void PrintScore(int JUMP_COUNT)
 	calculateGrades();
 	
 	//Setting Animation 
-	e_scoreAnimation = scoreAnimations();
+	scoreAnimations();
 
 	//Store variables to string buffer
 	snprintf(collectiblegrade, sizeof collectiblegrade, "%c",						collectible.grade);
@@ -407,7 +407,7 @@ void calculateGrades()
 	-Display fonts moving laterally into position (Lateral Sliding)
 
 ***************************************************************************/
-bool scoreAnimations()
+void scoreAnimations()
 {
 //Counting Animation
 //*******************************************************************************
@@ -616,6 +616,7 @@ bool scoreAnimations()
 
 			if (total.scoreDisplay >= total.score && total.size >= 4.0f && AEInputCheckTriggered(AEVK_LBUTTON)) //Check if animations are done
 			{
+				AEAudioPauseGroup(e_gameBackgroundSoundGroup);
 				e_next_state = GS_MAINMENU; //Return to mainmenu after animations
 			}
 
@@ -626,8 +627,7 @@ bool scoreAnimations()
 			}
 		}
 	}
-	
-	return false;
+
 //*******************************************************************************
 }
 
