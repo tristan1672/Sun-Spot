@@ -1,7 +1,7 @@
 /*****************************************************************
-  *  \file PlatformSound.hpp
+  *  \file PlatformSound.cpp
   *  \project name : Ready?Set.Jump!
-  *  \author(s)    : Peh Zong Lin Adrian (p.zonglinadrian)
+  *  \author(s)    : Tristan Tham Rui Hong (t.tham)
   *
   *  \brief
   *  Platform sound component.
@@ -10,6 +10,9 @@
   *
   *  - PlatformSoundPlay
   *		Plays platform sound according to its type
+  *
+  *  - CollisionSound()
+  *     Checks which type of collision block its on and calls the corresponding audio
   *
   *   All content © 2023 DigiPen Institute of Technology Singapore. All rights reserved.
  ****************************************************************/

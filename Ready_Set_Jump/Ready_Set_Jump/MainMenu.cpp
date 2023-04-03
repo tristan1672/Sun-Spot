@@ -4,10 +4,12 @@
   *  \author(s)    : Xiao Jun Yu (junyu.xiao)              (50%)
   *				     - Main Author  
   *                : Peh Zong Lin Adrian (p.zonglinadrian) (50%)
-  *                  - Main Author
+  *                  - Sub Author
   *					 - Added particles 
   *                  - Automated text position and cleaned it up
-  *					 - Added Audio
+  *                : Tristan Tham Rui Hong (t.tham)         (10%)
+  *                   - Sub Author
+  *                   - Added Audio
   *
   *  \brief
   * Main Menu Scene

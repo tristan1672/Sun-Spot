@@ -172,7 +172,7 @@ void Credits_Update() {
 void Credits_Draw() {
 	AEGfxSetBackgroundColor(0.0f, 0.0f, 0.0f);
 
-	float time = 3.0f;
+	float time = 2.0f;
 	int set = static_cast<int>(creditTimer / time);
 
 	switch (set)
