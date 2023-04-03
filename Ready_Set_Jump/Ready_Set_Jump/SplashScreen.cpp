@@ -32,7 +32,12 @@ void SplashScreen_Initialize() {
 }
 
 void SplashScreen_Update() {
-	if (AEInputCheckTriggered(AEVK_LBUTTON) || AEInputCheckTriggered(AEVK_SPACE) || maxSplashScreenTime <=0.f) {/*
+	if (AEInputCheckTriggered(AEVK_RBUTTON) || 
+		AEInputCheckTriggered(AEVK_LBUTTON) || 
+		AEInputCheckTriggered(AEVK_RETURN) ||
+		AEInputCheckTriggered(AEVK_ESCAPE) ||
+		AEInputCheckTriggered(AEVK_SPACE) || 
+		maxSplashScreenTime <=0.f) {/*
 		*  if left  mouse button or space is pressed the splash screen will skipped
 		*/
 		e_next_state = GS_MAINMENU;
