@@ -29,6 +29,8 @@
 
 namespace PauseMenu {
 	UIText* buttonText[4];
+	UIText* exitConfirmation[3];
+	int nextState{};
 
 	GameObject* backGround;
 	void CreatePauseMenu() {
@@ -45,28 +47,82 @@ namespace PauseMenu {
 		}
 
 		backGround = new GameObject{ GameObject({-0.1f,0.f},{2000,1000},Black) };
+
+		exitConfirmation[0] = new UIText{ UIText("Are You Sure?", { 0.f, 0.3f }, { 1.f,1.f }, White) };
+		exitConfirmation[1] = new UIText{ UIText("Yes", {-0.2f, -0.2f }, { 1.f,1.f }, White, true, GreenTea) };
+		exitConfirmation[2] = new UIText{ UIText("No", { 0.2f, -0.2f }, { 1.f,1.f }, White, true, GreenTea) };
+
+		for (unsigned int i{}; i < 3; ++i) {
+			AEVec2 size{};
+			AEGfxGetPrintSize(e_fontID, exitConfirmation[i]->GetText(), exitConfirmation[i]->GetScale().x, size.x, size.y);
+			exitConfirmation[i]->SetPosition({ -0.5f * size.x + exitConfirmation[i]->GetPosition().x, exitConfirmation[i]->GetPosition().y });
+		}
+
+
+		for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
+			exitConfirmation[i]->Active = false;
+			exitConfirmation[i]->TextBoxActive = false;
+		}
 	}
 	void PauseMenuBehaviour(mousePos mouse) {
 		//sets behaviour what each button does
 		AEGfxSetCamPosition(0.f, 0.f);
 		if (AEInputCheckTriggered(AEVK_LBUTTON)) {
 			if (buttonText[1]->MouseCollision(mouse)) level_state = PLAYING;// return to gaming
-			if (buttonText[2]->MouseCollision(mouse)) e_next_state = GS_MAINMENU;// return to main menu
-			if (buttonText[3]->MouseCollision(mouse)) e_next_state = GS_QUIT;// quits the game
+			if (buttonText[2]->MouseCollision(mouse)) {//shows exit confirmation
+				for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
+					exitConfirmation[i]->Active = true;
+					exitConfirmation[i]->TextBoxActive = true;
+				}
+				exitConfirmation[0]->TextBoxActive = false;
+				for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) {
+					buttonText[i]->Active = false;
+					buttonText[i]->TextBoxActive = false;
+				}
+				nextState = GS_MAINMENU;
+			}
+
+			if (buttonText[3]->MouseCollision(mouse)) {//shows exit confirmation
+				for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
+					exitConfirmation[i]->Active = true;
+					exitConfirmation[i]->TextBoxActive = true;
+				}
+				exitConfirmation[0]->TextBoxActive = false;
+				for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) {
+					buttonText[i]->Active = false;
+					buttonText[i]->TextBoxActive = false;
+				}
+				nextState = GS_QUIT;
+			}
+
+			if (exitConfirmation[1]->MouseCollision(mouse)) {
+				e_next_state = nextState;
+			}
+			if (exitConfirmation[2]->MouseCollision(mouse)) {
+				for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
+					exitConfirmation[i]->Active = false;
+					exitConfirmation[i]->TextBoxActive = false;
+				}
+				for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) {
+					buttonText[i]->Active = true;
+					buttonText[i]->TextBoxActive = true;
+				}
+				buttonText[0]->TextBoxActive = false;
+			}
 		}
 
 		/* text box animation to fade in/out on hover*/
-		if (buttonText[1]->MouseCollision(mouse) && buttonText[1]->GetTextBoxAlpha() < 1.f) {
-			buttonText[1]->TextBoxFadeIn();
-		}else if (!(buttonText[1]->MouseCollision(mouse))) buttonText[1]->TextBoxFadeOut();
-
-		if (buttonText[2]->MouseCollision(mouse) && buttonText[2]->GetTextBoxAlpha() < 1.f) {
-			buttonText[2]->TextBoxFadeIn();
-		}else if (!(buttonText[2]->MouseCollision(mouse))) buttonText[2]->TextBoxFadeOut();
-
-		if (buttonText[3]->MouseCollision(mouse) && buttonText[3]->GetTextBoxAlpha() < 1.f) {
-			buttonText[3]->TextBoxFadeIn();
-		}else if (!(buttonText[3]->MouseCollision(mouse))) buttonText[3]->TextBoxFadeOut();
+		for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i) {
+			if (buttonText[i]->MouseCollision(mouse) && buttonText[i]->GetTextBoxAlpha() < 1.f) {
+				buttonText[i]->TextBoxFadeIn();
+			}else if (!(buttonText[i]->MouseCollision(mouse))) buttonText[i]->TextBoxFadeOut();
+		}
+		for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
+			if (exitConfirmation[i]->MouseCollision(mouse) && exitConfirmation[i]->GetTextBoxAlpha() < 1.f) {
+				exitConfirmation[i]->TextBoxFadeIn();
+			}
+			else if (!(exitConfirmation[i]->MouseCollision(mouse))) exitConfirmation[i]->TextBoxFadeOut();
+		}
 
 	}
 	void DrawPauseMenu() {//draws the buttons and text
@@ -74,11 +130,14 @@ namespace PauseMenu {
 
 		for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i)
 			buttonText[i]->DrawObj();
+		for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i)
+			exitConfirmation[i]->DrawObj();
 	}
 	void FreePauseMenu() {
 		for (size_t i{}; i < sizeof buttonText / sizeof buttonText[0]; ++i)
 			delete buttonText[i];
 
 		delete backGround;
+		for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) delete exitConfirmation[i];
 	}
 }

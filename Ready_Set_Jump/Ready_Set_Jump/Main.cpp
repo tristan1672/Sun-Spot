@@ -34,7 +34,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
     //Initialize the system
     // The param after WINDOW_HEIGHT to 0 if dw console
-    AESysInit(hInstance, nCmdShow, WINDOW_WIDTH, WINDOW_HEIGHT, 1, 60, true, NULL);
+    AESysInit(hInstance, nCmdShow, WINDOW_WIDTH, WINDOW_HEIGHT, 0, 60, true, NULL);
     System_Initialize(); 
     
     e_fontID = AEGfxCreateFont("Assets/Font/kongtext.ttf", FONT_SIZE);
