@@ -75,9 +75,15 @@ void Menu_Initialize() {
 	buttonText[2] = new UIText{ UIText("Credits", { 0.f, -0.3f }, { 1.f,1.f }, White, true, GreenTea) };
 	buttonText[3] = new UIText{ UIText("Quit", { 0.f, -0.6f }, { 1.f,1.f }, White, true, GreenTea) };
 
-	exitConfirmation[0] = new UIText{ UIText("Are You Sure?", { -0.2f, 0.3f }, { 1.f,1.f }, White) };
+	exitConfirmation[0] = new UIText{ UIText("Are You Sure?", { 0.f, 0.3f }, { 1.f,1.f }, White) };
 	exitConfirmation[1] = new UIText{ UIText("Yes", {-0.2f, -0.2f }, { 1.f,1.f }, White, true, GreenTea) };
 	exitConfirmation[2] = new UIText{ UIText("No", { 0.2f, -0.2f }, { 1.f,1.f }, White, true, GreenTea) };
+
+	for (unsigned int i{}; i < 3; ++i) {
+		AEVec2 size{};
+		AEGfxGetPrintSize(e_fontID, exitConfirmation[i]->GetText(), exitConfirmation[i]->GetScale().x, size.x, size.y);
+		exitConfirmation[i]->SetPosition({ -0.5f * size.x + exitConfirmation[i]->GetPosition().x, exitConfirmation[i]->GetPosition().y });
+	}
 
 
 	for (size_t i{}; i < sizeof exitConfirmation / sizeof exitConfirmation[0]; ++i) {
