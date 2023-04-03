@@ -51,7 +51,6 @@ extern AEAudioGroup e_backgroundAudioGroup;
 extern AEAudio e_gameBackgroudAudio;
 extern AEAudioGroup e_gameBackgroundAudioGroup;
 
-extern AEAudio e_slimeAudio;
 extern AEAudioGroup e_platformAudioGroup;
 
 // Physics

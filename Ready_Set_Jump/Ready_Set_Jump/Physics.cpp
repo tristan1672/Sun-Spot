@@ -52,7 +52,6 @@ void DynamicObj::PhysicsUpdate() {
 				velocity.y = -(velocity.y * 0.9f);
 				friction = SLIME_FRICTION;
 				jumpReady = true;
-				AEAudioPlay(e_slimeAudio, e_platformAudioGroup, 0.1f, 1, 0);
 				break;
 			default:
 				break;

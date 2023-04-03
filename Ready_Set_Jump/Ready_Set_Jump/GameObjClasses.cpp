@@ -33,6 +33,8 @@
   *		sets the rotation of gameobject class object
   * -SetTexture(AEGfxTexture* texturePointer)
   *		sets the texture of gameobject class object
+  * - GetTecture()
+  *		gets the texture of gameobject class object
   * -SetRenderMode(AEGfxRenderMode render)
   *		sets the render mode of gameobject class object
   * -GetDirection()
@@ -154,6 +156,11 @@ void GameObject::SetRotation(f32 Rotation) {// Setter for rotation
 void GameObject::SetTexture(AEGfxTexture* texturePointer) {
 	ptex = texturePointer;
 }
+
+AEGfxTexture* GameObject::GetTexture() {
+	return ptex;
+}
+
 void GameObject::SetRenderMode(AEGfxRenderMode render) {
 	renderMode = render;
 }

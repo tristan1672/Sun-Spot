@@ -33,6 +33,8 @@
   *		sets the rotation of gameobject class object
   * -SetTexture(AEGfxTexture* texturePointer)
   *		sets the texture of gameobject class object
+  * - GetTecture()
+  *		gets the texture of gameobject class object
   * -SetRenderMode(AEGfxRenderMode render)
   *		sets the render mode of gameobject class object
   * -GetDirection()
@@ -111,6 +113,7 @@ public:
 	f32 GetRotation();
 	void SetRotation(f32 Rotation);
 	void SetTexture(AEGfxTexture* texturePointer);
+	AEGfxTexture* GetTexture();
 	void SetRenderMode(AEGfxRenderMode render);
 	Vector2D GetDirection();
 	void SetDirection(Vector2D direction);
@@ -142,6 +145,7 @@ public:
 	void LevelCollision();
 	void SnapToGrid();
 #pragma endregion
+	void CollisionSound();
 };
 
 class Platform: public GameObject {

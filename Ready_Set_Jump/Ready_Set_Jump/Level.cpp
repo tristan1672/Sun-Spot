@@ -33,6 +33,7 @@
 #include<string>
 #include "Tutorial.hpp"
 #include "SaveManager.hpp"
+#include "PlatformSound.hpp"
 
 #define GROUND_LEVEL 20
 extern CameraPos cam;
@@ -90,10 +91,7 @@ GameObject *levelParticleList;
 AEAudio e_gameBackgroudAudio;
 AEAudioGroup e_gameBackgroundAudioGroup;
 
-AEAudio e_slimeAudio;
-AEAudio checkpointAudio;
-AEAudio collectibleAudio;
-AEAudioGroup e_platformAudioGroup;
+
 
 
 int ImportMapDataFromFile(const char* FileName);
@@ -140,13 +138,8 @@ void Level_Load()
 
 	e_gameBackgroundAudioGroup = AEAudioCreateGroup();
 	e_gameBackgroudAudio = AEAudioLoadMusic("Assets/Sound/GameBackground.mp3");
-	
-	e_platformAudioGroup = AEAudioCreateGroup();
-	e_slimeAudio = AEAudioLoadMusic("Assets/Sound/Slime_Sound.mp3");
-	checkpointAudio = AEAudioLoadMusic("Assets/Sound/Checkpoint_Sound.mp3");
-	collectibleAudio = AEAudioLoadMusic("Assets/Sound/Collectible_Sound.mp3");
-	
 
+	PlatformSoundLoad();
 }
 // ----------------------------------------------------------------------------
 // This function initialize game object instances
@@ -369,8 +362,10 @@ void Level_Update()
 		// Collision function
 		Player.SetColFlag(0);
 		Player.LevelCollision();
+		Player.CollisionSound();
 		Player.SnapToGrid();
 		ObjectCollision();
+
 
 		// If out of play area // This not running cause the 1 in level 1 running (SHIFT OUT IF GOT TIME)
 		if (e_outOfMap) {
@@ -390,7 +385,10 @@ void Level_Update()
 		}
 		else if (e_collidedObjectType == CHECKPOINT) {
 			playerSpawnPoint = platform[e_collidedObjectXPosY][e_collidedObjectXPosX].GetPosition();
-			AEAudioPlay(checkpointAudio, e_platformAudioGroup, 0.1f, 1, 0);
+			
+			if (platform[e_collidedObjectXPosY][e_collidedObjectXPosX].GetTexture() == checkPointTexture1) {
+				PlatformSoundPlay(CHECKPOINT);
+			}
 			
 			// Update Checkpoints to now display active
 			for (int i = 0; i < e_binaryMapHeight; i++) {
@@ -406,7 +404,7 @@ void Level_Update()
 		}
 		else if (e_collidedObjectType == COLLECTIBLES) {
 			platform[e_collidedObjectXPosY][e_collidedObjectXPosX].SetPlatformType(EMPTY_SPACE);
-			AEAudioPlay(collectibleAudio, e_platformAudioGroup, 0.1f, 1, 0);
+			PlatformSoundPlay(COLLECTIBLES);
 			++e_numOfcollectibleCollected;
 			e_collidedObjectType = 0;
 		}
